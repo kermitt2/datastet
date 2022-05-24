@@ -23,7 +23,7 @@ COPY grobid-home/ ./grobid-home/
 COPY grobid-core/ ./grobid-core/
 #COPY grobid-service/ ./grobid-service/
 COPY grobid-trainer/ ./grobid-trainer/
-COPY dataseer-ml/ ./dataseer-ml/
+COPY datastet/ ./datastet/
 
 # cleaning unused native libraries before packaging
 RUN rm -rf grobid-home/pdf2xml
@@ -36,7 +36,7 @@ RUN rm -rf grobid-home/lib/mac-64
 
 RUN ./gradlew clean assemble install --no-daemon  --info --stacktrace
 
-WORKDIR ./dataseer-ml/
+WORKDIR ./datastet/
 RUN ./gradlew clean install --no-daemon  --info --stacktrace
 
 WORKDIR /opt/grobid
@@ -119,16 +119,16 @@ COPY --from=builder /opt/grobid-source/grobid-home/scripts/preload_embeddings.py
 
 RUN ln -s /opt/grobid /opt/delft
 
-COPY --from=builder /opt/grobid-source/dataseer-ml /opt/grobid/dataseer-ml
-#COPY --from=builder /root/.m2/repository/org /opt/grobid/dataseer-ml/lib/org
+COPY --from=builder /opt/grobid-source/datastet /opt/grobid/datastet
+#COPY --from=builder /root/.m2/repository/org /opt/grobid/datastet/lib/org
 
-WORKDIR /opt/grobid/dataseer-ml
+WORKDIR /opt/grobid/datastet
 
 RUN mkdir /opt/grobid/delft
 RUN mkdir /opt/grobid/delft/delft
 COPY --from=builder /opt/grobid-source/grobid-home/config/resources-registry.json /opt/grobid/delft/delft/resources-registry.json
 
-WORKDIR /opt/grobid/dataseer-ml
+WORKDIR /opt/grobid/datastet
 
 # trigger gradle wrapper install
 RUN ./gradlew --version

@@ -5,6 +5,7 @@ import org.grobid.core.GrobidModels;
 import org.grobid.core.analyzers.DataseerAnalyzer;
 import org.grobid.core.data.BiblioItem;
 import org.grobid.core.data.BibDataSet;
+import org.grobid.core.data.Dataset;
 import org.grobid.core.document.Document;
 import org.grobid.core.document.DocumentPiece;
 import org.grobid.core.document.DocumentSource;
@@ -55,11 +56,11 @@ import org.apache.commons.lang3.tuple.Pair;
  * @author Patrice
  */
 public class DatasetParser extends AbstractParser {
-    private static final Logger logger = LoggerFactory.getLogger(DatasetParser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatasetParser.class);
 
     private static volatile DatasetParser instance;
 
-    private DataseerLexicon softwareLexicon = null;
+    private DataseerLexicon dataseerLexicon = null;
     private EngineParsers parsers;
     private DataseerConfiguration dataseerConfiguration;
 
@@ -78,11 +79,11 @@ public class DatasetParser extends AbstractParser {
     }
 
     private DatasetParser(DataseerConfiguration configuration) {
-        super(GrobidModels.DATASET, CntManagerFactory.getCntManager(), 
+        super(DatasetModels.DATASET, CntManagerFactory.getCntManager(), 
             GrobidCRFEngine.valueOf(configuration.getModel().engine.toUpperCase()),
             configuration.getModel().delft.architecture);
 
-        dataseerLexicon = SoftwareLexicon.getInstance();
+        dataseerLexicon = DataseerLexicon.getInstance();
         parsers = new EngineParsers();
         dataseerConfiguration = configuration;
     }
@@ -101,7 +102,7 @@ public class DatasetParser extends AbstractParser {
         }
 
         // retokenize according to the DataseerAnalyzer
-        List<LayoutToken> tokens = retokenizeLayoutTokens(tokens);
+        tokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(tokens);
 
         // create basic input without features
         StringBuilder input = new StringBuilder();
@@ -144,7 +145,6 @@ public class DatasetParser extends AbstractParser {
      * 
      * @return list of identified Dataset objects. 
      */
-     */ 
     public BiblioItem processingString(String input) {
         input = UnicodeUtil.normaliseText(input);
         List<LayoutToken> tokens = analyzer.tokenizeWithLayoutToken(input);

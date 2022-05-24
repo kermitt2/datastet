@@ -39,6 +39,9 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         }
     };
 
+    // type of dataset object
+    protected DatasetType type = null;
+
     // surface form of the component as it appears in the source document
     protected String rawForm = null;
     
@@ -86,10 +89,11 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     public Dataset() {
         this.offsets = new OffsetPosition();
     }
-    
-    public Dataset(String rawForm) {
+
+    public Dataset(String rawForm, DatasetType type) {
         this.rawForm = rawForm;
         this.offsets = new OffsetPosition();
+        this.type = type;
     }
 
     /**
@@ -97,13 +101,21 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
      * The usage is for propagation of the component information to entities in other position.
      */
     public Dataset(Dataset ent) {
+        this.type = type;
         this.rawForm = ent.rawForm;
         this.normalizedForm = ent.normalizedForm;
         this.conf = ent.conf;
-        this.origin = ent.origin;
         this.lang = ent.lang;
         this.label = ent.label;
         this.filtered = ent.filtered;
+    }
+
+    public DatasetType getType() {
+        return this.type;
+    }
+
+    public void setType(DatasetType type) {
+        this.type = type;
     }
 
     public String getRawForm() {
@@ -153,14 +165,6 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     
     public void setConf(double conf) {
         this.conf = conf;
-    }
-    
-    public Origin getOrigin() {
-        return origin;
-    }
-    
-    public void setOrigin(Origin origin) {
-        this.origin = origin;
     }
     
     public List<BoundingBox> getBoundingBoxes() {
@@ -241,6 +245,15 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         } catch (JsonProcessingException e) {
             buffer.append("\"rawForm\" : \"" + "JsonProcessingException" + "\"");
         }
+
+        if (type != null) {
+            try {
+                buffer.append(", \"type\" : " + mapper.writeValueAsString(type.getName()));
+            } catch (JsonProcessingException e) {
+                logger.warn("could not serialize in JSON the normalized form: " + type.getName());
+            }
+        }
+
         if (normalizedForm != null) {
             try {
                 buffer.append(", \"normalizedForm\" : " + mapper.writeValueAsString(normalizedForm));
@@ -295,9 +308,9 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         if (normalizedForm != null) {
             buffer.append(normalizedForm + "\t");
         }
-        //if (type != null) {
-        //  buffer.append(type + "\t"); 
-        //}
+        if (type != null) {
+            buffer.append(type + "\t"); 
+        }
         //if (entityId != null)
         //  buffer.append(entityId + "\t"); 
 

@@ -9,7 +9,7 @@
 
 This is originally a fork from [dataseer-ml](https://github.com/dataseer/dataseer-ml). This extended version aims at identifying every mentions of datasets in scientific documents, including implicit mentions of datasets (introduction of data created/used in the research work, but not named) and explicitly named dataset. 
 
-Most of the datasets discussed in scientific articles are actually not named, but these data are part of the disclosed scientific work and should be shared properly to meet the [FAIR](https://en.wikipedia.org/wiki/FAIR_data) requirements. Named dataset are useful to evaluate the impact of a datasets in other research works.
+Most of the datasets discussed in scientific articles are actually not named, but these data are part of the disclosed scientific work and should be shared properly to meet the [FAIR](https://en.wikipedia.org/wiki/FAIR_data) requirements. Named dataset are particularly useful to evaluate the impact of a datasets in other research works and to credit researchers developing datasets as valuable scientific contributions (beyond just scholar publications).
 
 Mentions of dataset are characterized automatically as _used_ or not in the research work described in the scientific document, _created_ and _shared_. 
 The identified datasets are further classified in a hierarchy of dataset types, these data types being directly derived from MeSH.
@@ -24,9 +24,7 @@ Note: `.docx` format is also supported in a GROBID specific branch, but not yet 
 
 Main author and contact: Patrice Lopez (<patrice.lopez@science-miner.com>)
 
-The present software is distributed under [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0). 
-
-The documentation is distributed under [CC-0](https://creativecommons.org/publicdomain/zero/1.0/) license.
+The present software is distributed under [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0). The documentation is distributed under [CC-0](https://creativecommons.org/publicdomain/zero/1.0/) license.
 
 If you contribute to this project, you agree to share your contribution following these licenses. 
 

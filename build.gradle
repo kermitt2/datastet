@@ -51,10 +51,10 @@ apply plugin: 'war'
 apply plugin: 'org.gretty'
 */
 
-group = "org.grobid.datatseer"
+group = "org.grobid.datastet"
 version = '0.7.2-SNAPSHOT'
 
-description = """dataseer-ml"""
+description = """datastet"""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
