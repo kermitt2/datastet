@@ -6,6 +6,7 @@ import org.grobid.core.analyzers.DataseerAnalyzer;
 import org.grobid.core.data.BiblioItem;
 import org.grobid.core.data.BibDataSet;
 import org.grobid.core.data.Dataset;
+import org.grobid.core.data.Dataset.DatasetType;
 import org.grobid.core.document.Document;
 import org.grobid.core.document.DocumentPiece;
 import org.grobid.core.document.DocumentSource;
@@ -15,6 +16,7 @@ import org.grobid.core.engines.config.GrobidAnalysisConfig;
 import org.grobid.core.engines.label.SegmentationLabels;
 import org.grobid.core.engines.label.TaggingLabel;
 import org.grobid.core.engines.label.TaggingLabels;
+import org.grobid.core.engines.label.DatasetTaggingLabels;
 import org.grobid.core.engines.tagging.GrobidCRFEngine;
 import org.grobid.core.exceptions.GrobidException;
 import org.grobid.core.factory.GrobidFactory;
@@ -65,6 +67,9 @@ public class DatasetParser extends AbstractParser {
     private DataseerConfiguration dataseerConfiguration;
 
     public static DatasetParser getInstance(DataseerConfiguration configuration) {
+        System.out.println(DatasetModels.DATASET);
+        System.out.println(GrobidCRFEngine.valueOf(configuration.getModel("datasets").engine.toUpperCase()));
+        System.out.println(configuration.getModel("datasets").delft.architecture);
         if (instance == null) {
             getNewInstance(configuration);
         }
@@ -80,8 +85,8 @@ public class DatasetParser extends AbstractParser {
 
     private DatasetParser(DataseerConfiguration configuration) {
         super(DatasetModels.DATASET, CntManagerFactory.getCntManager(), 
-            GrobidCRFEngine.valueOf(configuration.getModel().engine.toUpperCase()),
-            configuration.getModel().delft.architecture);
+            GrobidCRFEngine.valueOf(configuration.getModel("datasets").engine.toUpperCase()),
+            configuration.getModel("datasets").delft.architecture);
 
         dataseerLexicon = DataseerLexicon.getInstance();
         parsers = new EngineParsers();
@@ -89,28 +94,43 @@ public class DatasetParser extends AbstractParser {
     }
 
     /**
-     * Sequence labelling of a list of layout tokens for identifying dataset names. 
-     *
-     * @param tokens the list of LayoutTokens to be labeled
+     * Sequence labelling of a list of layout tokens for identifying dataset names.
+     * Input corresponds to a list of sentences, each sentence being itself a list of Layout tokens.
+     *  
+     * @param tokensList the list of LayoutTokens sequences to be labeled
      * 
      * @return list of identified Dataset objects. 
      */
-    public List<Dataset> processing(List<LayoutToken> tokens) {
-        List<Dataset> result = new ArrayList<>();
-        if (tokens == null || tokens.size() == 0) {
-            return result;
+    public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList) {
+        List<List<Dataset>> results = new ArrayList<>();
+        if (tokensList == null || tokensList.size() == 0) {
+            return results;
         }
 
-        // retokenize according to the DataseerAnalyzer
-        tokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(tokens);
-
-        // create basic input without features
         StringBuilder input = new StringBuilder();
+        List<List<LayoutToken>> newTokensList = new ArrayList<>();
+        for (List<LayoutToken> tokens : tokensList) {
+            // retokenize according to the DataseerAnalyzer
+            tokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(tokens);
+            newTokensList.add(tokens);
 
+            // create basic input without features
+            
+            for(LayoutToken token : tokens) {
+                if (token.getText().trim().length() == 0)
+                    continue;
+                input.append(token.getText());
+                input.append("\n");
+            }
+
+            input.append("\n\n");
+        }
+
+        tokensList= newTokensList;
 
         String allRes = null;
         try {
-            allRes = label(featuredInput.toString());
+            allRes = label(input.toString());
         } catch (Exception e) {
             LOGGER.error("An exception occured while labeling a citation.", e);
             throw new GrobidException(
@@ -120,22 +140,94 @@ public class DatasetParser extends AbstractParser {
         if (allRes == null || allRes.length() == 0)
             return null;
         String[] resBlocks = allRes.split("\n\n");
-        for (List<LayoutToken> tokens : tokenList) {
-            if (CollectionUtils.isEmpty(localTokens))
+        int i = 0;
+        for (List<LayoutToken> tokens : tokensList) {
+            if (tokens == null || tokens.size() == 0) {
                 results.add(null);
-            else {
-                List<Dataset> localDatasets = resultExtractionLayoutTokens(res, true, localTokens);
-                
-                
-                
-                
-                
+            } else {
+                List<Dataset> localDatasets = resultExtractionLayoutTokens(resBlocks[i], tokens);
+                results.add(localDatasets);
             }
-
+            i++;
         }
 
 
+        return results;
+    }
 
+    private List<Dataset> resultExtractionLayoutTokens(String result, List<LayoutToken> tokenizations) {
+        List<Dataset> datasets = new ArrayList<>();
+        Dataset dataset = null;
+
+        String text = LayoutTokensUtil.toText(tokenizations);
+
+        TaggingTokenClusteror clusteror = new TaggingTokenClusteror(DatasetModels.DATASET, result, tokenizations);
+        List<TaggingTokenCluster> clusters = clusteror.cluster();
+
+        int pos = 0; // position in term of characters for creating the offsets
+
+        for (TaggingTokenCluster cluster : clusters) {
+            if (cluster == null) {
+                continue;
+            }
+            TaggingLabel clusterLabel = cluster.getTaggingLabel();
+            Engine.getCntManager().i(clusterLabel);
+            
+            String clusterText = LayoutTokensUtil.toText(cluster.concatTokens());
+            List<LayoutToken> theTokens = cluster.concatTokens();
+
+            if ((pos < text.length()-1) && (text.charAt(pos) == ' '))
+                pos += 1;
+            if ((pos < text.length()-1) && (text.charAt(pos) == '\n'))
+                pos += 1;
+            
+            int endPos = pos;
+            boolean start = true;
+            for (LayoutToken token : theTokens) {
+                if (token.getText() != null) {
+                    if (start && token.getText().equals(" ")) {
+                        pos++;
+                        endPos++;
+                        continue;
+                    }
+                    if (start)
+                        start = false;
+                    endPos += token.getText().length();
+                }
+            }
+
+            if ((endPos > 0) && (text.length() >= endPos) && (text.charAt(endPos-1) == '\n'))
+                endPos--;
+            if ((endPos > 0) && (text.length() >= endPos) && (text.charAt(endPos-1) == ' '))
+                endPos--;
+
+
+            if (clusterLabel.equals(DatasetTaggingLabels.DATASET_NAME)) {
+                dataset = new Dataset(DatasetType.DATASET_NAME, clusterText);
+            } else if (clusterLabel.equals(DatasetTaggingLabels.DATASET)) {
+                dataset = new Dataset(DatasetType.DATASET_EXPRESSION, clusterText);
+            } else if (clusterLabel.equals(DatasetTaggingLabels.DATA_DEVICE)) {
+                dataset = new Dataset(DatasetType.DATA_DEVICE, clusterText);
+            }
+
+            if (dataset != null) {
+                datasets.add(dataset);
+                dataset = null;
+
+                dataset.setOffsetStart(pos);
+                dataset.setOffsetEnd(endPos);
+
+                dataset.setLabel(clusterLabel);
+                dataset.setTokens(theTokens);
+
+                List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(cluster.concatTokens());
+                dataset.setBoundingBoxes(boundingBoxes);
+            }
+
+            pos = endPos;
+        }
+
+        return datasets;
     }
 
     /**
@@ -145,9 +237,23 @@ public class DatasetParser extends AbstractParser {
      * 
      * @return list of identified Dataset objects. 
      */
-    public BiblioItem processingString(String input) {
+    public List<Dataset> processingString(String input) {
+        List<List<LayoutToken>> tokensList = new ArrayList<>();
         input = UnicodeUtil.normaliseText(input);
-        List<LayoutToken> tokens = analyzer.tokenizeWithLayoutToken(input);
-        return processing(tokens);
+        tokensList.add(analyzer.tokenizeWithLayoutToken(input));
+        List<List<Dataset>> result = processing(tokensList);
+        if (result != null && result.size()>0)
+            return result.get(0);
+        else 
+            return new ArrayList<Dataset>();
+    }
+
+    public List<List<Dataset>> processingStrings(List<String> inputs) {
+        List<List<LayoutToken>> tokensList = new ArrayList<>();
+        for(String input : inputs) {
+            input = UnicodeUtil.normaliseText(input);
+            tokensList.add(analyzer.tokenizeWithLayoutToken(input));
+        }
+        return processing(tokensList);
     }
 }

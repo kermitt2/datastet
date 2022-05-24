@@ -61,7 +61,7 @@ public class DataseerConfiguration {
     }
 
     public ModelParameters getModel() {
-        // by default return the dataseer mention sequence labeling model
+        // by default return the dataseer sequence labeling model
         return getModel("dataseer");
     }
 

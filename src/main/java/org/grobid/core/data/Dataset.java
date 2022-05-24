@@ -90,7 +90,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         this.offsets = new OffsetPosition();
     }
 
-    public Dataset(String rawForm, DatasetType type) {
+    public Dataset(DatasetType type, String rawForm) {
         this.rawForm = rawForm;
         this.offsets = new OffsetPosition();
         this.type = type;
