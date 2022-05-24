@@ -1,0 +1,70 @@
+
+corpusPath: "./resources/dataset/dataseer/corpus"
+templatePath: "./resources/dataset/dataseer/crfpp-templates/dataseer.template"
+grobidHome: "../grobid-home"
+tmpPath: "tmp/"
+
+# path to Pub2TEI repository as available at https://github.com/kermitt2/Pub2TEI
+pub2teiPath: "../../Pub2TEI/"
+
+gluttonHost: "https://cloud.science-miner.com/glutton"
+gluttonPort: 
+
+# sequence labeling model (identify data-related sections)
+models:
+
+  # model for zones
+  - name: "dataseer"
+    engine: "wapiti"
+    #engine: "delft"
+    wapiti:
+      # wapiti training parameters, they will be used at training time only
+      epsilon: 0.00001
+      window: 20
+      nbMaxIterations: 2000
+
+  # model for dataset mention recognition
+  - name: "dataseer-mention"
+    engine: "wapiti"
+    #engine: "delft"
+    wapiti:
+      # wapiti training parameters, they will be used at training time only
+      epsilon: 0.00001
+      window: 20
+      nbMaxIterations: 2000
+    delft:
+      # deep learning parameters
+      architecture: "BidLSTM_CRF"
+      #architecture: "scibert"
+      useELMo: false
+      embeddings_name: "glove-840B"
+
+  # classifier model, dataset binary (datset or not dataset in the current sentence)
+  - name: "dataseer-binary"
+    engine: "delft"
+    delft:
+      # deep learning parameters
+      architecture: "gru"
+      #architecture: "bert"
+      embeddings_name: "word2vec"
+      #transformer: "allenai/scibert_scivocab_cased"
+
+  # identification of the data type (first level hierarchy) 
+  - name: "dataseer-first"
+    engine: "delft"
+    delft:
+      # deep learning parameters
+      architecture: "gru"
+      #architecture: "bert"
+      embeddings_name: "word2vec"
+      #transformer: "allenai/scibert_scivocab_cased"
+
+  # mention context classification (reuse binary for the moment)
+  - name: "dataseer-reuse"
+    engine: "delft"
+    delft:
+      # deep learning parameters
+      architecture: "gru"
+      #architecture: "bert"
+      embeddings_name: "word2vec"
+      #transformer: "allenai/scibert_scivocab_cased"

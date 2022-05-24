@@ -1,0 +1,1801 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/lopez/grobid/dataseer-ml/../grobid-home/schemas/xsd/Grobid.xsd">
+  <teiHeader xml:lang="en">
+    <encodingDesc>
+      <appInfo>
+        <application ident="GROBID" version="0.5.6-SNAPSHOT" when="2019-08-23T20:03+0000">
+          <ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+        </application>
+      </appInfo>
+    </encodingDesc>
+    <fileDesc>
+      <titleStmt>
+        <title level="a" type="main">Effect of F0 contour on perception of Mandarin Chinese speech against masking</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher/>
+        <availability status="unknown">
+          <licence/>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <author role="corresp">
+              <persName>
+                <forename type="first">Meihong</forename>
+                <surname>Wuid</surname>
+              </persName>
+              <email>*wmh@xmu.edu.cn</email>
+              <affiliation key="aff0">
+                <orgName type="department">School of Information Science and Engineering</orgName>
+                <orgName type="institution">Xiamen University</orgName>
+                <address>
+                  <settlement>Fujian</settlement>
+                  <country key="CN">China</country>
+                </address>
+              </affiliation>
+            </author>
+            <title level="a" type="main">Effect of F0 contour on perception of Mandarin Chinese speech against masking</title>
+          </analytic>
+          <monogr>
+            <imprint>
+              <date/>
+            </imprint>
+          </monogr>
+          <note>RESEARCH ARTICLE</note>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <abstract>
+        <div>
+          <head>Abstract</head>
+          <p>
+            <s>Intonation has many perceptually significant functions in language that contribute to speech recognition.</s>
+            <s>This study aims to investigate whether intonation cues affect the unmasking of Mandarin Chinese speech in the presence of interfering sounds.</s>
+            <s>Specifically, intelligibility of multi-tone Mandarin Chinese sentences with maskers consisting of either two-talker speech or steady-state noise was measured in three (flattened, typical, and exaggerated) intonation conditions.</s>
+            <s>Different from most of the previous studies, the present study only manipulate and modify the intonation information but preserve tone information.</s>
+            <s>The results showed that recognition of the final keywords in multi-tone Mandarin Chinese sentences was much better under the original F0 contour condition than the decreased F0 contour or exaggerated F0 contour conditions whenever there was a noise or speech masker, and an exaggerated F0 contour reduced the intelligibility of Mandarin Chinese more under the speech masker condition than that under the noise masker condition.</s>
+            <s>These results suggested that speech in a tone language (Mandarin Chinese) is harder to understand when the intonation is unnatural, even if the tone information is preserved, and an unnatural intonation contour decreases releasing Mandarin Chinese speech from masking, especially in a multi-person talking environment.</s>
+          </p>
+        </div>
+      </abstract>
+    </profileDesc>
+  </teiHeader>
+  <text xml:lang="en">
+    <body>
+      <div>
+        <head>Introduction</head>
+        <p>
+          <s>Speech recognition and auditory comprehension are some of the most important activities encountered in everyday life.</s>
+          <s>In everyday communication situations, human listeners rely on a variety of perceptual strategies to segregate the attended target speech from background competing sounds.</s>
+          <s>Intonation has many perceptually significant functions in language that contribute to the comprehension and recognition of speech <ref type="bibr">[1,</ref>
+            <ref target="#b0" type="bibr">2]</ref> .</s>
+          <s>Specifically, intonation cues are important for conveying the intended meaning of clusters of discourse <ref target="#b1" type="bibr">[3]</ref> and deliver information at levels higher than the word.</s>
+        </p>
+        <p>
+          <s>The literature has investigated the role of intonation in speech intelligibility by flattening the fundamental frequency (F0) contours of normal speech and comparing the recognition of these stimuli to naturally intonated speech <ref target="#b2" type="bibr">[4]</ref> .</s>
+          <s>The findings within these studies have indicated a detrimental effect of flattening the F0 contour on sentence intelligibility.</s>
+          <s>Among the explanations proposed for these findings was that the rise and fall of the F0 contour has been found to <ref type="bibr">PLOS</ref> direct the listener's attention to the content words of the utterance; therefore, without these cues, the intelligibility of the utterance decreases <ref target="#b3" type="bibr">[5]</ref> .</s>
+          <s>
+            <ref target="#b3" type="bibr">Binns and Culling (2007)</ref>
+            <ref target="#b3" type="bibr">[5]</ref> also assessed the role intonation contours play in speech intelligibility by manipulating the F0 contours.</s>
+          <s>The manipulations involved either reducing the F0 incrementally from the variation present in a normally intonated contour to a flattened contour (where the variation has been removed), with no variation, or a complete inversion of the F0 contour.</s>
+          <s>They found that naturally varying F0 contours improved speech intelligibility in background noise compared with flat or inverted F0 contours, and their results also indicated that reducing the amount of F0 variation has a progressively detrimental effect on speech intelligibility.</s>
+          <s>The authors suggested that in the flattened F0 condition, the words all had the same F0 and lacked the important stress-based segmentation cue <ref target="#b5" type="bibr">[6]</ref> , thus, the stress cues based on F0 were simply neutralized across the individual words in the sentences as opposed to being inaccurate or misleading.</s>
+          <s>Therefore, in one argumentation, the speech utterance with the absence of F0 variation has lower intelligibility than speech with normal F0 variation.</s>
+          <s>
+            <ref target="#b3" type="bibr">Binns and Culling (2007)</ref> discussed that where there is an F0 contour in the right direction, the focused words may remain focused, to some degree, and the surrounding contour still guides the listener toward those words more readily than in a flattened F0 condition.</s>
+          <s>Their results showed that even a small amount of F0 modulation (m = 0.25) increased the intelligibility of the sentences against a single-talker interferer, indicating it is the contour shape that is important to speech recognition.</s>
+          <s>Moreover, the literature has demonstrated that humans with hearing impairment require greater F0 variation in speech to follow intonation patterns compared with humans with normal hearing <ref target="#b7" type="bibr">[7]</ref> .</s>
+        </p>
+        <p>
+          <s>The aforementioned results of these studies led to one of the hypotheses in this study: an exaggerated F0 contour may improve performance relative to a decreased F0 variation condition.</s>
+          <s>In addition, if a greater moment-to-moment variation in the F0 contour exists, the intelligibility of the speech utterance increases; according to our review of the literature, this phenomenon has not been well documented.</s>
+          <s>In other words, whether the greater F0 variation in the contour may have greater benefits for speech intelligibility is still not clear and requires further analysis.</s>
+          <s>Considering this information, we questioned whether exaggerating the F0 contour to some degree could affect the speech intelligibility.</s>
+          <s>Thus, one of the purposes of this study was to investigate whether an exaggerated F0 affects the speech intelligibility relative to the naturally produced speech utterance as much as a reduction of F0 modulation.</s>
+        </p>
+        <p>
+          <s>Furthermore, a noise background was used in <ref target="#b3" type="bibr">Binns and Culling (2007)</ref> , and the speech recognition thresholds were measured in interfering speech or in speech-shaped noise.</s>
+          <s>
+            <ref target="#b3" type="bibr">Binns and Culling (2007)</ref> observed that flattened speech degraded speech intelligibility relative to typically intonated speech, and this difference did not reach significance when using a speechshaped background noise masker.</s>
+          <s>However, the authors did find a significant difference in speech intelligibility between the two conditions when the masker's interfering speech had a variety of F0 contours (e.g., flattened F0, normal F0, and inverse F0).</s>
+          <s>In <ref target="#b8" type="bibr">Laures and Bunton (2003)</ref> , the unmodified and flattened F0 utterances masked by non-speech (white noise) or speech-like (multi-speaker babble) noise was examined to obtain the measures of speech intelligibility.</s>
+          <s>Most notably, their results found that utterances with a flattened F0 contour were less intelligible than utterances with a varying F0 in noisy conditions, regardless of the type of noise <ref target="#b8" type="bibr">[8]</ref> .</s>
+          <s>Hence, in terms of interferers, the effect of intonation on speech intelligibility under adverse listening conditions still requires further investigation.</s>
+          <s>
+            <ref target="#b9" type="bibr">Brungart et al. (2001)</ref> showed that using the same talker for the target and the interferer generated more masking than using a different talker of the same sex, which created more of a masking effect than using a talker of the opposite sex.</s>
+          <s>The proposed cause of this effect is the increase in informational masking, because the number of voices is initially increased to two voices; then, a consequent decrease as the number of voices increases to three <ref target="#b9" type="bibr">[9]</ref> .</s>
+          <s>Thus, the two-talker babble has a much greater negative effect than the multi-talker babble.</s>
+          <s>Therefore, according to the results in <ref target="#b9" type="bibr">Brungart et al. (2001)</ref> , in this study, the masker was speech-like (e.g., two-speaker babble) or a continuous nature (e.g., white noise) was used to simulate the effect on speech intelligibility in an adverse listening background.</s>
+        </p>
+        <p>
+          <s>Notably, most of the aforementioned studies have been conducted using English stimuli and English listeners.</s>
+          <s>Few studies have been conducted on tonal languages.</s>
+          <s>In a tonal language such as Mandarin Chinese, F0 serves as the primary acoustic cue for both lexical tones and sentence intonation, and the syllable varies in tones which make the contour of sentence intonation colourful and varied.</s>
+        </p>
+        <p>
+          <s>In a study with Mandarin Chinese stimuli, sentences with flattened F0 and normal F0 contours were used to investigate the importance of F0 variation for Mandarin speech comprehension; notably, the results showed that sentences with flattened F0 contours were as intelligible as those with normal F0 patterns in a quiet environment <ref target="#b10" type="bibr">[10]</ref> .</s>
+          <s>
+            <ref target="#b11" type="bibr">Wang et al. (2013)</ref>
+            <ref target="#b11" type="bibr">[11]</ref> indicated that the speech materials used in <ref target="#b10" type="bibr">Patel et al., (2010)</ref>
+            <ref target="#b10" type="bibr">[10]</ref> were semantically predictable meaningful sentences, and because the top-down information of the sentence context would provide a crucial role in guiding speech perception <ref target="#b12" type="bibr">[12]</ref> , what contributed to the unchanged intelligibility of monotonous Mandarin sentences with flattened F0 contours in quiet was unclear <ref target="#b11" type="bibr">[11]</ref> .</s>
+          <s>
+            <ref target="#b11" type="bibr">Wang et al. (2013)</ref> further evaluated speech intelligibility of the Mandarin sentences and word lists with or without F0 variations, and the results showed that listeners can automatically use additional neural and cognitive resources to recover disrupted F0 contour patterns in sentences.</s>
+          <s>Particularly, significant interactions existed among the three factors (i.e., sentence context, F0 variation, and background noise) in the intelligibility of Mandarin speech.</s>
+        </p>
+        <p>
+          <s>Since there was evidence that the semantic information provided by sentence context contributes to speech intelligibility in <ref target="#b11" type="bibr">Wang et al. (2013)</ref> , in this study, Chinese "nonsense" sentences <ref target="#b13" type="bibr">[13,</ref>
+            <ref target="#b15" type="bibr">14]</ref> , which were syntactically correct but not semantically meaningful, was used in this study to ensure that the listeners can't make relatively use of contextual cues to predict the keywords in the sentences.</s>
+        </p>
+        <p>
+          <s>In summary, the present study were intended to clarify whether the tone information for Mandarin Chinese was preserved but the intonation information was manipulated (flattened or exaggerated) could affect the ability to understand speech in the presence of two types of interfering sounds, speech masker and noise masker.</s>
+          <s>Specifically, speech recognition in noise was measured for Mandarin sentences having a typical F0 contour, a decreased F0 contour, or an exaggerated F0 contour, and the effects by decreasing the amount of F0 variation present in a standard contour of Mandarin Chinese sentences along with exaggerating the F0 contour was investigated.</s>
+        </p>
+      </div>
+      <div>
+        <head>Materials and methods</head>
+      </div>
+      <div subtype="dataseer">
+        <head>Participants</head>
+        <p>
+          <s>Twelve volunteers participated in this study (7 females and 5 males aged 20 to 26 years with a mean age of 24.0 years).</s>
+          <s id="dataset-1" type="Tabular data:Research Subjects">The participants were recruited from the local community, and their first language was Mandarin Chinese.</s>
+          <s>All the participants gave their written informed consent to participate in the study.</s>
+          <s>The experimental procedures of the present study involving human subjects were approved by the ethics review committee in Xiamen University.</s>
+        </p>
+        <p>
+          <s>All the participants had symmetrical hearing (� 20 dB difference between the two ears).</s>
+          <s>Pure-tone hearing thresholds were no greater than 25 dB HL between 0.125 and 8 kHz.</s>
+        </p>
+      </div>
+      <div subtype="dataseer">
+        <head>Apparatus</head>
+        <p>
+          <s>An experiment was conducted in an anechoic chamber (Beijing CA Acoustics Co. Ltd, Beijing, China; 560 cm in length, 400 cm in width, and 193 cm in height).</s>
+          <s id="dataset-2" type="Tabular data">Acoustic signals were digitized at a sampling rate of 22.05 kHz with a 24-bit amplitude quantization.</s>
+          <s>The acoustic signals were presented over a loudspeaker (Dynaudio Acoustics, BM6 A, Denmark) at 0o azimuth and at elevation relative to the participant.</s>
+          <s>The loudspeaker height was 106 cm, which was almost ear level for a seated participant.</s>
+          <s>The distance from the loudspeaker to the centre of the participant's head was 185 cm.</s>
+        </p>
+      </div>
+      <div subtype="dataseer">
+        <head>Stimuli</head>
+        <p>
+          <s>Multi-tone Chinese "nonsense" sentences.</s>
+          <s>The speech materials consisted of sentences from a Chinese "nonsense" corpus generated by a speech and hearing research group at Peking University (see more details in <ref type="bibr">Yang et.al, 2007)</ref> .</s>
+        </p>
+        <p>
+          <s>Speech stimuli were Chinese "nonsense" sentences that were grammatically correct but not semantically meaningful <ref target="#b15" type="bibr">[14]</ref> .</s>
+          <s>All the sentences had a subject-predicate-object structure, and each sentence had 12 syllables, including three keywords with two syllables each.</s>
+          <s>Here is an example of one Chinese nonsense sentence, the English translation of which is, "This cod has drift that notes" (keywords are underlined).</s>
+        </p>
+        <p>
+          <s>About 6000 high frequencies occurred disyllabic verbs and 12000 high frequencies occurred disyllabic nouns from the database published by People's Daily for more than 9 years were used to be combined randomly into 6000 Chinese "nonsense" sentences.</s>
+          <s id="dataset-3" type="Dataset:Existing dataset">The sentences with zero probability of co-occurrence of keywords in the database were selected and used in the present study for the text-to-speech transformation.</s>
+          <s>To guarantee both high quality and uniformity of the acoustical features of these sentences stimuli, the speeches were generated by speech synthesis technique.</s>
+        </p>
+        <p>
+          <s>The target speech was recited by an artificially synthesized young, female voice.</s>
+          <s>The generation of artificially synthesized target speech signal was briefly described as follows: First, a news-broadcast style Chinese corpus (Blizzard Challenge 2009) was sampled for model training, and then some critical speech-acoustical parameters (including the mel-cepstrum,log F0, and band aperiodicity measures and so on.)</s>
+          <s>were extracted and the five-state left-to right Hidden Markov Model structure was adopted.</s>
+          <s>Second, the speech-parameter sequence for each sentence stimulus was generated from the corresponding Hidden Markov Model, and then a speech waveform was synthesized using the algorithm of the Mel Log Spectrum Approximation Filter with the generated parameters, and finally, the initial acoustical model was established by a training procedure using the speech corpus with selected vocal characteristics.</s>
+        </p>
+        <p>
+          <s>Speech samples (about 432 sentences and lasting 40 min) were processed by the initial acoustic model as described above to obtain the acoustical model for each of the target voices with different intonation pattern(see details in the following section Synthesized intonation speech).</s>
+          <s>Consequently, for each of the target voices, using the resultant target-voice acoustical models, written nonsense sentences were transformed into speech signals with the speaker's vocal characteristics (including fundamental frequency, characteristic pitch glides, F0 contour).</s>
+        </p>
+        <p>
+          <s>Synthesized intonation speech.</s>
+          <s>In the generation of an intonation pattern of a speech synthesis, a speech synthesis system is capable of providing highly natural speech and reproducing speech characteristics of a speaker flexibly and accurately by effectively utilizing fundamental frequency (F0) patterns of actual speech accumulated in a database <ref target="#b16" type="bibr">[15]</ref> .</s>
+        </p>
+        <p>
+          <s>In early modelling studies of Mandarin intonation, intonation was insensitive to lexical tones and determined before tone selection in most of these models.</s>
+          <s>Recently, quantitative modelling of Chinese intonation in which the interaction between tone and intonation was quantified through simulating surface F0's has been investigated <ref target="#b17" type="bibr">[16,</ref>
+            <ref target="#b18" type="bibr">17,</ref>
+            <ref target="#b20" type="bibr">18]</ref> .</s>
+        </p>
+        <p>
+          <s>In this study, a hierarchical pitch target model and a hierarchical duration model, which were proposed in <ref target="#b22" type="bibr">Zhang et al. (2010)</ref> , were used to capture the hierarchical characteristics of prosodic features.</s>
+          <s>At first, a Mandarin speech corpus including 1,000 declarative utterances was selected from a classical database of Blizzard Challenge 2009(Blizzard Challenge 2009).</s>
+          <s>Each stimuli utterance contained 15-60 syllables and was recited by a younger female speaker.</s>
+          <s>Next, the parameters of the model were trained and learned from a Mandarin speech corpus, which reveal the forms of tones and characteristic pitch trend in each prosodic layer in fluent speech.</s>
+          <s>The prosodic layers consisted of syllable, prosodic word, prosodic phrase, intonation phrase, and utterance.</s>
+          <s>The pitch target has a hierarchical structure and was generated by adding up a tonal pattern from the syllable layer and biases from higher prosodic layers.</s>
+          <s>The biases from a prosodic unit form a linear sequence along syllables in unit domain and acted as intonation attached to tones <ref target="#b22" type="bibr">[19]</ref> .</s>
+          <s>Finally, the current model parameters were used to synthesize pitch contours in the learning process.</s>
+          <s>The pitch contour is viewed as a superposition of a tone curve and intonation curve <ref target="#b17" type="bibr">[16]</ref> ; thus, the two curves from the observed pitch contour can be separated by filtering, and the parameters related to the tone and intonation can be extracted from the separated curves, respectively.</s>
+          <s>It is worth noting that different from most of the previous studies where both intonation and tone were all flattened in the resulting flattened monotonous sentence, the present study only manipulated and modified the intonation.</s>
+          <s>After intonation contour modelling, the parameters were predicted, and the parametric model can approximate the intonation precisely <ref target="#b17" type="bibr">[16,</ref>
+            <ref target="#b18" type="bibr">17,</ref>
+            <ref target="#b20" type="bibr">18]</ref> .</s>
+        </p>
+        <p>
+          <s>This study adopted the aforementioned method to quantitatively model Mandarin Chinese intonation, in which the interaction between tone and intonation was quantified through simulating surface F0s and then developed different degrees of intonation cue.</s>
+        </p>
+        <p>
+          <s>There are three intonation conditions in this study.</s>
+          <s>Speech recognition in noise was examined for utterance stimuli following three types of intonation: flattened intonation, typical intonation, and exaggerated intonation <ref target="#fig_2" type="figure">(Fig 2)</ref> .</s>
+        </p>
+        <p>
+          <s>1. Flattened intonation: resynthesized the "nonsense" Chinese sentences with a monotonous intonation contour by compressing the value of dynamic range of intonation biases to the observed original pitch target into 0.5 (i.e.</s>
+          <s>compressing the magnitude of F0).</s>
+        </p>
+        <p>
+          <s>2. Typical intonation: unmodified, natural normal intonation contour of "nonsense" Chinese sentences (i.e.</s>
+          <s>original F0).</s>
+        </p>
+        <p>
+          <s>3. Exaggerated intonation: resynthesized the experimental sentences with a normal intonation contour by exaggerating 4 times the value of dynamic range of intonation biases to the separated original intonation curve (i.e.</s>
+          <s>expanding the magnitude of F0).</s>
+        </p>
+        <p>
+          <s>In general, the typical intonation was similar to the usually natural familiar intonation, flattened intonation was a natural but "decreased" intonation, and exaggerated intonation was a natural but "exaggerated" intonation.</s>
+        </p>
+        <p>
+          <s>The standard contour referred to the normal intonation placed on that sentence.</s>
+          <s>The flattened intonation condition followed the same general shape of the standard contour, but the amount of variation in both is greatly reduced, and the exaggerated intonation condition referred to an amplified F0 contour in which the variation is 4 times that of the standard contour.</s>
+          <s>Speech samples (approximately 900 sentences and a duration of 60 min) of each of the three intonation phrases (flattened intonation; typical intonation; exaggerated intonation) were added into the initial acoustic model to obtain the acoustical model for each of the three intonations through the model adaptive procedure.</s>
+        </p>
+        <p>
+          <s id="dataset-4" type="Tabular data:Research Subjects">Six native Mandarin Chinese speaking younger adults (6 females ages between 23 and 26 years with a mean age of 24.6) were recruited to evaluate the quality of the artificially synthesized voices.</s>
+          <s id="dataset-6" type="Tabular data:Research Subjects">Eight younger Chinese speaking listeners (6 females and 2 males) with the mean age of 24 were invited for evaluating the naturalness of the speech.</s>
+          <s>All these participants gave their written informed consent to participate in this testing, and this experimental procedures was part of the protocol approved by the ethics review committee in Xiamen University.</s>
+          <s>They were presented sentences recited separately by three intonation voices, that is, an artificial flattened intonation, typical intonation, and exaggerated intonation by young female.</s>
+          <s>The listeners were informed about the number of intonation types and asked to repeat each of the speech presentations.</s>
+        </p>
+        <p>
+          <s>The results showed that the accuracy for recognizing the keywords was reaching up to 99% in younger adults under the quiet condition and under the flattened, typical, and exaggerated intonation conditions across the keyword positions.</s>
+          <s>To some extent, these results are consistent with those in <ref target="#b23" type="bibr">[20]</ref> , which evaluated the recognition of sine-wave Mandarin sentences and showed that nearly perfect sentence recognition was obtained despite the chance level recognition of lexical tones.</s>
+          <s>Moreover, in agreement with previous findings on some level, this result contributes to the speculation in <ref target="#b24" type="bibr">[21]</ref> , that lexical tones are relatively redundant cues for Mandarin sentence intelligibility when no masker is presented, and other cues could compensate for the distorted lexical tone contour.</s>
+        </p>
+        <p>
+          <s>The naturalness of speech is rated in terms of the subjectively evaluated method Mean Opinion Score (MOS), which is an absolute category rating scale.</s>
+          <s id="dataset-5" type="Tabular data">The level of listening quality scale level was obtained with 5-stage absolute qualities: MOS 5.0-Excellent, MOS 4.0-Good, MOS 3.0-Fair, MOS 2.0-Poor, MOS 1.0-Bad.</s>
+          <s>Eight younger Chinese-speaking listeners (6 females and 2 males) with the mean age of 24 were invited for evaluating the naturalness of the speech.</s>
+          <s>They were presented sentences with flattened intonation, typical intonation, and exaggerated intonation separately.</s>
+          <s>After listening to the speech sentences, one of the levels was selected as this participant's evaluation of the naturalness of the speech.</s>
+          <s>The average score of all the participants was the MOS score of the measured speech naturalness.</s>
+          <s>Results showed that the MOSs of the speech naturalness of the sentences with typical intonation was 3.75, flattened intonation was 3.28125 and exaggerated intonation was 3.0 respectively.</s>
+          <s>Thus, although there is still some tiny gap with the corpus of natural speech materials, the level of naturalness of the speech is satisfactory.</s>
+        </p>
+        <p>
+          <s>Masker stimuli.</s>
+          <s>Each target sentence was combined with a masker.</s>
+          <s>There are two types of masker used in the present study, speech masker and noise masker.</s>
+          <s>The speech masker consisted of same type of Chinese "nonsense" sentences and was a loop of digitally combined continuous recordings of grammatically correct but semantically meaningless sentences (whose keywords did not appear in the target sentences) spoken by two other young female talkers.</s>
+          <s>Three hundred common syllables were selected from the database published in the People's Daily over one year, and 100 sentences published in People's Daily that including 300 common syllables, were selected as acoustic materials for producing speech masker.</s>
+          <s>Each of the 50 speech sentences were spoken by two female talkers respectively was mixed using Matlab programming and a stream of steady-state Chinese speech masker with the duration of 10 s was obtained.</s>
+          <s>The noise masker was steady speech spectrum <ref target="#b15" type="bibr">[14]</ref> .</s>
+        </p>
+        <p>
+          <s>Sound pressure level of speech stimuli.</s>
+          <s>The sound level calibration was conducted using a Larson Davis Audiometer Calibration and Electroacoustic Testing System (AUDit and System 824, Larson Davis, Depew, NY) with a "slow"/"RMS" meter response.</s>
+          <s>All the target sentences were presented at 60 dBA <ref target="#b25" type="bibr">[22,</ref>
+            <ref target="#b26" type="bibr">23]</ref> .</s>
+          <s>Masker levels were adjusted to produce the following four SNRs: -4, 0, 4, and 8 dB.</s>
+          <s>The maker levels were equated for RMS amplitude, and SNR levels were computed in the same manner as in <ref target="#b27" type="bibr">[24]</ref> , by first removing pauses in the speech signal longer than 100 ms before calculating the RMS value.</s>
+        </p>
+      </div>
+      <div subtype="dataseer">
+        <head>Design and procedure</head>
+        <p>
+          <s>In this study, each age group had three within-subject variables: (1) intonation condition (flattened, typical, and exaggerated intonation conditions), (2) masker type (speech masker and noise masker), and (3) SNR (four signal-to-masker ratios).</s>
+          <s>Each of the 24 conditions contained 6 target sentences assigned to a single condition and one of the three voices in a random order.</s>
+        </p>
+        <p>
+          <s>A total of 144 trials were presented in 6 blocks with 1 block for each intonation condition under one masker type.</s>
+          <s>The duration of each block was 15 minutes and comprised 24 trials.</s>
+          <s>The blocks were separated by a short break to rest.</s>
+          <s>The presentation order for the masker type/intonation-condition combinations was counterbalanced across participants, and the order of the four SNRs was arranged randomly for each masker type/ intonation-condition combination.</s>
+        </p>
+        <p>
+          <s>For a testing block, which was associated to a particular intonation type/ masker type combination, participants were firstly informed of the masker and intonation types before the formal testing.</s>
+          <s>Within one block, under one particular intonation condition, the participant pressed the button of a response box to initiate the trial.</s>
+          <s>Immediately after the button was pressed, a masker (i.e., a noise masker or speech masker) was gated on.</s>
+          <s>Next, after a random period between 900 and 1000 ms after the masker onset, a target sentence started.</s>
+          <s>Finally, the masker and target gated off simultaneously.</s>
+        </p>
+        <p>
+          <s>Participants were asked to loudly repeat the entire target sentence as best as they could immediately after all the stimuli ended in each trail.</s>
+          <s id="dataset-7" type="Tabular data">The experimenters, who sat outside the anechoic chamber, scored the number of correctly identified syllables for each keyword.</s>
+          <s>To ensure all the participants adequately understood and correctly followed the experimental instructions, the experiment began with a training block (approximately 12 trials) to familiarize the participants with the task.</s>
+        </p>
+      </div>
+      <div>
+        <head>Results</head>
+        <p>
+          <s>A logistic psychometric function,</s>
+        </p>
+        <formula xml:id="formula_0">y ¼ 1=½1 þ e À sðxÀ mÞ �<label>ð1Þ</label>
+        </formula>
+        <p>
+          <s>was fitted to each participant's data by using the Levenberg-Marquardt method <ref target="#b28" type="bibr">[25]</ref> , where y is the probability of correct identification of the final keywords in the target sentences, x is the SNR corresponding to y, μ is the SNR corresponding to 50% correct on the psychometric function, and σ determines the slope of the psychometric function.</s>
+          <s>Panels A and B in <ref target="#fig_3" type="figure">Fig 3 illustrate</ref> group-mean percent-correct word identification as a function of SNR along with the group-mean best-fitting psychometric functions (curves) for older (top panels) and younger (bottom panels) participants when the masker was noise (left panels) or speech (right panels) for the three intonation conditions: (1) flattened intonation (open circles), (2) typical intonation (filled circles), and (3) exaggerated intonation (filled squares).</s>
+        </p>
+        <p>
+          <s>The differences in recognizing the keyword across intonation conditions were examined by analyzing the differences in 50%-correct thresholds (μ) <ref target="#fig_4" type="figure">. Fig 4 plots</ref> averaged group-mean threshold (μ) values for recognizing the target keyword for each intonation condition when the masker was either noise or speech.</s>
+        </p>
+        <p>
+          <s>A 2(masker type)×3(intonation type) two-way within-subject ANOVA shows that the main effect of masker type was significant (F[1,11] = 12.000, p = 0.005),the main effect of intonation type was significant (F[2,22] = 12.000, p = 0.000), and the interaction between masker type and intonation type was significant (F[2,22] = 12.000, p = 0.000).</s>
+        </p>
+        <p>
+          <s>When the masker was noise, a one-way ANOVA showed that the intonation effect on μ was significant (F[2,22] = 12.000,p = 0.000), suggesting that presenting an individual sentence with different intonation affects recognition of the final keyword under the noise masking condition.</s>
+          <s>Post hoc analyses with the adjusted α of 0.05 showed that the threshold under the typical intonation condition was significantly different from that under the exaggerated intonation condition (p = 0.016) and that under the flattened intonation condition (p = 0.016), and there is a significant difference in μ between the flattened and exaggerated intonation conditions (p = 0.013).</s>
+          <s>Results revealed that intelligibility was reduced by the lack of natural intonation contours when in presence of background noise.</s>
+        </p>
+        <p>
+          <s>When the masker was speech, a one-way ANOVA showed that the intonation effect on μ was significant (F[2,22] = 7.463, p = 0.003), suggesting that the available of intonation cue affect the keyword recognition under the interference speech masking condition.</s>
+          <s>Post hoc analyses with the adjusted α of 0.05 showed that the threshold under the typical intonation condition was significantly different from that under the exaggerated intonation condition (p = 0.039) and that under the flattened intonation condition (p = 0.046), however, the threshold under the flattened intonation condition was not significantly different from that under the exaggerated intonation condition (p = 1.000).</s>
+        </p>
+        <p>
+          <s>These results suggest that the difference in masking effect between the noise masker and the speech masker was significant.</s>
+          <s>Moreover, the results indicated that the performance differs under the three intonation condition in the noise masker relative to their performance against a speech masker.</s>
+        </p>
+        <p>
+          <s>The results also indicated that although preserve tone information, speech intelligibility was reduced by the lack of natural intonation contours, whenever there is background noise or speech masker.</s>
+          <s>Moreover, the results revealed that in both types of maskers, the performance under the exaggerated intonation condition or flattened intonation condition was much worse than the performance under typical intonation condition.</s>
+        </p>
+        <p>
+          <s>The results also showed that the performance under the exaggerated intonation condition in the presence of speech masker was much worse than the performance against a noise masker.</s>
+          <s>The results revealed that intelligibility degraded to a greater extent for Chinese nonsense sentences with exaggerated intonation than that with flattened intonation when the types of masker changed from noise to speech.</s>
+        </p>
+      </div>
+      <div>
+        <head>Discussion</head>
+      </div>
+      <div>
+        <head>F0 contour contribute substantially to Chinese speech recognition in background noise</head>
+        <p>
+          <s>This study used different intonation cues to examine the speech unmasking effect of intonation perception.</s>
+          <s>The results of this study supports earlier findings that any unnatural F0 contour manipulation decreased speech understanding in background noise <ref target="#b2" type="bibr">[4,</ref>
+            <ref target="#b3" type="bibr">5]</ref> .</s>
+          <s>This notion that the F0 contour is important in degraded speech understanding was also supported by the finding that, in this study, pilot listeners performed equally well across all three conditions when the sentences were presented in a quiet condition.</s>
+          <s>When the stimuli were presented in noise, performance dropped.</s>
+          <s>This finding is also in accord with the speculation proposed in the study by <ref target="#b29" type="bibr">[26]</ref> , who asserted that when the entire speech is degraded, listeners seem to rely more heavily on the F0 contour.</s>
+        </p>
+        <p>
+          <s>Specifically, the results of this study revealed that when presented in quiet, the speech perception of Chinese nonsense sentences with flattened F0 contours were as intelligible as those with natural F0 contours.</s>
+          <s>By contrast, when presented in either noise or a speech masker condition, flattening the F0 contours of Chinese nonsense sentences dramatically reduced the intelligibility compared with the sentences with natural F0 contours.</s>
+          <s>These results show a substantial contribution of F0 contour to sentence recognition under a noise environment.</s>
+        </p>
+        <p>
+          <s>The results in this study also highlighted the importance of natural F0 contours for sentence intelligibility, which were consistent with previous findings in <ref target="#b10" type="bibr">[10,</ref>
+            <ref target="#b30" type="bibr">27]</ref> .</s>
+        </p>
+      </div>
+      <div>
+        <head>Unfamiliar intonation contour decreases releasing Chinese speech from masking</head>
+        <p>
+          <s>The results indicated that recognition of the final keywords was much better under the typical intonation condition than that under the flattened or exaggerated intonation condition, suggesting that an unfamiliar intonation contour slows releasing Chinese speech from masking.</s>
+          <s>The results were consistent with <ref target="#b31" type="bibr">[28]</ref> , indicating that an unfamiliar intonation contour has a robust detrimental effect on the processing of speech.</s>
+        </p>
+        <p>
+          <s>Since all the redundant fine phonetic details including intonation are the lexical representation of words <ref target="#b32" type="bibr">[29]</ref> , an unfamiliar contour-to some extent-could result in some type of mismatch between the lexical representation and the perceived word, leading to the reduced word recognition.</s>
+        </p>
+        <p>
+          <s>According to our review of the literature, the information on intonation is processed and interpreted as soon as it becomes available <ref target="#b33" type="bibr">[30]</ref> ; thus, the increased difficulty in accessing the distorted intonation contour may result in bad performance for stimuli with an unfamiliar intonation contour.</s>
+        </p>
+        <p>
+          <s>The results also support Huang and Holt (2009) who assert that general auditory processing plays a role in lexical tone perception, that is, tone and intonation that share energy in the region of F0 but eliminate specific and speech-specific information should elicit similar effects on Mandarin tone perception <ref target="#b34" type="bibr">[31]</ref> .</s>
+        </p>
+        <p>
+          <s>Moreover, in Mandarin Chinese, lexical tones and intonation both depend on the variation of pitch.</s>
+          <s>The speakers varied in F0 contour (i.e., how F0 changes during an utterance), and those differences in F0 contours between a target speaker and competing speakers can facilitate the tracking of the target voice when there are competing voices <ref target="#b35" type="bibr">[32,</ref>
+            <ref target="#b36" type="bibr">33]</ref> .</s>
+        </p>
+        <p>
+          <s>The results of this study showed that a flattened F0 contour within an individual sentence negatively influences the accuracy of speech recognition under the masking condition, regardless of the masker type.</s>
+          <s>The results also indicated that the flattened fundamental frequency lowers releasing speech from masking, because it reduced the contrast between words and decreased the intelligibility of the utterance, which made it more difficult to parse continuous speech into meaningful units in a noisy environment.</s>
+        </p>
+        <p>
+          <s>Moreover, the results indicated that the intelligibility of speech under exaggerated intonation condition was worse than that under the flattened intonation condition whenever there is noise masker or speech masker, moreover, the exaggerated intonation suffers more in the speech-masker condition than that in the noise-masker condition.</s>
+        </p>
+      </div>
+      <div>
+        <head>Except for the lexical tone contour, intonation information is also important for Chinese speech intelligibility</head>
+        <p>
+          <s>The results indicated that speech in a tone language (Mandarin Chinese) is harder to understand when the intonation is unnatural, even if you preserve tone information.</s>
+          <s>That is, in addition to the lexical tone contour information, intonation information is also important for the Mandarin Chinese speech recognition.</s>
+        </p>
+        <p>
+          <s>Most of the research paradigms examining speech unmasking use task instructions that direct the listener to a semantic cue, often a key word within the target signal <ref target="#b37" type="bibr">[34]</ref> .</s>
+          <s>This study found that under a noise environment the participants also use indexical (tone in the voice, sentence intonation) cues to find the target utterance.</s>
+        </p>
+        <p>
+          <s>As in tonal languages, each monosyllable is pronounced with a distinctive tone that denotes a specific lexical meaning.</s>
+          <s>In Mandarin Chinese, fundamental frequency serves as the primary acoustic cue for lexical tones and sentence intonation.</s>
+          <s>Except for the lexical tone contour, sentence intonation is also important for the recognition of Mandarin sentences.</s>
+        </p>
+        <p>
+          <s>Patel et al,(2010) revealed that lexical prediction played an important role in helping the speech perception system compensate for lack of pitch variation, and top-down knowledge was helpful for enabling a listener to quickly realize the lexical intent of a spoken utterance and remap the vowel space <ref target="#b38" type="bibr">[35,</ref>
+            <ref target="#b39" type="bibr">36]</ref> ; thus, this study used non-semantic and meaningless Chinese nonsense utterances.</s>
+          <s>One of the innovative features of this study was that each utterance was subjected to a re-synthesis technique that allowed flattening or exaggerating of the fundamental frequency while maintaining the timing and spectral characteristics of the utterances.</s>
+          <s>In addition, different from English utterances, in Mandarin Chinese, the utterance of each syllable has its own pitch contour, and the pitch contour is more uniform across syllables.</s>
+          <s>Notably, there seemed to be greater time-to-time variation in F0 in a Mandarin Chinese utterance than in an English utterance.</s>
+          <s>Future studies could be conducted to help ascertain whether there is a difference between the Chinese and English utterances in the effective use of the intonation cues across the two languages.</s>
+        </p>
+        <p>
+          <s>The results of this study attempt to provide useful insights into the future development of speech communication applications, and the synthesis of intonation cues investigated in this study could be used to enhance the listener's ability to extract information from target speech masked by simultaneous competing talkers in an interactive speech system.</s>
+        </p>
+      </div>
+      <div>
+        <head>Conclusions</head>
+        <p>
+          <s>This study investigated the extent to which listeners can use intonation information to identify and selectively attend to a Chinese nonsense target utterance in noise and whether intonation cues affect the unmasking of Mandarin speech.</s>
+          <s>The results of this study showed that recognition of the final keywords in the target sentence was much better under the typical intonation condition than under the flattened intonation condition or exaggerated intonation condition whenever there was a noise masker or a speech masker, suggesting that a flattened F0 contour or exaggerated F0 contour within an individual sentence negatively influences the accuracy of speech recognition under the noisy environment.</s>
+          <s>Moreover, the results indicated that the performance under the flattened intonation condition was better than under the exaggerated intonation condition when there was a noise masker; however, the performance under the flattened intonation condition didn't differ significantly from the exaggerated intonation condition when the masker was speech.</s>
+          <s>These results revealed that listeners can take advantage of the troughs in the intonation of the Chinese speech masker to gain a "glimpse" of the Chinese target signal.</s>
+        </p>
+      </div>
+      <figure xml:id="fig_0">
+        <head/>
+        <label/>
+        <figDesc>Fig 1 presents the group mean of the hearing thresholds as a function of frequency.</figDesc>
+      </figure>
+      <figure xml:id="fig_1">
+        <head>Fig 1 .</head>
+        <label>1</label>
+        <figDesc>Fig 1. Average hearing thresholds in the left ear (filled circles) and right ear (open circles). ANSI: American National Standards Institute (S3.6-1989). Error bars represent the standard errors of the mean. https://doi.org/10.1371/journal.pone.0209976.g001</figDesc>
+      </figure>
+      <figure xml:id="fig_2">
+        <head>Fig 2 .</head>
+        <label>2</label>
+        <figDesc>Fig 2. Sketch map of an example of a target sentence with its intonation pattern (left top panel) and three types of intonation: (1) flattened intonation conditions (top-right panel), (2) typical intonation conditions (bottom-left panel), and (3) exaggerated intonation conditions (bottom-right panel). https://doi.org/10.1371/journal.pone.0209976.g002</figDesc>
+      </figure>
+      <figure xml:id="fig_3">
+        <head>Fig 3 .</head>
+        <label>3</label>
+        <figDesc>Fig 3. Group-mean percent-correct syllable identification for the last target keyword as a function of the signal-to-masker ratio (SNR) for younger (top panels) and older (bottom panels) participants when the masker was noise (left panels) or speech (right panels) under each of the intonation conditions: (1) flattened intonation conditions (open circles), (2) typical intonation conditions (filled circles), and (3) exaggerated intonation conditions (filled squares). Group-mean bestfitting psychometric function curves for the last keyword are shown in each of the panels. https://doi.org/10.1371/journal.pone.0209976.g003</figDesc>
+      </figure>
+      <figure xml:id="fig_4">
+        <head>Fig 4 .</head>
+        <label>4</label>
+        <figDesc>Fig 4. Group-mean threshold (μ) values for recognizing the final target keyword for each intonation condition when the masker was either noise or speech. Error bars indicate the standard errors of the mean. �� : the difference was significant. https://doi.org/10.1371/journal.pone.0209976.g004</figDesc>
+      </figure>
+      <figure type="table" validated="false" xml:id="tab_0">
+        <head/>
+        <label/>
+        <figDesc>ONE | https://doi.org/10.1371/journal.pone.</figDesc>
+        <table>0209976 January 3, 2019 
+1 / 15 
+
+a1111111111 
+a1111111111 
+a1111111111 
+a1111111111 
+a1111111111 </table>
+      </figure>
+      <note place="foot">PLOS ONE | https://doi.org/10.1371/journal.pone.0209976 January 3, 2019</note>
+      <note place="foot">PLOS ONE | https://doi.org/10.1371/journal.pone.0209976 January 3, 2019 10 / 15</note>
+      <note place="foot">PLOS ONE | https://doi.org/10.1371/journal.pone.0209976 January 3, 2019 15 / 15</note>
+    </body>
+    <back>
+      <div type="acknowledgement">
+        <div>
+          <head>Acknowledgments</head>
+          <p>
+            <s>Thanks to the anonymous reviewers for their insightful and important comments and ideas.</s>
+          </p>
+        </div>
+        <div>
+          <head>Author Contributions</head>
+          <p>
+            <s>Conceptualization: Meihong Wu.</s>
+          </p>
+        </div>
+        <div>
+          <head>Data curation: Meihong Wu.</head>
+          <p>
+            <s>Formal analysis: Meihong Wu.</s>
+          </p>
+        </div>
+        <div>
+          <head>Methodology: Meihong Wu.</head>
+          <p>
+            <s>Writing -original draft: Meihong Wu.</s>
+          </p>
+        </div>
+      </div>
+      <div type="references">
+        <listBibl>
+          <biblStruct xml:id="b0">
+            <analytic>
+              <title level="a" type="main">Prosody in the comprehension of spoken language: A literature review</title>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <surname>Cutler</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <surname>Dahan</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1177/002383099704000203</idno>
+              <idno>PMID: 9509577</idno>
+              <ptr target="https://doi.org/10.1177/002383099704000203"/>
+            </analytic>
+            <monogr>
+              <title level="j">Lang Speech</title>
+              <imprint>
+                <biblScope unit="volume">40</biblScope>
+                <biblScope from="141" to="201" unit="page"/>
+                <date type="published" when="1997"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b1">
+            <analytic>
+              <title level="a" type="main">Specifying Intonation from Context for Speech Synthesis</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Prevost</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Steedman</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/0167-6393(94)90048-5</idno>
+              <idno>PMID: WOS: A1994PT33400012</idno>
+              <ptr target="https://doi.org/10.1016/0167-6393(94)90048-5PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">Speech Commun</title>
+              <imprint>
+                <biblScope unit="volume">15</biblScope>
+                <biblScope unit="issue">1-2</biblScope>
+                <biblScope from="139" to="53" unit="page"/>
+                <date type="published" when="1994"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b2">
+            <analytic>
+              <title level="a" type="main">The effects of a flattened fundamental frequency on intelligibility at the sentence level</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Laures</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">G</forename>
+                  <surname>Weismer</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1044/jslhr.4205.1148</idno>
+              <idno>PMID: WOS:000082879300010</idno>
+              <ptr target="https://doi.org/10.1044/jslhr.4205.1148PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Speech Lang Hear R</title>
+              <imprint>
+                <biblScope unit="volume">42</biblScope>
+                <biblScope unit="issue">5</biblScope>
+                <biblScope from="1148" to="56" unit="page"/>
+                <date type="published" when="1999"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b3">
+            <analytic>
+              <title level="a" type="main">The role of fundamental frequency contours in the perception of speech against interfering speech</title>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <surname>Binns</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">F</forename>
+                  <surname>Culling</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.2751394</idno>
+              <ptr target="https://doi.org/10.1121/1.2751394"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">122</biblScope>
+                <biblScope unit="issue">3</biblScope>
+                <biblScope from="1765" to="76" unit="page"/>
+                <date type="published" when="2007"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b4">
+            <monogr>
+              <title/>
+              <author>
+                <persName>
+                  <surname>Pubmed</surname>
+                </persName>
+              </author>
+              <idno>PMID: 17927436</idno>
+              <imprint/>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b5">
+            <analytic>
+              <title level="a" type="main">Integration of multiple speech segmentation cues: A hierarchical framework</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Mattys</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>White</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">F</forename>
+                  <surname>Melhorn</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1037/0096-3445.134.4.477</idno>
+              <ptr target="https://doi.org/10.1037/0096-3445.134.4.477"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Exp Psychol Gen</title>
+              <imprint>
+                <biblScope unit="volume">134</biblScope>
+                <biblScope unit="issue">4</biblScope>
+                <biblScope from="477" to="500" unit="page"/>
+                <date type="published" when="2005"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b6">
+            <monogr>
+              <title/>
+              <author>
+                <persName>
+                  <surname>Pubmed</surname>
+                </persName>
+              </author>
+              <idno>PMID: 16316287</idno>
+              <imprint/>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b7">
+            <analytic>
+              <title level="a" type="main">Identification of Intonation Contours by Normally Hearing and Profoundly Hearing-Impaired Listeners</title>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <forename type="middle">W</forename>
+                  <surname>Grant</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.395253</idno>
+              <idno>PMID: 3680776</idno>
+              <ptr target="https://doi.org/10.1121/1.395253PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">82</biblScope>
+                <biblScope unit="issue">4</biblScope>
+                <biblScope from="1172" to="1180" unit="page"/>
+                <date type="published" when="1987"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b8">
+            <analytic>
+              <title level="a" type="main">Perceptual effects of a flattened fundamental frequency at the sentence level under different listening conditions</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Laures</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Bunton</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/S0021-9924(03)00032-7</idno>
+              <idno>PMID: 12967739</idno>
+              <ptr target="https://doi.org/10.1016/S0021-9924"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Commun Disord</title>
+              <imprint>
+                <biblScope unit="volume">36</biblScope>
+                <biblScope unit="issue">6</biblScope>
+                <biblScope from="32" to="39" unit="page"/>
+                <date type="published" when="2003"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b9">
+            <analytic>
+              <title level="a" type="main">Informational and energetic masking effects in the perception of multiple simultaneous talkers</title>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Brungart</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <forename type="middle">D</forename>
+                  <surname>Simpson</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Ericson</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <forename type="middle">R</forename>
+                  <surname>Scott</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.1408946</idno>
+              <idno>PMID: WOS:000172160200029</idno>
+              <ptr target="https://doi.org/10.1121/1.1408946PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">110</biblScope>
+                <biblScope unit="issue">5</biblScope>
+                <biblScope from="2527" to="2565" unit="page"/>
+                <date type="published" when="2001"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b10">
+            <analytic>
+              <title level="a" type="main">editor The role of F0 variation in the intelligibility of Mandarin sentences</title>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <forename type="middle">D</forename>
+                  <surname>Patel</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <surname>Xu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Wang</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Speech Prosody</title>
+              <imprint>
+                <date type="published" when="2010"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b11">
+            <analytic>
+              <title level="a" type="main">The roles of fundamental frequency contours and sentence context in Mandarin Chinese speech intelligibility</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Wang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Shu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Zhang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Z</forename>
+                  <forename type="middle">X</forename>
+                  <surname>Liu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <surname>Zhang</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.4811159</idno>
+              <idno>PMID: 23862913</idno>
+              <ptr target="https://doi.org/10.1121/1.4811159PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">134</biblScope>
+                <biblScope unit="issue">1</biblScope>
+                <biblScope from="91" to="98" unit="page"/>
+                <date type="published" when="2013"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b12">
+            <analytic>
+              <title level="a" type="main">Opinion-The cortical organization of speech processing</title>
+              <author>
+                <persName>
+                  <forename type="first">G</forename>
+                  <surname>Hickok</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <surname>Poeppel</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1038/nrn2113</idno>
+              <idno>PMID: 17431404</idno>
+              <ptr target="https://doi.org/10.1038/nrn2113"/>
+            </analytic>
+            <monogr>
+              <title level="j">Nature Reviews Neuroscience</title>
+              <imprint>
+                <biblScope unit="volume">8</biblScope>
+                <biblScope unit="issue">5</biblScope>
+                <biblScope from="393" to="402" unit="page"/>
+                <date type="published" when="2007"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b13">
+            <analytic>
+              <title level="a" type="main">Adding irrelevant information to the content prime reduces the prime-induced unmasking effect on speech recognition</title>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Wu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Li</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <forename type="middle">Y</forename>
+                  <surname>Gao</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Lei</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">B</forename>
+                  <surname>Teng</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Wu</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/j.heares.2011.11.001</idno>
+              <idno>PMID: 22101022</idno>
+              <ptr target="https://doi.org/10.1016/j.heares.2011.11.001PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">Hearing Res</title>
+              <imprint>
+                <biblScope unit="volume">283</biblScope>
+                <biblScope unit="issue">1-2</biblScope>
+                <biblScope from="136" to="179" unit="page"/>
+                <date type="published" when="2012"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b14">
+            <analytic>
+              <title level="a" type="main">Differences in the influence of F0 contour on Chinese speech recognition under noisy environment</title>
+              <idno type="DOI">10.1371/journal.pone.0209976</idno>
+              <ptr target="https://doi.org/10.1371/journal.pone.0209976"/>
+            </analytic>
+            <monogr>
+              <title level="j">PLOS ONE</title>
+              <imprint>
+                <date type="published" when="2019-01-03"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b15">
+            <analytic>
+              <title level="a" type="main">The effect of voice cuing on releasing Chinese speech from informational masking</title>
+              <author>
+                <persName>
+                  <forename type="first">Z</forename>
+                  <forename type="middle">G</forename>
+                  <surname>Yang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <surname>Chen</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Q</forename>
+                  <surname>Huang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Wu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Wu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Schneider</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/j.specom.2007.05.005</idno>
+              <idno>PMID: WOS:000250641300003</idno>
+              <ptr target="https://doi.org/10.1016/j.specom.2007.05.005PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">Speech Commun</title>
+              <imprint>
+                <biblScope unit="volume">49</biblScope>
+                <biblScope unit="issue">12</biblScope>
+                <biblScope from="892" to="904" unit="page"/>
+                <date type="published" when="2007"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b16">
+            <monogr>
+              <title level="m" type="main">Intonation generation method, speech synthesis apparatus using the method and voice server: US</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Saito</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Sakamoto</surname>
+                </persName>
+              </author>
+              <imprint>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b17">
+            <analytic>
+              <title level="a" type="main">Analysis and synthesis of fundamental frequency contours of Standard Chinese using the command-response model</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Fujisaki</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">F</forename>
+                  <surname>Wang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Ohno</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">W</forename>
+                  <forename type="middle">T</forename>
+                  <surname>Gu</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/j.specom.2005.06.009</idno>
+              <idno>PMID: WOS:000231788500007</idno>
+              <ptr target="https://doi.org/10.1016/j.specom.2005.06.009PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">Speech Commun</title>
+              <imprint>
+                <biblScope unit="volume">47</biblScope>
+                <biblScope unit="issue">1-2</biblScope>
+                <biblScope from="59" to="70" unit="page"/>
+                <date type="published" when="2005"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b18">
+            <analytic>
+              <title level="a" type="main">Quantitative and structural modeling of voice fundamental frequency contours of speech in Mandarin</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">F</forename>
+                  <surname>Ni</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Hirose</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/j.specom.2006.01.002</idno>
+              <ptr target="https://doi.org/10.1016/j.specom.2006"/>
+            </analytic>
+            <monogr>
+              <title level="j">Speech Commun</title>
+              <imprint>
+                <biblScope unit="volume">48</biblScope>
+                <biblScope unit="issue">8</biblScope>
+                <biblScope from="989" to="1008" unit="page"/>
+                <date type="published" when="2006"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b19">
+            <monogr>
+              <title/>
+              <author>
+                <persName>
+                  <surname>Pubmed</surname>
+                </persName>
+              </author>
+              <idno>PMID: WOS:000239446300009</idno>
+              <imprint/>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b20">
+            <analytic>
+              <title level="a" type="main">Modeling tone and intonation in Mandarin and English as a process of target approximation</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Prom-On</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <surname>Xu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <surname>Thipakorn</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.3037222</idno>
+              <ptr target="https://doi.org/10.1121/1.3037222"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">125</biblScope>
+                <biblScope unit="issue">1</biblScope>
+                <biblScope from="405" to="429" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b21">
+            <monogr>
+              <title/>
+              <author>
+                <persName>
+                  <surname>Pubmed</surname>
+                </persName>
+              </author>
+              <idno>PMID: 19173427</idno>
+              <imprint/>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b22">
+            <analytic>
+              <title level="a" type="main">Hierarchical pitch target model for Mandarin speech</title>
+              <author>
+                <persName>
+                  <forename type="first">Z</forename>
+                  <forename type="middle">P</forename>
+                  <surname>Zhang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Wang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Yu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Wu</surname>
+                </persName>
+              </author>
+              <idno type="DOI">ISCSLP2010-Proceedings.378-382.10.1109/ISCSLP.2010.5684865</idno>
+            </analytic>
+            <monogr>
+              <title level="m">7th International Symposium on Chinese Spoken Language Processing</title>
+              <imprint>
+                <date type="published" when="2010"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b23">
+            <analytic>
+              <title level="a" type="main">Sine-wave speech recognition in a tonal language</title>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Feng</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>Xu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">N</forename>
+                  <surname>Zhou</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">G</forename>
+                  <surname>Yang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">K</forename>
+                  <surname>Yin</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.3670594</idno>
+              <idno>PMID: 22352612</idno>
+              <ptr target="https://doi.org/10.1121/1.3670594PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">131</biblScope>
+                <biblScope unit="issue">2</biblScope>
+                <biblScope from="133" to="141" unit="page"/>
+                <date type="published" when="2012"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b24">
+            <analytic>
+              <title level="a" type="main">Effects of Lexical Tone Contour on Mandarin Sentence Intelligibility</title>
+              <author>
+                <persName>
+                  <forename type="first">F</forename>
+                  <surname>Chen</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Lln</forename>
+                  <surname>Wong</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <surname>Hu</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1044/1092-4388(2013/12-0324)</idno>
+              <idno>PMID: WOS:000347919100027</idno>
+              <ptr target="https://doi.org/10.1044/1092-4388(2013/12-0324"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Speech Lang Hear R</title>
+              <imprint>
+                <biblScope unit="volume">57</biblScope>
+                <biblScope unit="issue">1</biblScope>
+                <biblScope from="338" to="383" unit="page"/>
+                <date type="published" when="2014"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b25">
+            <monogr>
+              <title level="m" type="main">The Effect of Priming on Release From Informational Masking Is Equivalent for Younger and Older Adults. Ear Hearing</title>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <surname>Ezzatian</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>Li</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Pichora-Fuller</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <surname>Schneider</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1097/AUD.0b013e3181ee6b8a</idno>
+              <idno>PMID: 21178568</idno>
+              <ptr target="https://doi.org/10.1097/AUD.0b013e3181ee6b8a"/>
+              <imprint>
+                <date type="published" when="2011"/>
+                <biblScope unit="volume">32</biblScope>
+                <biblScope from="84" to="96" unit="page"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b26">
+            <analytic>
+              <title level="a" type="main">Perceptual integration between target speech and target-speech reflection reduces masking for target-speech recognition in younger adults and older adults</title>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <surname>Huang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Q</forename>
+                  <surname>Huang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <surname>Chen</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Qu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Wu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>Li</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/j.heares.2008.07.006</idno>
+              <idno>PMID: 18694813</idno>
+              <ptr target="https://doi.org/10.1016/j.heares.2008.07.006PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">Hearing Res</title>
+              <imprint>
+                <biblScope unit="volume">244</biblScope>
+                <biblScope unit="issue">1-2</biblScope>
+                <biblScope from="51" to="65" unit="page"/>
+                <date type="published" when="2008"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b27">
+            <analytic>
+              <title level="a" type="main">Does the information content of an irrelevant source differentially affect spoken word recognition in younger and older adults?</title>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>Li</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Daneman</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">G</forename>
+                  <surname>Qi</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Schneider</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1037/0096-1523.30.6.1077</idno>
+              <idno>PMID: 15584816</idno>
+              <ptr target="https://doi.org/10.1037/0096-1523.30.6.1077PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Exp Psychol Human</title>
+              <imprint>
+                <biblScope unit="volume">30</biblScope>
+                <biblScope unit="issue">6</biblScope>
+                <biblScope from="1077" to="91" unit="page"/>
+                <date type="published" when="2004"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b28">
+            <monogr>
+              <author>
+                <persName>
+                  <forename type="first">Wolfram</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Mathematica</surname>
+                </persName>
+              </author>
+              <title level="m">A System for Doing Mathematics by Computer</title>
+              <meeting>
+                <address>
+                  <addrLine>New York</addrLine>
+                </address>
+              </meeting>
+              <imprint>
+                <publisher>Addison-Welsey</publisher>
+                <date type="published" when="1991"/>
+                <biblScope unit="volume">70</biblScope>
+                <biblScope from="1043" to="52" unit="page"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b29">
+            <analytic>
+              <title level="a" type="main">Some effects of intonation contour on sentence intelligibility</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Hillenbrand</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">114</biblScope>
+                <biblScope unit="issue">4</biblScope>
+                <biblScope from="2338" to="2338" unit="page"/>
+                <date type="published" when="2003"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b30">
+            <analytic>
+              <title level="a" type="main">Toward invariant functional representations of variable surface fundamental frequency contours: Synthesizing speech melody via model-based stochastic learning</title>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <surname>Xu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Prom-On</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/j.specom.2013.09.013</idno>
+              <idno>PMID: WOS:000328180100014</idno>
+              <ptr target="https://doi.org/10.1016/j.specom.2013.09.013PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">Speech Commun</title>
+              <imprint>
+                <biblScope unit="volume">57</biblScope>
+                <biblScope from="181" to="208" unit="page"/>
+                <date type="published" when="2014"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b31">
+            <analytic>
+              <title level="a" type="main">Question or tone 2? How language experience and linguistic function guide pitch processing</title>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <surname>Braun</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <forename type="middle">K</forename>
+                  <surname>Johnson</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1016/j.wocn.2011.06.002</idno>
+              <idno>PMID: WOS:000296402000012</idno>
+              <ptr target="https://doi.org/10.1016/j.wocn.2011.06.002PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Phonetics</title>
+              <imprint>
+                <biblScope unit="volume">39</biblScope>
+                <biblScope unit="issue">4</biblScope>
+                <biblScope from="585" to="94" unit="page"/>
+                <date type="published" when="2011"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b32">
+            <analytic>
+              <title level="a" type="main">Polysp: a polysystemic, phonetically-rich approach to speech understanding</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Hawkins</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Smith</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Italian Journal of Linguistics</title>
+              <imprint>
+                <biblScope unit="volume">13</biblScope>
+                <biblScope unit="issue">1</biblScope>
+                <date type="published" when="2001"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b33">
+            <analytic>
+              <title level="a" type="main">Finding Referents in Time: Eye-Tracking Evidence for the Role of Contrastive Accents</title>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <surname>Weber</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <surname>Braun</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">W</forename>
+                  <surname>Crocker</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Language and Speech</title>
+              <imprint>
+                <biblScope unit="volume">49</biblScope>
+                <biblScope unit="issue">3</biblScope>
+                <biblScope from="367" to="392" unit="page"/>
+                <date type="published" when="2006"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b34">
+            <analytic>
+              <title level="a" type="main">General perceptual contributions to lexical tone normalization</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">Y</forename>
+                  <surname>Huang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Holt</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.3125342</idno>
+              <idno>PMID: 19507980</idno>
+              <ptr target="https://doi.org/10.1121/1.3125342"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">125</biblScope>
+                <biblScope unit="issue">6</biblScope>
+                <biblScope from="3983" to="94" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b35">
+            <analytic>
+              <title level="a" type="main">Effectiveness of spatial cues, prosody, and talker characteristics in selective attention</title>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Darwin</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <forename type="middle">W</forename>
+                  <surname>Hukin</surname>
+                </persName>
+              </author>
+              <idno>PMID: 10687706</idno>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">107</biblScope>
+                <biblScope unit="issue">2</biblScope>
+                <biblScope from="970" to="977" unit="page"/>
+                <date type="published" when="2000"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b36">
+            <analytic>
+              <title level="a" type="main">Effects of fundamental frequency and vocal-tract length changes on attention to one of two simultaneous talkers</title>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Darwin</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Brungart</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <forename type="middle">D</forename>
+                  <surname>Simpson</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.1616924</idno>
+              <idno>PMID: 14650025</idno>
+              <ptr target="https://doi.org/10.1121/1.1616924PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">114</biblScope>
+                <biblScope unit="issue">5</biblScope>
+                <biblScope from="2913" to="2935" unit="page"/>
+                <date type="published" when="2003"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b37">
+            <analytic>
+              <title level="a" type="main">Lexical and indexical cues in masking by competing speech</title>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Helfer</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Freyman</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1121/1.3035837</idno>
+              <idno>PMID: 19173430</idno>
+              <ptr target="https://doi.org/10.1121/1.3035837PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Acoust Soc Am</title>
+              <imprint>
+                <biblScope unit="volume">125</biblScope>
+                <biblScope unit="issue">1</biblScope>
+                <biblScope from="447" to="56" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b38">
+            <analytic>
+              <title level="a" type="main">Lexical information drives; Perceptual learning of distorted speech: Evidence from the comprehension of noise-vocoded sentences</title>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Davis</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">I</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Johnsrude</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <surname>Hervais-Adelman</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Taylor</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <surname>Mcgettigan</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.1037/0096-3445.134.2.222</idno>
+              <idno>PMID: 15869347</idno>
+              <ptr target="https://doi.org/10.1037/0096-3445.134.2.222PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">J Exp Psychol Gen</title>
+              <imprint>
+                <biblScope unit="volume">134</biblScope>
+                <biblScope unit="issue">2</biblScope>
+                <biblScope from="222" to="263" unit="page"/>
+                <date type="published" when="2005"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b39">
+            <analytic>
+              <title level="a" type="main">Generalization in perceptual learning for speech</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Kraljic</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <forename type="middle">G</forename>
+                  <surname>Samuel</surname>
+                </persName>
+              </author>
+              <idno type="DOI">10.3758/Bf03193841</idno>
+              <idno>PMID: WOS:000239100100011</idno>
+              <ptr target="https://doi.org/10.3758/Bf03193841PubMed"/>
+            </analytic>
+            <monogr>
+              <title level="j">Psychon B Rev</title>
+              <imprint>
+                <biblScope unit="volume">13</biblScope>
+                <biblScope unit="issue">2</biblScope>
+                <biblScope from="262" to="270" unit="page"/>
+                <date type="published" when="2006"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+        </listBibl>
+      </div>
+    </back>
+  </text>
+</TEI>

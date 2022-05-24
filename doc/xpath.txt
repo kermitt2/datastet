@@ -1,0 +1,15 @@
+# main fields
+x_title = '/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type="main"]'
+x_publication_date1 = '/tei:TEI/tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblStruct/tei:monogr/tei:imprint/tei:date[@type="published"]'
+x_publication_date2 = '/tei:TEI/tei:teiHeader/tei:fileDesc/tei:publicationStmt/tei:date[@type="published"]'
+
+# identifiers
+x_doi = '/tei:TEI/tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblStruct/tei:idno[@type="DOI"]
+x_pmid = '/tei:TEI/tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblStruct/tei:idno[@type="PMID"]
+x_pmcid = '/tei:TEI/tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblStruct/tei:idno[@type="PMCID"]
+
+# authorship
+x_author_persons = '/tei:TEI/tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblStruct/tei:analytic/tei:author/tei:persName'
+x_author_organizations = '/tei:TEI/tei:teiHeader/tei:fileDesc/tei:sourceDesc/tei:biblStruct/tei:analytic/tei:author/tei:affiliation/tei:orgName'
+
+

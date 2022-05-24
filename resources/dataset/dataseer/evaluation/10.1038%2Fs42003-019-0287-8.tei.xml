@@ -1,0 +1,1678 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/lopez/grobid/dataseer-ml/../grobid-home/schemas/xsd/Grobid.xsd">
+  <teiHeader xml:lang="en">
+    <encodingDesc>
+      <appInfo>
+        <application ident="GROBID" version="0.5.6-SNAPSHOT" when="2019-08-23T23:22+0000">
+          <ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+        </application>
+      </appInfo>
+    </encodingDesc>
+    <fileDesc>
+      <titleStmt>
+        <title level="a" type="main">Historical contingency and productivity effects on food-chain length</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher/>
+        <availability status="unknown">
+          <licence/>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <author>
+              <persName>
+                <forename type="first">Hideyuki</forename>
+                <surname>Doi</surname>
+              </persName>
+              <affiliation key="aff0">
+                <orgName type="department">Institute for Chemistry and Biology of the Marine Environment</orgName>
+                <orgName type="institution">Carl-von-Ossietzky University Oldenburg</orgName>
+                <address>
+                  <addrLine>Schleusenstrasse 1</addrLine>
+                  <postCode>26382</postCode>
+                  <settlement>Wilhelmshaven</settlement>
+                  <country key="DE">Germany</country>
+                </address>
+              </affiliation>
+              <affiliation key="aff1">
+                <orgName type="department">Graduate School of Simulation Studies</orgName>
+                <orgName type="institution">University of Hyogo</orgName>
+                <address>
+                  <addrLine>7-1-28 Minatojima-minamimachi, Chuo-ku</addrLine>
+                  <postCode>650-0047</postCode>
+                  <settlement>Kobe</settlement>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+            </author>
+            <author>
+              <persName>
+                <forename type="first">Helmut</forename>
+                <surname>Hillebrand</surname>
+              </persName>
+              <affiliation key="aff0">
+                <orgName type="department">Institute for Chemistry and Biology of the Marine Environment</orgName>
+                <orgName type="institution">Carl-von-Ossietzky University Oldenburg</orgName>
+                <address>
+                  <addrLine>Schleusenstrasse 1</addrLine>
+                  <postCode>26382</postCode>
+                  <settlement>Wilhelmshaven</settlement>
+                  <country key="DE">Germany</country>
+                </address>
+              </affiliation>
+              <affiliation key="aff2">
+                <orgName type="institution">Helmholtz-Institute for Functional Marine Biodiversity at the University Oldenburg (HIFMB)</orgName>
+                <address>
+                  <addrLine>Ammerländer Heerstrasse 231</addrLine>
+                  <postCode>26129</postCode>
+                  <settlement>Oldenburg</settlement>
+                  <country key="DE">Germany</country>
+                </address>
+              </affiliation>
+              <affiliation key="aff3">
+                <orgName key="instit1" type="institution">Alfred-Wegener Institute</orgName>
+                <orgName key="instit2" type="institution">Helmholtz Centre for Polar and Marine Research</orgName>
+                <address>
+                  <postCode>27570</postCode>
+                  <settlement>Bremerhaven</settlement>
+                  <country key="DE">Germany</country>
+                </address>
+              </affiliation>
+            </author>
+            <title level="a" type="main">Historical contingency and productivity effects on food-chain length</title>
+          </analytic>
+          <monogr>
+            <imprint>
+              <date/>
+            </imprint>
+          </monogr>
+          <idno type="DOI">10.1038/s42003-019-0287-8</idno>
+          <note>ARTICLE</note>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <abstract/>
+    </profileDesc>
+  </teiHeader>
+  <text xml:lang="en">
+    <body>
+      <div>
+        <p>
+          <s>F ood-chain length (FCL), a measure of the number of trophic levels in a system <ref target="#b0" type="bibr">[1]</ref>
+            <ref target="#b1" type="bibr">[2]</ref>
+            <ref target="#b2" type="bibr">[3]</ref>
+            <ref target="#b3" type="bibr">[4]</ref> , is a property of food web structure with connection to community composition 1-3 and ecosystem processes, such as energy and matter flows in ecosystems <ref target="#b1" type="bibr">2,</ref>
+            <ref target="#b4" type="bibr">5</ref> , and CO 2 exchange between freshwater systems and the atmosphere <ref target="#b5" type="bibr">6</ref> .</s>
+          <s>Also, FCL determines the level and timing of bioaccumulation of potentially toxic substances in food webs and thus indirectly relates to human health <ref target="#b6" type="bibr">7,</ref>
+            <ref target="#b7" type="bibr">8</ref> .</s>
+          <s>Thus FCL has been recognized as a fundamental ecosystem attribute and has been extensively studied <ref target="#b6" type="bibr">[7]</ref>
+            <ref target="#b7" type="bibr">[8]</ref>
+            <ref target="#b8" type="bibr">[9]</ref>
+            <ref target="#b9" type="bibr">[10]</ref>
+            <ref target="#b10" type="bibr">[11]</ref> , although the question of which factors constrain FCL still remains under debate.</s>
+        </p>
+        <p>
+          <s>Numerous hypotheses on constraints of FCL have been proposed and are widely cited <ref target="#b0" type="bibr">[1]</ref>
+            <ref target="#b1" type="bibr">[2]</ref>
+            <ref target="#b2" type="bibr">[3]</ref>
+            <ref target="#b8" type="bibr">[9]</ref>
+            <ref target="#b9" type="bibr">[10]</ref>
+            <ref target="#b10" type="bibr">[11]</ref> .</s>
+          <s>Among these studies, a majority focus on a few general hypotheses such as the productivity (basal resource availability), ecosystem size, and disturbance hypotheses <ref target="#b11" type="bibr">[12]</ref>
+            <ref target="#b12" type="bibr">[13]</ref>
+            <ref target="#b13" type="bibr">[14]</ref> .</s>
+          <s>The productivity hypothesis predicts that FCL increases with increasing productivity, because higher energy availability at the base of the food web allows for the existence of higher trophic levels, given the transfer efficiencies between trophic levels <ref target="#b1" type="bibr">2,</ref>
+            <ref target="#b10" type="bibr">11,</ref>
+            <ref target="#b14" type="bibr">[15]</ref>
+            <ref target="#b15" type="bibr">[16]</ref>
+            <ref target="#b16" type="bibr">[17]</ref> .</s>
+          <s>However, Kondoh and Ninomiya <ref target="#b14" type="bibr">15</ref> suggested that FCL could be shorter with increasing productivity when adaptively foraging predators switch their diet to a more basal resource and thus to a lower trophic position.</s>
+          <s>No change in, or shortening of, FCL <ref target="#b15" type="bibr">16</ref> , with enrichment of productivity, can also occur if food web structure changes because of different functional responses <ref target="#b16" type="bibr">17</ref> or if productivity relates to higher instability of the community <ref target="#b17" type="bibr">18</ref> .</s>
+          <s>The ecosystem size hypothesis predicts that FCL increases with increasing ecosystem size, such as lake volume <ref target="#b11" type="bibr">12</ref> .</s>
+          <s>The disturbance hypothesis, also termed as the dynamic constraints hypothesis, predicts that more frequent or more intense disturbance in ecosystems would shorten FCL, because longer chains are less resilient and thus unlikely to persist in disturbed habitats <ref target="#b12" type="bibr">13</ref> .</s>
+          <s>Still, among the common FCL hypotheses, the productivity hypothesis has been tested most frequently but with incongruent results from field and laboratory studies <ref target="#b12" type="bibr">13,</ref>
+            <ref target="#b13" type="bibr">14,</ref>
+            <ref target="#b18" type="bibr">19,</ref>
+            <ref target="#b19" type="bibr">20</ref> .</s>
+        </p>
+        <p>
+          <s>Recently, nitrogen stable isotope measurements have become the technique most often used for FCL determination, next to gut content analyses <ref target="#b11" type="bibr">[12]</ref>
+            <ref target="#b12" type="bibr">[13]</ref>
+            <ref target="#b13" type="bibr">[14]</ref>
+            <ref target="#b14" type="bibr">[15]</ref>
+            <ref target="#b19" type="bibr">20,</ref>
+            <ref target="#b20" type="bibr">21</ref> .</s>
+          <s>Nitrogen stable isotope composition reflects the trophic position of consumers <ref target="#b21" type="bibr">22</ref> .</s>
+          <s>Nitrogen isotopes provide a measure of realized FCL, integrating the assimilation of energy or mass flow through all the trophic pathways leading to top predators <ref target="#b21" type="bibr">22</ref> .</s>
+        </p>
+        <p>
+          <s>In large lakes, FCL was shown to increase in older lakes, probably indicating that the ecosystem's history of species immigration and evolution affected FCL <ref target="#b22" type="bibr">23</ref> .</s>
+          <s>The effect of species immigration history on FCL suggests that colonization sequence may affect community structure <ref target="#b23" type="bibr">24</ref> .</s>
+          <s>Historical contingency has frequently been considered in ecology 24 in the context of community structure, species diversification, and productivity-diversity relationships <ref target="#b23" type="bibr">[24]</ref>
+            <ref target="#b24" type="bibr">[25]</ref>
+            <ref target="#b25" type="bibr">[26]</ref>
+            <ref target="#b26" type="bibr">[27]</ref>
+            <ref target="#b27" type="bibr">[28]</ref>
+            <ref target="#b28" type="bibr">[29]</ref> .</s>
+          <s>Despite the accepted role of historical contingency with regard to community composition and ecosystem functioning <ref target="#b23" type="bibr">[24]</ref>
+            <ref target="#b24" type="bibr">[25]</ref>
+            <ref target="#b25" type="bibr">[26]</ref>
+            <ref target="#b26" type="bibr">[27]</ref>
+            <ref target="#b27" type="bibr">[28]</ref> , its importance as a determinant of FCL has, to our knowledge, never been tested.</s>
+        </p>
+        <p>
+          <s>Here we provide an experimental test of historical contingency on FCL, specifically colonization order, along a gradient of productivity using microcosm experiments.</s>
+          <s>We find that FCL is determined by historical contingency, via priority effects and productivity.</s>
+        </p>
+      </div>
+      <div>
+        <head>Results</head>
+        <p>
+          <s>FCL of the microcosm systems.</s>
+          <s>We combined four colonization sequences and four productivity levels in a fully factorial design with five replicates (80 microcosms in total).</s>
+          <s>Such replicated microcosm experiments have been widely used to test hypotheses in ecology and evolutionary biology <ref target="#b29" type="bibr">30</ref> .</s>
+          <s>The productivity gradient was established by protozoan pellet concentration.</s>
+          <s>We inoculated our microcosms with bacteria, ciliates, and zooplankton, allowing for a food web structure including bacteria as a basal resource, a primary consumer (the bacterivore ciliate Tetrahymena sp., abbreviated T), an intra-guild predator (the bacterivore/intraguild predator ciliate Blepharisma sp., abbreviated B), and a copepod (Cyclops sp., abbreviated C) as the top predator.</s>
+          <s>The groups were added in four specific sequences into the microcosm at each of four productivity levels.</s>
+          <s>Then we measured the stable nitrogen isotope of the top predator zooplankton to estimate the FCLs in the microcosms.</s>
+          <s>We also evaluated the abundance and body mass of the species to show the shifts in community structure in the microcosms.</s>
+        </p>
+        <p>
+          <s>With the results from microcosm experiment <ref target="#fig_0" type="figure">(Fig. 1)</ref> , the calculated FCLs remarkably varied with productivity and species sequences (BCT, TCB, BTC, TBC, see <ref target="#tab_1" type="table">Table 1</ref> ; <ref target="#fig_1" type="figure">Fig. 2</ref> ), reflected by significant main effects of the factor in the general linear model (GLM; <ref target="#tab_2" type="table">Table 2</ref> ).</s>
+          <s>These effects were independent, as the interaction was not significant ( <ref target="#tab_2" type="table">Table 2</ref> ).</s>
+          <s>The sequences BTC and TBC, at which copepods were introduced last, had significantly higher FCLs than sequences with earlier introduction of the copepod ( <ref target="#tab_2" type="table">Table 2</ref> ).</s>
+          <s>The differences in FCLs correspond to a shift of 0.5 trophic level in these treatments, indicating that the trophic position of the top predator was substantially changed.</s>
+          <s>Thus later entry by the top predator led to a more vertical organization of the food web.</s>
+          <s>At the highest productivity (0.78 g pellet L −1 ), the FCLs were significantly shorter than at the other productivity level <ref target="#tab_2" type="table">(Table 2)</ref> .</s>
+        </p>
+        <p>
+          <s>Abundance and body mass of species.</s>
+          <s>The abundance of ciliate consumers varied among productivity levels and introduction sequences (Supplementary <ref target="#fig_0" type="figure">Fig. 1</ref>
+            <ref target="#tab_1" type="table">Table 1</ref> ).</s>
+          <s>The abundance ratio of Blepharisma/Tetrahymena varied correspondingly not only between productivity levels but also with introduction sequences.</s>
+          <s>The ratios were higher in the BTC sequence, where Blepharisma was introduced before Tetrahymena <ref type="figure">(Fig. 3)</ref> .</s>
+          <s>The individual body mass ( <ref type="figure">Supplementary Fig. 3</ref> ) and the number of surviving individuals (mean = 23.4 ± 0.5 individuals at the final experimental day) of copepods were not significantly different between the treatments (Supplementary <ref target="#tab_1" type="table">Table 1</ref> ).</s>
+          <s>The survival rates of copepods were very high (94% remained) such that the predator population was almost completely maintained to the final day of the experiment.</s>
+        </p>
+      </div>
+      <div>
+        <head>Discussion</head>
+        <p>
+          <s>FCL varied between 3 and 4 with species inoculation sequence and productivity in our microcosm systems.</s>
+          <s>In natural systems, FCL generally ranges between 3 and 6 <ref target="#b12" type="bibr">13,</ref>
+            <ref target="#b13" type="bibr">14</ref> .</s>
+          <s>The effect of introducing the copepod last corresponded to an increase in FCL by 0.5 trophic positions, whereas the FCL reduction in the highest productivity level corresponded to 0.3-0.4</s>
+          <s>trophic positions.</s>
+          <s>Thus our microcosms provided first evidence for a variability of FCL with community assembly history and novel insights in the relationship between productivity and FCL.</s>
+        </p>
+        <p>
+          <s>When the top predator invaded in the food web later, it performed as a top predator mainly feeding on the intraguild predator (Blepharisma), and consequently the system had a longer FCL.</s>
+          <s>When the top predator copepods were introduced before the intraguild predator (Blepharisma), they only fed on the intraguild prey (Tetrahymena) feeding on bacteria, thereby depressing the population level of Tetrahymena.</s>
+          <s>Therefore, Blepharisma had a trophic level of~2, similar to Tetrahymena.</s>
+          <s>The <ref target="#tab_1" type="table">Table 1</ref> ) and productivity from 0.1 to 0.78 g pellet L −1 (N = 5 for each treatment).</s>
+          <s>The boxes indicate ± 25% quartiles with the median (bar), and the bars indicate ± 1.5× quartiles.</s>
+          <s>The points are outliers When Blepharisma primarily feeds on Tetrahymena, the copepod fed on a prey with a trophic level &gt;2.</s>
+          <s>Therefore, another mechanism can be assumed that the intraguild predator did not successfully compete for the bacteria with the intraguild prey and consequently had lower abundances.</s>
+          <s>Moreover, lower Blepharisma/Tetrahymena ratios were observed at TCB sequence, which may also reduce the trophic position of the top predator due to lowered relative abundance of the intraguild predator.</s>
+          <s>Our experiment therefore highlights the role of priority effects of consumer introduction and top predator's adaptive foraging for defining maximum FCL.</s>
+          <s>We found such priority effects on FCL in a reduced web with three consumer species only, therefore it will be important to analyze historical contingencies in real ecosystems, in order to see whether our results can be transferred to natural ecosystems with more complex network structures.</s>
+        </p>
+        <p>
+          <s>Productivity is generally supposed to lengthen FCL in aquatic systems <ref target="#b12" type="bibr">13,</ref>
+            <ref target="#b13" type="bibr">14</ref> , but in this study, at the highest productivity, the FCL were shorter.</s>
+          <s>The food-web model by Kondoh and Ninomiya <ref target="#b14" type="bibr">15</ref> suggested that FCL can be shorter with increasing productivity when considering adaptive foraging of consumers.</s>
+          <s>This requires that some of the predators are generalists able to feed on different food sources.</s>
+          <s>Predators may switch from higher trophic levels to lower ones at higher productivity if especially the basal species becomes more abundant <ref target="#b30" type="bibr">31,</ref>
+            <ref target="#b31" type="bibr">32</ref> .</s>
+          <s>In fact, the abundance of the primary consumer Tetrahymena increased at highest productivity, which may explain the shortened FCL we found at high productivity levels, if the top predator fed more on the more abundant primary consumer, Tetrahymena.</s>
+          <s>We have no evidence whether the intraguild predator (Blepharisma) also changed its foraging to bacteria with productivity as we did not measure the isotopic composition of the ciliates in our experiment.</s>
+          <s>Some of the previous studies reported the lack of a positive correlation between productivity and FCL 12,14,21 , which could be explained by historical contingency masking the productivity effect on FCL.</s>
+          <s>If the adaptive foraging of top predator changed the food web structure along with historical contingency, the predator would maximize the food-web stability according to the expectation by the mathematical model of Kondoh <ref target="#b32" type="bibr">33</ref> .</s>
+          <s>Also, the adaptive foraging of top predator in food web may minimize the destabilizing effects of productivity enrichment in natural habitats <ref target="#b33" type="bibr">34</ref> .</s>
+          <s>We did not directly test such changes <ref target="#b34" type="bibr">35</ref> , but see such analyses as potential future advance to more fundamentally understand the historical contingency effects on food web structure.</s>
+        </p>
+        <p>
+          <s>In conclusion, we obtained evidence from microcosms that FCL varies with historical contingency of community assembly and productivity of system.</s>
+          <s>If these results from a small-scale experimental study prove to be valid in more complex natural systems, these results represent an initial step to understand the lasting impact of food-web assembly on food-web structure in an immigration context.</s>
+        </p>
+      </div>
+      <div>
+        <head>Methods</head>
+        <p>
+          <s>Microcosm experiment.</s>
+          <s>We used a two-way factorial design with four productivity levels and four species-introduction sequences ( <ref target="#tab_1" type="table">Table 1</ref> ) as treatments.</s>
+          <s>Each of the 16 unique treatment combinations (4 productivity levels×4 sequences) was established in five replicates, totaling 80 microcosms.</s>
+        </p>
+        <p>
+          <s>As microcosms, we used 250-mL Pyrex glass flasks, filled with 100 mL of medium.</s>
+          <s>The different productivity levels were established by different concentrations of protozoan pellets (Carolina Biological Supply [CBS], Burlington, NC, USA): 0.1, 0.2, 0.39, and 0.78 g L −1 of protozoan pellets were added to natural spring water (Volvic, from Clairvic Spring, Auvergne Regional Park, France).</s>
+          <s>With regards to the previous microcosm studies <ref target="#b26" type="bibr">27,</ref>
+            <ref target="#b35" type="bibr">36</ref> , we set the weight of protozoan pellets for the gradient of productivity levels.</s>
+          <s>Flasks with medium were autoclaved and then inoculated with the basal producer in the form of four bacteria cultures (Bacillus subtilis, Bacillus cereus, Proteus vulgaris, Serratia marcescens, from CBS).</s>
+        </p>
+        <p>
+          <s>The bacteria were allowed to grow for 7 days before we added the other species in four sequences <ref target="#tab_1" type="table">(Table 1)</ref> .</s>
+          <s>These species comprised two ciliates (Tetrahymena sp., Blepharisma sp.) and a copepod (Cyclops sp.).</s>
+          <s>Tetrahymena is a bacterivore <ref target="#b36" type="bibr">37</ref> and represented the primary consumer <ref target="#fig_0" type="figure">(Fig. 1)</ref> , Blepharisma is an interguild predator able to feed on bacteria and Tetrahymena 38 , and Cyclops was added as top predator feeding on ciliates <ref target="#b38" type="bibr">39</ref> .</s>
+          <s>Also, Cyclops can adaptively alter their diets in experimental</s>
+        </p>
+      </div>
+      <div subtype="dataseer">
+        <head>Species sequences</head>
+        <p>
+          <s>Blepharisma/Tetrahymena <ref type="figure">Fig. 3</ref> The abundance ratio of Blepharisma/Tetrahymena on different productivity from 0.1 to 0.78 and sequence treatments (named in <ref target="#tab_1" type="table">Table 1</ref> , N = 5 for each treatment).</s>
+          <s>The boxes mean ± quartiles with median (point), and the bars indicate ± 1.5× quartiles (N = 5) environments <ref target="#b38" type="bibr">39</ref> .</s>
+          <s>Tetrahymena and Blepharisma were provided by CBS, stocked in separate 250-mL flasks with a pellet-bacteria medium with 0.78 g L −1 of the protozoan pellets.</s>
+          <s>Cyclops copepods were originally collected from an agricultural pond (34°41' 22" N,132°73′ 71″ E, Higashi-Hiroshima, Japan) by towing a 250-µm meshed plankton net, picked up by a pipette under a binocular, and incubated with the above medium with Tetrahymena and 0.78 g pellet L −1 .</s>
+          <s>From the six possible sequences of these three species, we established four sequences <ref target="#tab_1" type="table">(Table 1)</ref> , omitting those where the top predator would be introduced first without suitable food.</s>
+          <s>The first, second, and third species were added in weekly intervals, 7, 14, and 21 days after the bacteria inoculation.</s>
+          <s>We introduced 35 of the copepods and 100 individuals of each ciliate species by using a pipette.</s>
+          <s>For copepods, we filtered the incubated medium by 250-µm mesh and then rinsed with natural spring water to reduce the contamination with the ciliates.</s>
+          <s>By rinsing of the copepods, we can reduce the ciliate contamination.</s>
+          <s>We picked the copepods from the mesh by a pipette and transferred them into microcosms.</s>
+          <s>For ciliates, 0.5 mL of the ciliate stocking cultures were sampled just before inoculation to estimate population densities by a ×400 microscope.</s>
+        </p>
+        <p>
+          <s>The microcosms were run as semicontinuous batch cultures.</s>
+          <s>We renewed 10% of medium once a week, i.e., during each introduction timing.</s>
+          <s>We mixed the microcosms and replaced 10 mL (10%) with fresh medium of the same productivity level <ref target="#b22" type="bibr">23,</ref>
+            <ref target="#b34" type="bibr">35</ref> .</s>
+          <s>During the FCL experiment, all 80 microcosms were situated in an incubator (KCSLPH-1400CT, Nippon Medical &amp; Chemical instruments Co. Ltd., Osaka, Japan) at 20°C with a 12/12 light/dark cycle.</s>
+        </p>
+        <p>
+          <s>Sampling and counting.</s>
+          <s>After day 28 (21 days from first introduction), we collected the copepods.</s>
+          <s>We filtered the medium on a glass filter (GF/F, GE Healthcare) and picked copepods under a binocular.</s>
+          <s>We directly put copepods in predried and preweighted tip cups.</s>
+          <s id="dataset-1" type="Tabular data">The body mass of copepod was determined by weighing the individuals in their tip cup on a high-precision balance (BM-20, A&amp;D, Tokyo, Japan).</s>
+        </p>
+        <p>
+          <s>The isotope samples of protozoan pellet and the tip cup with copepods were dried at 60°C for 24 h and stored in a desiccator.</s>
+          <s>The 0.5 mL of medium was collected for estimating population density of the ciliate species.</s>
+          <s id="dataset-2" type="Image:Microscopy">The medium was fixed by 2% acidic Lugol's solution, and population density was counted at ×400 magnification using a Leitz DMIL microscope.</s>
+        </p>
+        <p>
+          <s>Stable isotope analysis.</s>
+          <s id="dataset-3" type="Tabular data">The nitrogen stable isotope (δ 15 N) of the samples were determined using a PDZ Europa ANCA-GSL elemental analyzer interfaced to a PDZ Europa 20-20 isotope ratio mass spectrometer (Sercon, Cheshire, UK) at Stable Isotope Facility of the University of California Davis.</s>
+          <s>Nitrogen isotopic data are reported using the conventional δ notation, where δ 15 N = ( 15 N/ 14 N sample / 15 N/ 14 N standard − 1) × 1000 (‰).</s>
+          <s>Air N 2 were used as international standard for δ 15 N. We did not measure the δ 13 C of the samples due to limited sample mass.</s>
+        </p>
+        <p>
+          <s>Calculation of FCL.</s>
+          <s>FCL is defined as the trophic position of the top predator (copepod) in each microcosm.</s>
+          <s>We assumed a trophic fractionation value of 3.4‰ to calculate FCL based on previous studies on food webs and FCLs <ref target="#b21" type="bibr">22,</ref>
+            <ref target="#b39" type="bibr">40</ref> .</s>
+          <s>The value has widely been used for FCL studies on metazoans, and also the trophic enrichment of ciliate was close to this general enrichment value (Supplementary Information, 3.6-3.7‰).</s>
+          <s>Consequently, FCL was calculated as 2 þ δ 15 N copepod À mean δ 15 N pellet 3:4</s>
+        </p>
+        <p>
+          <s>where, the mean δ 15 N pellet was −2.54 ± 0.3‰ (Supplementary Information, n = 6, mean ± 1 SD).</s>
+        </p>
+        <p>
+          <s id="dataset-4" type="Tabular data">Before the experiment, we tested the isotope turnover time for copepods by comparing samples 7 and 14 days after introducing the copepod to the same mixture of ciliates and bacteria.</s>
+          <s>As the result, the nitrogen stable isotope values saturated at days 7 and 14 after introduction (see <ref type="figure">Supplementary Information)</ref> , similar to the previous study using small invertebrates <ref target="#b40" type="bibr">[41]</ref>
+            <ref target="#b41" type="bibr">[42]</ref>
+            <ref target="#b42" type="bibr">[43]</ref>
+            <ref target="#b43" type="bibr">[44]</ref> .</s>
+          <s>From a model for the relationships between half-life days of isotope turnover and invertebrate body size, which was provided by a meta-analysis <ref target="#b44" type="bibr">45</ref> , the isotopic half-life for the copepods can be predicted to be 2.21 ± 0.39 days (mean ± 95% confidence interval, see <ref type="figure">Supplementary Information)</ref> .</s>
+          <s>Thus, by this calculation, the isotopic turnover time of the copepod is fast enough to calculate the trophic position (i.e., FCL of the system) after 7 days (see the result of supplemental experiments in the <ref type="figure">Supplementary Information, Supplementary Figs. 4-8)</ref> .</s>
+          <s>Simple time-dependent differences in the copepods' isotope values are not expected to alter the FCL data from the speciessequencing experiment.</s>
+          <s>Also, we used the same population of copepods for this study, thus, we do not expect isotope differences in initial copepods.</s>
+        </p>
+        <p>
+          <s>Statistical analysis.</s>
+          <s>We performed GLMs for evaluating the effects of colonization sequence and productivity on FCL, the abundance/biomass of the different species, and the ratio of Blepharisma/Tetrahymena.</s>
+          <s>The error distribution was set as Gaussian distribution in general but negative binomial for the ratio of Blepharisma/Tetrahymena.</s>
+          <s>To detect significant differences between treatment levels, we performed Turkey multiple comparisons for significant treatments.</s>
+          <s>Statistical significance was set at α = 0.05, and all analyses were performed using R 3.3.1 46 with ggplot2 and glm packages for graphics and GLMs, respectively.</s>
+          <s>All the data are available in Dryad (https://doi.org/10.5061/dryad.2m9r762).</s>
+        </p>
+      </div>
+      <div>
+        <head>Data availability</head>
+        <p>
+          <s>All data, including the abundance of species and FCL in this study, are available via the Dryad Digital Repository (https://doi.org/10.5061/dryad.2m9r762).</s>
+        </p>
+        <p>
+          <s>Received: 18 June 2018 Accepted: 27 December 2018</s>
+        </p>
+      </div>
+      <figure xml:id="fig_0">
+        <head>Fig. 1</head>
+        <label>1</label>
+        <figDesc>Fig. 1 Illustration for the food webs in the microcosm experiment. The letters (B, T, and C) indicate Tetrahymena sp., Blepharisma sp., and Cyclops sp., respectively. The arrows indicate link of food web with regard to our preliminary experiments and previous studies</figDesc>
+      </figure>
+      <figure xml:id="fig_1">
+        <head>Fig. 2</head>
+        <label>2</label>
+        <figDesc>Fig. 2 The food-chain lengths (FCLs) with different sequence treatments (named in Table 1) and productivity from 0.1 to 0.78 g pellet L −1 (N = 5 for each treatment). The boxes indicate ± 25% quartiles with the median (bar), and the bars indicate ± 1.5× quartiles. The points are outliers</figDesc>
+      </figure>
+      <figure type="table" validated="false" xml:id="tab_0">
+        <head/>
+        <label/>
+        <figDesc>and 2, Supplementary Table 1). The abundance of Tetrahymena was not different between the</figDesc>
+        <table/>
+      </figure>
+      <figure type="table" validated="true" xml:id="tab_1">
+        <head>Table 1</head>
+        <label>1</label>
+        <figDesc>The introduction sequences for the FCL experiments</figDesc>
+        <table>Treatment name 
+First sequence 
+Second sequence 
+Third sequence 
+BCT 
+Blepharisma (B) 
+Cyclops copepod (C) 
+Tetrahymena (T) 
+TCB 
+Tetrahymena (T) 
+Cyclops copepod (C) 
+Blepharisma (B) 
+BTC 
+Blepharisma (B) 
+Tetrahymena (T) 
+Cyclops copepod (C) 
+TBC 
+Tetrahymena (T) 
+Blepharisma (B) 
+Cyclops copepod (C) 
+
+0.1 
+0.2 
+0.39 
+0.78 
+
+</table>
+      </figure>
+      <figure type="table" validated="false" xml:id="tab_2">
+        <head>Table 2</head>
+        <label>2</label>
+        <figDesc>copepod, whether it fed on Tetrahymena or Blepharisma, would then have a trophic level of~3.</figDesc>
+        <table>Results of GLM for sequence (BCT, TCB, BTC, and 
+TBC) and productivity (0.1, 0.2, 0.39, and 0.78 g L −1 of 
+protozoan pellets) effects on FCLs 
+
+Factors 
+t Value 
+p Value 
+Comparisons 
+Sequence 
+2.05 
+0.045 
+0.1, 0.2, 0.39: BTC &gt; 
+TBC &gt; TCB = BCT 
+0.78: BTC &gt; TBC = 
+TCB = BCT 
+Productivity 
+-2.85 
+0.006 
+0.78 &lt; 0.1, 0.2, 0.39 
+Sequence×productivity 
+-1.26 
+0.212 
+
+The comparisons means significant difference (α = 0.05) by Turkey multiple comparisons 
+among the treatments </table>
+      </figure>
+      <note place="foot">© The Author(s) 2019</note>
+    </body>
+    <back>
+      <div type="acknowledgement">
+        <div>
+          <head>Acknowledgements</head>
+          <p>
+            <s>We thank Stefanie Moorthi, Izumi Katano, and Teruhiko Takahara, who supported the experimental set-up; Maren Striebel, Michio Kondoh, and Naoto F. Ishikawa, who commented on an earlier draft of the manuscript, and Mariko Nagano, who drew the illustrations in <ref type="figure">Fig. 1</ref> .</s>
+            <s>This research was supported by a grant from the Japan Society for the Promotion of Science to H.D.</s>
+          </p>
+        </div>
+      </div>
+      <div type="annex">
+        <div>
+          <head>Additional information</head>
+          <p>
+            <s>Supplementary information accompanies this paper at https://doi.org/10.1038/s42003-019-0287-8.</s>
+          </p>
+          <p>
+            <s>Competing interests: The authors declare no competing interests.</s>
+          </p>
+          <p>
+            <s>Reprints and permission information is available online at http://npg.nature.com/</s>
+            <s>reprintsandpermissions/ Publisher's note: Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.</s>
+          </p>
+          <p>
+            <s>Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made.</s>
+            <s>The images or other third party material in this article are included in the article's Creative Commons license, unless indicated otherwise in a credit line to the material.</s>
+            <s>If material is not included in the article's Creative Commons license and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder.</s>
+            <s>To view a copy of this license, visit http://creativecommons.org/ licenses/by/4.0/.</s>
+          </p>
+        </div>
+      </div>
+      <div type="references">
+        <listBibl>
+          <biblStruct xml:id="b0">
+            <analytic>
+              <title/>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <surname>Elton</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Animal Ecology (Sidgwick and Jackson</title>
+              <imprint>
+                <date type="published" when="1927"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b1">
+            <monogr>
+              <title/>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Pimm</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Web</surname>
+                </persName>
+              </author>
+              <imprint>
+                <date type="published" when="1982"/>
+                <publisher>Chapman and Hall</publisher>
+                <pubPlace>London</pubPlace>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b2">
+            <analytic>
+              <title level="a" type="main">Food webs from the small to the large</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <forename type="middle">W</forename>
+                  <surname>Schoener</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecology</title>
+              <imprint>
+                <biblScope unit="volume">70</biblScope>
+                <biblScope from="1559" to="1589" unit="page"/>
+                <date type="published" when="1989"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b3">
+            <analytic>
+              <title level="a" type="main">The number of trophic levels in ecological communities</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Pimm</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Lawton</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature</title>
+              <imprint>
+                <biblScope unit="volume">275</biblScope>
+                <biblScope from="542" to="544" unit="page"/>
+                <date type="published" when="1977"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b4">
+            <analytic>
+              <title level="a" type="main">Food-web dynamics in a large river discontinuum</title>
+              <author>
+                <persName>
+                  <forename type="first">W</forename>
+                  <forename type="middle">F</forename>
+                  <surname>Cross</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecol. Monogr</title>
+              <imprint>
+                <biblScope unit="volume">83</biblScope>
+                <biblScope from="311" to="337" unit="page"/>
+                <date type="published" when="2013"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b5">
+            <analytic>
+              <title level="a" type="main">Influence of food web structure on carbon exchange between lakes and the atmosphere</title>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">E</forename>
+                  <surname>Schindler</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">R</forename>
+                  <surname>Carpenter</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Cole</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">F</forename>
+                  <surname>Kitchell</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Pace</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Science</title>
+              <imprint>
+                <biblScope unit="volume">277</biblScope>
+                <biblScope from="248" to="251" unit="page"/>
+                <date type="published" when="1997"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b6">
+            <analytic>
+              <title level="a" type="main">Transfer, distribution and bioaccumulation of microcystins in the aquatic food web in Lake Taihu, China, with potential risks to human health</title>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <surname>Zhang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <surname>Xie</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <surname>Liu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Qiu</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Sci. Total Env</title>
+              <imprint>
+                <biblScope unit="volume">407</biblScope>
+                <biblScope from="2191" to="2199" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b7">
+            <analytic>
+              <title level="a" type="main">Trophic position and metabolic rate predict the long-term decay process of radioactive cesium in fish: a metaanalysis</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Doi</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Takahara</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Tanaka</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">PLoS ONE</title>
+              <imprint>
+                <biblScope unit="volume">7</biblScope>
+                <biblScope unit="page">29295</biblScope>
+                <date type="published" when="2012"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b8">
+            <analytic>
+              <title level="a" type="main">Community area and food-chain length: theoretical predictions</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">E</forename>
+                  <surname>Cohen</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Newman</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Am. Nat</title>
+              <imprint>
+                <biblScope unit="volume">138</biblScope>
+                <biblScope from="1542" to="1554" unit="page"/>
+                <date type="published" when="1992"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b9">
+            <analytic>
+              <title level="a" type="main">Productivity, disturbance and food web structure at a local spatial scale in experimental container habitats</title>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <surname>Jenkins</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Kitching</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Pimm</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Oikos</title>
+              <imprint>
+                <biblScope unit="volume">65</biblScope>
+                <biblScope from="249" to="255" unit="page"/>
+                <date type="published" when="1992"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b10">
+            <analytic>
+              <title level="a" type="main">Energy in animal ecology</title>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <forename type="middle">B</forename>
+                  <surname>Slobodkin</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Adv. Ecol. Res</title>
+              <imprint>
+                <biblScope unit="volume">1</biblScope>
+                <biblScope from="69" to="101" unit="page"/>
+                <date type="published" when="1962"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b11">
+            <analytic>
+              <title level="a" type="main">Ecosystem size determines foodchain length in lakes</title>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Post</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Pace</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">N</forename>
+                  <forename type="middle">G</forename>
+                  <surname>Hairston</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature</title>
+              <imprint>
+                <biblScope unit="volume">405</biblScope>
+                <biblScope from="1047" to="1049" unit="page"/>
+                <date type="published" when="2000"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b12">
+            <analytic>
+              <title level="a" type="main">Environmental determinants of food-chain length: a meta-analysis</title>
+              <author>
+                <persName>
+                  <forename type="first">G</forename>
+                  <surname>Takimoto</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Post</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecol. Res</title>
+              <imprint>
+                <biblScope unit="volume">28</biblScope>
+                <biblScope from="675" to="681" unit="page"/>
+                <date type="published" when="2013"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b13">
+            <analytic>
+              <title level="a" type="main">Food chains in freshwaters</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">L</forename>
+                  <surname>Sabo</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">C</forename>
+                  <surname>Finlay</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Post</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ann. NY Acad. Sci</title>
+              <imprint>
+                <biblScope unit="volume">1162</biblScope>
+                <biblScope from="187" to="220" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b14">
+            <analytic>
+              <title level="a" type="main">Food-chain length and adaptive foraging</title>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Kondoh</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Ninomiya</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Proc. R. Soc. B</title>
+              <imprint>
+                <biblScope unit="volume">276</biblScope>
+                <biblScope from="3113" to="3121" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b15">
+            <analytic>
+              <title level="a" type="main">The long and short of food-chain length</title>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Post</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Trends Ecol. Evol</title>
+              <imprint>
+                <biblScope unit="volume">17</biblScope>
+                <biblScope from="269" to="277" unit="page"/>
+                <date type="published" when="2002"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b16">
+            <analytic>
+              <title level="a" type="main">Food-web connectance and predator interference dampen the paradox of enrichment</title>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <surname>Rall</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <surname>Guill</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">U</forename>
+                  <surname>Brose</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Oikos</title>
+              <imprint>
+                <biblScope unit="volume">117</biblScope>
+                <biblScope from="202" to="213" unit="page"/>
+                <date type="published" when="2008"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b17">
+            <analytic>
+              <title level="a" type="main">The stability of ecosystems: a brief overview of the paradox of enrichment</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Roy</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <surname>Chattopadhyay</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Biosci</title>
+              <imprint>
+                <biblScope unit="volume">32</biblScope>
+                <biblScope from="421" to="428" unit="page"/>
+                <date type="published" when="2007"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b18">
+            <analytic>
+              <title level="a" type="main">Resource availability and ecosystem size predict food-chain lengths in pond ecosystems</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Doi</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Oikos</title>
+              <imprint>
+                <biblScope unit="volume">118</biblScope>
+                <biblScope from="138" to="144" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b19">
+            <analytic>
+              <title level="a" type="main">The roles of productivity and ecosystem size in determining food chain length in tropical terrestrial ecosystems</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <forename type="middle">S</forename>
+                  <surname>Young</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecology</title>
+              <imprint>
+                <biblScope unit="volume">94</biblScope>
+                <biblScope from="692" to="701" unit="page"/>
+                <date type="published" when="2013"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b20">
+            <analytic>
+              <title level="a" type="main">Dual influences of ecosystem size and disturbance on food chain length in streams</title>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Mchugh</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <forename type="middle">R</forename>
+                  <surname>Mcintosh</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <forename type="middle">G</forename>
+                  <surname>Jellyman</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecol. Lett</title>
+              <imprint>
+                <biblScope unit="volume">13</biblScope>
+                <biblScope from="881" to="890" unit="page"/>
+                <date type="published" when="2010"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b21">
+            <analytic>
+              <title level="a" type="main">Using stable isotopes to estimate trophic position: models, methods, and assumptions</title>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Post</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecology</title>
+              <imprint>
+                <biblScope unit="volume">83</biblScope>
+                <biblScope from="703" to="718" unit="page"/>
+                <date type="published" when="2002"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b22">
+            <analytic>
+              <title level="a" type="main">Shorter food chain length in ancient lakes: evidence from a global synthesis</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Doi</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Vander Zanden</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Hillebrand</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">PLoS ONE</title>
+              <imprint>
+                <biblScope unit="volume">7</biblScope>
+                <biblScope unit="page">37856</biblScope>
+                <date type="published" when="2012"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b23">
+            <analytic>
+              <title level="a" type="main">Historical contingency in community assembly: integrating niches, species pools, and priority effects</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Fukami</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Annu. Rev. Ecol. Evol. Syst</title>
+              <imprint>
+                <biblScope unit="volume">46</biblScope>
+                <biblScope from="1" to="23" unit="page"/>
+                <date type="published" when="2015"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b24">
+            <analytic>
+              <title level="a" type="main">Immigration history controls diversification in experimental adaptive radiation</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Fukami</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Beaumont</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">X</forename>
+                  <surname>Zhang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <forename type="middle">B</forename>
+                  <surname>Rainey</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature</title>
+              <imprint>
+                <biblScope unit="volume">446</biblScope>
+                <biblScope from="436" to="439" unit="page"/>
+                <date type="published" when="2007"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b25">
+            <analytic>
+              <title level="a" type="main">Assembly history dictates ecosystem functioning: evidence from wood decomposer communities</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Fukami</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecol. Lett</title>
+              <imprint>
+                <biblScope unit="volume">13</biblScope>
+                <biblScope from="675" to="684" unit="page"/>
+                <date type="published" when="2010"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b26">
+            <analytic>
+              <title level="a" type="main">Productivity-biodiversity relationships depend on the history of community assembly</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Fukami</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Morin</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature</title>
+              <imprint>
+                <biblScope unit="volume">424</biblScope>
+                <biblScope from="423" to="426" unit="page"/>
+                <date type="published" when="2003"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b27">
+            <analytic>
+              <title level="a" type="main">Community history affects the predictability of microbial ecosystem development</title>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Pagaling</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">ISME J</title>
+              <imprint>
+                <biblScope unit="volume">8</biblScope>
+                <biblScope from="19" to="30" unit="page"/>
+                <date type="published" when="2014"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b28">
+            <analytic>
+              <title level="a" type="main">Species phylogenetic relatedness, priority effects, and ecosystem functioning</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <surname>Tan</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Z</forename>
+                  <surname>Pu</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">W</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Ryberg</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>Jiang</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecology</title>
+              <imprint>
+                <biblScope unit="volume">93</biblScope>
+                <biblScope from="1164" to="1172" unit="page"/>
+                <date type="published" when="2012"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b29">
+            <analytic>
+              <title level="a" type="main">Big answers from small worlds: a user's guide for protist microcosms as a model system in ecology and evolution</title>
+              <author>
+                <persName>
+                  <forename type="first">F</forename>
+                  <surname>Altermatt</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Methods Ecol. Evol</title>
+              <imprint>
+                <biblScope unit="volume">6</biblScope>
+                <biblScope from="218" to="231" unit="page"/>
+                <date type="published" when="2015"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b30">
+            <analytic>
+              <title level="a" type="main">Applying stable isotopes to examine food-web structure: an overview of analytical tools</title>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Layman</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Biol. Rev</title>
+              <imprint>
+                <biblScope unit="volume">87</biblScope>
+                <biblScope from="545" to="562" unit="page"/>
+                <date type="published" when="2012"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b31">
+            <analytic>
+              <title level="a" type="main">A theoretical framework for intraguild predation</title>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <forename type="middle">D</forename>
+                  <surname>Holt</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">G</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Polis</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Am. Nat</title>
+              <imprint>
+                <biblScope unit="volume">149</biblScope>
+                <biblScope from="745" to="764" unit="page"/>
+                <date type="published" when="1997"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b32">
+            <analytic>
+              <title level="a" type="main">Foraging adaptation and the relationship between food-web complexity and stability</title>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Kondoh</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Science</title>
+              <imprint>
+                <biblScope unit="volume">299</biblScope>
+                <biblScope from="1388" to="1391" unit="page"/>
+                <date type="published" when="2003"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b33">
+            <analytic>
+              <title level="a" type="main">Reconciling complexity with stability in naturally assembling food webs</title>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Neutel</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature</title>
+              <imprint>
+                <biblScope unit="volume">449</biblScope>
+                <biblScope unit="page">599</biblScope>
+                <date type="published" when="2007"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b34">
+            <analytic>
+              <title level="a" type="main">Assembly history interacts with ecosystem size to influence species diversity</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Fukami</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecology</title>
+              <imprint>
+                <biblScope unit="volume">85</biblScope>
+                <biblScope from="3234" to="3242" unit="page"/>
+                <date type="published" when="2004"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b35">
+            <analytic>
+              <title level="a" type="main">Productivity gradients cause positive diversity-invasibility relationships in microbial communities</title>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>Jiang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Morin</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecol. Lett</title>
+              <imprint>
+                <biblScope unit="volume">7</biblScope>
+                <biblScope from="1047" to="1057" unit="page"/>
+                <date type="published" when="2004"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b36">
+            <analytic>
+              <title level="a" type="main">Shiga toxin as a bacterial defense against a eukaryotic predator Tetrahymena thermophila</title>
+              <author>
+                <persName>
+                  <forename type="first">W</forename>
+                  <surname>Lainhart</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">G</forename>
+                  <surname>Stolfa</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">G</forename>
+                  <forename type="middle">B</forename>
+                  <surname>Koudelka</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Bacteriol</title>
+              <imprint>
+                <biblScope unit="volume">191</biblScope>
+                <biblScope from="5116" to="5122" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b37">
+            <analytic>
+              <title level="a" type="main">Intraguild prey suffer from enrichment of their resources: a microcosm experiment with ciliates</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Diehl</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Feissel</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Ecology</title>
+              <imprint>
+                <biblScope unit="volume">82</biblScope>
+                <biblScope from="2977" to="2983" unit="page"/>
+                <date type="published" when="2001"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b38">
+            <analytic>
+              <title level="a" type="main">Cyclops predation on ciliates: species. specific differences and functional responses</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Wickham</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Plankton Res</title>
+              <imprint>
+                <biblScope unit="volume">17</biblScope>
+                <biblScope from="1633" to="1646" unit="page"/>
+                <date type="published" when="1995"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b39">
+            <analytic>
+              <title level="a" type="main">Variation in δ 15 N and δ 13 C trophic fractionation: implications for aquatic food web studies</title>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Vander Zanden</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">B</forename>
+                  <surname>Rasmussen</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Limnol. Oceanogr</title>
+              <imprint>
+                <biblScope unit="volume">46</biblScope>
+                <biblScope from="2061" to="2066" unit="page"/>
+                <date type="published" when="2001"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b40">
+            <analytic>
+              <title level="a" type="main">Changes in carbon and nitrogen stable isotopes of chironomid larvae during growth, starvation and metamorphosis</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Doi</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Kikuchi</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Takagi</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Shikano</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Rapid Commun. Mass Spec</title>
+              <imprint>
+                <biblScope unit="volume">21</biblScope>
+                <biblScope from="997" to="1002" unit="page"/>
+                <date type="published" when="2007"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b41">
+            <analytic>
+              <title level="a" type="main">Natural stable isotopes as indicators of the relative contribution of soy protein and fish meal to tissue growth in Pacific white shrimp (Litopenaeus vannamei) fed compound diets</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <surname>Gamboa-Delgado</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>Le Vay</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Aquaculture</title>
+              <imprint>
+                <biblScope unit="volume">291</biblScope>
+                <biblScope from="115" to="123" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b42">
+            <analytic>
+              <title level="a" type="main">Contrasting effects of nitrogen limitation and amino acid imbalance on carbon and nitrogen turnover in three species of Collembola</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Larsen</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Soil Biol. Biochem</title>
+              <imprint>
+                <biblScope unit="volume">43</biblScope>
+                <biblScope from="749" to="759" unit="page"/>
+                <date type="published" when="2011"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b43">
+            <analytic>
+              <title level="a" type="main">Fractionation and metabolic turnover of carbon and nitrogen stable isotopes in black fly larvae</title>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">P</forename>
+                  <surname>Overmyer</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Macneil</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <forename type="middle">T</forename>
+                  <surname>Fisk</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Rapid Commun. Mass Spec</title>
+              <imprint>
+                <biblScope unit="volume">22</biblScope>
+                <biblScope from="694" to="700" unit="page"/>
+                <date type="published" when="2008"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b44">
+            <analytic>
+              <title level="a" type="main">Stable isotope turnover and half-life in animal tissues: a literature synthesis</title>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Vander Zanden</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">K</forename>
+                  <surname>Clayton</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <forename type="middle">K</forename>
+                  <surname>Moody</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">T</forename>
+                  <surname>Solomon</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <forename type="middle">C</forename>
+                  <surname>Weidel</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">PLoS ONE</title>
+              <imprint>
+                <biblScope unit="volume">10</biblScope>
+                <biblScope unit="page">116182</biblScope>
+                <date type="published" when="2015"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b45">
+            <monogr>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <surname>Core</surname>
+                </persName>
+              </author>
+              <title level="m">Team. R: A Language and Environment for Statistical Computing (R Foundation for Statistical Computing</title>
+              <meeting>
+                <address>
+                  <addrLine>Vienna</addrLine>
+                </address>
+              </meeting>
+              <imprint>
+                <date type="published" when="2017"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+        </listBibl>
+      </div>
+    </back>
+  </text>
+</TEI>

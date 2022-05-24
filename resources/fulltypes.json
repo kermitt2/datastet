@@ -1,0 +1,116 @@
+{
+    "Dataset":  {
+                    "Existing dataset": [], 
+                    "Systematic Review": []
+                },
+    "Electromyography": {},
+    "Electrooculography": {},
+    "Image":    {
+                    "Microscopy": [], 
+                    "Electrophoresis": [], 
+                    "Tomography, X-Ray Computed": [], 
+                    "Ultrasonography": [], 
+                    "Computerized Tomography scan": [], 
+                    "Magnetic Resonance Imaging":   [
+                                                        "Functional MRI"
+                                                    ], 
+                    "Photography": [], 
+                    "Tomography, Optical Coherence": [], 
+                    "Radiography": [], 
+                    "Diagnostic Imaging": []
+                },
+    "Densitometry": {},
+    "Spectrum Analysis": {},
+    "Real-Time Polymerase Chain Reaction": {},
+    "Spirometry data": {},
+    "X-Ray fluorescence data": {},
+    "Spectrometry":     {
+                            "Spectrum Analysis, Raman": [], 
+                            "Spectrophotometry": [], 
+                            "Spectrometry, Fluorescence": [], 
+                            "Spectropolarimeter data": [], 
+                            "Spectrometry, Ion Mobility": [], 
+                            "Spectroscopy, Fourier Transform Infrared": [], 
+                            "Nuclear Magnetic Resonance, Biomolecular": [], 
+                            "Spectrophotometry, Atomic": [], 
+                            "Spectrometry, X-Ray Emission": [], 
+                            "Spectroscopy, Photon Correlation": [], 
+                            "X-Ray Absorption Spectroscopy": [], 
+                            "Spectrometry, Force": [], 
+                            "Spectrometry, Time Domain": []
+                        },
+    "Mass Spectrometry":    {
+                                "Liquid Chromatography-Mass Spectrometry": [], 
+                                "Gas Chromatography-Mass Spectrometry": [], 
+                                "Spectrometry, Mass, Matrix-Assisted Laser Desorption-Ionization": [], 
+                                "Thermal ionization": []
+                            },
+    "Electroretinography": {},
+    "Angiography": {},
+    "Sound data":   {
+                        "Interview": []
+                    },
+    "Coulombimetry data": {},
+    "Voltammetry data": {},
+    "Emission flame photometry": {},
+    "X-Ray Diffraction data": {},
+    "Electrophysiology": {},
+    "Protein Data":     {
+                            "Proteome": [], 
+                            "Molecular Sequence Annotation": [], 
+                            "Sequence Alignment": []
+                        },
+    "Genetic Data":     {
+                            "Sequence Alignment": [], 
+                            "Molecular Sequence Annotation": [], 
+                            "DNA Packaging": [], 
+                            "Microarray Analysis": [], 
+                            "Read Counts": [], 
+                            "Polymorphism, Single Nucleotide": [], 
+                            "Metagenome:Feature table": [], 
+                            "Sequence Analysis":    [
+                                                        "Sanger"
+                                                    ], 
+                            "Genotype": [], 
+                            "Assembly": [], 
+                            "Amplified Fragment Length Polymorphism Analysis": [], 
+                            "Microsatellite Repeats": [], 
+                            "High-Throughput Nucleotide Sequencing":    [
+                                                                            "HiSeq",
+                                                                            "NextSeq",
+                                                                            "MassARRAY",
+                                                                            "Genome Analyzer",
+                                                                            "BGI",
+                                                                            "TruSeq",
+                                                                            "PacBio",
+                                                                            "Ion Torrent",
+                                                                            "454",
+                                                                            "MinION"
+                                                                        ]
+                        },
+    "Tabular data":     {
+                            "Sampling Studies": [], 
+                            "Assay": [], 
+                            "Research Subjects": [], 
+                            "Fluorometry": [], 
+                            "Immunoassay": [], 
+                            "Surveys and Questionnaires": []
+                        },
+    "Electrocardiograph": {},
+    "Electroencephalogram": {},
+    "Video Recording": {},
+    "Chromatography":   {
+                            "Chromatography, Gas": [], 
+                            "Chromatography, Ion Exchange": [], 
+                            "Flame Ionization": [], 
+                            "Chromatography, High Pressure Liquid": [], 
+                            "Chromatography, Thin Layer": [], 
+                            "Chromatography, Flash Column": [], 
+                            "Chromatography, Gel": [], 
+                            "Affinity": [], 
+                            "Chromatography, Liquid": []
+                        },
+    "Flow cytometry": {},
+    "Calorimetry": {},
+    "Digital Droplet PCR": {}
+}

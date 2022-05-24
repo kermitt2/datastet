@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+  <display-name>Dataseer ML web service - RESTful services for dataset identification and classification</display-name>
+
+    <servlet>
+        <servlet-name>dataseer-service</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
+            <param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value>
+        </init-param>
+        <init-param>
+          <param-name>com.sun.jersey.config.property.packages</param-name>
+          <param-value>org.grobid.service</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!--servlet>
+        <servlet-name>defaultStatic</servlet-name>
+        <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet-->
+
+    <servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/isalive</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/processDataseerSentence</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/processDataseerTEI</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/processDataseerJATS</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/processDataseerPDF</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/annotateDataseerPDF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/jsonDataTypes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/resyncJsonDataTypes</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dataseer-service</servlet-name>
+        <url-pattern>/service/*</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>dataseer/index.html</welcome-file>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/classes/log4j.properties</param-value>
+    </context-param>
+
+</web-app>

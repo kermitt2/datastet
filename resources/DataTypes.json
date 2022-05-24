@@ -1,0 +1,684 @@
+{
+    "systematic review": {
+        "mesh_id": "D000078182",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:dataset%3Asystematic_review",
+        "most_suitable_repositories": "Many repositories are suitable for systematic review data. [[https://srdr.ahrq.gov/home/index/|The Systematic Review Data Repository]] provides a repository for data specific to this study type. As well, your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+        "description": "A review of primary literature in health and health policy that attempts to identify, appraise, and synthesize all the empirical evidence that meets specified eligibility criteria to answer a given research question. Its conduct uses explicit methods aimed at minimizing bias in order to produce more reliable findings regarding the effects of interventions for prevention, treatment, and rehabilitation that can be used to inform decision making.",
+        "count": 27,
+        "label": "Systematic Review",
+        "best_practice": "Data extraction forms with all data points, along with supporting documentation and script from statistical analysis (if meta-analysis is included) should be made available."
+    },
+    "dataset re-use": {
+        "mesh_id": "D064886",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:dataset_reuse",
+        "most_suitable_repositories": "Not applicable",
+        "description": "Works consisting of organized collections of data, which have been stored permanently in a formalized manner suitable for communication, interpretation, or processing.",
+        "count": 0,
+        "label": "Dataset Re-use",
+        "best_practice": "Generally these data are already publicly available or available to appropriately vetted users. For access-controlled data authors should provide a link to instructions for obtaining access (e.g. here is the information page for ADNI (Alzheimer's Disease Neuroimaging Initiative): http://adni.loni.usc.edu/data-samples/access-data/)."
+    },
+    "tabular data": {
+        "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:tabular_data",
+        "label": "Tabular Data",
+        "description": "Tabular data consist of a table with rows and columns. Each cell of the table contains numbers or text. A sample table contains data about one or more entities gathered during a research project. These entities might be biological organisms, soil samples, ceramic dishes, or human organs.",
+        "count": 7947,
+        "sample table": {
+            "count": 366,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Tabular%20data%3ASampling%20Studies",
+            "label": "Sample Table",
+            "description": "A table describing the collection of samples, including times, dates, locations, and all other information collected about each sample.",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+            "best_practice": "A very thorough data dictionary is needed to accompany the data set to explain any data coding, categories, or other calculations. Column headings should describe the content of each column and contain only numbers, letters, and underscores \u2013 no spaces, or special characters. Lowercase letters are preferred. Row names should be consistent with those used in the article and in other related datasets."
+        },
+        "subject data table": {
+            "count": 1630,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Tabular%20data%3AResearch%20Subjects",
+            "label": "Subject Data Table",
+            "description": "Clinical and/or demographic data at an individual participant level that is either a stand-alone dataset, or is associated with another method of data collection (eg. genomics). Data are usually kept in tabular databases, eg in Excel or in a text file format (.csv.)",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+            "best_practice": "There are many considerations when sharing human clinical or demographic data. Of primary concern are issues around consent and identifiability. Ideally, consent for data sharing is obtained from participants before data collection occurs. If the study design does not involve consenting new participants, then ethics board approval needs to be sought with respect to sharing data without consent. Careful de-identification (removal of personally identifying data such as birthdates) and/or anonymization needs to happen prior to sharing or deposition in a repository. Consultation with your ethics review board is required to determine what level of de-identification or anonymization is needed in your specific case. However, here are some basic guidelines (from https://irb.ucsf.edu/definitions#18) for data from the USA, although these are likely applicable in other jurisdictions:"
+        },
+        "best_practice": "Tabular data should be saved as a .txt or .csv file. The first row(s) should contain information about the dataset, such as the data file name, author, today's date, when the data within the file were last modified, and companion file names. Please also state which symbol has been used to denote missing data (NA is preferred). Column headings should describe the content of each column and contain only numbers, letters, and underscores - no spaces or special characters. Lowercase letters are preferred. Row names should be consistent with those used in the article and in other related datasets. You can check the formatting of tables with goodtables.io.",
+        "immunoassay": {
+            "mesh_id": "D007118",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Tabular%20data%3AImmunoassay",
+            "label": "Immunoassay",
+            "description": "A technique using antibodies for identifying or quantifying a substance. Usually the substance being studied serves as antigen both in antibody production and in measurement of antibody by the test substance.",
+            "count": 181,
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices."
+        },
+        "assay": {
+            "count": 706,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Tabular%20data%3AAssay",
+            "label": "Assay",
+            "description": "A fairly simple biochemical test to quantify the presence or amount of a molecule of interest.",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+            "best_practice": "Tabular data containing the data collected during the assay. If a gel was used for separation of molecules of interest, a photo of the gel should be provided"
+        },
+        "fluorometry": {
+            "count": 165,
+            "mesh_id": "D005470",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Tabular%20data%3AFluorometry",
+            "label": "Fluorometry",
+            "description": "An analytical method for detecting and measuring fluorescence in compounds or targets such as cells, proteins, or nucleotides, or targets previously labeled with fluorescence agents."
+        },
+        "surveys and questionnaires": {
+            "mesh_id": "D011795",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Tabular%20data%3ASurveys%20and%20Questionnaires",
+            "most_suitable_repositories": "Many repositories host surveys and questionnaires; some are field or discipline specific, while others are more general. See [[https://www.re3data.org|re3data.org]] for a complete listing. As well, your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+            "description": "Collections of data obtained from voluntary subjects. The information usually takes the form of answers to questions, or suggestions.",
+            "count": 16,
+            "label": "Surveys and Questionnaires",
+            "best_practice": "Online survey tools typically export to .csv (or Microsoft Excel that can be saved as a .csv file). Column headings should describe the content of each column and contain only numbers, letters, and underscores \u2013 no spaces, or special characters. Lowercase letters are preferred. Row names should be consistent with those used in the article and in other related datasets."
+        }
+    },
+    "electromyography": {
+        "count": 11,
+        "mesh_id": "D004576",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:electromyography",
+        "label": "Electromyography",
+        "description": "Recording of the changes in electric potential of muscle by means of surface or needle electrodes."
+    },
+    "coulombimetry": {
+        "count": 0,
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:coulombimetry_data",
+        "label": "Coulombimetry"
+    },
+    "flow cytometry": {
+        "mesh_id": "D005434",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:flow_cytometry",
+        "most_suitable_repositories": "Flow cytometry data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+        "description": "Technique using an instrument system for making, processing, and displaying one or more measurements on individual cells obtained from a cell suspension. Cells are usually stained with one or more fluorescent dyes specific to cell components of interest, e.g., DNA, and fluorescence of each cell is measured as it rapidly transverses the excitation beam (laser or mercury arc lamp). Fluorescence provides a quantitative measure of various biochemical and biophysical properties of the cell, as well as a basis for cell sorting. Other measurable optical parameters include light absorption and light scattering, the latter being applicable to the measurement of cell size, shape, density, granularity, and stain uptake.",
+        "count": 208,
+        "label": "Flow Cytometry",
+        "best_practice": "The data should be  kept and  shared in the original .fcs files, along with information about how gates were decided and applied."
+    },
+    "video recording": {
+        "mesh_id": "D014741",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:Video%20Recording",
+        "most_suitable_repositories": "Many repositories host video recordings; some are field or discipline specific, while others are more general. See [[https://www.re3data.org|re3data.org]] for a complete listing. As well, your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+        "description": "The storing or preserving of video signals to be played back later via a transmitter or receiver.",
+        "count": 35,
+        "label": "Video Recording",
+        "best_practice": "Video should be preserved in a MXF container format, with uncompressed YCbCr or JPEG2000 lossless encoding (codecs). A 640:480 resolution is preferred, with a 4:4:4 sampling scheme, 30 bit sampling scheme, progressive scanning and a 30 MBps data rate. An alternative minimum is Audio Video Interleave [AVI] or QuickTime [MOV] container format with H.264/MPEG-4 AVC or DV encoding (codecs)."
+    },
+    "electrocardiograph": {
+        "count": 48,
+        "mesh_id": "D004562",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:electrocardiograph",
+        "label": "Electrocardiograph",
+        "description": "Recording of the moment-to-moment electromotive forces of the Heart as projected onto various sites on the body's surface, delineated as a scalar function of time. The recording is monitored by a tracing on slow moving chart paper or by observing it on a cardioscope, which is a Cathode Ray Tube Display."
+    },
+    "chromatography": {
+        "thin layer chromatography": {
+            "mesh_id": "D002855",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_thin_layer",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "Chromatography on thin layers of adsorbents rather than in columns. The adsorbent can be alumina, silica gel, silicates, charcoals, or cellulose. (McGraw-Hill Dictionary of Scientific and Technical Terms, 4th ed)",
+            "count": 7,
+            "label": "Thin Layer Chromatography",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "mesh_id": "D002845",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography",
+        "flash column chromatography": {
+            "count": 1,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_flash_column",
+            "label": "Flash Column Chromatography",
+            "description": "Column chromatography in chemistry is a chromatography method used to isolate a single chemical compound from a mixture. Chromatography is able to separate substances based on differential adsorption of compounds to the adsorbent; compounds move through the column at different rates, allowing them to be separated into fractions. (from [[https://en.wikipedia.org/wiki/Column_chromatography|https://en.wikipedia.org/wiki/Column_chromatography]])",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "description": "Techniques used to separate mixtures of substances based on differences in the relative affinities of the substances for mobile and stationary phases. A mobile phase (fluid or gas) passes through a column containing a stationary phase of porous solid or liquid coated on a solid support. Usage is both analytical for small amounts and preparative for bulk amounts.",
+        "label": "Chromatography",
+        "ion exchange chromatography": {
+            "mesh_id": "D002852",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_ion_exchange",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "Separation technique in which the stationary phase consists of ion exchange resins. The resins contain loosely held small ions that easily exchange places with other small ions of like charge present in solutions washed over the resins.",
+            "count": 8,
+            "label": "Ion Exchange Chromatography",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "count": 119,
+        "flame ionization chromatography": {
+            "mesh_id": "D005410",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_flame_ionization",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "Pyrolysis of organic compounds at the temperature of a hydrogen-air flame to produce ionic intermediates which can be collected and the resulting ion current measured by gas chromatography.",
+            "count": 1,
+            "label": "Flame Ionization Chromatography",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "affinity chromatography": {
+            "mesh_id": "D002846",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_affinity",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "A chromatographic technique that utilizes the ability of biological molecules, often ANTIBODIES, to bind to certain ligands specifically and reversibly. It is used in protein biochemistry. (McGraw-Hill Dictionary of Scientific and Technical Terms, 4th ed)",
+            "count": 1,
+            "label": "Affinity Chromatography",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "gel chromatography": {
+            "mesh_id": "D002850",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_gel",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "Chromatography on non-ionic gels without regard to the mechanism of solute discrimination.",
+            "count": 10,
+            "label": "Gel Chromatography",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+        "high pressure liquid chromatography": {
+            "mesh_id": "D002851",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_high_pressure_liquid",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "Liquid chromatographic techniques which feature high inlet pressures, high sensitivity, and high speed.",
+            "count": 70,
+            "label": "High Pressure Liquid Chromatography",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "gas chromatography": {
+            "mesh_id": "D002849",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_gas",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "Fractionation of a vaporized sample as a consequence of partition between a mobile gaseous phase and a stationary phase held in a column. Two types are gas-solid chromatography, where the fixed phase is a solid, and gas-liquid, in which the stationary phase is a nonvolatile liquid supported on an inert solid matrix.",
+            "count": 19,
+            "label": "Gas Chromatography",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "liquid chromatography": {
+            "mesh_id": "D002853",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:chromatography%3Achromatography_liquid",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "Chromatographic techniques in which the mobile phase is a liquid.",
+            "count": 1,
+            "label": "Liquid Chromatography",
+            "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+        },
+        "best_practice": "Chromatograph data for each run should be preserved in [[https://www.astm.org/Standards/E1947.htm|ANDI-MS]] format. Numerical output from downstream analysis of the chromatograph should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|Tabular data]]"
+    },
+    "x-ray diffraction data": {
+        "count": 46,
+        "mesh_id": "D014961",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:X-Ray%20Diffraction%20Data",
+        "label": "X-Ray Diffraction Data",
+        "description": "The scattering of x-rays by matter, especially crystals, with accompanying variation in intensity due to interference effects. Analysis of the crystal structure of materials is performed by passing x-rays through them and registering the diffraction image of the rays (crystallography, X-ray). (From McGraw-Hill Dictionary of Scientific and Technical Terms, 4th ed)"
+    },
+    "mass spectrometry": {
+        "mesh_id": "D013058",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:Mass%20Spectrometry",
+        "label": "Mass Spectrometry",
+        "gas chromatography-mass spectrometry": {
+            "count": 31,
+            "mesh_id": "D008401",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Mass%20Spectrometry%3AGas%20Chromatography-Mass%20Spectrometry",
+            "label": "Gas Chromatography-Mass Spectrometry",
+            "description": "A microanalytical technique combining mass spectrometry and gas chromatography for the qualitative as well as quantitative determinations of compounds."
+        },
+        "thermal ionization mass spectrometry": {
+            "count": 1,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Mass%20Spectrometry%3AThermal%20ionization",
+            "label": "Thermal Ionization Mass Spectrometry"
+        },
+        "description": "An analytical method used in determining the identity of a chemical based on its mass using mass analyzers/mass spectrometers.",
+        "matrix-assisted laser desorption-ionization mass spectrometry": {
+            "count": 28,
+            "mesh_id": "D019032",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Mass%20Spectrometry%3ASpectrometry%2C%20Mass%2C%20Matrix-Assisted%20Laser%20Desorption-Ionization",
+            "label": "Matrix-Assisted Laser Desorption-Ionization Mass Spectrometry",
+            "description": "A mass spectrometric technique that is used for the analysis of large biomolecules. Analyte molecules are embedded in an excess matrix of small organic molecules that show a high resonant absorption at the laser wavelength used. The matrix absorbs the laser energy, thus inducing a soft disintegration of the sample-matrix mixture into free (gas phase) matrix and analyte molecules and molecular ions. In general, only molecular ions of the analyte molecules are produced, and almost no fragmentation occurs. This makes the method well suited for molecular weight determinations and mixture analysis."
+        },
+        "liquid chromatography-mass spectrometry": {
+            "count": 82,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Mass%20Spectrometry%3ALiquid%20Chromatography-Mass%20Spectrometry",
+            "label": "Liquid Chromatography-Mass Spectrometry"
+        },
+        "count": 198
+    },
+    "emission flame photometry": {
+        "count": 1,
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:emission_flame_photometry",
+        "label": "Emission Flame Photometry"
+    },
+    "sound data": {
+        "interview": {
+            "mesh_id": "D007406",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Sound%20data%3AInterview",
+            "most_suitable_repositories": "Many repositories host surveys and questionnaires; some are field or discipline specific, while others are more general. See [[https://www.re3data.org|re3data.org]] for a complete listing. As well, your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+            "description": "Work consisting of a conversation with an individual regarding his or her background and other personal and professional details, opinions on specific subjects posed by the interviewer, etc.",
+            "count": 4,
+            "label": "Interview",
+            "best_practice": "Transcripts should be made available as .txt or PDF/A files. If audio files are being shared, the preferred file format is Free Lossless Audio Codec (FLAC) (.flac). Documentation files should be made available as .txt or PDF/A files."
+        },
+        "mesh_id": "D013016",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:Sound%20data",
+        "most_suitable_repositories": "Many different repositories host sound data; some are country and field specific, while others are more general. See [[https://www.re3data.org/|re3data.org]] for a complete listing",
+        "description": "A type of non-ionizing radiation in which energy is transmitted through solid, liquid, or gas as compression waves. Sound (acoustic or sonic) radiation with frequencies above the audible range is classified as ultrasonic. Sound radiation below the audible range is classified as infrasonic.",
+        "count": 29,
+        "label": "Sound Data",
+        "best_practice": "Digital audio files should be saved as Free Lossless Audio Codec files (FLAC), or as Broadcast WAVE Audio File Format [BWF or BWAV] with uncompressed linear pulse-code modulation (PCM) saved at 96 or 48 kHz/24 bits."
+    },
+    "image": {
+        "count": 1388,
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:image",
+        "label": "Image",
+        "description": "The content of a graphic that captures the appearance of something within its borders.",
+        "optical coherence tomography": {
+            "count": 4,
+            "mesh_id": "D041623",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3ATomography%2C%20Optical%20Coherence",
+            "label": "Optical Coherence Tomography",
+            "description": "An imaging method using LASERS that is used for mapping subsurface structure. When a reflective site in the sample is at the same optical path length (coherence) as the reference mirror, the detector observes interference fringes."
+        },
+        "functional magnetic resonance imaging": {
+            "mesh_id": "D008279",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3AMagnetic%20Resonance%20Imaging%3AFunctional%20MRI",
+            "label": "Functional Magnetic Resonance Imaging",
+            "description": "Non-invasive method of demonstrating internal anatomy based on the principle that atomic nuclei in a strong magnetic field absorb pulses of radiofrequency energy and emit them as radiowaves which can be reconstructed into computerized images. The concept includes proton spin tomographic techniques.",
+            "count": 0,
+            "best_practice": "Ideally, the de-identified images should be made available on a public server. However, this may not be possible under your REB requirements, so instead the images should be preserved for as long as possible on an access-controlled server. Please ensure that readers are informed how to request access to these images."
+        },
+        "photography": {
+            "mesh_id": "D010781",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3APhotography",
+            "most_suitable_repositories": "Many repositories host photographic images; some are field or discipline specific, while others are more general. See [[https://www.re3data.org|re3data.org]] for a complete listing.",
+            "description": "Method of making images on a sensitized surface by exposure to light or other radiant energy.",
+            "count": 57,
+            "label": "Photography",
+            "best_practice": "Digital photographs should be saved as TIFF 6.0 uncompressed (.tif)."
+        },
+        "ultrasonography": {
+            "mesh_id": "D014463",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3AUltrasonography",
+            "label": "Ultrasonography",
+            "description": "The visualization of deep structures of the body by recording the reflections or echoes of ultrasonic pulses directed into the tissues. Use of ultrasound for imaging or diagnostic purposes employs frequencies ranging from 1.6 to 10 megahertz.",
+            "count": 42,
+            "best_practice": "Ideally, the de-identified images should be made available on a public server. However, this may not be possible under your REB requirements, so instead the images should be preserved for as long as possible on an access-controlled server. Please ensure that readers are informed how to request access to these images."
+        },
+        "x-ray computed tomography": {
+            "mesh_id": "D014057",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3ATomography%2C%20X-Ray%20Computed",
+            "label": "X-Ray Computed Tomography",
+            "description": "Tomography using x-ray transmission and a computer algorithm to reconstruct the image.",
+            "count": 74,
+            "best_practice": "Ideally, the de-identified images should be made available on a public server. However, this may not be possible under your REB requirements, so instead the images should be preserved for as long as possible on an access-controlled server. Please ensure that readers are informed how to request access to these images."
+        },
+        "magnetic resonance imaging": {
+            "mesh_id": "D008279",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3AMagnetic%20Resonance%20Imaging",
+            "label": "Magnetic Resonance Imaging",
+            "description": "Non-invasive method of demonstrating internal anatomy based on the principle that atomic nuclei in a strong magnetic field absorb pulses of radiofrequency energy and emit them as radiowaves which can be reconstructed into computerized images. The concept includes proton spin tomographic techniques.",
+            "count": 76,
+            "best_practice": "Ideally, the de-identified images should be made available on a public server. However, this may not be possible under your REB requirements, so instead the images should be preserved for as long as possible on an access-controlled server. Please ensure that readers are informed how to request access to these images."
+        },
+        "most_suitable_repositories": "Many repositories host images; some are field or discipline specific, while others are more general. See [[https://www.re3data.org|re3data.org]] for a complete listing. As well, your institution, journal, or funder may recommend specific repositories, otherwise [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], or [[https://figshare.com/|FigShare]] are good choices.",
+        "diagnostic imaging": {
+            "mesh_id": "D003952",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3ADiagnostic%20Imaging",
+            "label": "Diagnostic Imaging",
+            "description": "Any visual display of structural or functional patterns of organs or tissues for diagnostic evaluation. It includes measuring physiologic and metabolic responses to physical and chemical stimuli, as well as ultramicroscopy.",
+            "count": 23,
+            "best_practice": "Ideally, the de-identified images should be made available on a public server. However, this may not be possible under your REB requirements, so instead the images should be preserved for as long as possible on an access-controlled server. Please ensure that readers are informed how to request access to these images."
+        },
+        "microscopy": {
+            "mesh_id": "D008853",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3AMicroscopy",
+            "label": "Microscopy",
+            "description": "The use of instrumentation and techniques for visualizing material and details that cannot be seen by the unaided eye. It is usually done by enlarging images, transmitted by light or electron beams, with optical or magnetic lenses that magnify the entire image field. With scanning microscopy, images are generated by collecting output from the specimen in a point-by-point fashion, on a magnified scale, as it is scanned by a narrow beam of light or electrons, a laser, a conductive probe, or a topographical probe.",
+            "count": 739,
+            "best_practice": "Provide images or video taken through microscope, and any data collected while using the microscope as [[data_type:tabular_data|tabular data]]"
+        },
+        "electrophoresis": {
+            "mesh_id": "D004586",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3AElectrophoresis",
+            "most_suitable_repositories": "Gel image data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "An electrochemical process in which macromolecules or colloidal particles with a net electric charge migrate in a solution under the influence of an electric current.",
+            "count": 288,
+            "label": "Electrophoresis",
+            "best_practice": "Gel images should be high resolution 16-bit grayscale images, saved as GEL or IMG/IMF files (these contain additional grayscale calibration data) or as a 16-bit TIFF file. Ensure that the same imaging parameters are used for all gels from that study, and process them all in the same orientation. Limit image editing to cropping, mirroring, or rotation. Any [[data_type:tabular_data|tabular data]] obtained by quantifying brightness/density of gel features"
+        },
+        "radiography": {
+            "mesh_id": "D011859",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Image%3ARadiography",
+            "label": "Radiography",
+            "description": "Examination of any part of the body for diagnostic purposes by means of X-rays or gamma rays, recording the image on a sensitized surface (such as photographic film).",
+            "count": 10,
+            "best_practice": "Ideally, the de-identified images should be made available on a public server. However, this may not be possible under your REB requirements, so instead the images should be preserved for as long as possible on an access-controlled server. Please ensure that readers are informed how to request access to these images."
+        },
+        "best_practice": "Still images (including works by graphic artists, photographs, maps, graphs, technical drawings, vector graphics) should be saved as TIFF 6.0 uncompressed (.tif) (RGB colour, 24-bit or greater)."
+    },
+    "electrooculography": {
+        "count": 2,
+        "mesh_id": "D004585",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:electrooculography",
+        "label": "Electrooculography",
+        "description": "Recording of the average amplitude of the resting potential arising between the cornea and the retina in light and dark adaptation as the eyes turn a standard distance to the right and the left. The increase in potential with light adaptation is used to evaluate the condition of the retinal pigment epithelium."
+    },
+    "genetic data": {
+        "restriction enzyme-based sequencing data (gbs, rad)": {
+            "count": 0,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Arad",
+            "label": "Restriction enzyme-based sequencing data (GBS, RAD)",
+            "description": "There are many different variation of this technique, but they all share one common characteristics: the use of restriction enzyme(s) to reduce genome complexity and genotype multiple DNA samples prior to High-Throughput-Sequencing.",
+            "most_suitable_repositories": "https://www.ncbi.nlm.nih.gov/sra",
+            "best_practice": "-Minimally, a file (metadata) containing information identifying individual barcodes, the restriction enzyme(s), individual names."
+        },
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data",
+        "digital droplet pcr": {
+            "count": 3,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Adigital_droplet_PCR",
+            "label": "Digital Droplet PCR"
+        },
+        "real-time polymerase chain reaction": {
+            "count": 350,
+            "mesh_id": "D060888",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3AReal-Time%20Polymerase%20Chain%20Reaction",
+            "label": "Real-Time Polymerase Chain Reaction",
+            "description": "Methods used for detecting the amplified DNA products from the polymerase chain reaction as they accumulate instead of at the end of the reaction"
+        },
+        "feature table": {
+            "count": 4,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Afeature_table",
+            "label": "Feature Table",
+            "description": "Number of reads of a feature from different types of assays: microarray, amplicon sequencing, proteomics, metagenomic shotgun sequencing, metabolomics, etc. Generally in the format of a data table with features as rows and samples as columns (can also be the reverse), where the cells indicate the number of reads of that feature in that sample. Usually in Excel or .csv format, although [[http://biom-format.org/|.biom]] files are also used.",
+            "most_suitable_repositories": "Tables containing feature data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "best_practice": "Features should be shared at the lowest level collected (eg sequence variants, OTU), such that combining into higher level categories (eg genus/phylum) can be repeated if desired. Metadata should include information about what variant calling protocol was used (eg DADA2) and what database was used to find labels for the variants (eg Greengenes)."
+        },
+        "high-throughput nucleotide sequencing": {
+            "mesh_id": "D059014",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Ahigh_throughput_nucleotide_sequencing",
+            "most_suitable_repositories": "The BAM files should be uploaded to the [[https://www.ncbi.nlm.nih.gov/sra/docs/submit/|NCBI-SRA database]] in accordance with their [[https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/|guidelines]], or the [[https://www.ebi.ac.uk/ena|European equivalent]]. The accompanying data preparation code should be shared at [[https://codeocean.com/|CodeOcean]].",
+            "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+            "count": 159,
+            "label": "High-Throughput Nucleotide Sequencing",
+            "best_practice": "A //.bam// file (Sequence Alignment Map in binary format) or a //.fastq// file for each run should be made available, along with a //.txt// file of the settings used in the run and the quality score encoding. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored."
+        },
+        "read counts": {
+            "count": 4,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Aread_counts",
+            "label": "Read Counts",
+            "description": "Number of reads of a feature from different types of assays: microarray, amplicon sequencing, proteomics, metagenomic shotgun sequencing, metabolomics, etc. Generally in the format of a data table with features as rows and samples as columns (can also be the reverse), where the cells indicate the number of reads of that feature in that sample. Usually in Excel or .csv format, although [[http://biom-format.org/|.biom]] files are also used.",
+            "most_suitable_repositories": "Tables containing read count data can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "best_practice": "Features should be shared at the lowest level collected (eg sequence variants, OTU), such that combining into higher level categories (eg genus/phylum) can be repeated if desired. Metadata should include information about what variant calling protocol was used (eg DADA2) and what database was used to find labels for the variants (eg Greengenes)."
+        },
+        "secondary structure": {
+            "count": 0,
+            "mesh_id": "D042003",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Adna_packaging",
+            "label": "Secondary Structure",
+            "description": "The folding of an organism's\u00a0DNA\u00a0molecule into a compact, orderly\u00a0structure\u00a0that fits within the limited space of a cell or virus particle."
+        },
+        "sequence analysis": {
+            "count": 110,
+            "mesh_id": "D017421",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Asequence_analysis",
+            "label": "Sequence Analysis",
+            "description": "A multistage process that includes the determination of a sequence (protein, carbohydrate, etc.), its fragmentation and analysis, and the interpretation of the resulting sequence information."
+        },
+        "genotype": {
+            "mesh_id": "D005838",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Agenotype",
+            "most_suitable_repositories": "Tables containing genotype data and the associated files can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]]). Some types of genotype data also have dedicated [[https://www.ebi.ac.uk/ena|ENA]], [[https://www.ncbi.nlm.nih.gov/|NCBI]] or [[https://www.ddbj.nig.ac.jp/index-e.html|DDBJ]] repositories.",
+            "description": "The genetic constitution of the individual, comprising the alleles present at each genetic locus.",
+            "count": 57,
+            "label": "Genotype",
+            "best_practice": "When possible the original data output should be shared (e.g. the [[http://wiki.dataseer.io/doku.php?id=data_type:image:electrophoresis|gel image]] or sequencer output file). The scored genotypes should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|tabular data]], ensuring that the names for individual samples are consistent with those used in the article and in other related datasets."
+        },
+        "count": 787,
+        "microarray analysis": {
+            "mesh_id": "D046228",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Amicroarray_analysis",
+            "most_suitable_repositories": "MIAME compliant microarray studies should be added onto NCBI's [[https://www.ncbi.nlm.nih.gov/geo/|Gene Expression Omnibus]] repository",
+            "description": "The simultaneous analysis, on a microchip, of multiple samples or targets arranged in an array format.",
+            "count": 24,
+            "label": "Microarray Analysis",
+            "best_practice": "Well established guidelines for sharing microarray data are given by the Minimum Information About a Microarray Experiment ([[https://www.ncbi.nlm.nih.gov/geo/info/MIAME.html|MIAME]]) guidelines"
+        },
+        "amplified fragment length polymorphism analysis": {
+            "mesh_id": "D054458",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Aamplified_fragment_length_polymorphism_analysis",
+            "most_suitable_repositories": "Tables containing AFLP or RFLP genotype data and the associated files can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "The detection of Restriction Fragment Length Polymorphisms by selective PCR amplification of restriction fragments derived from genomic DNA followed by electrophoretic analysis of the amplified restriction fragments.",
+            "count": 1,
+            "label": "Amplified Fragment Length Polymorphism Analysis",
+            "best_practice": "When possible the original data output should be shared (e.g. the [[http://wiki.dataseer.io/doku.php?id=data_type:image:electrophoresis|gel image]] or sequencer output file). The scored genotypes should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|tabular data]], ensuring that the names for individual samples are consistent with those used in the article and in other related datasets."
+        },
+        "molecular sequence annotation": {
+            "mesh_id": "D058977",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Amolecular_sequence_annotation",
+            "most_suitable_repositories": "Annotated DNA sequences should be added to the appropriate [[https://www.ebi.ac.uk/ena|ENA]], [[https://www.ncbi.nlm.nih.gov/|NCBI]] or [[https://www.ddbj.nig.ac.jp/index-e.html|DDBJ]] database",
+            "description": "The addition of descriptive information about the function or structure of a molecular sequence to its molecular sequence data record.",
+            "count": 22,
+            "label": "Molecular Sequence Annotation",
+            "best_practice": "Please follow NCBI's [[https://www.ncbi.nlm.nih.gov/genbank/genomes_gff/|guidance]] for annotating genetic data."
+        },
+        "dna methylation": {
+            "count": 1,
+            "mesh_id": "D019175",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3ADNA%20Methylation",
+            "label": "DNA Methylation",
+            "description": "Addition of methyl groups to DNA. DNA methyltransferases (DNA methylases) perform this reaction using S-ADENOSYLMETHIONINE as the methyl group donor."
+        },
+        "restriction fragment length polymorphism": {
+            "mesh_id": "D012150",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3ARestriction%20Fragment%20Length%20Polymorphism",
+            "most_suitable_repositories": "Tables containing AFLP or RFLP genotype data and the associated files can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "Variation occurring within a species in the presence or length of DNA fragment generated by a specific endonuclease at a specific site in the genome. Such variations are generated by mutations that create or abolish recognition sites for these enzymes or change the length of the fragment.",
+            "count": 1,
+            "label": "Restriction Fragment Length Polymorphism",
+            "best_practice": "When possible the original data output should be shared (e.g. the [[http://wiki.dataseer.io/doku.php?id=data_type:image:electrophoresis|gel image]] or sequencer output file). The scored genotypes should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|tabular data]], ensuring that the names for individual samples are consistent with those used in the article and in other related datasets."
+        },
+        "assembly": {
+            "count": 2,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Aassembly",
+            "label": "Assembly",
+            "description": "Sequence assembly refers to aligning and merging fragments from a longer DNA sequence in order to reconstruct the original sequence. From [[https://en.wikipedia.org/wiki/Sequence_assembly|Wikipedia]]",
+            "most_suitable_repositories": "Annotated DNA sequences should be added to the appropriate [[https://www.ebi.ac.uk/ena|ENA]], [[https://www.ncbi.nlm.nih.gov/|NCBI]] or [[https://www.ddbj.nig.ac.jp/index-e.html|DDBJ]] repository",
+            "best_practice": "A .fasta (compressed) file containing contigs/scaffolds or pseudomolecules. Usually, assembly will contain several accompanying files:\\\\"
+        },
+        "microsatellite repeats": {
+            "mesh_id": "D018895",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Amicrosatellite_repeats",
+            "most_suitable_repositories": "Tables containing microsatellite genotype data and the associated files can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "A variety of simple repeat sequences that are distributed throughout the genome. They are characterized by a short repeat unit of 2-8 basepairs that is repeated up to 100 times. They are also known as short tandem repeats (STRs).",
+            "count": 5,
+            "label": "Microsatellite Repeats",
+            "best_practice": "When possible the original data output should be shared (e.g. the [[http://wiki.dataseer.io/doku.php?id=data_type:image:electrophoresis|gel image]] or sequencer output file). The scored genotypes should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|tabular data]], ensuring that the names for individual samples are consistent with those used in the article and in other related datasets."
+        },
+        "sequence alignment": {
+            "mesh_id": "D016415",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Asequence_alignment",
+            "label": "Sequence Alignment",
+            "description": "The arrangement of two or more amino acid or base sequences from an organism or organisms in such a way as to align areas of the sequences sharing common properties. The degree of relatedness or homology between the sequences is predicted computationally or statistically based on weights assigned to the elements aligned between the sequences. This in turn can serve as a potential indicator of the genetic relatedness between the organisms.",
+            "count": 44,
+            "most_suitable_repositories": "DNA sequence alignments should be added to the appropriate [[https://www.ebi.ac.uk/ena|ENA]], [[https://www.ncbi.nlm.nih.gov/|NCBI]] or [[https://www.ddbj.nig.ac.jp/index-e.html|DDBJ]] repository"
+        },
+        "single nucleotide polymorphism": {
+            "mesh_id": "D020641",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:genetic_data%3Apolymorphism_single_nucleotide",
+            "most_suitable_repositories": "Tables containing genotype data and the associated files can be added to any repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]]). [[https://www.ncbi.nlm.nih.gov/|NCBI]] has a dedicated repository for [[https://www.ncbi.nlm.nih.gov/snp/|human SNP data]].",
+            "description": "A single nucleotide variation in a genetic sequence that occurs at appreciable frequency in the population.",
+            "count": 0,
+            "label": "Single Nucleotide Polymorphism",
+            "best_practice": "SNP data can be generated in many ways. In general, the original data output should be shared (e.g. the [[http://wiki.dataseer.io/doku.php?id=data_type:image:electrophoresis|gel image]] or sequencer output file). The scored genotypes should be shared as [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|tabular data]], ensuring that the names for individual samples are consistent with those used in the article and in other related datasets. Advice for SNP data generated by RAD or GBS can be found [[http://wiki.dataseer.io/doku.php?id=data_type:genetic_data:rad|here]]"
+        },
+        "label": "Genetic Data"
+    },
+    "protein data": {
+        "molecular sequence annotation": {
+            "count": 3,
+            "mesh_id": "D058977",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Protein%20Data%3AMolecular%20Sequence%20Annotation",
+            "label": "Molecular Sequence Annotation",
+            "description": "The addition of descriptive information about the function or structure of a molecular sequence to its molecular sequence data record."
+        },
+        "mesh_id": "68011506",
+        "sequence alignment": {
+            "count": 9,
+            "mesh_id": "D016415",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Protein%20Data%3ASequence%20Alignment",
+            "label": "Sequence Alignment",
+            "description": "The arrangement of two or more amino acid or base sequences from an organism or organisms in such a way as to align areas of the sequences sharing common properties. The degree of relatedness or homology between the sequences is predicted computationally or statistically based on weights assigned to the elements aligned between the sequences. This in turn can serve as a potential indicator of the genetic relatedness between the organisms."
+        },
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:Protein%20Data",
+        "label": "Protein Data",
+        "count": 17,
+        "proteome": {
+            "count": 2,
+            "mesh_id": "D020543",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Protein%20Data%3AProteome",
+            "label": "Proteome",
+            "description": "The protein complement of an organism coded for by its genome."
+        },
+        "protein conformation": {
+            "count": 3,
+            "mesh_id": "68011487",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Protein%20Data%3AProtein%20Conformation",
+            "label": "Protein Conformation",
+            "description": "The characteristic 3-dimensional shape of a protein, including the secondary, supersecondary (motifs), tertiary (domains) and quaternary structure of the peptide chain."
+        }
+    },
+    "spectrometry": {
+        "x-ray fluorescence spectroscopy": {
+            "count": 0,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrometry%2C%20X-Ray%20Fluorescence",
+            "label": "X-Ray Fluorescence Spectroscopy"
+        },
+        "fourier transform infrared spectroscopy": {
+            "count": 28,
+            "mesh_id": "D017550",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectroscopy%2C%20Fourier%20Transform%20Infrared",
+            "label": "Fourier Transform Infrared Spectroscopy",
+            "description": "A spectroscopic technique in which a range of wavelengths is presented simultaneously with an interferometer and the spectrum is mathematically derived from the pattern thus obtained."
+        },
+        "biomolecular nuclear magnetic resonance spectroscopy": {
+            "count": 49,
+            "mesh_id": "D019906",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ANuclear%20Magnetic%20Resonance%2C%20Biomolecular",
+            "label": "Biomolecular Nuclear Magnetic Resonance Spectroscopy",
+            "description": "NMR spectroscopy on small- to medium-size biological macromolecules. This is often used for structural investigation of proteins and nucleic acids, and often involves more than one isotope."
+        },
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry",
+        "label": "Spectrometry",
+        "time domain spectrometry": {
+            "count": 1,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrometry%2C%20Time%20Domain",
+            "label": "Time Domain Spectrometry"
+        },
+        "ion mobility spectrometry": {
+            "count": 1,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrometry%2C%20Ion%20Mobility",
+            "label": "Ion Mobility Spectrometry"
+        },
+        "spectropolarimeter data": {
+            "count": 6,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectropolarimeter%20data",
+            "label": "Spectropolarimeter Data"
+        },
+        "count": 404,
+        "atomic spectrophotometry": {
+            "count": 23,
+            "mesh_id": "D013054",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrophotometry%2C%20Atomic",
+            "label": "Atomic Spectrophotometry",
+            "description": "Spectrophotometric techniques by which the absorption or emission spectra of radiation from atoms are produced and analyzed."
+        },
+        "x-ray absorption spectroscopy": {
+            "count": 2,
+            "mesh_id": "D056928",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrometry%2C%20X-Ray%20Absorption",
+            "label": "X-Ray Absorption Spectroscopy",
+            "description": "Analysis of the energy absorbed across a spectrum of x-ray energies/wavelengths to determine the chemical structure and electronic states of the absorbing medium."
+        },
+        "mesh_id": "68013057",
+        "spectrum analysis": {
+            "mesh_id": "D013057",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrum%20Analysis",
+            "most_suitable_repositories": "Atmospheric spectroscopy data should be added to HITRAN (https://hitran.org/), spectrometry data from other fields can be added to any other repository able to host generic file types (e.g. [[https://datadryad.org/|Dryad]], [[https://zenodo.org/|Zenodo]], and [[https://figshare.com/|FigShare]])",
+            "description": "The measurement of the amplitude of the components of a complex waveform throughout the frequency range of the waveform. (McGraw-Hill Dictionary of Scientific and Technical Terms, 6th ed)",
+            "count": 0,
+            "label": "Spectrum Analysis",
+            "best_practice": "The spectra for each sample should be concatenated into [[http://wiki.dataseer.io/doku.php?id=data_type:tabular_data|tabular data]]. The table should list the dilution factor and other loading data for each sample. A separate .txt file should provide detailed information on the machine itself, including make, model, software versions, and the settings used during sample collection."
+        },
+        "raman spectrum analysis": {
+            "count": 13,
+            "mesh_id": "D013059",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrum%20Analysis%2C%20Raman",
+            "label": "Raman Spectrum Analysis",
+            "description": "Analysis of the intensity of Raman scattering of monochromatic light as a function of frequency of the scattered light."
+        },
+        "x-ray emission spectrometry": {
+            "count": 29,
+            "mesh_id": "D013052",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrometry%2C%20X-Ray%20Emission",
+            "label": "X-Ray Emission Spectrometry",
+            "description": "The spectrometric analysis of fluorescent X-rays, i.e. X-rays emitted after bombarding matter with high energy particles such as protons; electrons; or higher energy X-rays. Identification of elements by this technique is based on the specific type of X-rays that are emitted which are characteristic of the specific elements in the material being analyzed. The characteristic X-rays are distinguished and/or quantified by either wavelength dispersive or energy dispersive methods."
+        },
+        "photon correlation spectroscopy": {
+            "count": 1,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectroscopy%2C%20Photon%20Correlation",
+            "label": "Photon Correlation Spectroscopy"
+        },
+        "spectrophotometry": {
+            "count": 241,
+            "mesh_id": "D013053",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrophotometry",
+            "label": "Spectrophotometry",
+            "description": "The art or process of comparing photometrically the relative intensities of the light in different parts of the spectrum."
+        },
+        "fluorescence spectrometry": {
+            "count": 9,
+            "mesh_id": "D013050",
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrometry%2C%20Fluorescence",
+            "label": "Fluorescence Spectrometry",
+            "description": "Measurement of the intensity and quality of fluorescence."
+        },
+        "force spectrometry": {
+            "count": 1,
+            "url": "http://wiki.dataseer.io/doku.php?id=data_type:Spectrometry%3ASpectrometry%2C%20Force",
+            "label": "Force Spectrometry"
+        }
+    },
+    "electroretinography": {
+        "count": 2,
+        "mesh_id": "D004596",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:electroretinography",
+        "label": "Electroretinography",
+        "description": "Recording of electric potentials in the retina after stimulation by light."
+    },
+    "electrophysiology": {
+        "count": 4,
+        "mesh_id": "D004594",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:electrophysiology",
+        "label": "Electrophysiology",
+        "description": "The study of the generation and behavior of electrical charges in living organisms particularly the nervous system and the effects of electricity on living organisms."
+    },
+    "calorimetry": {
+        "count": 18,
+        "mesh_id": "D002151",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:calorimetry",
+        "label": "Calorimetry",
+        "description": "The measurement of the quantity of heat involved in various processes, such as chemical reactions, changes of state, and formations of solutions, or in the determination of the heat capacities of substances. The fundamental unit of measurement is the joule or the calorie (4.184 joules). (McGraw-Hill Dictionary of Scientific and Technical Terms, 4th ed)"
+    },
+    "densitometry": {
+        "count": 4,
+        "mesh_id": "D003720",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:densitometry",
+        "label": "Densitometry",
+        "description": "The measurement of the density of a material by measuring the amount of light or radiation passing through (or absorbed by) the material."
+    },
+    "voltammetry data": {
+        "count": 2,
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:Voltammetry%20data",
+        "label": "Voltammetry Data"
+    },
+    "electroencephalogram": {
+        "count": 21,
+        "mesh_id": "D004569",
+        "url": "http://wiki.dataseer.io/doku.php?id=data_type:electroencephalogram",
+        "label": "Electroencephalogram",
+        "description": "Recording of electric currents developed in the brain by means of electrodes applied to the scalp, to the surface of the brain, or placed within the substance of the brain."
+    }
+}

@@ -1,0 +1,1496 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/lopez/grobid/dataseer-ml/../grobid-home/schemas/xsd/Grobid.xsd">
+  <teiHeader xml:lang="en">
+    <encodingDesc>
+      <appInfo>
+        <application ident="GROBID" version="0.5.6-SNAPSHOT" when="2019-08-23T23:19+0000">
+          <ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+        </application>
+      </appInfo>
+    </encodingDesc>
+    <fileDesc>
+      <titleStmt>
+        <title level="a" type="main">Beclin 1 regulates recycling endosome and is required for skin development in mice</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher/>
+        <availability status="unknown">
+          <licence/>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <author>
+              <persName>
+                <forename type="first">Saori</forename>
+                <surname>Noguchi</surname>
+              </persName>
+              <affiliation key="aff0">
+                <orgName key="dep1" type="department">Department of Pathological Cell Biology</orgName>
+                <orgName key="dep2" type="department">Medical Research Institute</orgName>
+                <orgName type="institution">Tokyo Medical and Dental University</orgName>
+                <address>
+                  <addrLine>1-5-45 Yushima, Bunkyo-ku</addrLine>
+                  <postCode>113-8510</postCode>
+                  <settlement>Tokyo</settlement>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+            </author>
+            <author>
+              <persName>
+                <forename type="first">Shinya</forename>
+                <surname>Honda</surname>
+              </persName>
+              <affiliation key="aff0">
+                <orgName key="dep1" type="department">Department of Pathological Cell Biology</orgName>
+                <orgName key="dep2" type="department">Medical Research Institute</orgName>
+                <orgName type="institution">Tokyo Medical and Dental University</orgName>
+                <address>
+                  <addrLine>1-5-45 Yushima, Bunkyo-ku</addrLine>
+                  <postCode>113-8510</postCode>
+                  <settlement>Tokyo</settlement>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+            </author>
+            <author>
+              <persName>
+                <forename type="first">Tatsuya</forename>
+                <surname>Saitoh</surname>
+              </persName>
+              <affiliation key="aff1">
+                <orgName type="department">Graduate School of Pharmaceutical Sciences</orgName>
+                <orgName type="laboratory">Laboratory of Bioresponse Regulation</orgName>
+                <orgName type="institution">Osaka University</orgName>
+                <address>
+                  <addrLine>1-6 Yamada-oka</addrLine>
+                  <postCode>565-0871</postCode>
+                  <settlement>Suita</settlement>
+                  <region>Osaka</region>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+              <affiliation key="aff2">
+                <orgName key="dep1" type="department">Division of Inflammation Biology</orgName>
+                <orgName key="dep2" type="department">Institute for Enzyme Research</orgName>
+                <orgName type="institution">Tokushima University</orgName>
+                <address>
+                  <addrLine>3-18-15 Kuramoto-cho</addrLine>
+                  <postCode>770-8503</postCode>
+                  <settlement>Tokushima</settlement>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+            </author>
+            <author>
+              <persName>
+                <forename type="first">Hiroyuki</forename>
+                <surname>Matsumura</surname>
+              </persName>
+              <affiliation key="aff3">
+                <orgName type="department">Medical Research Institute</orgName>
+                <orgName type="laboratory">Stem Cell Biology</orgName>
+                <orgName type="institution">Tokyo Medical and Dental University</orgName>
+                <address>
+                  <addrLine>1-5-45 Yushima, Bunkyo-ku</addrLine>
+                  <postCode>113-8510</postCode>
+                  <settlement>Tokyo</settlement>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+            </author>
+            <author>
+              <persName>
+                <forename type="first">Emi</forename>
+                <surname>Nishimura</surname>
+              </persName>
+              <affiliation key="aff3">
+                <orgName type="department">Medical Research Institute</orgName>
+                <orgName type="laboratory">Stem Cell Biology</orgName>
+                <orgName type="institution">Tokyo Medical and Dental University</orgName>
+                <address>
+                  <addrLine>1-5-45 Yushima, Bunkyo-ku</addrLine>
+                  <postCode>113-8510</postCode>
+                  <settlement>Tokyo</settlement>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+            </author>
+            <author>
+              <persName>
+                <forename type="first">Shizuo</forename>
+                <surname>Akira</surname>
+              </persName>
+              <affiliation key="aff4">
+                <orgName type="department">Immunology Frontier Research Center</orgName>
+                <orgName type="laboratory">Laboratory of Host Defense</orgName>
+                <orgName type="institution">Osaka University</orgName>
+                <address>
+                  <addrLine>3-1 Yamada-oka</addrLine>
+                  <postCode>565-0871</postCode>
+                  <settlement>Suita</settlement>
+                  <region>Osaka</region>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+            </author>
+            <author role="corresp">
+              <persName>
+                <forename type="first">Shigeomi</forename>
+                <surname>Shimizu</surname>
+              </persName>
+              <email>shimizu.pcb@mri.tmd.ac.jp</email>
+              <affiliation key="aff0">
+                <orgName key="dep1" type="department">Department of Pathological Cell Biology</orgName>
+                <orgName key="dep2" type="department">Medical Research Institute</orgName>
+                <orgName type="institution">Tokyo Medical and Dental University</orgName>
+                <address>
+                  <addrLine>1-5-45 Yushima, Bunkyo-ku</addrLine>
+                  <postCode>113-8510</postCode>
+                  <settlement>Tokyo</settlement>
+                  <country key="JP">Japan</country>
+                </address>
+              </affiliation>
+            </author>
+            <title level="a" type="main">Beclin 1 regulates recycling endosome and is required for skin development in mice</title>
+          </analytic>
+          <monogr>
+            <imprint>
+              <date/>
+            </imprint>
+          </monogr>
+          <idno type="DOI">10.1038/s42003-018-0279-0</idno>
+          <note>ARTICLE OPEN. Correspondence and requests for materials should be addressed to S.S. ( 1</note>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <abstract>
+        <div>
+          <p>
+            <s>Beclin 1 is a key regulator of autophagy and endocytosis.</s>
+            <s>However, its autophagy-independent functions remain poorly understood.</s>
+            <s>Here, we report that Beclin 1 regulates recycling endosome and is required for skin development in vivo.</s>
+            <s>We first established keratinocytespecific Beclin 1-knockout mice and found that these mutant mice died owing to severe impairment of epidermal barrier.</s>
+            <s>Beclin 1 plays a role in autophagy and the endocytic pathway in cooperation with Atg14 and UVRAG, respectively, and keratinocyte-specific Atg14-knockout mice do not show any abnormal phenotypes, suggesting that Beclin 1 has a role in skin development via the endocytic pathway.</s>
+            <s>Furthermore, we found that Beclin 1 deficiency causes mislocalization of integrins via a defect of recycling endosome, abnormal cell detachment of basal cells and their immature differentiation, and abnormal skin development.</s>
+            <s>These results provide the first genetic evidence showing the roles of Beclin 1 in recycling endosome and skin development.</s>
+          </p>
+        </div>
+      </abstract>
+    </profileDesc>
+  </teiHeader>
+  <text xml:lang="en">
+    <body>
+      <div>
+        <p>
+          <s>T he epidermis of the skin is stratified epithelium and consists of four layers; namely, the basal layer, spinous layer, granular layer, and stratum corneum.</s>
+          <s>At each stage of differentiation, keratinocytes express specific keratins, such as keratin 1 (K1) and keratin 10 (K10) in the spinous and granular layers, and keratin 5 (K5) and keratin 14 (K14) in the basal layer <ref target="#b0" type="bibr">1</ref> .</s>
+          <s>In epithelial tissue, only cells of the basal layer, which is the nearest layer to the dermis can divide, by which they contribute to the formation of normal epithelial tissue.</s>
+          <s>There are two types of division; i.e., symmetric and asymmetric division.</s>
+          <s>The former type of division contributes to the expansion of the skin area by dividing in an axis parallel to the basal membrane.</s>
+          <s>In contrast, the latter type of division promotes multiple stratification of the epidermis by dividing in an axis perpendicular to the basal membrane 2 .</s>
+          <s>Cells that lose adhesion from the basal membrane by asymmetric division become corneocytes by a terminal differentiation process.</s>
+          <s>Corneocytes are characterized by the loss of all their organelles, as well as by their cornified cell envelope, which is a highly insoluble structure on the inside of the plasma membrane <ref target="#b2" type="bibr">3</ref> .</s>
+          <s>Loricrin and involucrin are important molecules for keratinization that provide this envelope <ref target="#b3" type="bibr">4,</ref>
+            <ref target="#b4" type="bibr">5</ref> .</s>
+          <s>Filaggrin also has an important role by facilitating the aggregation of keratin intermediate filaments, by which keratin filaments generate a network of two-dimensional sheets that can perform strong barrier functions <ref target="#b5" type="bibr">6</ref> .</s>
+        </p>
+        <p>
+          <s>Autophagy is a catabolic process in which cellular contents, including proteins and even entire organelles, are degraded in autophagic vacuoles.</s>
+          <s>Autophagy continuously occurs at low levels and is activated by a variety of cellular events, including cell differentiation <ref target="#b6" type="bibr">7,</ref>
+            <ref target="#b7" type="bibr">8</ref> .</s>
+          <s>The molecular basis of autophagy has been extensively analyzed and several essential genes have been identified, including Ulk1, Beclin 1, and Atg5.</s>
+          <s>Because organellar elimination is associated with keratinocyte differentiation 9,10 , autophagy may contribute to this event.</s>
+          <s>Unexpectedly, however, keratinocytespecific Atg5-knockout mice, in which autophagy is largely inhibited in epithelial cells, did not show any notable phenotypes <ref target="#b10" type="bibr">11</ref> .</s>
+        </p>
+        <p>
+          <s>Beclin 1 is a coiled-coil protein that is a well-known regulator of autophagy in mammalian cells <ref target="#b11" type="bibr">12,</ref>
+            <ref target="#b12" type="bibr">13</ref> .</s>
+          <s>It is a component of the multiprotein complex phosphatidylinositol-3-kinase (PI3K) class III, which generates phosphatidylinositol-3-phosphate (PI3P), an important molecule for membrane trafficking <ref target="#b13" type="bibr">14</ref> .</s>
+          <s>Beclin 1 is involved in the autophagy machinery together with Atg14 by promoting membrane invagination and by inducing maturation of both autophagosomes and phagosomes.</s>
+          <s>Beclin 1 also has a role in regulating the endocytic pathway together with UVRAG, instead of Atg14 <ref target="#b14" type="bibr">15</ref> .</s>
+          <s>The endocytic pathway involves distinct small vesicles, which internalize molecules from the plasma membrane (early endosomes) and recycle them back (recycling endosomes), or deliver them to lysosomes (late endosomes).</s>
+          <s>Among these endosomes, Beclin 1 has been mainly reported to be involved in the regulation of early endosomes <ref target="#b15" type="bibr">16,</ref>
+            <ref target="#b16" type="bibr">17</ref> , which contain a large amount of PI3P.</s>
+          <s>This is reasonable because Beclin 1 is a component of PI3K and contributes to the generation of PI3P.</s>
+          <s>There are several reports describing the role of Beclin 1 in other types of endosomes 18 ; however, genetic and in vivo evidence has been lacking.</s>
+        </p>
+        <p>
+          <s>To clarify whether or not autophagy and Beclin 1 are involved in skin development, we generated keratinocyte-specific Beclin 1-and Atg14-deficient mice, and analyzed the role of Beclin 1 in skin formation.</s>
+          <s>We demonstrate that Beclin 1 controls the location of integrins through the regulation of recycling endosomes, and is crucial for skin development.</s>
+        </p>
+      </div>
+      <div>
+        <head>Results</head>
+        <p>
+          <s>Impaired skin barrier function in Beclin 1-deficient mice.</s>
+          <s>To elucidate the role of Beclin 1 in epidermal skin formation, we generated Beclin 1 flox/flox mice, and crossed them with K5-cre transgenic mice to generate keratinocyte-specific Beclin 1-deficient mice (hereafter, referred to as Beclin 1 cKO).</s>
+          <s>Because K5-cre functions in basal cells, Beclin 1 was expected to be completely deleted from epidermal tissue, and which was confirmed by western blotting <ref target="#fig_0" type="figure">(Fig. 1a)</ref> .</s>
+          <s>The mice were born at a Mendelian ratio, but neonatal mice had stiff and shiny skin <ref target="#fig_0" type="figure">(Fig. 1b)</ref> .</s>
+          <s>Furthermore, all neonatal mice died within a day after birth.</s>
+          <s>Measurement of transepidermal water loss (TEWL), which is the amount of water that passively evaporates through the skin to the external environment, indicated extensive water loss in Beclin 1 cKO neonates <ref target="#fig_0" type="figure">(Fig. 1c)</ref> .</s>
+          <s>Consistently, Beclin 1 cKO neonates demonstrated a time-dependent decrease in their body weights <ref target="#fig_0" type="figure">(Fig. 1d)</ref> , which is likely to be owing to their body fluid loss.</s>
+          <s>These results suggested the possible impairment of skin barrier function in Beclin 1 cKO neonates, which was further confirmed by the Toluidine Blue permeability assay.</s>
+          <s>As shown in <ref target="#fig_0" type="figure">Fig. 1e</ref> , Beclin 1 cKO mice were stained with Toluidine Blue dye due to an increase in skin permeability, indicating that Beclin 1 is crucial for generation of the skin barrier in neonatal mice.</s>
+        </p>
+        <p>
+          <s>Beclin 1 cKO mice show aberrant epidermal differentiation.</s>
+          <s>To elucidate how Beclin 1 contributes to maintain the skin barrier, we analyzed the histology of skin sections.</s>
+          <s>In the epidermis of Beclin 1 cKO mice, despite the eosin-positive cornified layer looking normal, keratohyaline granules, which are storage sites for profilaggrin, were not generated in the granular layer ( <ref target="#fig_1" type="figure">Fig. 2a</ref> ; arrowheads).</s>
+          <s>This was confirmed by the relatively low amount of profilaggrin and filaggrin on Western blot analysis <ref target="#fig_1" type="figure">(Fig. 2b</ref> ) and immunostaining analysis ( <ref target="#fig_1" type="figure">Fig. 2c</ref> ; magenta signals) of the epidermis of Beclin 1 cKO mice.</s>
+          <s>Although magenta signals were weakly observed on stratum corneum of Beclin 1 cKO mice, this might be owing to the residual profilaggrin.</s>
+          <s>Because filaggrin is an essential molecule for the keratin filament network, its reduction results in the loss of skin barrier function.</s>
+          <s>Similarly to filaggrin, other proteins in the suprabasal layers, such as loricrin and K10, were substantially reduced in the epidermis of Beclin 1 cKO mice <ref target="#fig_1" type="figure">(Fig. 2d</ref> , e; magenta signals).</s>
+          <s>In contrast, proteins in the basal layer, such as K5 and K14, which are strictly localized to the basal layer in the normal epidermis, were expressed broadly within the upper layers of the epidermis in Beclin 1 cKO mice ( <ref target="#fig_1" type="figure">Fig. 2c</ref> -e; green signals).</s>
+          <s>Western blot analysis of epidermal tissue confirmed the increased expression of K5 and K14, and decreased expression of K1 and K10 (keratins expressed in spinous and granular layers) in Beclin 1 cKO epidermis <ref target="#fig_1" type="figure">(Fig. 2f)</ref> .</s>
+          <s>We found lower molecular weight bands on sodium dodecyl sulphatepolyacrylamide gel electrophoresis (SDS-PAGE) gels of K5 and K1 from Beclin 1 cKO epidermis, but not from the normal epidermis ( <ref target="#fig_0" type="figure">Fig. 2f: K5 and K1</ref> ).</s>
+          <s>This might be owing to previously unknown cleavage.</s>
+          <s>These data indicated that keratinocyte differentiation was largely impaired by the loss of Beclin 1 from basal cells to spindle cells.</s>
+          <s>We next analyzed whether expression levels and localization of p63, a master transcriptional regulator of epithelial development, were altered in Beclin 1 cKO mice.</s>
+          <s>However, immunostaining analysis did not show any abnormalities in p63 expression levels and localization in Beclin 1 cKO mice <ref target="#fig_1" type="figure">(Fig. 2g)</ref> .</s>
+        </p>
+        <p>
+          <s>We also analyzed the elimination of organelles, which is another marker of keratinocyte differentiation.</s>
+          <s>As shown in <ref target="#fig_0" type="figure">Supplementary Figure 1</ref> , when we analyzed the localization of mitochondria and Golgi apparatus by the immunostaining of Tom20 and GM130, respectively, we observed normal elimination of organelles in the suprabasal layers of Beclin 1 cKO epidermis.</s>
+          <s>Therefore, elimination of organelles during epidermis development is not affected by Beclin 1 deficiency.</s>
+        </p>
+        <p>
+          <s>During epithelial tissue formation, cellular differentiation begins with tightly regulated asymmetric division 2 .</s>
+          <s>However, in the epidermis of Beclin 1 cKO mice, basal cell markers and suprabasal cell markers were more broadly expressed and expressed at lower levels in the suprabasal layer, respectively.</s>
+          <s>This indicates a failure of coordination between differentiation and asymmetric division, and hence we analyzed the dimensions of basal cell division by immunofluorescence analysis of survivin, which localizes to midzone microtubules at anaphase/telophase and is thereby widely used to analyze cell division <ref target="#b18" type="bibr">19</ref> .</s>
+          <s>As shown, basal cells in the normal epidermis were divided equally in the parallel and perpendicular directions <ref target="#fig_2" type="figure">(Fig. 3a-c)</ref> .</s>
+          <s>This balance is crucial for appropriate formation of the epidermis.</s>
+          <s>In contrast, in the epidermis of Beclin 1 cKO mice, the rate of perpendicularly orientated cells was increased <ref target="#fig_2" type="figure">(Fig. 3b, c)</ref> , suggesting that basal cells are prone to move into the suprabasal layer.</s>
+          <s>Earlier asymmetric division is expected to promote immature differentiation, followed by a decrease in keratohyaline granules and the keratin filament network, resulting in the loss of skin barrier functions.</s>
+        </p>
+        <p>
+          <s>Because the loss of Beclin 1 facilitated the early detachment of basal cells from the basement membrane, we hypothesized that there may be a dysfunction of one or more adhesion molecules.</s>
+          <s>Accordingly, we immunostained various adhesion molecules, and found the mislocalization of integrin α6.</s>
+          <s>As shown in <ref target="#fig_3" type="figure">Fig. 4a</ref> , a considerable amount of integrin α6 accumulated in Beclin 1 cKO basal cells with puncta formation.</s>
+          <s>Because total expression levels of integrin α6 was equivalent between wild-type and Beclin 1 cKO cells <ref target="#fig_3" type="figure">(Fig. 4b)</ref> , the amount of cell surface integrins was expected to be decreased.</s>
+          <s>In fact, when we isolated basal cells from the epidermis of these mice and scattered them onto a plastic dish, the attachment of Beclin 1 cKO epithelial cells was far less than normal epithelial cells <ref target="#fig_3" type="figure">(Fig. 4c</ref> ).</s>
+          <s>Similarly to integrin α6, integrin β4 accumulated in Beclin 1 cKO basal cells showing puncta formation <ref target="#fig_3" type="figure">(Fig. 4d</ref> ).</s>
+          <s>Because integrin α6 and β4 formed puncta within cells, we considered the possible involvement of endosome failure.</s>
+          <s>Integrins are first taken up by early endosomes.</s>
+          <s>Cargo proteins subsequently enter late endosomes to be degraded within lysosomes or recycle back to the plasma membrane via directly or using recycling endosomes.</s>
+          <s>Therefore, we immunostained integrin α6 with marker proteins of each type of endosome.</s>
+          <s>Integrin α6 colocalized with the transferrin receptor, which is a marker of recycling endosomes, in the epidermis of Beclin 1 cKO mice <ref target="#fig_6" type="figure">(Fig. 5e</ref> ).</s>
+          <s>In contrast, it did not colocalize with EEA1 ( <ref target="#fig_6" type="figure">Fig. 5f</ref> ), a marker of early endosomes, suggesting that integrins were accumulated in recycling endosomes.</s>
+          <s>Note that EEA1 signals were reduced in Beclin 1 cKO basal cells, and hence early endosomes are also affected by the loss of Beclin 1, as reported previously <ref target="#b15" type="bibr">16</ref> .</s>
+          <s>These findings indicated that Beclin 1 deficiency causes a disruption of endosomal function, particularly of recycling endosomes, and hence integrin α6 accumulates in recycling endosomes.</s>
+        </p>
+        <p>
+          <s>Role of Beclin 1 in a keratinocyte culture model.</s>
+          <s>Keratinocyte differentiation can be reproduced by the addition of Ca 2+ into cultured keratinocytes <ref target="#b19" type="bibr">20,</ref>
+            <ref target="#b20" type="bibr">21</ref> .</s>
+          <s>The exposure of cultured basal cells to low-Ca 2+ conditions, followed by replacement to medium containing Ca 2+ (2 mM) induces keratinocyte differentiation.</s>
+          <s>In fact, we observed the expression of K1 and K10 in control human primary keratinocytes, indicating the successful differentiation of basal cells to spinous or granular cells <ref target="#fig_6" type="figure">(Fig. 5a)</ref> .</s>
+          <s>We performed Beclin 1 silencing in this model.</s>
+          <s>Efficient silencing of Beclin 1 was confirmed by western blotting (Supplementary <ref target="#fig_1" type="figure">Figure 2)</ref> .</s>
+          <s>Similar to the mouse epidermis <ref target="#fig_1" type="figure">(Fig. 2f)</ref> , the expression of K1 and K10 were largely suppressed in Beclin 1-silenced keratinocytes <ref target="#fig_6" type="figure">(Fig. 5a)</ref> .</s>
+          <s>In these cells, we observed puncta formation of integrin α6 in Beclin 1-silenced, but not control, keratinocytes <ref target="#fig_6" type="figure">(Fig. 5b, c)</ref> , confirming the failure of endosomal trafficking by Beclin 1 silencing.</s>
+          <s>Recycling endosomes are known to localize close to the microtubule organizing center, to which Rab11, another recycling endosome marker, was localized (Supplementary <ref target="#fig_2" type="figure">Figure 3)</ref> .</s>
+          <s>Despite this Rab11 localization was equivalently observed irrespective of the presence of Beclin 1 <ref target="#fig_2" type="figure">(Supplementary Figure 3)</ref> , integrin α6 signals were completely merged with Rab11 signals only in Beclin 1-silenced cells ( <ref target="#fig_6" type="figure">Fig. 5d</ref> ; magnified image), indicating that integrin α6 trafficking was blocked at the recycling endosomes, consistent with the in vivo data.</s>
+          <s>We also analyzed early endosomes using EEA1.</s>
+          <s>EEA1 signals were observed throughout the cytosol in control cells, whereas they were centrally located in Beclin 1-silenced cells <ref target="#fig_6" type="figure">(Fig. 5e)</ref> , where recycling endosomes localize.</s>
+          <s>Interestingly, however, early endosome signals were very close to but little merged with integrin α6 signals ( <ref target="#fig_6" type="figure">Fig. 5e; magnified image)</ref> .</s>
+          <s>These results indicated that early endosome trafficking was also disrupted by the lack of Beclin 1 but successfully transferred cargos to recycling endosomes, and cargos are stored in the recycling endosomes without recycling back.</s>
+        </p>
+        <p>
+          <s>To elucidate whether a block of endocytic pathway is sufficient to induce the mislocalization of integrins and the failure of keratinocyte differentiation, we added primaquine, an inhibitor of vesicular transport 22 , into cultured keratinocytes.</s>
+          <s>As expected, we observed the mislocalization of integrins <ref target="#fig_8" type="figure">(Fig. 6a</ref> ) and the failure of keratinocyte differentiation as assessed by the expression of K1 and K10 in primaquine-treated cells <ref target="#fig_8" type="figure">(Fig. 6b)</ref> , similar to Beclin 1-silenced cells.</s>
+          <s>Note that integrin α6 signals were completely merged with EEA1 signals <ref target="#fig_8" type="figure">(Fig. 6a)</ref> , which is different from Beclin 1 silencing.</s>
+          <s>This difference might be owing to the strong action of primaquine on early endosomes.</s>
+          <s>These data indicated that endocytic pathway is essential for skin development, in which Beclin 1 has a role in the regulation of recycling endosomes.</s>
+        </p>
+        <p>
+          <s>We finally addressed whether the failure of keratinocytes in the epidermis of Beclin 1 cKO mice was partly mediated by autophagy.</s>
+          <s>Because Beclin 1 functions in autophagy together with Atg14, we crossed Atg14 flox/flox mice with K5-cre mice and generated keratinocyte-specific Atg14-deficient mice (hereafter, referred to as Atg14 cKO).</s>
+          <s>Unlike Beclin 1 cKO mice, Atg14 cKO mice did not show any abnormal phenotypes <ref target="#fig_9" type="figure">(Fig. 7a, b)</ref> , which is consistent with keratinocyte-specific Atg5 KO mice demonstrating only few phenotypes.</s>
+          <s>Furthermore, in a keratinocyte differentiation model, Atg14 silencing did not show any effects, whereas silencing of UVRAG, a molecule functioning in membrane trafficking together with Beclin 1, suppressed differentiation to as similar level to Beclin 1 silencing <ref target="#fig_6" type="figure">(Fig. 5a)</ref> .</s>
+          <s>Furthermore, autophagy inhibitors, such as chloroquine and E64d plus pepstatin A, did not show any effects on keratinocyte differentiation <ref target="#fig_8" type="figure">(Fig. 6b)</ref> .</s>
+          <s>Taken together, our results demonstrate that Beclin 1 is required for skin development through the regulation of endocytic pathway, but not autophagy.</s>
+        </p>
+      </div>
+      <div>
+        <head>Discussion</head>
+        <p>
+          <s>We here demonstrate that Beclin 1 is essential for the develop- have been explained from the aspect of autophagy <ref target="#b22" type="bibr">23,</ref>
+            <ref target="#b23" type="bibr">24</ref> .</s>
+          <s>However, the defect of epidermal development is not mediated by defects of autophagy, because keratinocyte-specific Atg14-deficient mice showed no abnormal phenotypes, and a previous study demonstrated no remarkable abnormalities in keratinocyte-specific Atg5 (or Atg7)-deficient mice <ref target="#b10" type="bibr">11,</ref>
+            <ref target="#b24" type="bibr">25</ref> .</s>
+          <s>In contrast, disturbance of the endocytic pathway is the cause of abnormal epidermal development in Beclin 1 cKO mice.</s>
+          <s>The role of Beclin 1 in the endocytic pathway has been shown in various events.</s>
+          <s>Most of these reports have been on the regulation of early endosomes, i.e., Beclin 1 has a role in neuron viability by regulating endocytosis <ref target="#b16" type="bibr">17</ref> .</s>
+          <s>These studies show that Beclin 1 is utilized for Rab5 GTPase-associated endosome formation and contributes to EEA1/early endosome localization and late endosome formation.</s>
+          <s>An equivalent function of Beclin 1 has been reported in EGF receptor internalization and degradation, by regulating early and late endosomes in HeLa cells <ref target="#b17" type="bibr">18</ref> .</s>
+          <s>On the other hand, although there are a few reports that show the involvement of Beclin 1 in the recycling of membrane proteins, such as the phagocytic receptors, CD36 and Trem2 in microglia <ref target="#b25" type="bibr">26</ref> , and the type I receptor ALK5 in neuronal cells <ref target="#b26" type="bibr">27</ref> , Beclin 1 function in recycling endosomes remains poorly understood.</s>
+          <s>We here show that the loss of Beclin 1 induced puncta formation of integrins within cells in association with Rab11-positive recycling Consistently, the failure of recycling endosomes is known to cause defects in skin development.</s>
+          <s>For example, cerebral dysgenesis, neuropathy, ichthyosis, and keratoderma (CEDNIK) syndrome is a rare disease that shows severe developmental failure of the nervous system and the epidermis, which is caused by the decreased expression of SNAP29 28 , a member of the SNARE family that is required for endosome recycling <ref target="#b28" type="bibr">29</ref> .</s>
+          <s>Interestingly, SNAP29-deficient mice showed similar phenotypes to Beclin 1 cKO mice, i.e., skin appearance, loss of barrier function, In the epidermis of Beclin 1 cKO mice, dysfunctional integrin recycling appears to be a major cause of skin developmental defects, because integrins have been shown to be essential molecules for skin formation.</s>
+          <s>For example, integrin α6 and β4 knockout mice were shown to die by serious hydroa soon after birth <ref target="#b30" type="bibr">31,</ref>
+            <ref target="#b31" type="bibr">32</ref> .</s>
+          <s>In addition, keratinocyte-specific integrin β1-deficient mice were found to show abnormalities in the division axis of basal cells 2 , similarly our Beclin 1 cKO mice.</s>
+          <s>Thus, integrins have an essential role in normal epidermis development, and the disruption of normal integrin function results in the failure of epidermis generation.</s>
+          <s>The failure of normal skin development in Beclin 1 cKO mice is thought to be mainly mediated by the disruption of endosome recycling, including integrin trafficking, but the skin phenotype of these mice is milder than that of integrin α6 knockout mice.</s>
+          <s>This might be because integrins are expressed in Beclin 1 cKO mice, even though there are problems with integrin trafficking.</s>
+          <s>Taken together, we here showed the essential role of Beclin 1 in skin development via the regulation of recycling endosome.</s>
+        </p>
+      </div>
+      <div subtype="dataseer">
+        <head>Methods</head>
+        <p>
+          <s>Animals.</s>
+          <s>Beclin 1-flox mice (C57BL/6N-Becn1 tm1a(KOMP)Wtsi ) were purchased from the KOMP repository.</s>
+          <s>Atg14 flox/flox mice 33 and K5-cre mice <ref target="#b33" type="bibr">34</ref> were kindly provided by Professors S. Akira (Osaka University) and J. Takeda (Osaka University), respectively.</s>
+          <s>All mice were maintained in a specific pathogen-free animal facility at the Laboratory for Recombinant Animals (Medical Research Institute, Tokyo Medical and Dental University, Tokyo, Japan).</s>
+          <s>All experiments were reviewed and approved by the Institutional Animal Care and Use Committee of Tokyo Medical and Dental University, and were conducted according to the committees' guidelines.</s>
+          <s>Skin barrier function assays.</s>
+          <s>The Toluidine Blue permeability assay was performed as previously described <ref target="#b34" type="bibr">35</ref> .</s>
+          <s>In brief, neonatal mice were dehydrated by incubations (1 min each) in 25, 50, and 75% methanol/phosphate-buffered saline (PBS) followed by 1 min in 100% methanol.</s>
+          <s>The embryos were then rehydrated with the same series of methanol solutions (1 min incubations), washed in PBS, and stained for 1 min in 0.0125% toluidine blue O (Chroma Technology, Bellows Falls, VT)/PBS.</s>
+          <s id="dataset-1" type="Tabular data">TEWL of neonatal mice were measured using Vapometer (Delfin Technologies).</s>
+          <s id="dataset-2" type="Tabular data">Water loss was also determined by weight loss in percent from initial birth weight.</s>
+        </p>
+        <p>
+          <s>Histology and immunofluorescence.</s>
+          <s>Dorsal skin tissue from mouse embryos or neonatal mice were fixed as described previously <ref target="#b35" type="bibr">36</ref> .</s>
+          <s>In brief, the epidermis of mice were immersed in ice-cold 4% paraformaldehyde (PFA) in PBS and irradiated three times with a 500 W microwave, and then kept on ice for 20 min.</s>
+          <s>Frozen sections were incubated with primary antibodies and visualized with Alexa 488-conjugated or Alexa555-conjugated secondary antibodies (Life Technologies).</s>
+          <s>Nuclei were counterstained with DAPI.</s>
+          <s>The direction of cell division was analyzed using survivin staining, as described previously <ref target="#b18" type="bibr">19</ref> .</s>
+          <s>In brief, two daughter cells derived from a single cell were determined using survivin staining.</s>
+          <s>The angle of division was determined by measuring the angle defined by the plane transecting two daughter nuclei relative to the plane of the basal membrane.</s>
+          <s>For immunostaining of γ-tubulin, cells were fixed with 4% PFA in PBS at 4°C for 20 min followed by 100% methanol treatment at −30°C for 5 min.</s>
+          <s id="dataset-3" type="Image:Microscopy">All immunofluorescence images were obtained by confocal microscopy (LSM710 Zeiss).</s>
+        </p>
+        <p>
+          <s>Western blot analysis.</s>
+          <s>The epidermis of embryos at embryonic day 18.5 (E18.5) were obtained by heat separation, as described previously <ref target="#b36" type="bibr">37</ref> .</s>
+          <s>In brief, dorsal skin was incubated in PBS at 65°C for 10 min and placed on ice for 1 min.</s>
+          <s>The epidermis was isolated from the dermis using tweezers.</s>
+          <s>Cultured cells were harvested using scrapers.</s>
+          <s>Epidermis samples or cell samples were lysed in SDS buffer (50 mM Tris-HCl [pH 6.8], 2% SDS) containing a protease inhibitor cocktail (Nacalai Tesque) and subjected to sonication.</s>
+          <s>Total lysates were separated on SDS-PAGE and proteins were transferred from polyacrylamide gels to polyvinylidene difluoride membranes (Millipore).</s>
+          <s>Membranes were blocked with 3% skim milk in tris-bufferd saline (TBS) containing 0.1% Tween-20 (TBS-T) and incubated with primary antibodies.</s>
+          <s>After washes in TBS-T, membranes were incubated with horseradish peroxidase-labeled secondary antibodies and visualized with ChemiLumi One Super reagent (Nacalai Tesque).</s>
+        </p>
+        <p>
+          <s>Cell spreading assay.</s>
+          <s>For the isolation of primary mouse keratinocytes, skin was removed from neonatal mice.</s>
+          <s>The skin was floated on 1000 PU/mL dispase (Wako) dermis-side down, and kept at 4°C overnight.</s>
+          <s>The epidermis was peeled off from the dermis using a tweezers and floated on accutase basal-side down for 7 min at room temperature.</s>
+          <s>The epidermis sheet was rubbed with a tweezers to separate the cells and filter them through a 100 µm cell strainer.</s>
+          <s>Cell suspensions were centrifuged and resuspended in CnT-Prime Medium (CellnTec).</s>
+          <s id="dataset-4" type="Tabular data:Assay">The number of live cells was counted by trypan blue staining and 3 × 10 5 cells were seeded in each well of collagen-coated 12-well plates.</s>
+          <s id="dataset-5" type="Image:Microscopy">Primary keratinocytes were incubated in 37°C for 3 h and observed by microscopy.</s>
+        </p>
+        <p>
+          <s>Cell culture and induction of differentiation.</s>
+          <s>Normal human epidermal keratinocytes (NHEKs) were purchased from Kurabo and were cultured in EpiLife medium (Life Technologies) Supplemented with the HKGS kit (Life Technologies).</s>
+          <s>NHEKs were differentiated by the addition of 2 mM CaCl 2 to the culture medium when NHEKs reached confluency.</s>
+        </p>
+        <p>
+          <s>For siRNA transfection, cells were transfected with siRNA to a final concentration of 30 nM using Lipofectamine RNAiMax reagent (Life Technologies) according to the manufacturer's protocol.</s>
+        </p>
+        <p>
+          <s>Analysis of internalized integrin.</s>
+          <s>The integrin internalization assay was performed as previously described <ref target="#b37" type="bibr">38</ref> .</s>
+          <s>In brief, NHEKs were seeded on collagen-coated glass coverslips in 24-well plates at a density of 2.5 × 10 5 cells per well.</s>
+          <s>Cells were cultured in EpiLife Medium for 2 days.</s>
+          <s>CaCl 2 (2 mM) was added to the culture medium and incubated for 6 h at 37°C.</s>
+          <s>Cells were then incubated for 1 h at 4°C in EpiLife Medium with 2 mM CaCl 2 and 10 µg/mL of the anti-integrin α6 antibody (BD Pharmingen) to label the surface integrin α6.</s>
+          <s>Cells were washed twice with EpiLife Medium with 2 mM CaCl 2 to remove excess antibody and subsequently incubated for 30 min at 37°C to enable for endocytosis of antibody-labeled integrin α6.</s>
+          <s>Cells were then washed twice with 0.5 M NaCl/0.5% acetic acid to remove the antibodies remaining on the cell surface, and washed with PBS.</s>
+          <s>Cells were then fixed with 4% PFA for 20 min at 4°C.</s>
+          <s>Cells were permeabilized with 0.05% Triton X-100 in PBS with 1% BSA and visualized with Alexa555-conjugated secondary antibodies.</s>
+        </p>
+        <p>
+          <s>Statistical analysis.</s>
+          <s>Results are expressed as the mean ± standard deviation.</s>
+          <s>Statistical analysis was performed using Prism (GraphPad) software.</s>
+          <s>Comparisons of two data sets were performed using the unpaired two-tailed Student's t-tests.</s>
+          <s>All other comparisons of multiple data sets were performed using two-way analysis of variance followed by the Tukey post hoc test.</s>
+          <s>A p-value of &lt; 0.05 was considered to indicate a statistically significant difference between two groups.</s>
+        </p>
+      </div>
+      <div>
+        <head>Data availability</head>
+        <p>
+          <s>All data generated or analyzed during this study are included in this published article and its supplementary information files.</s>
+          <s>The source data underlying the graphs presented in the main figures are available in <ref target="#fig_0" type="figure">Supplementary Data 1-3</ref> .</s>
+        </p>
+      </div>
+      <figure xml:id="fig_0">
+        <head>Fig. 1</head>
+        <label>1</label>
+        <figDesc>Fig. 1 Phenotypes of Beclin 1 cKO mice. a Expression of Beclin 1 in the dorsal skin of E18.5 embryos of the indicated mice. Actin was used as a loading control. Arrow indicates the band of Beclin 1. Asterisk indicates a nonspecific band. Representative images of five independent experiments are shown. b Gross appearance of Beclin 1 cKO neonatal mice is shown. Scale bars = 1 cm. c TEWL assay of neonatal mice. High TEWL values indicate water loss from the epidermis (n = 8, mean ± SD). Asterisk indicates a significant difference at p &lt; 0.0001. (Student's t test) d Body weight loss in Beclin 1 cKO neonatal mice (n = 4, mean ± SD). Asterisks indicate a significant difference at p &lt; 0.0001. (ANOVA) e Loss of skin barrier function in the epidermis of Beclin 1 cKO neonates. Toluidine Blue permeability assay showing the blue staining of a Beclin 1 cKO neonate, which shows impaired barrier function. Scale bars = 1 cm. Uncropped immunoblot images are provided in Supplementary Figure 4a. Data sources for c and d are provided in Supplementary Data 1</figDesc>
+      </figure>
+      <figure xml:id="fig_1">
+        <head>Fig. 2</head>
+        <label>2</label>
+        <figDesc>Fig. 2 Aberrant epidermal differentiation in Beclin 1 cKO mice. a Hematoxylin eosin staining of the dorsal skin of neonatal mice. Scale bars = 50 µm. Regions of the granular layer indicated as white rectangles in the top panels are magnified in the lower panels. Scale bars = 10 µm. Arrowheads indicate keratohyaline granules. b Immunoblot analysis of the epidermis of E18.5 mice using an anti-filaggrin antibody. The lower bands indicate filaggrin monomers. The smear signals indicate profilaggrin. Representative images of five independent experiments are shown. c-e Immunostaining of dorsal skin of E18.5 embryos. Frozen sections were immunostained with anti-K5 (green) and anti-filaggrin (magenta) antibodies in c, anti-K14 (green) and anti-loricrin (magenta) antibodies in d, and anti-K5 (green) and anti-K10 (magenta) antibodies in e. Nuclei were counterstained with DAPI (blue). Scale bars = 20 µm. f Immunoblot analysis of the epidermis of E18.5 mice using the indicated antibodies. Arrows indicate the bands of K5, K10, and K1. Asterisks are thought to be cleaved products. Representative images of five independent experiments are shown. g Immunostaining of dorsal skin of E18.5 embryos. Frozen sections were immunostained with anti-p63 (red) and counterstained with DAPI to visualize nuclei. Uncropped immunoblot images corresponding to b and f are provided in Supplementary Figure 4b and c, respectively</figDesc>
+      </figure>
+      <figure xml:id="fig_2">
+        <head>Fig. 3</head>
+        <label>3</label>
+        <figDesc>Fig. 3 Unbalanced spindle orientation in basal keratinocytes of Beclin 1 cKO mice. a Representative images of symmetric (top) and asymmetric (bottom) division in the dorsal skin of E17.5 embryos of wild-type mice. Dividing basal cells were immunostained with an anti-survivin antibody (red). White dotted lines indicate the basal membrane. Scale bars = 10 µm. b Angles of spindle orientation relative to the basal membrane were analyzed in multiple fields and shown graphically (n = 8). c Percentage of basal cell division in the epidermis of Beclin 1 cKO and control mice. The direction of division was classified into three types (parallel: 0-30°, perpendicular: 60-90°, and others: 30-60°) according to the angle from the basal membrane. Data sources for b and c are provided in Supplementary Data 2</figDesc>
+      </figure>
+      <figure xml:id="fig_3">
+        <head>Fig. 4</head>
+        <label>4</label>
+        <figDesc>Fig. 4 Mislocalization of integrin α6 in the epidermis of Beclin 1 cKO mice. a Representative images of integrin α6 mislocalization in the epidermis of Beclin 1 cKO mice. Frozen sections were immunostained with an anti-integrin α6 antibody (red). Nuclei are counterstained with DAPI (blue). Scale bars = 20 µm. b Dorsal skin of the indicated E18.5 embryos were lysed and analyzed using an anti-integrin α6 antibody. Actin was used as a loading control. Representative images of two independent experiments are shown. c Basal cells were isolated from the epidermis of indicated mice (Postnatal day 0 neonates), scattered into collagen-coated plastic dishes. After 3 h, cells were observed using a phase-contrast microscope. Scale bars = 500 µm. d Similar experiments to a were performed using an anti-integrin β4 antibody, instead of an anti-integrin α6 antibody. e, f Frozen sections of the epidermis of the indicated mice were immunostained with anti-transferrin receptor and anti-integrin α6 antibodies in e and with anti-EEA1 and anti-integrin α6 antibodies in f. Nuclei were counterstained with DAPI (blue). Scale bars = 10 µm. Uncropped immunoblot images are provided in Supplementary Figure 4d</figDesc>
+      </figure>
+      <figure xml:id="fig_4">
+        <head/>
+        <label/>
+        <figDesc>endosomes. Our data hence provide the first genetic and in vivo evidence showing the crucial role of Beclin 1 in the regulation of recycling endosomes.</figDesc>
+      </figure>
+      <figure xml:id="fig_6">
+        <head>Fig. 5</head>
+        <label>5</label>
+        <figDesc>Fig. 5 Mislocalization of integrin α6 in Beclin 1-silenced primary keratinocytes. a Primary keratinocytes were transfected with the indicated siRNAs, and after 3 days, cells were differentiated by the addition of 2 mM CaCl 2 . Then, cells were harvested and lysed on the indicated days. Immunoblot analysis was performed using the indicated antibodies. Representative images of three independent experiments are shown. b, c Primary keratinocytes were transfected with the indicated siRNAs, and after 3 days, cells were differentiated by the addition of CaCl 2 . Cells were then assayed for internalized anti-integrin α6 antibodies after 6 h from CaCl 2 addition. Nuclei were counterstained with DAPI (blue). Representative images are shown in b. Scale bars = 20 µm. Note that the puncta of integrin α6 were observed in Beclin 1-silenced cells, but were scarce in control cells. c The number of cells with integrin α6 puncta was counted (n = 3, mean ± SD). Asterisk indicates a significant difference at p &lt; 0.05. (Student's t test) d Similar experiments with b were performed using anti-Rab11 (green) and anti-integrin α6 (magenta) antibodies. Cells were counterstained with DAPI (blue). Representative images are shown. Scale bars = 5 µm. A magnified image of an integrin α6 punctum in Beclin 1-silenced keratinocytes are shown in the right panels. Scale bars = 5 µm. e Similar experiments with d were performed using an anti-EEA1 antibody instead of an anti-Rab11 antibody. Uncropped immunoblot images are provided in Supplementary Figure 5a. Data sources for c are provided in Supplementary Data 3</figDesc>
+      </figure>
+      <figure xml:id="fig_7">
+        <head/>
+        <label/>
+        <figDesc>Chemicals. The following antibodies were used for Western blot and immuno- fluorescense assays: rabbit anti-Beclin 1 (PD017; Medical &amp; Biological Labora- tories ;1:3000) guinea pig anti-K5 (GP-CK5; Progen Biotechnik; 1:5000 for western blot, 1:100 for immunofluorescence), mouse anti-K10 (MAB3230; Millipore; WB: 1:5000, IF: 1:200), mouse anti-K14 (ab7800; Abcam; WB: 1:20,0000, IF: 1:500), rabbit anti-K1 (905204; BioLegend; 1:5000), rabbit anti-loricrin (ab24722; Abcam; 1:2000), rabbit anti-filaggrin (905804; BioLegend; WB: 1:10,000, IF: 1:200), rabbit anti-survivin (#2808; Cell Signaling Technology; 1:100), rat anti-integrin α6 (555734; BD Pharmingen; 1:200), rabbit anti-integrin α6 (#3750; Cell Signaling Technology; 1:1000), anti-integrin β4 (553745; BD Pharmingen; 1:100), rabbit anti- Tom20 (FL-145; Santa Cruz Biotechnology; 1:500), mouse anti-GM130 (610823; BD Pharmingen; 1:100), rat anti-transferrin receptor (553266; BD Pharmingen; 1:100), rabbit anti-EEA1 (#3285 S, Cell Signaling Technology; 1:100), rabbit anti- Rab11 (#5589 S; Cell Signaling Technology; 1:100), mouse anti-γ-tubulin (T6557; Sigma-Aldrich; 1:100), rabbit anti-p63 (H-137; Santa Cruz Biotechnology; 1:50), and mouse anti-actin (#MAB-1501; Millipore; 1:10,000). All other chemicals were purchased from Nacalai Tesque. siRNAs. The siRNA sequences used are as follows: human Beclin 1: CCAAUAAGAUGGGUCUGAAAUUUCA, human Atg14: CCACUGCAUACCCUCAGGAAUCUAA, human UVRAG: GACCGAGAGAAAGAUAACAUCUCUA, Stealth RNAi Negative Control Low GC Duplexes were also used.</figDesc>
+      </figure>
+      <figure xml:id="fig_8">
+        <head>Fig. 6</head>
+        <label>6</label>
+        <figDesc>Fig. 6 Treatment with vesicular trafficking inhibitor promotes integrin α6 puncta formation and disrupts differentiation in primary keratinocyte. a Primary keratinocytes were differentiated by the addition of CaCl 2 together with primaquine (500 µM). After 6 h, cells were assayed for internalized antiintegrin α6 antibody and immunostained with anti-EEA1 antibody. Nuclei were counterstained with DAPI (blue). Representative images are shown. Scale bars = 10 µm. b Primary keratinocytes were differentiated by the addition of CaCl 2 together with primaquine (20 µM), Chloroquine (2.5 µM), and E64d (10 µM)/pepstatin (10 µM). On the indicated days, cells were lysed and analyzed for the expression of the indicated proteins by western blot analysis. Representative images of two independent experiments are shown. Uncropped immunoblot images are provided in Supplementary Figure 5b</figDesc>
+      </figure>
+      <figure xml:id="fig_9">
+        <head>Fig. 7</head>
+        <label>7</label>
+        <figDesc>Fig. 7 Normal epidermal differentiation in Atg14 cKO mice. a Immunostaining of the dorsal skin of neonatal mice. Frozen sections were immunostained with anti-integrin α6 (green) and anti-filaggrin (magenta) antibodies or anti-K5 (green) and anti-loricrin (magenta) antibodies. Nuclei were counterstained with DAPI (blue). Scale bars = 20 µm. b Immunoblot analysis of the epidermis of E18.5 mice using the indicated antibodies. Representative images of two independent experiments are shown. Uncropped immunoblot images are provided in Supplementary Figure 5c</figDesc>
+      </figure>
+      <note place="foot">© The Author(s) 2019</note>
+    </body>
+    <back>
+      <div type="acknowledgement">
+        <div>
+          <head>Additional information</head>
+          <p>
+            <s>Supplementary information accompanies this paper at https://doi.org/10.1038/s42003-018-0279-0.</s>
+          </p>
+        </div>
+      </div>
+      <div type="annex">
+        <div>
+          <p>
+            <s>Competing interests: The authors declare no competing interests.</s>
+          </p>
+          <p>
+            <s>Reprints and permission information is available online at http://npg.nature.com/</s>
+            <s>reprintsandpermissions/ Publisher's note: Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.</s>
+          </p>
+          <p>
+            <s>Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made.</s>
+            <s>The images or other third party material in this article are included in the article's Creative Commons license, unless indicated otherwise in a credit line to the material.</s>
+            <s>If material is not included in the article's Creative Commons license and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder.</s>
+            <s>To view a copy of this license, visit http://creativecommons.org/ licenses/by/4.0/.</s>
+          </p>
+        </div>
+      </div>
+      <div type="references">
+        <listBibl>
+          <biblStruct xml:id="b0">
+            <analytic>
+              <title level="a" type="main">Changes in keratin gene expression during terminal differentiation of the keratinocytes</title>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Fuchs</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Green</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Cell</title>
+              <imprint>
+                <biblScope unit="volume">19</biblScope>
+                <biblScope from="1033" to="1042" unit="page"/>
+                <date type="published" when="1980"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b1">
+            <analytic>
+              <title level="a" type="main">Asymmetric cell divisions promote stratification and differentiation of mammalian skin</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Lechler</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Fuchs</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature</title>
+              <imprint>
+                <biblScope unit="volume">437</biblScope>
+                <biblScope from="275" to="280" unit="page"/>
+                <date type="published" when="2005"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b2">
+            <analytic>
+              <title level="a" type="main">The cornified envelope: a model of cell death in the skin</title>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Candi</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <surname>Schmidt</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">G</forename>
+                  <surname>Melino</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nat. Rev. Mol. Cell Biol</title>
+              <imprint>
+                <biblScope unit="volume">6</biblScope>
+                <biblScope from="328" to="340" unit="page"/>
+                <date type="published" when="2005"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b3">
+            <analytic>
+              <title level="a" type="main">Identification of a major keratinocyte cell envelope protein, loricrin</title>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Mehrel</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Cell</title>
+              <imprint>
+                <biblScope unit="volume">61</biblScope>
+                <biblScope from="1103" to="1112" unit="page"/>
+                <date type="published" when="1990"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b4">
+            <analytic>
+              <title level="a" type="main">Presence in human epidermal cells of a soluble protein precursor of the cross-linked envelope: activation of the cross-linking by calcium ions</title>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Rice</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Green</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Cell</title>
+              <imprint>
+                <biblScope unit="volume">18</biblScope>
+                <biblScope from="681" to="694" unit="page"/>
+                <date type="published" when="1979"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b5">
+            <analytic>
+              <title level="a" type="main">Filaggrin in the frontline: role in skin barrier function and disease</title>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <surname>Sandilands</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <surname>Sutherland</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <forename type="middle">D</forename>
+                  <surname>Irvine</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">W</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Irwin Mclean</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Cell Sci</title>
+              <imprint>
+                <biblScope unit="volume">122</biblScope>
+                <biblScope from="1285" to="1294" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b6">
+            <analytic>
+              <title level="a" type="main">Autophagy regulates adipose mass and differentiation in mice</title>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <surname>Singh</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Clin. Invest</title>
+              <imprint>
+                <biblScope unit="volume">119</biblScope>
+                <biblScope from="3329" to="3339" unit="page"/>
+                <date type="published" when="2009"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b7">
+            <analytic>
+              <title level="a" type="main">Ulk1-mediated Atg5-independent macroautophagy mediates elimination of mitochondria from embryonic reticulocytes</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Honda</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nat. Commun</title>
+              <imprint>
+                <biblScope unit="volume">5</biblScope>
+                <biblScope unit="page">4004</biblScope>
+                <date type="published" when="2014"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b8">
+            <analytic>
+              <title level="a" type="main">Formation of horny cells: the fate of cell organelles and differentiation products in ruminal epithelium</title>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Ravker</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <forename type="middle">G</forename>
+                  <surname>Matoltsy</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Cell Biol</title>
+              <imprint>
+                <biblScope unit="volume">44</biblScope>
+                <biblScope from="501" to="512" unit="page"/>
+                <date type="published" when="1970"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b9">
+            <analytic>
+              <title level="a" type="main">Extinction of organelles in differentiating epidermis</title>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Morioka</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Acta Histochem. Cytochem</title>
+              <imprint>
+                <biblScope unit="volume">32</biblScope>
+                <biblScope from="465" to="476" unit="page"/>
+                <date type="published" when="1999"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b10">
+            <analytic>
+              <title level="a" type="main">Targeted deletion of Atg5 reveals differential roles of autophagy in K5-expressing epithelia</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Sukseree</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Biochem. Biophys. Res. Commun</title>
+              <imprint>
+                <biblScope unit="volume">430</biblScope>
+                <biblScope from="689" to="694" unit="page"/>
+                <date type="published" when="2013"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b11">
+            <analytic>
+              <title level="a" type="main">Protection against fatal Sindbis virus encephalitis by beclin, a novel Bcl-2-interacting protein</title>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Liang</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Virol</title>
+              <imprint>
+                <biblScope unit="volume">72</biblScope>
+                <biblScope from="8586" to="8596" unit="page"/>
+                <date type="published" when="1998"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b12">
+            <analytic>
+              <title level="a" type="main">Induction of autophagy and inhibition of tumorigenesis by beclin 1</title>
+              <author>
+                <persName>
+                  <forename type="first">X</forename>
+                  <forename type="middle">H</forename>
+                  <surname>Liang</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature</title>
+              <imprint>
+                <biblScope unit="volume">402</biblScope>
+                <biblScope from="672" to="676" unit="page"/>
+                <date type="published" when="1999"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b13">
+            <analytic>
+              <title level="a" type="main">The Beclin 1-Vps34 complex. At the crossroads of autophagy and beyond</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">F</forename>
+                  <surname>Funderburk</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Q</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Wang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Z</forename>
+                  <surname>Yue</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Trends Cell Biol</title>
+              <imprint>
+                <biblScope unit="volume">20</biblScope>
+                <biblScope from="355" to="362" unit="page"/>
+                <date type="published" when="2010"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b14">
+            <analytic>
+              <title level="a" type="main">Beclin 1 forms two distinct phosphatidylinositol 3-kinase complexes with mammalian Atg14 and UVRAG</title>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Itakura</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <surname>Kishi</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Inoue</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">N</forename>
+                  <surname>Mizushima</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Mol. Biol. Cell</title>
+              <imprint>
+                <biblScope unit="volume">19</biblScope>
+                <biblScope from="5360" to="5372" unit="page"/>
+                <date type="published" when="2008"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b15">
+            <analytic>
+              <title level="a" type="main">Beclin 1-binding UVRAG targets the class C Vps complex to coordinate autophagosome maturation and endocytic trafficking</title>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <surname>Liang</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nat. Cell Biol</title>
+              <imprint>
+                <biblScope unit="volume">10</biblScope>
+                <biblScope from="776" to="787" unit="page"/>
+                <date type="published" when="2008"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b16">
+            <analytic>
+              <title level="a" type="main">Beclin 1 is required for neuron viability and regulates endosome pathways via the UVRAG-VPS34 complex</title>
+              <author>
+                <persName>
+                  <forename type="first">N</forename>
+                  <forename type="middle">C</forename>
+                  <surname>Mcknight</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">PLoS. Genet</title>
+              <imprint>
+                <biblScope unit="volume">10</biblScope>
+                <biblScope unit="page">1004626</biblScope>
+                <date type="published" when="2014"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b17">
+            <analytic>
+              <title level="a" type="main">A phosphatidylinositol 3-kinase class III sub-complex containing VPS15, VPS34, Beclin 1, UVRAG and BIF-1 regulates cytokinesis and degradative endocytic traffic</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">B</forename>
+                  <surname>Thoresen</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">N</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Pedersen</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Liestol</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Stenmark</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Exp. Cell Res</title>
+              <imprint>
+                <biblScope unit="volume">316</biblScope>
+                <biblScope from="3368" to="3378" unit="page"/>
+                <date type="published" when="2010"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b18">
+            <analytic>
+              <title level="a" type="main">Asymmertic cell divisions promote Notch-dependent epidermal differentiation</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">E</forename>
+                  <surname>Williams</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Beronja</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Passolli</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Fuchs</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature</title>
+              <imprint>
+                <biblScope unit="volume">470</biblScope>
+                <biblScope from="353" to="358" unit="page"/>
+                <date type="published" when="2011"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b19">
+            <analytic>
+              <title level="a" type="main">Calcuim regulation of growth and differentiation of mouse epidermal cells in culture</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Hennings</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Cell</title>
+              <imprint>
+                <biblScope unit="volume">19</biblScope>
+                <biblScope from="245" to="254" unit="page"/>
+                <date type="published" when="1980"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b20">
+            <analytic>
+              <title level="a" type="main">Calcium regulation of growth and differentiation of normal human keratinocytes: Modulation of differentiation competence by stages of growth and extracellular calcium</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Pillai</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <forename type="middle">D</forename>
+                  <surname>Bikle</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Mancianti</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <surname>Cline</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Hincenbergs</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Cell Physiol</title>
+              <imprint>
+                <biblScope unit="volume">143</biblScope>
+                <biblScope unit="page">302</biblScope>
+                <date type="published" when="1990"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b21">
+            <analytic>
+              <title level="a" type="main">an inhibitor of vesicular transport, blocks the calcium-release-activated current in rat megakaryocytes</title>
+              <author>
+                <persName>
+                  <forename type="first">B</forename>
+                  <surname>Somasundaram</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <forename type="middle">C</forename>
+                  <surname>Norman</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <forename type="middle">P</forename>
+                  <surname>Mahaut-Smith</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Primaquine</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Biochem. J</title>
+              <imprint>
+                <biblScope unit="volume">309</biblScope>
+                <biblScope from="725" to="729" unit="page"/>
+                <date type="published" when="1995"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b22">
+            <analytic>
+              <title level="a" type="main">Beclin 1, an autophagy gene essential for early embryonic development, is a haploinsufficient tumor suppressor</title>
+              <author>
+                <persName>
+                  <forename type="first">Z</forename>
+                  <surname>Yue</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <surname>Jin</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <surname>Yang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Levine</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">N</forename>
+                  <surname>Heintz</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Proc. Natl Acad. Sci. USA</title>
+              <imprint>
+                <biblScope unit="volume">100</biblScope>
+                <biblScope from="15077" to="15082" unit="page"/>
+                <date type="published" when="2003"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b23">
+            <analytic>
+              <title level="a" type="main">Promotion of tumorigenesis by heterozygous disruption of the beclin 1 autophagy gene</title>
+              <author>
+                <persName>
+                  <forename type="first">Qu</forename>
+                  <surname>Xueping</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Clin. Invest</title>
+              <imprint>
+                <biblScope unit="volume">112</biblScope>
+                <biblScope from="1809" to="1820" unit="page"/>
+                <date type="published" when="2003"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b24">
+            <analytic>
+              <title level="a" type="main">Epidermal keratinocytes form a functional skin barrier in the absence of Atg7 dependent autophagy</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Rossiter</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Dermatol. Sci</title>
+              <imprint>
+                <biblScope unit="volume">71</biblScope>
+                <biblScope from="67" to="75" unit="page"/>
+                <date type="published" when="2013"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b25">
+            <analytic>
+              <title level="a" type="main">Microglial Beclin 1 regulates retromer trafficking and phagocytosis is impaired in Alzheimer's disease</title>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Lucin</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Neuron</title>
+              <imprint>
+                <biblScope unit="volume">79</biblScope>
+                <biblScope from="873" to="886" unit="page"/>
+                <date type="published" when="2013"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b26">
+            <analytic>
+              <title level="a" type="main">Beclin 1 regulates neuronal transforming growth factor-β sinaling by mediating recycling of the type I receptor ALK5</title>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">E</forename>
+                  <surname>O&amp;apos;brien</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">L</forename>
+                  <surname>Bonanno</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Zhang</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">T</forename>
+                  <surname>Wyss-Coray</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Mol. Neurodegener</title>
+              <imprint>
+                <biblScope unit="volume">10</biblScope>
+                <biblScope unit="page">69</biblScope>
+                <date type="published" when="2015"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b27">
+            <analytic>
+              <title level="a" type="main">CEDNIK syndrome result from loss-of-function mutations in SNAP29</title>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <surname>Fuchs-Telem</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Br. J. Dermatol</title>
+              <imprint>
+                <biblScope unit="volume">164</biblScope>
+                <biblScope from="610" to="616" unit="page"/>
+                <date type="published" when="2010"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b28">
+            <analytic>
+              <title level="a" type="main">Loss of SNAP29 impairs endocytic recycling and cell motility</title>
+              <author>
+                <persName>
+                  <forename type="first">D</forename>
+                  <surname>Rapaport</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">Y</forename>
+                  <surname>Lugassy</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Sprecher</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Horowitz</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">PLoS. ONE</title>
+              <imprint>
+                <biblScope unit="volume">5</biblScope>
+                <biblScope unit="page">9759</biblScope>
+                <date type="published" when="2011"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b29">
+            <analytic>
+              <title level="a" type="main">Establishment of two mouse models of for CEDNIK syndrome reveals the pivotal role of SNAP29 in epidermal differentiation</title>
+              <author>
+                <persName>
+                  <forename type="first">S</forename>
+                  <forename type="middle">A</forename>
+                  <surname>Schiller</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Invest. Dermatol</title>
+              <imprint>
+                <biblScope unit="volume">136</biblScope>
+                <biblScope from="672" to="679" unit="page"/>
+                <date type="published" when="2016"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b30">
+            <analytic>
+              <title level="a" type="main">Absence of integrin α6 leads to epidermolysis bullosa and neonatal death in mice</title>
+              <author>
+                <persName>
+                  <forename type="first">E</forename>
+                  <surname>Georges-Labouesse</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nat. Genet</title>
+              <imprint>
+                <biblScope unit="volume">13</biblScope>
+                <biblScope from="370" to="373" unit="page"/>
+                <date type="published" when="1996"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b31">
+            <analytic>
+              <title level="a" type="main">Epithelial detachment due to absence of hemidesmosomes in integrin β4 null mice</title>
+              <author>
+                <persName>
+                  <forename type="first">R</forename>
+                  <surname>Van Der Neut</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <surname>Krimpenfort</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">J</forename>
+                  <surname>Calafat</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">M</forename>
+                  <surname>Niesen</surname>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <forename type="first">A</forename>
+                  <surname>Sonnenberg</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nat. Genet</title>
+              <imprint>
+                <biblScope unit="volume">13</biblScope>
+                <biblScope from="366" to="369" unit="page"/>
+                <date type="published" when="1996"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b32">
+            <analytic>
+              <title level="a" type="main">Autophagy requires endoplasmic reticulum targeting of the PI3-kinase complex via Atg14L</title>
+              <author>
+                <persName>
+                  <forename type="first">K</forename>
+                  <surname>Matsunaga</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Cell Biol</title>
+              <imprint>
+                <biblScope unit="volume">190</biblScope>
+                <biblScope from="511" to="521" unit="page"/>
+                <date type="published" when="2010"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b33">
+            <analytic>
+              <title level="a" type="main">Tissue-specific knockout of the mouse Pig-a gene reveals important roles for GPI-anchored proteins in skin development</title>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Tarutani</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Proc. Natl Acad. Sci. USA</title>
+              <imprint>
+                <biblScope unit="volume">94</biblScope>
+                <biblScope from="7400" to="7405" unit="page"/>
+                <date type="published" when="1997"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b34">
+            <analytic>
+              <title level="a" type="main">Lessons from loricrin-deficient mouse</title>
+              <author>
+                <persName>
+                  <forename type="first">P</forename>
+                  <forename type="middle">J</forename>
+                  <surname>Koch</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Cell Biol</title>
+              <imprint>
+                <biblScope unit="volume">151</biblScope>
+                <biblScope from="389" to="400" unit="page"/>
+                <date type="published" when="2000"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b35">
+            <analytic>
+              <title level="a" type="main">Hair follicle aging is driven by transepidermal elimination of stem cells via COL17A proteolysis</title>
+              <author>
+                <persName>
+                  <forename type="first">H</forename>
+                  <surname>Mastumuta</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Science</title>
+              <imprint>
+                <biblScope unit="volume">351</biblScope>
+                <biblScope unit="page">4395</biblScope>
+                <date type="published" when="2016"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b36">
+            <analytic>
+              <title level="a" type="main">Transcription factor MafB coordinates epidermal keratinocyte differentiation</title>
+              <author>
+                <persName>
+                  <forename type="first">M</forename>
+                  <surname>Miyai</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J. Invest. Dermatol</title>
+              <imprint>
+                <biblScope unit="volume">136</biblScope>
+                <biblScope from="1848" to="1857" unit="page"/>
+                <date type="published" when="2016"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct xml:id="b37">
+            <analytic>
+              <title level="a" type="main">Vps3 and Vps8 control integrin trafficking from early to recycling endosomes and regulate integrin-dependent functions</title>
+              <author>
+                <persName>
+                  <forename type="first">C</forename>
+                  <forename type="middle">T H</forename>
+                  <surname>Jonker</surname>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nat. Commun</title>
+              <imprint>
+                <biblScope unit="volume">9</biblScope>
+                <biblScope unit="page">792</biblScope>
+                <date type="published" when="2018"/>
+              </imprint>
+            </monogr>
+          </biblStruct>
+        </listBibl>
+      </div>
+    </back>
+  </text>
+</TEI>

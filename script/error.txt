@@ -1,0 +1,5 @@
+Invalid data subtype name found in training data:image: functional magnetic resonance imaging
+Invalid data subtype name found in training data:genetic data:polymorphism, single nucleotide
+Invalid data subtype name found in training data:spectrometry:x-ray fluorescence spectrometry
+Invalid data subtype name found in training data:coulombimetry data
+Invalid data subtype name found in training data:spectrum analysis

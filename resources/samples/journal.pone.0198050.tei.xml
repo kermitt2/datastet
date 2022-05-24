@@ -1,0 +1,3026 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Version 0.1 generated on -->
+<TEI xml:lang="en" xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://istex.github.io/odd-istex/out/istex.xsd">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title level="a" type="main">Effect of inorganic nutrients on bacterial community composition in oil-bearing sandstones from the subsurface strata of an onshore oil reservoir and its potential use in Microbial Enhanced Oil Recovery</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>Public Library of Science</publisher>
+        <pubPlace>San Francisco, CA USA</pubPlace>
+        <availability>
+          <p>Phetcharat et al</p>
+          <p>This is an open access article distributed under the terms of the 
+            <ref target="http://creativecommons.org/licenses/by/4.0/" type="uri">Creative Commons Attribution License</ref>
+            , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+        </availability>
+        <date type="e-published" when="2018-11-29">2018</date>
+        <date type="collection-published" when="2018">2018</date>
+        <date type="Copyright" when="2018">2018</date>
+      </publicationStmt>
+      <notesStmt>
+        <note type="content-type">research-article</note>
+        <note type="publication-type">journal</note>
+      </notesStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <title level="a" type="main">Effect of inorganic nutrients on bacterial community composition in oil-bearing sandstones from the subsurface strata of an onshore oil reservoir and its potential use in Microbial Enhanced Oil Recovery</title>
+            <title level="a" type="running-head">Effect of inorganic nutrients on bacterial community composition in oil-bearing sandstones of oil reservoir</title>
+            <author xml:id="author-0000">
+              <persName>
+                <surname>Phetcharat</surname>
+                <forename type="first">Thanachai</forename>
+              </persName>
+              <affiliation>
+                <ref>1</ref>
+                <address>
+                  <addrLine>Interdisciplinary Program in Biotechnology, Graduate School, Chiang Mai University, Chiang Mai, Thailand</addrLine>
+                </address>
+              </affiliation>
+              <affiliation>
+                <ref>2</ref>
+                <address>
+                  <addrLine>Environmental Science Research Centre (ESRC), Faculty of Science, Chiang Mai University, Chiang Mai, Thailand</addrLine>
+                </address>
+              </affiliation>
+            </author>
+            <author xml:id="author-0001">
+              <persName>
+                <surname>Dawkrajai</surname>
+                <forename type="first">Pinan</forename>
+              </persName>
+              <affiliation>
+                <ref>3</ref>
+                <address>
+                  <addrLine>Northern Petroleum Development Centre (NPDC), Defence Energy Department, Chiang Mai, Thailand</addrLine>
+                </address>
+              </affiliation>
+            </author>
+            <author xml:id="author-0002">
+              <persName>
+                <surname>Chitov</surname>
+                <forename type="first">Thararat</forename>
+              </persName>
+              <affiliation>
+                <ref>2</ref>
+                <address>
+                  <addrLine>Environmental Science Research Centre (ESRC), Faculty of Science, Chiang Mai University, Chiang Mai, Thailand</addrLine>
+                </address>
+              </affiliation>
+              <note place="foot">
+                <ref>¤</ref>
+                <p>Current address: Division of Microbiology, Department of Biology, Faculty of Science, Chiang Mai University, Chiang Mai, Thailand</p>
+              </note>
+            </author>
+            <author xml:id="author-0003">
+              <persName>
+                <surname>Wongpornchai</surname>
+                <forename type="first">Pisanu</forename>
+              </persName>
+              <affiliation>
+                <ref>4</ref>
+                <address>
+                  <addrLine>Department of Geological Sciences, Faculty of Science, Chiang Mai University, Chiang Mai, Thailand</addrLine>
+                </address>
+              </affiliation>
+            </author>
+            <author xml:id="author-0004">
+              <persName>
+                <surname>Saenton</surname>
+                <forename type="first">Schradh</forename>
+              </persName>
+              <affiliation>
+                <ref>4</ref>
+                <address>
+                  <addrLine>Department of Geological Sciences, Faculty of Science, Chiang Mai University, Chiang Mai, Thailand</addrLine>
+                </address>
+              </affiliation>
+            </author>
+            <author xml:id="author-0005">
+              <persName>
+                <surname>Mhuantong</surname>
+                <forename type="first">Wuttichai</forename>
+              </persName>
+              <affiliation>
+                <ref>5</ref>
+                <address>
+                  <addrLine>Enzyme Technology Laboratory, The National Centre for Genetic Engineering and Biotechnology (BIOTEC), Thailand Science Park, Pathum Thani, Thailand</addrLine>
+                </address>
+              </affiliation>
+            </author>
+            <author xml:id="author-0006">
+              <persName>
+                <surname>Kanokratana</surname>
+                <forename type="first">Pattanop</forename>
+              </persName>
+              <affiliation>
+                <ref>5</ref>
+                <address>
+                  <addrLine>Enzyme Technology Laboratory, The National Centre for Genetic Engineering and Biotechnology (BIOTEC), Thailand Science Park, Pathum Thani, Thailand</addrLine>
+                </address>
+              </affiliation>
+            </author>
+            <author xml:id="author-0007">
+              <persName>
+                <surname>Champreda</surname>
+                <forename type="first">Verawat</forename>
+              </persName>
+              <affiliation>
+                <ref>5</ref>
+                <address>
+                  <addrLine>Enzyme Technology Laboratory, The National Centre for Genetic Engineering and Biotechnology (BIOTEC), Thailand Science Park, Pathum Thani, Thailand</addrLine>
+                </address>
+              </affiliation>
+            </author>
+            <author role="corresp" xml:id="author-0008">
+              <persName>
+                <surname>Bovonsombut</surname>
+                <forename type="first">Sakunnee</forename>
+              </persName>
+              <affiliation>
+                <ref>2</ref>
+                <address>
+                  <addrLine>Environmental Science Research Centre (ESRC), Faculty of Science, Chiang Mai University, Chiang Mai, Thailand</addrLine>
+                </address>
+              </affiliation>
+              <note place="foot">
+                <ref>¤</ref>
+                <p>Current address: Division of Microbiology, Department of Biology, Faculty of Science, Chiang Mai University, Chiang Mai, Thailand</p>
+              </note>
+              <email>sakunnee.b@cmu.ac.th</email>
+            </author>
+            <editor xml:id="editor-0009">
+              <persName>
+                <surname>Larsen</surname>
+                <forename type="first">Peter E.</forename>
+              </persName>
+              <roleName>Editor</roleName>
+              <affiliation>
+                <address>
+                  <addrLine>Argonne National Laboratory, UNITED STATES</addrLine>
+                </address>
+              </affiliation>
+            </editor>
+            <idno type="doi">10.1371/journal.pone.0198050</idno>
+            <idno type="publisher-id">PONE-D-18-13928</idno>
+          </analytic>
+          <monogr>
+            <title level="j" type="main">PLOS ONE</title>
+            <idno type="nlm-ta">PLoS ONE</idno>
+            <idno type="publisher-id">plos</idno>
+            <idno type="pmc">plosone</idno>
+            <idno type="eISSN">1932-6203</idno>
+            <imprint>
+              <publisher>Public Library of Science</publisher>
+              <pubPlace>San Francisco, CA USA</pubPlace>
+              <date type="e-published" when="2018-11-29">2018</date>
+              <date type="collection-published" when="2018">2018</date>
+              <biblScope unit="vol">13</biblScope>
+              <biblScope unit="issue">11</biblScope>
+              <biblScope unit="page-count">18</biblScope>
+              <biblScope unit="fig-count">4</biblScope>
+              <biblScope unit="table-count">5</biblScope>
+            </imprint>
+          </monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <abstract>
+        <p>Microbial Enhanced Oil Recovery (MEOR) is a promising strategy to improve recovery of residual oil in reservoirs, which can be performed by promoting specific indigenous microorganisms. In this study, we performed preliminary evaluation of the possibility of conducting MEOR at Mae Soon reservoir, an onshore reservoir in Northern Thailand. The reservoir’s physicochemical characteristics, including the characteristics of the wells, the oil-bearing sandstone cores, and the reservoir’s produced water, were determined. The microbiological characteristics of the oil wells in the reservoir were also investigated by submerging the reservoir’s sandstone core samples, obtained from 6 oil wells, in the reservoir’s produced water and in the produced water added with inorganic nutrients (KNO
+          <hi rend="subscript">3</hi>
+          and NaH
+          <hi rend="subscript">2</hi>
+          PO
+          <hi rend="subscript">4</hi>
+          ). The uncultured bacteria in both treatments were determined, using tagged 16S rRNA gene amplicon with Ion Torrent Sequencing Analysis. The effects of inorganic nutrients and the reservoir’s parameters on the bacterial communities were analysed. A total number of 16,828 OTUs were taxonomically classified into 89 classes and 584 genera. In the controls (sandstone cores submerged in the produced water), the dominant bacterial populations were related to 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          , and 
+          <hi rend="italic">Betaproteobacteria</hi>
+          ; while in the nutrient treated samples, there was a marked increase in the relative abundance of 
+          <hi rend="italic">Gammaproteobacteria</hi>
+          in three samples. 
+          <hi rend="italic">Thermus</hi>
+          , 
+          <hi rend="italic">Acinetobacter</hi>
+          , and 
+          <hi rend="italic">Pseudomonas</hi>
+          were the most abundant genera, and these are potential microorganisms for MEOR. Analysis of correlations between physiochemical properties of the reservoir and bacterial genera, using spearman’s correlation analysis, suggested that some of the reservoir’s properties, especially of the well and the rock, could influence some bacterial genera. To our knowledge, this is the first demonstration of the effect of inorganic nutrients on alteration of bacterial communities attached to reservoir’s rock, and how the bacterial, physical, and chemical properties of a reservoir were co-analysed to serve as a basis for designing a MEOR process.</p>
+      </abstract>
+      <textClass ana="subject">
+        <keywords scheme="heading">
+          <term>Research Article</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Physical sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Engineering and technology</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Physical sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Medicine and health sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Medicine and health sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Medicine and health sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+        <keywords scheme="Discipline-v3">
+          <term>Biology and life sciences</term>
+        </keywords>
+      </textClass>
+      <langUsage>
+        <language ident="en"/>
+      </langUsage>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2018-05-09">Received</change>
+      <change when="2018-11-14">Accepted</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="intro" xml:id="sec001">
+        <head>Introduction</head>
+        <p>Petroleum resources are becoming more limited, and while other alternative energy resources are being explored, Enhanced Oil Recovery (EOR) technologies are increasingly important. These technologies have been developed in response to the fact that the conventional petroleum recovery procedures can only retrieve 10 to 45 percent of the crude oil [
+          <ref target="#pone.0198050.ref001" type="bibr">1</ref>
+          ]. Conventional EOR processes require the use of chemical or thermal methods or miscible gas injection. Some of the factors involved in these processes are harmful to the environment [
+          <ref target="#pone.0198050.ref002" type="bibr">2</ref>
+          ]. An EOR method employing microorganisms, known as Microbial Enhanced Oil Recovery (MEOR), offers an alternative way to retrieve residual oil, especially from reservoirs with decreasing productivity, while being environmentally friendly [
+          <ref target="#pone.0198050.ref002" type="bibr">2</ref>
+          ]. MEOR has been estimated to increase recovery by up to one-third of the oil initially recovered in an oil reservoir [
+          <ref target="#pone.0198050.ref003" type="bibr">3</ref>
+          ]. This technology requires comparatively low amounts of energy to operate and is cost-effective [
+          <ref target="#pone.0198050.ref004" type="bibr">4</ref>
+          ].</p>
+        <p>Many subsurface microorganisms have been reported to play crucial roles in MEOR including 
+          <hi rend="italic">Bacillus</hi>
+          , 
+          <hi rend="italic">Methanobacterium</hi>
+          , and 
+          <hi rend="italic">Clostridium</hi>
+          [
+          <ref target="#pone.0198050.ref005" type="bibr">5</ref>
+          ]. Aerobic bacteria, especially 
+          <hi rend="italic">Pseudomonas</hi>
+          , were also found in subsurface strata and often in association with the presence of nitrate. These microbes can function in MEOR through different mechanisms, including the production of gases (CO
+          <hi rend="subscript">2</hi>
+          , CH
+          <hi rend="subscript">4</hi>
+          , H
+          <hi rend="subscript">2</hi>
+          , and N
+          <hi rend="subscript">2</hi>
+          ), low molecular weight acids, solvents (especially ethanol and acetone), biosurfactants, and biopolymers. These microbial metabolites can lead to increases in the efficiency of oil recovery by viscosity reduction, permeability alteration, and emulsification of crude oil. The microbial metabolites can decrease the surface and interfacial tensions and alter wettability, resulting in increasing pore scale displacement [
+          <ref target="#pone.0198050.ref003" type="bibr">3</ref>
+          ]. One approach for MEOR application is to supply effective microorganism(s) or microbial metabolites from external sources to oil reservoirs [
+          <ref target="#pone.0198050.ref002" type="bibr">2</ref>
+          ]. Alternatively, MEOR can employ indigenous microbes, with nutrient supplement as necessary, to increase their metabolic activities, which will enhance oil recovery. For this second approach, microbial communities in the subsurface strata, both the original and the new ones formed after alteration of subsurface conditions, are crucial keys to MEOR success.</p>
+        <p>Several studies have reported diversity of microbial communities in onshore and offshore oil reservoirs as well as the 
+          <hi rend="italic">in situ</hi>
+          and 
+          <hi rend="italic">in vitro</hi>
+          effects of MEOR on microbial community structures, using culture-dependent methods [
+          <ref target="#pone.0198050.ref006" type="bibr">6</ref>
+          , 
+          <ref target="#pone.0198050.ref007" type="bibr">7</ref>
+          ]. However, a large portion of microbes that is indigenous to specific environments such as petroleum reservoirs are non-culturable [
+          <ref target="#pone.0198050.ref005" type="bibr">5</ref>
+          ] and, therefore, cannot be detected using the culture-dependent methods. Culture-independent methods provide more comprehensive data for MEOR microbial communities, such as those carried out at the Shengli oil field, China [
+          <ref target="#pone.0198050.ref008" type="bibr">8</ref>
+          ], and at the offshore reservoirs in the Norwegian Sea, Norway [
+          <ref target="#pone.0198050.ref009" type="bibr">9</ref>
+          ]. Most investigations of microbial communities within a reservoir have been performed using reservoir fluids. There have been very limited studies on microbial communities in oil reservoirs’ rocks. Because most microbes residing in oil reservoirs are attached to the subsurface strata [
+          <ref target="#pone.0198050.ref010" type="bibr">10</ref>
+          ], microbial community data obtained from the strata rock samples should be more relevant to MEOR than those obtained from the reservoir fluids or production fluids. Indigenous microbial communities, moreover, could respond to extrinsic nutrient addition in such a way to result in enhanced oil recovery [
+          <ref target="#pone.0198050.ref010" type="bibr">10</ref>
+          , 
+          <ref target="#pone.0198050.ref011" type="bibr">11</ref>
+          ]. Inconsistencies have been observed in some previous studies [
+          <ref target="#pone.0198050.ref011" type="bibr">11</ref>
+          ] and data on the changes of microbial communities in reservoirs’ rock resulting from nutrient addition are still lacking.</p>
+        <p>With these gaps in MEOR studies, we therefore aimed to conduct an investigation on the diversity of bacteria derived from the oil-bearing rock regions of a reservoir using Ion Torrent Sequencing Analysis, to demonstrate how an 
+          <hi rend="italic">in vitro</hi>
+          nutrient treatment could affect bacterial community structures, and to analyse the correlations between some key characteristics of the reservoir and its indigenous bacterial communities. These investigations were not only intended to provide a basis for future 
+          <hi rend="italic">in situ</hi>
+          MEOR implementation at the study site (Mae Soon Reservoir, Fang Basin, Thailand), but also to demonstrate how the bacterial structure and the additional inorganic nutrients together with the physicochemical characteristics of a reservoir, are related and how these parameters can be co-analysed and manipulated, in order to serve as a basis for designing a MEOR process.</p>
+      </div>
+      <div subtype="dataseer" type="materials|methods" xml:id="sec002">
+        <head>Materials and methods</head>
+        <div xml:id="sec003">
+          <head>Ethics statement</head>
+          <p>All samples were collected within territories governed by the NPDC, Defence Energy Department (Mae Soon reservoir of Fang oil field, Chiang Mai, Thailand), with the permission granted through Capt. Pinan Dawkrajai, RTN, Ph.D., (Director of Exploration and Production Division, NPDC, Defence Energy Department).</p>
+        </div>
+        <div xml:id="sec004">
+          <head>Core sample collection</head>
+          <p>
+            <s id="dataset-1" type="Generic data">Core samples used in this study were obtained from the reference core collection of Mae Soon reservoir of Fang oil field, Chiang Mai, Thailand (19°50'N, 99°09'E) (
+              <ref target="#pone.0198050.g001" type="fig">Fig 1</ref>
+              ).</s>This reservoir has been in production for more than 50 years, with average productivity of 900 barrels of oil per day (bbl/d), and is currently experiencing a decline in its production rate. 
+            <s corresp="#dataset-1">Six oil-bearing sandstone samples were aseptically drawn from the six-foot-long cylindrical cores drilled from 6 oil wells in the reservoir.</s>
+            These oil-sand samples were from the depths of 609–756 metres below the earth’s surface.</p>
+          <figure xml:id="pone.0198050.g001">
+            <idno type="doi">10.1371/journal.pone.0198050.g001</idno>
+            <head type="label">Fig 1</head>
+            <head type="caption-title">Location and distribution of six oil wells in Mae Soon reservoir, Fang oil field, Thailand.</head>
+            <graphic url="info:doi/10.1371/journal.pone.0198050.g001"/>
+          </figure>
+        </div>
+        <div xml:id="sec005">
+          <head>Reservoir characterisation</head>
+          <p>
+            <s corresp="#dataset-1">Temperatures and depths of oil reservoirs were retrieved from the well logs.</s>
+            <s corresp="#dataset-1">Porosity, permeability and grain density of the core samples were determined according to the routine core analysis (performed by GENLabs, Thailand).</s>
+            <s id="dataset-2" type="Spectrometry data">The lithology of the core rock was analysed using an X-Ray fluorescence (XRF) spectrometer [
+              <ref target="#pone.0198050.ref012" type="bibr">12</ref>
+              ].</s>
+          </p>
+          <p>
+            <s id="dataset-3" type="Generic data">Produced water (the water found in the same formations as oil and gas, which is brought to the surface with the petroleum products) from the production wells was analysed for pH and salinity using a standard pH meter (Ohaus starter 3100, USA) and an electrochemical analyser (Consort C933, Belgium).</s>
+            <s id="dataset-4" type="Chromatography data">Concentrations of sulfate and nitrate in the produced water were determined using ion chromatography (Dionex ICS-3000, USA).</s>
+            <s id="dataset-5" type="Spectrometry data">Iron content was analysed using inductively coupled plasma optical emission spectrometry (ICP-OES) [
+              <ref target="#pone.0198050.ref013" type="bibr">13</ref>
+              ].</s>
+          </p>
+        </div>
+        <div xml:id="sec006">
+          <head>Inorganic nutrient enrichment</head>
+          <p>To study the effect of inorganic nutrients on the changes in microbial composition within the oil sand samples, each of the six oil-bearing sandstone samples was extracted from the drilled core. Only the inner part of each core was sampled; it was placed in a sterile plastic bag, then crushed using a hammer, mixed, and divided into two 10-gram portions. The first portion was placed in a 250-ml screwed-cap DURAN bottle which was then filled completely with the produced water (collected in sterilised containers from the pipeline connecting to the reservoir, heated to 60°C prior to use). The cap was then tightened to create a hypoxic condition (with DO of 0.8 mg/L, measured using a HI 98194 Multiparameter Waterproof Meter, Hanna instruments, Romania). This treatment was performed to resemble the conditions in the formation rock layer where the core originated. The samples treated with the produced water (assigned C1P –C6P) were used as control samples. Another portion of each oil sand sample was flooded with the produced water supplemented with inorganic nutrients (0.12% (w/v) KNO
+            <hi rend="subscript">3</hi>
+            and 0.034% (w/v) NaH
+            <hi rend="subscript">2</hi>
+            PO
+            <hi rend="subscript">4</hi>
+            , prepared from AR grade chemicals (RCI, Labscan, Thailand)), based on a core flooding protocol previously reported to be effective for oil recovery [
+            <ref target="#pone.0198050.ref014" type="bibr">14</ref>
+            ]. The nutrient was added to the produced water just prior to conducting the experiment. These were assigned nutrient-treated samples (C1N –C6N); they were treated under the same elevated temperature and hypoxic condition as the controls). The controls and the nutrient-treated samples were incubated at 60°C in a water bath (Julabo, Germany) for 32 weeks.</p>
+        </div>
+        <div xml:id="sec007">
+          <head>DNA isolation and tagged 16S rDNA gene sequencing</head>
+          <p>The enriched core samples were separated from the fluids by centrifugation at 4,766 g for 5 min. The genomic DNA was extracted from 10 grams of the samples using 10 ml of lysis buffer (100 mM Tris-HCl, 100 mM Na-EDTA, 100 mM NaPO
+            <hi rend="subscript">4</hi>
+            , pH 8.0, 1.5 M NaCl and 1% (v/v) CTAB) and 100 μl of proteinase K [
+            <ref target="#pone.0198050.ref015" type="bibr">15</ref>
+            ]. The solution was shaken horizontally at 37°C for 40 min. After that, 1 ml of 20% (w/v) SDS was added, and the solution was further incubated at 65°C for 30 min. The mixture was then centrifuged at 4,766 g for 5 min at room temperature. The aqueous phase was collected and extracted with chloroform/isoamyl alcohol 24:1 (v/v) and centrifuged at 4,766 g for 10 min. Genomic DNA was precipitated with 0.6 volume of isopropanol at room temperature for 15 min, and the pellet was collected after centrifugation at 13,088 g for 20 min. The DNA pellet was washed with cold 70% (v/v) ethanol and dried at room temperature.</p>
+          <p>The purified metagenomic DNA was used as a template for amplification of the partial 16S rRNA gene. Universal bacterial primers E785F () and E1081R () attached with tagged barcode sequences [
+            <ref target="#pone.0198050.ref016" type="bibr">16</ref>
+            ] were used for amplifying the V5 and V6 regions of prokaryotic 16S rRNA genes. Polymerase chain reactions were performed using Phusion High-Fidelity DNA polymerase (Thermo Scientific, Massachusetts, USA) on a MyCycler thermocycler (Bio-Rad, Hercules, CA) under the following conditions: initial denaturation at 98°C for 30 sec, 25 cycles of denaturation at 98°C for 10 sec, annealing at 66°C for 30 sec, and extension at 72°C for 30 sec, with a final extension at 72°C for 5 min. 
+            <s id="dataset-6" type="Generic data">The PCR products were analysed on a 2% (w/v) agarose gel and purified using the GF-1 ambiclean kit (Vivantis, Malaysia).</s>
+            <s id="dataset-7" type="Spectrometry data">Then, all amplified products were quantified using a Nanodrop spectrophotometer (LabX, CA).</s>
+            <s id="dataset-8" type="DNA sequence data">The sequences were analysed using the ION PGM system with ion 316 chip kit V2 (Life Technologies, CA, USA) following the manufacturer’s recommended protocols.</s>
+            All 16S rRNA gene sequences of the oil sand samples were deposited in the NCBI Sequence Read Archive (SRA) with the project accession number SRP071710.</p>
+        </div>
+        <div xml:id="sec008">
+          <head>Data analysis</head>
+          <p>The sequencing dataset was initially processed by removing low-quality score reads with a cutoff of 20 for the Phred quality score. The sequences were demultiplexed into specific groups based on the barcode sequences and then the tagged and primer sequences were trimmed off using QIIME (Quantitative Insights into Microbial Ecology) version 1.9.1 [
+            <ref target="#pone.0198050.ref017" type="bibr">17</ref>
+            ]. The sequences were clustered into Operational Taxonomic Units (OTUs) for classified taxon and alpha diversity analysis. Chimeric sequences were detected and removed by UCHIME [
+            <ref target="#pone.0198050.ref018" type="bibr">18</ref>
+            ], based on the referenced dataset from the Ribosomal Database Project [
+            <ref target="#pone.0198050.ref019" type="bibr">19</ref>
+            ]. The remaining sequences were clustered through an open-reference method using UCLUST at 97% similarity [
+            <ref target="#pone.0198050.ref020" type="bibr">20</ref>
+            ], with the minimum OTU size set to 2 sequences in order to exclude singletons. The representative sequence of each cluster was determined taxonomically based on the nomenclature from the Greengene database [
+            <ref target="#pone.0198050.ref021" type="bibr">21</ref>
+            ]. To compare the bacterial diversities among the samples, alpha diversity index including observed OTUs, Shannon-Weaver index, and the Chao1 richness estimator were calculated from the OTU Table. Principal coordinate analysis (PCoA) was used to illustrate the beta diversity of bacterial communities using the unweighted Unifrac matrix [
+            <ref target="#pone.0198050.ref022" type="bibr">22</ref>
+            ]. The differences in bacterial profiles were analysed using statistical analysis of taxonomic and functional profiles software (STAMP) [
+            <ref target="#pone.0198050.ref023" type="bibr">23</ref>
+            ]. 
+            <hi rend="bold">The</hi>
+            correlations between some physical and chemical factors of the reservoir and microbial genera were analysed using Spearman’s Correlation [
+            <ref target="#pone.0198050.ref024" type="bibr">24</ref>
+            ].</p>
+        </div>
+      </div>
+      <div type="results" xml:id="sec009">
+        <head>Results</head>
+        <div xml:id="sec010">
+          <head>Physical characteristics of the reservoir</head>
+          <p>A previous survey has shown that the formation pressure of the deepest oil-bearing zone of this reservoir was 1,082 psi (unpublished data, provided by Northern Petroleum Development Centre). The physical characteristics of the sandstone cores, together with the physical properties of the oil wells from which the cores originated are summarised in 
+            <ref target="#pone.0198050.t001" type="table">Table 1</ref>
+            . It can be seen that the lithological nature of the cores, their porosity and grain density were slightly different, but the degrees of permeability, which reflect the mobility of petroleum liquid, had the greatest variation among the samples.</p>
+          <table rend="float" xml:id="pone.0198050.t001">
+            <head type="label">Table 1</head>
+            <idno type="doi">10.1371/journal.pone.0198050.t001</idno>
+            <head type="caption-title">Characteristics of core samples and the wells from which core samples originated.</head>
+            <note type="table-wrap-foot">
+              <note place="inline" xml:id="t001fn001">
+                <p>nd: not determined since complete core plug could not be accessed for these analyses.</p>
+              </note>
+            </note>
+          </table>
+        </div>
+        <div xml:id="sec011">
+          <head>Chemical characteristics of the oil-bearing sandstone cores and produced water</head>
+          <p>The chemical properties of the oil-bearing sandstone cores and the produced water were analysed in order to evaluate the possibility of applying MEOR to the oil wells in this reservoir. Elemental compound analysis, using an X-ray fluorescence spectrometer, revealed that the cores from this sandstone-based reservoir consisted mainly of SiO
+            <hi rend="subscript">2</hi>
+            (80–85%). Elements including nickel, vanadium, rubidium, yttrium, niobium, chromium, strontium, barium, and zirconium were present in all samples. The chemical properties of the cores are summarised in Tables 
+            <ref target="#pone.0198050.t002" type="table">2</ref>
+            and 
+            <ref target="#pone.0198050.t003" type="table">3</ref>
+            .</p>
+          <table rend="float" xml:id="pone.0198050.t002">
+            <head type="label">Table 2</head>
+            <idno type="doi">10.1371/journal.pone.0198050.t002</idno>
+            <head type="caption-title">Percentages of elemental compounds of the core samples.</head>
+          </table>
+          <table rend="float" xml:id="pone.0198050.t003">
+            <head type="label">Table 3</head>
+            <idno type="doi">10.1371/journal.pone.0198050.t003</idno>
+            <head type="caption-title">The element contents of core samples.</head>
+            <note type="table-wrap-foot">
+              <note place="inline" xml:id="t003fn001">
+                <p>bd: below detection limit.</p>
+              </note>
+            </note>
+          </table>
+          <p>Produced water from the oil wells was analysed for chemical properties, including pH and salinity. In addition, the concentrations of sulfate, nitrate, and iron, which can be the sources of nutrient for microorganisms, were also determined. We found that the produced water from most wells (excluding well 3, which is presently abandoned) does not vary significantly in salinity, which is in the normal range of the salinity of onshore reservoirs. The pH of the produced water from the 6 wells tested showed that the wells were slightly alkaline. Sulfate was not detected in the produced water from most wells, while nitrate was present in every well, and iron in 4 out of 5 wells (
+            <ref target="#pone.0198050.t004" type="table">Table 4</ref>
+            ). An analysis of a representative crude oil sample from Mae Soon oil field showed that it had an API gravity of 30°, a viscosity of 22 Cp (at 50°C), and 18 (wt%) wax (unpublished data, provided by Northern Petroleum Development Centre).</p>
+          <table rend="float" xml:id="pone.0198050.t004">
+            <head type="label">Table 4</head>
+            <idno type="doi">10.1371/journal.pone.0198050.t004</idno>
+            <head type="caption-title">The salinity, pH and the dissolved compound concentrations of produced water.</head>
+            <note type="table-wrap-foot">
+              <note place="inline" xml:id="t004fn001">
+                <p>bd: below detection limit.</p>
+              </note>
+            </note>
+          </table>
+        </div>
+        <div xml:id="sec012">
+          <head>Characterisation of microbial diversity of the core samples</head>
+          <p>The purified DNAs from the sandstone core samples treated with produced water (C1P-C6P; control samples) and from those treated with produced water supplemented with inorganic nutrient (C1N-C6N) were sequenced. A total of 1,426,176 filtered reads were obtained from the ION PGM sequencing. The number of reads obtained from each sample ranged from 17,039 to 220,923 reads. The Operational Taxonomic Units (OTUs) in the samples were assigned from the filtered sequences at 97% similarity levels. The bacterial phylotypes ranged from 471 to 754 OTUs at the genetic distance of 0.05 with an average of 619 OTUs per sample. Rarefaction analysis was used to determine the microbial diversity in the filtered data set. The curves show similar numbers of OTUs obtained from both treatments, indicating that there was no significant effect of treatment on the numbers of OTUs as assessed by rarefaction (
+            <ref target="#pone.0198050.g002" type="fig">Fig 2A</ref>
+            and 
+            <ref target="#pone.0198050.s001" type="supplementary-material">S1 File</ref>
+            ). In order to reduce the bias of unequal number of sequences, normalisation was performed by subsampling method at 16,828 sequences per sample. The highest bacterial richness was observed in sample C1P while the lowest one was found in C4P. Meanwhile, Chao1 estimator indicated that samples C5N and C6N contained the highest and the lowest numbers of OTUs, respectively. According to Shannon’s diversity indices, greater bacterial diversities were observed in the controls than in the nutrient-treated samples, with the exception of sample C4, in which bacterial diversity increased after being treated with inorganic nutrient (Mann-Whitney U test; p-value = 0.026, see in 
+            <ref target="#pone.0198050.s001" type="supplementary-material">S1 File</ref>
+            ) (
+            <ref target="#pone.0198050.g002" type="fig">Fig 2B</ref>
+            ). The diversity indices are summarised in 
+            <ref target="#pone.0198050.t005" type="table">Table 5</ref>
+            .</p>
+          <figure xml:id="pone.0198050.g002">
+            <idno type="doi">10.1371/journal.pone.0198050.g002</idno>
+            <head type="label">Fig 2</head>
+            <head type="caption-title">The dataset and diversity indices of metagenomic sequences.</head>
+            <figDesc>(A) Rarefaction curves of observed OTUs for the control and nutrient-treated groups, (B) Shannon diversity index comparison between the two treatments, (C) The number of unique and shared OTUs between the two treatments, (D) The principal coordinate analysis (PCoA) plot showing differences in bacterial community between the control and the nutrient-treated groups.</figDesc>
+            <graphic url="info:doi/10.1371/journal.pone.0198050.g002"/>
+          </figure>
+          <table rend="float" xml:id="pone.0198050.t005">
+            <head type="label">Table 5</head>
+            <idno type="doi">10.1371/journal.pone.0198050.t005</idno>
+            <head type="caption-title">Numbers of sequences, OTUs, and alpha diversity indices of the bacterial community in the sand core samples treated with oil well produced water and produced water supplemented with inorganic nutrients.</head>
+            <note type="table-wrap-foot">
+              <note place="inline" xml:id="t005fn001">
+                <p>*calculated from rarefied OTUs at 16,828 sequences per sample.</p>
+              </note>
+            </note>
+          </table>
+          <p>According to the shared OTUs chart (
+            <ref target="#pone.0198050.g002" type="fig">Fig 2C</ref>
+            ), bacterial groups in the sandstone core were altered after being treated with inorganic nutrients. Smaller numbers of shared OTUs between the two treatments were observed compared to unique OTUs found in either produced water-treated or nutrient-treated samples. More than one thousand unique OTUs were found in produced water-treated samples C1P –C4P and nutrient-treated samples C3N –C5N. Principal coordinate analysis (PCoA) was performed to review the relationship of bacterial communities in the cores subjected to the two treatments (
+            <ref target="#pone.0198050.s002" type="supplementary-material">S1 Table</ref>
+            ). PCoA indicated that the bacterial community profiles were associated with the treatment conditions used (
+            <ref target="#pone.0198050.g002" type="fig">Fig 2D</ref>
+            ).</p>
+        </div>
+        <div xml:id="sec013">
+          <head>Bacterial community structures in oil-bearing sandstone cores treated with produced water and with additional inorganic nutrients</head>
+          <p>Bacterial community profiles of the two treatments were analysed at the class level (
+            <ref target="#pone.0198050.g003" type="fig">Fig 3</ref>
+            ). From 
+            <ref target="#pone.0198050.g003" type="fig">Fig 3</ref>
+            , diverse bacterial groups were observed in both treatments. In the controls, bacteria in classes 
+            <hi rend="italic">Deinococcus–Thermus</hi>
+            , 
+            <hi rend="italic">Proteobacteria</hi>
+            (Beta), 
+            <hi rend="italic">Acidobacteria</hi>
+            (Solibacteres), and 
+            <hi rend="italic">Firmicutes</hi>
+            (Clostridia) were the predominant classes having mean proportions of 40.9%, 17.5%, 10.7%, and 9.2%, respectively. When the samples were treated with inorganic nutrients, the predominant classes were mainly 
+            <hi rend="italic">Deinococcus–Thermus</hi>
+            and 
+            <hi rend="italic">Proteobacteria</hi>
+            (Gamma). 
+            <hi rend="italic">Deinococcus–Thermus</hi>
+            was the major taxon found with the proportion of 41.8%, while 
+            <hi rend="italic">Proteobacteria</hi>
+            (Gamma) was the second most abundant class, contributing 36.9%. 
+            <hi rend="italic">Acidobacteria</hi>
+            , 
+            <hi rend="italic">Proteobacteria</hi>
+            (Beta), and 
+            <hi rend="italic">Firmicutes</hi>
+            (Clostridia) were found only in small proportions in the nutrient-treated samples. If considered by means of individual samples, there was a significantly increase (P &lt; 0.05) in the relative abundance of 
+            <hi rend="italic">Gammaproteobacteria</hi>
+            in three samples (C1N, C3N, and C6N) obtained from three individual wells (well 1, 3, and 6), as a result of the inorganic nutrient treatment.</p>
+          <figure xml:id="pone.0198050.g003">
+            <idno type="doi">10.1371/journal.pone.0198050.g003</idno>
+            <head type="label">Fig 3</head>
+            <head type="caption-title">Class-level classification of bacteria in the control and the nutrient-treated sandstone core samples.</head>
+            <graphic url="info:doi/10.1371/journal.pone.0198050.g003"/>
+          </figure>
+          <p>At the order level, the top five orders in the control group, according to the OTU abundances, were 
+            <hi rend="italic">Thermales</hi>
+            (in C4P, C3P, and C2P), 
+            <hi rend="italic">Solibacterales</hi>
+            (in C6P), 
+            <hi rend="italic">Burkholderiales</hi>
+            (in C1P and C2P), 
+            <hi rend="italic">Clostridiales</hi>
+            (in C5P), and SM1H02 (in C1P, C5P, and C2P). For the nutrient-treated group, the top five orders were 
+            <hi rend="italic">Pseudomonadales</hi>
+            (in C1N, C6N and C3N), 
+            <hi rend="italic">Thermales</hi>
+            (in C4N, C5N, and C2N), SM1H02 (in C3N, C2N, and C4N), 
+            <hi rend="italic">Solibacterales</hi>
+            (in C3N), and 
+            <hi rend="italic">Pirellulales</hi>
+            (in C2N and C5N), although the latter two had abundances smaller than 10%.</p>
+          <p>We also determined the effects of different treatment conditions on bacterial diversity at the genus level. The abundances of bacterial genera were different between the samples submerged in produced water and those treated with inorganic nutrients (
+            <ref target="#pone.0198050.g004" type="fig">Fig 4</ref>
+            ). In the overall picture of the reservoir, 
+            <hi rend="italic">Thermus</hi>
+            was the most abundant genus, both in the samples submerged in produced water and in the samples treated with additional nutrients, having average distributions of 33.8% and 40.0%, respectively. Treatment with the inorganic nutrient caused a slight increase of this genus (6.2%). The populations of this genus increased in samples C2N (20.0% to 65.9%), C4N (74.5 to 78.1%), and C5N (5.2% to 76.8%); but decreased in samples C1N (27.3% to 0.6%), C3N (47.3% to 9.9%), and C6N (28.5% to 8.6%). Other bacterial genera that were obviously altered as a result of nutrient treatment were 
+            <hi rend="italic">Pseudomonas</hi>
+            and 
+            <hi rend="italic">Acinetobacter</hi>
+            . 
+            <hi rend="italic">Pseudomonas</hi>
+            increased up to 19.7%, while 
+            <hi rend="italic">Acinetobacter</hi>
+            increased up to 15.5%. Alterations of these genera were not consistent in all samples, although they increased in the majority of the samples. For example, the relative abundance of 
+            <hi rend="italic">Pseudomonas</hi>
+            increased in nutrient-treated samples C1N, C3N, C4N, and C6N. 
+            <hi rend="italic">Acinetobacter</hi>
+            increased in C1N, C2N, C3N, C4N, and C6N. The most prominent increase in 
+            <hi rend="italic">Acinetobacter</hi>
+            was observed in nutrient-treated sample C1N (from 0.6% in C1P to 63.9% in C1N; an increase of 63.3%), and 
+            <hi rend="italic">Pseudomonas</hi>
+            in C3N (from 0.9% to 53.8%; an increase of 52.8%).</p>
+          <figure xml:id="pone.0198050.g004">
+            <idno type="doi">10.1371/journal.pone.0198050.g004</idno>
+            <head type="label">Fig 4</head>
+            <head type="caption-title">Comparative analysis of genus abundance in bacterial communities from the controls (C1P-C6P) and nutrient-treated samples (C1N-C6N).</head>
+            <graphic url="info:doi/10.1371/journal.pone.0198050.g004"/>
+          </figure>
+          <p>On the other hand, some genera, such as 
+            <hi rend="italic">Tepidimonas</hi>
+            , 
+            <hi rend="italic">Meiotermus</hi>
+            , 
+            <hi rend="italic">Hydrogenophilus</hi>
+            , and 
+            <hi rend="italic">Bacillus</hi>
+            , experienced average decreases in their proportions after nutrient treatment (
+            <ref target="#pone.0198050.g004" type="fig">Fig 4</ref>
+            ). The relative abundance of 
+            <hi rend="italic">Tepidimonas</hi>
+            decreased most obviously in the sample C1 (from 32.9% (C1P) to 0.6% (C1N)), 
+            <hi rend="italic">Meiothermus</hi>
+            in C2 (from 22.5% (C2P) to 0.4% (C2N)), 
+            <hi rend="italic">Hydrogenophilus</hi>
+            in C6 (from 7.9% (C6P) to 0.001% (C6N)), and 
+            <hi rend="italic">Bacillus</hi>
+            in C6 (from 3.7% (C6P) to 0.08% (C6N)).</p>
+        </div>
+        <div xml:id="sec014">
+          <head>Correlations between physicochemical properties and bacterial genera</head>
+          <p>Spearman’s correlation analysis showed statistically significant correlations between physicochemical factors and bacterial genera in the reservoir communities (P-value &lt; 0.05) (see 
+            <ref target="#pone.0198050.s003" type="supplementary-material">S2 Table</ref>
+            for details).</p>
+          <p>Concerning the well characteristics, the formation temperature and well depth had effects on the proportions of some bacterial genera, especially 
+            <hi rend="italic">Corynebacterium</hi>
+            in the controls and 
+            <hi rend="italic">Lactobacillus</hi>
+            in the nutrient-treated samples. The higher the temperatures and the larger the well depths, the more abundant these genera were.</p>
+          <p>As for the core characteristics, several factors, including physical and chemical characteristics, were found to affect bacterial genera in the communities. Among the physical factors, grain density positively correlated with the proportions of 
+            <hi rend="italic">Acinetobacter</hi>
+            , 
+            <hi rend="italic">Bacillus</hi>
+            , 
+            <hi rend="italic">Corynebacterium</hi>
+            , 
+            <hi rend="italic">Enhydobacter</hi>
+            , and 
+            <hi rend="italic">Streptococcus</hi>
+            (in the controls; C) and 
+            <hi rend="italic">Lactobacillus</hi>
+            (in the nutrient-treated samples; N); while permeability had a negative correlation with 
+            <hi rend="italic">Rubrobacter</hi>
+            (N). Porosity, however, did not have significant correlation with any bacterial genera. Among the chemical compositions of the reservoir rocks, there were connections between some elements and compounds such as Cr, MnO, P
+            <hi rend="subscript">2</hi>
+            O
+            <hi rend="subscript">5</hi>
+            , and Na
+            <hi rend="subscript">2</hi>
+            O and some bacterial genera, which were mostly in negative correlation patterns. Cr and MnO had effects on 
+            <hi rend="italic">Acinetobacter</hi>
+            , 
+            <hi rend="italic">Corynebacterium</hi>
+            , and 
+            <hi rend="italic">Enhydobacter</hi>
+            (C), P
+            <hi rend="subscript">2</hi>
+            O
+            <hi rend="subscript">5</hi>
+            on 
+            <hi rend="italic">Enhydobacter</hi>
+            and 
+            <hi rend="italic">Acinetobacter</hi>
+            , and Na
+            <hi rend="subscript">2</hi>
+            O on 
+            <hi rend="italic">Tepidomonas</hi>
+            and 
+            <hi rend="italic">Lactobacillus</hi>
+            (C) and 
+            <hi rend="italic">Bacillus</hi>
+            (N). Some positive correlations were observed, such as those between P
+            <hi rend="subscript">2</hi>
+            O
+            <hi rend="subscript">5</hi>
+            and 
+            <hi rend="italic">Thermus</hi>
+            (N), but such correlations were exceptions.</p>
+          <p>The produced water, in contrast to the well and rock properties, had no significant correlation with bacterial genera for both treatments.</p>
+        </div>
+      </div>
+      <div type="conclusions" xml:id="sec015">
+        <head>Discussions</head>
+        <p>Mae Soon reservoir is one oil-bearing reservoirs in the Fang oil field, with the oil sand at a depth between 609 and 756 metres. The depth affects the temperature and pressure of the formation. The temperature, in particular, can affect microbial growth and metabolism [
+          <ref target="#pone.0198050.ref005" type="bibr">5</ref>
+          ]. Because Mae Soon reservoir is a shallow reservoir, the formation temperature is not too high (63 to 72°C) and this range of temperature can support growth and metabolism of moderate thermophiles [
+          <ref target="#pone.0198050.ref025" type="bibr">25</ref>
+          ]. The formation pressure of the deepest oil-bearing zone of Mae Soon is 1,082 psi, which should not limit bacterial metabolism, according to Donaldson 
+          <hi rend="italic">et al</hi>
+          . (1989), who report that pressure lower than 1,400–2,800 psi does not affect on bacterial metabolism [
+          <ref target="#pone.0198050.ref005" type="bibr">5</ref>
+          ].</p>
+        <p>The physical and chemical properties of the oil-bearing rock and the properties of the produced water from oil wells within a reservoir can determine the success of the MEOR method. Lithological analysis revealed that the rock of reservoir was sandstone-based. According to Brown 
+          <hi rend="italic">et al</hi>
+          . (2000), sandstone-based rock is favourable for the biotechnological oil-recovery method [
+          <ref target="#pone.0198050.ref010" type="bibr">10</ref>
+          ]. Core analysis showed that different sandstone core samples varied greatly in their degrees of permeability, which ranged from less than 1 to over 100 mD. Permeability of less than 75 mD is expected to limit effective microbial transport through the reservoir [
+          <ref target="#pone.0198050.ref026" type="bibr">26</ref>
+          ]. Thus, from the MEOR perspective, the permeabilities of core samples C2 and C3 seemed to be promising. As for the porosity, which reflects the fluids (water or hydrocarbons) contained within the reservoir rock [
+          <ref target="#pone.0198050.ref026" type="bibr">26</ref>
+          ], the values were within the range found in most commercial petroleum reservoirs, ranging from 10–25%. This parameter might affect the cell transport in the pore space of the oil reservoir [
+          <ref target="#pone.0198050.ref005" type="bibr">5</ref>
+          ]. Iglauer 
+          <hi rend="italic">et al</hi>
+          . (2010) observed that rocks with porosity of about 20% supported recovery of additional incremental oil from the sandstone core up to 75% [
+          <ref target="#pone.0198050.ref027" type="bibr">27</ref>
+          ]. The cores contained elements commonly found in other sandstone reservoirs’ strata [
+          <ref target="#pone.0198050.ref028" type="bibr">28</ref>
+          ]. Moreover, the produced water, which was low in salinity and had neutral to slightly alkaline pH, could support microbial growth [
+          <ref target="#pone.0198050.ref005" type="bibr">5</ref>
+          ]. The crude oil (which in Mae Soon reservoir includes paraffin) could be used by microorganisms as a carbon source. The oil API gravity and its viscosity are also within the acceptable ranges for MEOR processes [
+          <ref target="#pone.0198050.ref029" type="bibr">29</ref>
+          , 
+          <ref target="#pone.0198050.ref030" type="bibr">30</ref>
+          ].</p>
+        <p>Besides the characteristics of the well, the rock, and the produced water, the microbiological characteristics of the reservoir were investigated. The experiment of enrichment process of 8 month period was designed as a laboratory trial to observe what might happen to the bacterial communities residing the well/reservoir rock after being treated with inorganic nutrients for an extended period of time. This enrichment process was designed according to a field experiment proposal, using enrichment/shut-in strategy, at Mae Soon site. The relative abundance of predominant taxa found in the oil-bearing sandstone core samples that had been submerged in the reservoir’s produced water (control samples) showed that 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          (Deinococci) was the most abundant bacterial class in half (three out of six) of the samples tested. As for the other three samples, even though the 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          (Deinococci) was present, the predominant bacteria differed. 
+          <hi rend="italic">Betaproteobacteria</hi>
+          was predominant in one sample (C1P), while in samples C5P and C6P, 
+          <hi rend="italic">Firmicutes</hi>
+          (Clostridia) and 
+          <hi rend="italic">Acidobacteria</hi>
+          (Solibacteres), were more abundant than others. This is interesting because 
+          <hi rend="italic">Gammaproteobacteria</hi>
+          had been found to be a more-common predominant bacterium in many other studies of oil-reservoir microbial communities than 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          [
+          <ref target="#pone.0198050.ref031" type="bibr">31</ref>
+          ]. Thus, the bacterial communities in the cores submerged in the produced water for a prolonged period of time, being made up largely of 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          (Deinococci), was different from those related to the oil reservoirs previously reported [
+          <ref target="#pone.0198050.ref032" type="bibr">32</ref>
+          , 
+          <ref target="#pone.0198050.ref033" type="bibr">33</ref>
+          ]. The microbial structure of the cores drilled from the oil wells within the reservoir shared some common patterns, yet the core from each oil well preserves its own microbial composition.</p>
+        <p>At the genus level, sequencing of 16S rRNA gene amplicons from the reservoir samples revealed several potential bacteria for the microbial recovery process including 
+          <hi rend="italic">Thermus</hi>
+          , 
+          <hi rend="italic">Pseudomonas</hi>
+          , 
+          <hi rend="italic">Acinetobacter</hi>
+          , 
+          <hi rend="italic">Bacillus</hi>
+          , and 
+          <hi rend="italic">Clostridium</hi>
+          [
+          <ref target="#pone.0198050.ref034" type="bibr">34</ref>
+          ]. The most abundant genus was 
+          <hi rend="italic">Thermus</hi>
+          , which was found 27.3%, 20.0%, 47.3%, 74.5% and 28.5% in samples C1P, C2P, C3P, C4P, and C6P, respectively. This bacterium is generally found under elevated temperature conditions. It can grow at temperatures between 50 to 75°C (with the optimum temperature of 70°C), and is also found in high-temperature petroleum reservoirs (with the temperature range of 50 to 80°C) such as East Paris Basin (France) and Samotlor oil reservoir (Russia) [
+          <ref target="#pone.0198050.ref035" type="bibr">35</ref>
+          , 
+          <ref target="#pone.0198050.ref036" type="bibr">36</ref>
+          ]. Many thermophilic bacteria secrete biosurfactants which can support microbial hydrocarbon degradation [
+          <ref target="#pone.0198050.ref037" type="bibr">37</ref>
+          ].</p>
+        <p>Many facultative anaerobic bacteria found in the reservoir samples were bacteria that can potentially support the MEOR process. The 
+          <hi rend="italic">Bacillus</hi>
+          genus was found in sample C1P, C3P, and C6P. This genus occurred in the environment of many oil reservoirs [
+          <ref target="#pone.0198050.ref038" type="bibr">38</ref>
+          ]. Some members of this genus are thermotolerant, capable of producing biosurfactants that play an important role in mobilising entrapped oil, and able to survive in extreme conditions. The characteristics and capabilities of this genus are desirable in MEOR processes [
+          <ref target="#pone.0198050.ref039" type="bibr">39</ref>
+          ]. Besides these, 
+          <hi rend="italic">Clostridium</hi>
+          was also found, although not in a great abundance. This organism is one of the bacteria that can produce solvents and gases under anaerobic conditions, which would support the efficiency of oil recovery by reducing oil viscosity [
+          <ref target="#pone.0198050.ref002" type="bibr">2</ref>
+          ].</p>
+        <p>There were some changes in the relative abundances of predominant taxa in the core samples after being treated with inorganic nutrient. 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          (Deinococci) did not seem to be influenced by nutrient enrichment and remained the most abundant class in the reservoir’s community; comprising 41.8%, which was similar to the control group (40.9%). However, when considering the bacterial composition in groups of individual wells, the abundances of this class were significantly different. It was more abundant in C2N, C4N, and C5N than in the controls. This group of bacteria is more commonly present in high temperature environments [
+          <ref target="#pone.0198050.ref040" type="bibr">40</ref>
+          ]. Interestingly, 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          had not been reported to be present in sandstone-based rock; it had only been found in the rock from a coal bed methane reservoir, although in a small proportion [
+          <ref target="#pone.0198050.ref041" type="bibr">41</ref>
+          ].</p>
+        <p>Differences of relative proportions of bacteria as a result of nutrient treatment were observed with 
+          <hi rend="italic">Gammaproteobacteria</hi>
+          , which became the second most abundant group in some nutrient-treated samples. However, because of the high level of variation in the proportions of this group among the samples, the overall changes were not significant. In contrast, 
+          <hi rend="italic">Betaproteobacteria</hi>
+          , 
+          <hi rend="italic">Acidobacteria</hi>
+          (Solibacteres), 
+          <hi rend="italic">Firmicutes</hi>
+          (Clostridia), and 
+          <hi rend="italic">Firmicutes</hi>
+          (Bacilli), were the taxa that experienced a lower abundance than in the control group.</p>
+        <p>Bacterial community profiles of nutrient-treated sandstone samples determined in this work were clearly different from those of the liquid phase of an offshore reservoir, as reported by Kotlar 
+          <hi rend="italic">et al</hi>
+          . (2011), which were dominated by 
+          <hi rend="italic">Delta/epsilon</hi>
+          -
+          <hi rend="italic">Proteobacteria</hi>
+          (sulfate-reducing bacteria) and methanogens (mostly 
+          <hi rend="italic">Methanococcus</hi>
+          species) [
+          <ref target="#pone.0198050.ref009" type="bibr">9</ref>
+          ]. In our study, 
+          <hi rend="italic">Delta/epsilon</hi>
+          -
+          <hi rend="italic">Proteobacteria</hi>
+          occurred in low abundance, while methanogens were not found. Although this is an extreme comparison between an onshore and offshore (marine) environment, between sandstone and liquid phase samples, and between the different treatments the samples received; it is clear that bacterial distribution in an environment can be greatly influenced by unique reservoir characteristics, such as NaCl concentration, types of organic compounds present, and reservoir pressure. Even the individual characteristics of the oil wells in the reservoir could also contribute to the specificity of microbial population.</p>
+        <p>At the genus level, the bacterial genera that were predominant in the nutrient-treated samples were mainly 
+          <hi rend="italic">Thermus</hi>
+          , 
+          <hi rend="italic">Pseudomonas</hi>
+          , and 
+          <hi rend="italic">Acinetobacter</hi>
+          . Again, the overall changes were not significant due to the high level of variation among the samples, but they increased significantly in some samples extracted from some wells. A previous study performed on inorganic nutrient-enriched production fluids resulted in different major microbes, including bacteria in the order 
+          <hi rend="italic">Thermotogales</hi>
+          , methanogens related to 
+          <hi rend="italic">Methanobacterium</hi>
+          and 
+          <hi rend="italic">Methanococcus</hi>
+          , and sulfur-utilising archaea of the genus 
+          <hi rend="italic">Thermococcus</hi>
+          [
+          <ref target="#pone.0198050.ref042" type="bibr">42</ref>
+          ]. Nutrient treatment processes may give different results in bacterial community structures and patterns of distribution changes, depending on the original seed culture, type of nutrient used, and conditions and time of incubation. Apart from these, the physical and chemical properties of the oil-bearing strata and the properties of produced water of reservoirs may have significant contributions to the bacterial distribution patterns. To design a nutrient treatment process for a reservoir, which carries its own complexity, all these factors must be taken into account.</p>
+        <p>In MEOR-related terms, the major bacteria found in the cores after nutrient enrichment were considered having high potentials. 
+          <hi rend="italic">Thermus</hi>
+          , which was the most abundant genus in the treated samples, is known as thermophilic hydrocarbon-degraders [
+          <ref target="#pone.0198050.ref043" type="bibr">43</ref>
+          ]. This organism was able to secrete rhamnolipids, a biosurfactant that can directly hydrolyse oil [
+          <ref target="#pone.0198050.ref044" type="bibr">44</ref>
+          ]. This genus converted crude oil into lighter hydrocarbons by decreasing aromatics, resins and asphaltenes in crude oil [
+          <ref target="#pone.0198050.ref045" type="bibr">45</ref>
+          ]. It is, therefore, one of the promising thermophilic bacteria for MEOR application.</p>
+        <p>
+          <hi rend="italic">Pseudomonas</hi>, the second most abundant genus that became one of the predominant groups as a result of nutrient treatment, is capable of producing many kinds of biosurfactant molecules. Biosurfactants can lower interfacial tension of water, thus allowing mobilisation of bound hydrophobic molecules, which, in this case, is the oil trapped in the reservoir rock. The biosurfactants produced by this organism had a high potential for the recovery of crude oil [
+          <ref target="#pone.0198050.ref046" type="bibr">46</ref>
+          ]. Besides, 
+          <hi rend="italic">Pseudomonas</hi>
+          is known as a hydrocarbon-degrading bacterium, and it is effective in stabilising oil-in-water emulsion that can improve the ability of oil recovery [
+          <ref target="#pone.0198050.ref047" type="bibr">47</ref>
+          ]. In addition, 
+          <hi rend="italic">Pseudomonas</hi>
+          was applied, together with other microbes, to enhance oil recovery rate in the Bragadiru oil field, which caused the increase in oil production from 1.5 to 7.4 bbl/d per well [
+          <ref target="#pone.0198050.ref048" type="bibr">48</ref>
+          ]. The existence of 
+          <hi rend="italic">Pseudomonas</hi>
+          in onshore reservoirs had also been observed in other studies [
+          <ref target="#pone.0198050.ref031" type="bibr">31</ref>
+          , 
+          <ref target="#pone.0198050.ref042" type="bibr">42</ref>
+          ]. 
+          <hi rend="italic">Pseudomonas</hi>
+          was found in the produced water of Gudao oil reservoir, China [
+          <ref target="#pone.0198050.ref049" type="bibr">49</ref>
+          ] and of Daqing oil field, China [
+          <ref target="#pone.0198050.ref033" type="bibr">33</ref>
+          ]. Fluid samples collected from producing wells of an offshore petroleum reservoir also contained a high proportion of this organism [
+          <ref target="#pone.0198050.ref032" type="bibr">32</ref>
+          ]. The fact that 
+          <hi rend="italic">Pseudomonas</hi>
+          , which is typically aerobic, was found in oil reservoirs was interesting. This genus could grow in an anaerobic condition, as reported by Kerschen 
+          <hi rend="italic">et al</hi>
+          . (2001), since it could use nitrate as a terminal electron acceptor for both assimilation and anaerobic respiration [
+          <ref target="#pone.0198050.ref050" type="bibr">50</ref>
+          ].</p>
+        <p>
+          <hi rend="italic">Acinetobacter</hi>, another genus present in a large proportion as a result of nutrient treatment, is another potential bacterium for a MEOR process. Several species of 
+          <hi rend="italic">Acinetobacter</hi>
+          produce substances involved in emulsification, interfacial tension reduction, and oil viscosity reduction [
+          <ref target="#pone.0198050.ref051" type="bibr">51</ref>
+          ]. These abilities are potentially useful for enhanced oil recovery. Metabolites from this genus have been used to increase displacement efficiency [
+          <ref target="#pone.0198050.ref034" type="bibr">34</ref>
+          ]. Previous studies have shown that this organism was found in produced water of Daqing oil field and in crude-oil-contaminated soil of Zhongyuan oil field, China [
+          <ref target="#pone.0198050.ref033" type="bibr">33</ref>
+          , 
+          <ref target="#pone.0198050.ref052" type="bibr">52</ref>
+          ].</p>
+        <p>Several other bacterial genera such as 
+          <hi rend="italic">Clostridium</hi>
+          , 
+          <hi rend="italic">Klebsiella</hi>
+          , and 
+          <hi rend="italic">Bacillus</hi>
+          , known as potential producers of some metabolites that can enhance oil recovery, were also detected, although in low proportions. 
+          <hi rend="italic">Clostridium</hi>
+          and 
+          <hi rend="italic">Klebsiella</hi>
+          have been reported to increase the oil recovery process by reduction of oil viscosity [
+          <ref target="#pone.0198050.ref002" type="bibr">2</ref>
+          ]. 
+          <hi rend="italic">Bacillus</hi>
+          is among the organisms with high potentials to produce biosurfactants and enzymes [
+          <ref target="#pone.0198050.ref053" type="bibr">53</ref>
+          , 
+          <ref target="#pone.0198050.ref054" type="bibr">54</ref>
+          ]. Members of this genus could lower the interfacial tension of water, and thus could allow water to mobilise residual oil trapped in a reservoirs’ oil-bearing zone. The spore-forming capability of 
+          <hi rend="italic">Bacillus</hi>
+          is also favourable for its survival in harsh conditions of different reservoirs [
+          <ref target="#pone.0198050.ref039" type="bibr">39</ref>
+          ]. This genus, however, was found in relatively low proportion in our study, even lower after the nutrient treatment. The treatment using inorganic nutrients that could cause some bacterial genera, such as 
+          <hi rend="italic">Thermus</hi>
+          , 
+          <hi rend="italic">Pseudomonas</hi>
+          , and 
+          <hi rend="italic">Acinetobacter</hi>
+          , to prevail, obviously could not promote the growth of 
+          <hi rend="italic">Bacillus</hi>
+          . It could be possible that the organism remained in the dormant stage under the nutrient-treated conditions given in this study. Conditions that can elevate this genus to a higher relative abundance remain to be further investigated.</p>
+        <p>Some bacterial genera in the reservoir’s communities can be influenced by reservoir parameters, such as temperature and depth of the wells, grain density and permeability of the cores, and chemical compositions of the cores. Inorganic nutrient composition could also alter bacterial population, although the patterns of change were not consistent in individual wells. Since predominant bacterial genera could greatly influence biosurfactants, gases, acids, solvents, and biopolymers production, it is important to consider the connection between physical/chemical factors of the reservoir and the microbial structure, in order to evaluate the suitability of the reservoir for MEOR application and to appropriately design a MEOR strategy.</p>
+      </div>
+      <div type="conclusions" xml:id="sec016">
+        <head>Conclusion</head>
+        <p>This study demonstrated how the bacterial structure in oil-bearing sandstone cores extracted from Mae Soon reservoir, Fang Basin, Thailand, and how the additional inorganic nutrients, together with the physical and chemical characteristics of the reservoir, were related. Bacterial community analysis of oil-bearing sandstone cores submerged in the produced water under high temperature conditions revealed 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          (Deinococci) and 
+          <hi rend="italic">Betaproteobacteria</hi>
+          as the predominant groups. The bacterial communities in samples extracted from some wells of the reservoir were altered after the inorganic nutrient treatment, resulting in a different bacterial population, most obviously in 
+          <hi rend="italic">Betaproteobacteria</hi>
+          giving dominance to 
+          <hi rend="italic">Gammaproteobacteria</hi>
+          , while 
+          <hi rend="italic">Deinococcus-Thermus</hi>
+          remained the most abundant group. At the genus level, 
+          <hi rend="italic">Thermus</hi>
+          , 
+          <hi rend="italic">Pseudomonas</hi>
+          , and 
+          <hi rend="italic">Acinetobacter</hi>
+          were the most abundant. Members of these genera are capable of producing hydrocarbon-degrading enzymes, surfactants, and other MEOR-related substances, which are desirable for MEOR application. The microbial communities were supported by the reservoir’s physical/chemical characteristics.</p>
+        <p>This experiment was set to address whether the inorganic nutrient treatment would have an effect on the reservoir’s bacterial community as a whole, or on the communities in the individual wells, so that MEOR could be designed according to the finding. Our results seemed to point that, for this reservoir, such nutrient treatment may be potential, but the application of MEOR processes might be considered in individual wells rather than one process for the whole reservoir’s system. However, whether or not the field application based on this laboratory finding would be effective, 
+          <hi rend="italic">in situ</hi>
+          investigation must be performed. Nevertheless, the approach of this study in employing the information of a reservoir’s bacterial communities, fortified with inorganic nutrients as necessary, together with the reservoir’s physical and chemical properties, can be considered for a preliminary evaluation of the possibility of conducting or for designing a MEOR process.</p>
+      </div>
+      <div xml:id="sec017">
+        <head>Supporting information</head>
+        <ref target="info:doi/10.1371/journal.pone.0198050.s001" type=" supplementary-material ">
+          <head type="caption-title">The statistical analysis supporting the results are shown in 
+            <ref target="#pone.0198050.g002" type="fig">Fig 2A and 2B</ref>
+            .</head>
+          <figDesc>The rarefied OTUs (16,828) were obtained by subsampling method and statistical calculation was performed using the non-parametric Mann-Whitney U test.</figDesc>
+          <figDesc>(XLSX)</figDesc>
+        </ref>
+        <ref target="info:doi/10.1371/journal.pone.0198050.s002" type=" supplementary-material ">
+          <head type="caption-title">The statistical testing of the difference between unweighted and weighted Unifrac data.</head>
+          <figDesc>The rarefied 16,828 OTUs (
+            <ref target="#pone.0198050.g002" type="fig">Fig 2C</ref>
+            ) were used for statistical analysis, which was performed by PERMANOVA to compare the difference between two treatments.</figDesc>
+          <figDesc>(XLSX)</figDesc>
+        </ref>
+        <ref target="info:doi/10.1371/journal.pone.0198050.s003" type=" supplementary-material ">
+          <head type="caption-title">Spearman’s correlation analysis.</head>
+          <figDesc>The statistical results show significant correlations between physicochemical factors and bacterial genera in the reservoir communities.</figDesc>
+          <figDesc>(XLSX)</figDesc>
+        </ref>
+      </div>
+    </body>
+    <back>
+      <div type="acknowledgements">
+        <p>This research work was partially supported by Chiang Mai University. The authors would like to express our gratitude to Dr. Robert Kieckhefer (guest lecturer, Department of Geological Sciences, Chiang Mai University) for his invaluable advice to improve the manuscript and Dr. Denis Sweatman (Chiang Mai University) for his kind assistance in proofreading the manuscript. We also would like to thank the staff members of the Northern Petroleum Development Centre, Defence Energy Department, Thailand, for providing the samples used in this study and the accompanying data.</p>
+      </div>
+      <div type="references">
+        <head>References</head>
+        <listBibl>
+          <biblStruct type="journal" xml:id="pone.0198050.ref001">
+            <analytic>
+              <title level="a" type="main">Evaluation of key reservoir drive mechanisms in the early cycles of steam stimulation at Cold Lake</title>
+              <author>
+                <persName>
+                  <surname>Denbina</surname>
+                  <forename type="first">E</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Boberg</surname>
+                  <forename type="first">T</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Rottor</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">SPE Reservoir Eng</title>
+              <imprint>
+                <date type="year">1991</date>
+                <biblScope unit="vol">6</biblScope>
+                <biblScope from="207" unit="page">207</biblScope>
+                <biblScope to="211" unit="page">211</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref002">
+            <analytic>
+              <title level="a" type="main">Biotechnology in petroleum recovery: The microbial EOR</title>
+              <author>
+                <persName>
+                  <surname>Sen</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Progr Energ Combust Sci</title>
+              <imprint>
+                <date type="year">2008</date>
+                <biblScope unit="vol">34</biblScope>
+                <biblScope from="714" unit="page">714</biblScope>
+                <biblScope to="724" unit="page">724</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref003">
+            <analytic>
+              <title level="a" type="main">Mechanisms involved in microbially Enhanced Oil Recovery</title>
+              <author>
+                <persName>
+                  <surname>Kaster</surname>
+                  <forename type="first">KM</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Hiorth</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Kjeilen-Eilertsen</surname>
+                  <forename type="first">G</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Boccadoro</surname>
+                  <forename type="first">K</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Lohne</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Berland</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Transport Porous Media</title>
+              <imprint>
+                <date type="year">2012</date>
+                <biblScope unit="vol">91</biblScope>
+                <biblScope from="59" unit="page">59</biblScope>
+                <biblScope to="79" unit="page">79</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref004">
+            <analytic>
+              <title level="a" type="main">Microbial enhanced oil recovery (MEOR)</title>
+              <author>
+                <persName>
+                  <surname>Lazar</surname>
+                  <forename type="first">I</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Petrisor</surname>
+                  <forename type="first">I</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Yen</surname>
+                  <forename type="first">T</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Petrol Sci Tech</title>
+              <imprint>
+                <date type="year">2007</date>
+                <biblScope unit="vol">25</biblScope>
+                <biblScope from="1353" unit="page">1353</biblScope>
+                <biblScope to="1366" unit="page">1366</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref005">
+            <analytic>
+              <title level="a" type="main">Microbial enhanced oil recovery</title>
+              <author>
+                <persName>
+                  <surname>Donaldson</surname>
+                  <forename type="first">EC</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Chilingarian</surname>
+                  <forename type="first">GV</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Yen</surname>
+                  <forename type="first">TF</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Developments in Petroleum Science</title>
+              <imprint>
+                <date type="year">1989</date>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref006">
+            <analytic>
+              <title level="a" type="main">Diversity of culturable sulfidogenic bacteria in two oil-water separation tanks in the north-eastern oil fields of India</title>
+              <author>
+                <persName>
+                  <surname>Agrawal</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Vanbroekhoven</surname>
+                  <forename type="first">K</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Lal</surname>
+                  <forename type="first">B</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Anaerobe</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">16</biblScope>
+                <biblScope from="12" unit="page">12</biblScope>
+                <biblScope to="18" unit="page">18</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref007">
+            <analytic>
+              <title level="a" type="main">Isolation of thermotolerant, halotolerant, facultative biosurfactant-producing bacteria</title>
+              <author>
+                <persName>
+                  <surname>Ghojavand</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Vahabzadeh</surname>
+                  <forename type="first">F</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Mehranian</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Radmehr</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Shahraki</surname>
+                  <forename type="first">KhA</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Zolfagharian</surname>
+                  <forename type="first">F</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Microbiol Biotechnol</title>
+              <imprint>
+                <date type="year">2008</date>
+                <biblScope unit="vol">80</biblScope>
+                <biblScope from="1073" unit="page">1073</biblScope>
+                <biblScope to="1085" unit="page">1085</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref008">
+            <analytic>
+              <title level="a" type="main">Comparison of bacterial community in aqueous and oil phases of water-flooded petroleum reservoirs using pyrosequencing and clone library approaches</title>
+              <author>
+                <persName>
+                  <surname>Wang</surname>
+                  <forename type="first">LY</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Ke</surname>
+                  <forename type="first">WJ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Sun</surname>
+                  <forename type="first">XB</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Liu</surname>
+                  <forename type="first">JF</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Gu</surname>
+                  <forename type="first">JD</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Mu</surname>
+                  <forename type="first">BZ</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Microbiol Biotechnol</title>
+              <imprint>
+                <date type="year">2014</date>
+                <biblScope unit="vol">98</biblScope>
+                <biblScope from="4209" unit="page">4209</biblScope>
+                <biblScope to="4221" unit="page">4221</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref009">
+            <analytic>
+              <title level="a" type="main">High coverage sequencing of DNA from microorganisms living in an oil reservoir 2.5 kilometres subsurface</title>
+              <author>
+                <persName>
+                  <surname>Kotlar</surname>
+                  <forename type="first">HK</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Lewin</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Johansen</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Throne-Holst</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Haverkamp</surname>
+                  <forename type="first">T</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Markussen</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Environmental Microbiology Reports</title>
+              <imprint>
+                <date type="year">2011</date>
+                <biblScope unit="vol">3</biblScope>
+                <biblScope from="674" unit="page">674</biblScope>
+                <biblScope to="681" unit="page">681</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref010">
+            <analytic>
+              <title level="a" type="main">Slowing production decline and extending the economic life of an oil field: new MEOR technology</title>
+              <author>
+                <persName>
+                  <surname>Brown</surname>
+                  <forename type="first">L</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Vadie</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Stephens</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">SPE J</title>
+              <imprint>
+                <date type="year">2000</date>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref011">
+            <analytic>
+              <title level="a" type="main">Microbial enhanced oil recovery (MEOR)</title>
+              <author>
+                <persName>
+                  <surname>Brown</surname>
+                  <forename type="first">L</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Curr Opin Microbiol</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">13</biblScope>
+                <biblScope from="316" unit="page">316</biblScope>
+                <biblScope to="320" unit="page">320</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="book" xml:id="pone.0198050.ref012">
+            <analytic>
+              <author>
+                <persName>
+                  <surname>Torsæter</surname>
+                  <forename type="first">O</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Abtahi</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Department of Petroleum Engineering and Applied Geophysics</title>
+              <imprint>
+                <publisher>Norwegian University of Science and Technology</publisher>
+                <date type="year">2003</date>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="book" xml:id="pone.0198050.ref013">
+            <analytic/>
+            <monogr>
+              <title level="j">Standard methods for the examination of water and waste water</title>
+              <imprint>
+                <publisher>American Public Health Association, American Water Works Association, Water Environment Federation</publisher>
+                <pubPlace>Washington, DC</pubPlace>
+                <date type="year">2005</date>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="book" xml:id="pone.0198050.ref014">
+            <analytic>
+              <author>
+                <persName>
+                  <surname>Stephens</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Brown</surname>
+                  <forename type="first">LR</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Vadie</surname>
+                  <forename type="first">AA</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">The utilization of microflora indigenous to and present in oil-bearing formations to selectively plug the more porous zones thereby increasing oil recovery during waterflooding</title>
+              <imprint>
+                <publisher>Mississippi State University, Department of Energy</publisher>
+                <date type="year">1996</date>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref015">
+            <analytic>
+              <title level="a" type="main">DNA recovery from soils of diverse composition</title>
+              <author>
+                <persName>
+                  <surname>Zhou</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Bruns</surname>
+                  <forename type="first">MA</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Tiedje</surname>
+                  <forename type="first">JM</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Environ Microbiol</title>
+              <imprint>
+                <date type="year">1996</date>
+                <biblScope unit="vol">62</biblScope>
+                <biblScope unit="vol">3</biblScope>
+                <biblScope from="16" unit="page">16</biblScope>
+                <biblScope to="22" unit="page">22</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref016">
+            <analytic>
+              <title level="a" type="main">Parallel tagged sequencing on the 454 platform</title>
+              <author>
+                <persName>
+                  <surname>Meyer</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Stenzel</surname>
+                  <forename type="first">U</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Hofreiter</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature Protocols</title>
+              <imprint>
+                <date type="year">2008</date>
+                <biblScope unit="vol">3</biblScope>
+                <biblScope from="267" unit="page">267</biblScope>
+                <biblScope to="278" unit="page">278</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref017">
+            <analytic>
+              <title level="a" type="main">QIIME allows analysis of high-throughput community sequencing data</title>
+              <author>
+                <persName>
+                  <surname>Caporaso</surname>
+                  <forename type="first">JG</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Kuczynski</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Stombaugh</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Bittinger</surname>
+                  <forename type="first">K</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Bushman</surname>
+                  <forename type="first">FD</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Costello</surname>
+                  <forename type="first">EK</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nature Methods</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">7</biblScope>
+                <biblScope from="335" unit="page">335</biblScope>
+                <biblScope to="336" unit="page">336</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref018">
+            <analytic>
+              <title level="a" type="main">UCHIME improves sensitivity and speed of chimera detection</title>
+              <author>
+                <persName>
+                  <surname>Edgar</surname>
+                  <forename type="first">RC</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Haas</surname>
+                  <forename type="first">BJ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Clemente JC Quince</surname>
+                  <forename type="first">C</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Knight</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Bioinformatics</title>
+              <imprint>
+                <date type="year">2011</date>
+                <biblScope unit="vol">27</biblScope>
+                <biblScope from="2194" unit="page">2194</biblScope>
+                <biblScope to="2200" unit="page">2200</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref019">
+            <analytic>
+              <title level="a" type="main">Ribosomal Database Project: data and tools for high throughput rRNA analysis</title>
+              <author>
+                <persName>
+                  <surname>Cole</surname>
+                  <forename type="first">JR</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Wang</surname>
+                  <forename type="first">Q</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Fish</surname>
+                  <forename type="first">JA</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Chai</surname>
+                  <forename type="first">B</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>McGarrell</surname>
+                  <forename type="first">DM</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Sun</surname>
+                  <forename type="first">Y</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Nucleic Acids Res</title>
+              <imprint>
+                <date type="year">2014</date>
+                <biblScope unit="vol">42</biblScope>
+                <biblScope from="633" unit="page">633</biblScope>
+                <biblScope to="642" unit="page">642</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref020">
+            <analytic>
+              <title level="a" type="main">Search and clustering orders of magnitude faster than BLAST</title>
+              <author>
+                <persName>
+                  <surname>Edgar</surname>
+                  <forename type="first">RC</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Bioinformatics</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">26</biblScope>
+                <biblScope from="2460" unit="page">2460</biblScope>
+                <biblScope to="2461" unit="page">2461</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref021">
+            <analytic>
+              <title level="a" type="main">An improved Greengenes taxonomy with explicit ranks for ecological and evolutionary analyses of bacteria and archaea</title>
+              <author>
+                <persName>
+                  <surname>McDonald</surname>
+                  <forename type="first">D</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Price</surname>
+                  <forename type="first">MN</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Goodrich</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Nawrocki</surname>
+                  <forename type="first">EP</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>DeSantis</surname>
+                  <forename type="first">TZ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Probst</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Isme J</title>
+              <imprint>
+                <date type="year">2012</date>
+                <biblScope unit="vol">6</biblScope>
+                <biblScope from="610" unit="page">610</biblScope>
+                <biblScope to="618" unit="page">618</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref022">
+            <analytic>
+              <title level="a" type="main">UniFrac: a new phylogenetic method for comparing microbial communities</title>
+              <author>
+                <persName>
+                  <surname>Lozupone</surname>
+                  <forename type="first">C</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Knight</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Environ Microbiol</title>
+              <imprint>
+                <date type="year">2005</date>
+                <biblScope unit="vol">71</biblScope>
+                <biblScope from="8228" unit="page">8228</biblScope>
+                <biblScope to="8235" unit="page">8235</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref023">
+            <analytic>
+              <title level="a" type="main">STAMP: statistical analysis of taxonomic and functional profiles</title>
+              <author>
+                <persName>
+                  <surname>Parks</surname>
+                  <forename type="first">DH</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Tyson</surname>
+                  <forename type="first">GW</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Hugenholtz</surname>
+                  <forename type="first">P</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Beiko</surname>
+                  <forename type="first">RG</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Bioinformatics</title>
+              <imprint>
+                <date type="year">2014</date>
+                <biblScope unit="vol">30</biblScope>
+                <biblScope from="3123" unit="page">3123</biblScope>
+                <biblScope to="3124" unit="page">3124</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref024">
+            <analytic>
+              <title level="a" type="main">Comparison of values of Pearson's and Spearman's correlation coefficients on the same sets of data</title>
+              <author>
+                <persName>
+                  <surname>Hauke</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Kossowski</surname>
+                  <forename type="first">T</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Quaestiones geographicae</title>
+              <imprint>
+                <date type="year">2011</date>
+                <biblScope unit="vol">30</biblScope>
+                <biblScope from="87" unit="page">87</biblScope>
+                <biblScope to="93" unit="page">93</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref025">
+            <analytic>
+              <title level="a" type="main">Anaerobic thermophiles</title>
+              <author>
+                <persName>
+                  <surname>Canganella</surname>
+                  <forename type="first">F</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Wiegel</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Life</title>
+              <imprint>
+                <date type="year">2014</date>
+                <biblScope unit="vol">4</biblScope>
+                <biblScope from="77" unit="page">77</biblScope>
+                <biblScope to="104" unit="page">104</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref026">
+            <analytic>
+              <title level="a" type="main">The effect of bacteria on sandstone permeability</title>
+              <author>
+                <persName>
+                  <surname>Kalish</surname>
+                  <forename type="first">P</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Stewart</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Rogers</surname>
+                  <forename type="first">W</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Bennett</surname>
+                  <forename type="first">E</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J Petrol Technol</title>
+              <imprint>
+                <date type="year">1964</date>
+                <biblScope unit="vol">16</biblScope>
+                <biblScope from="805" unit="page">805</biblScope>
+                <biblScope to="814" unit="page">814</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref027">
+            <analytic>
+              <title level="a" type="main">New surfactant classes for enhanced oil recovery and their tertiary oil recovery potential</title>
+              <author>
+                <persName>
+                  <surname>Iglauer</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Wu</surname>
+                  <forename type="first">Y</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Shuler</surname>
+                  <forename type="first">P</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Tang</surname>
+                  <forename type="first">Y</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Goddard</surname>
+                  <forename type="first">WA</forename>
+                  <genName>III</genName>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J Petrol Sci Eng</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">71</biblScope>
+                <biblScope from="23" unit="page">23</biblScope>
+                <biblScope to="29" unit="page">29</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref028">
+            <analytic>
+              <title level="a" type="main">A study of the microbial community at the interface between granite bedrock and soil using a culture-independent and culture-dependent approach</title>
+              <author>
+                <persName>
+                  <surname>Olsson-Francis</surname>
+                  <forename type="first">K</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Pearson</surname>
+                  <forename type="first">VK</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Schofield</surname>
+                  <forename type="first">PF</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Oliver</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Summers</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Adv Microbiol</title>
+              <imprint>
+                <date type="year">2016</date>
+                <biblScope unit="vol">6</biblScope>
+                <biblScope from="233" unit="page">233</biblScope>
+                <biblScope to="245" unit="page">245</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref029">
+            <analytic>
+              <title level="a" type="main">Review of microbial technology for improving oil recovery</title>
+              <author>
+                <persName>
+                  <surname>Bryant</surname>
+                  <forename type="first">RS</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Burchfield</surname>
+                  <forename type="first">TE</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">SPE Reservoir Eng</title>
+              <imprint>
+                <date type="year">1989</date>
+                <biblScope unit="vol">4</biblScope>
+                <biblScope from="151" unit="page">151</biblScope>
+                <biblScope to="154" unit="page">154</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref030">
+            <analytic>
+              <title level="a" type="main">A commercial microbial enhanced oil recovery technology: evaluation of 322 projects</title>
+              <author>
+                <persName>
+                  <surname>Portwood</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">SPE J</title>
+              <imprint>
+                <date type="year">1995</date>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref031">
+            <analytic>
+              <title level="a" type="main">Molecular analysis of the microbial community structures in water-flooding petroleum reservoirs with different temperatures</title>
+              <author>
+                <persName>
+                  <surname>Wang</surname>
+                  <forename type="first">LY</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Duan</surname>
+                  <forename type="first">RY</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Liu</surname>
+                  <forename type="first">JF</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Yang</surname>
+                  <forename type="first">SZ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Gu</surname>
+                  <forename type="first">JD</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Mu</surname>
+                  <forename type="first">BZ</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Biogeosciences</title>
+              <imprint>
+                <date type="year">2012</date>
+                <biblScope unit="vol">9</biblScope>
+                <biblScope from="4645" unit="page">4645</biblScope>
+                <biblScope to="4659" unit="page">4659</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref032">
+            <analytic>
+              <title level="a" type="main">Microbial communities of a complex high-temperature offshore petroleum reservoir</title>
+              <author>
+                <persName>
+                  <surname>Brakstad</surname>
+                  <forename type="first">OG</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Kotlar</surname>
+                  <forename type="first">HK</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Markussen</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Int J Oil Gas Coal Tech</title>
+              <imprint>
+                <date type="year">2008</date>
+                <biblScope unit="vol">1</biblScope>
+                <biblScope from="211" unit="page">211</biblScope>
+                <biblScope to="228" unit="page">228</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref033">
+            <analytic>
+              <title level="a" type="main">Microbial diversity and functionally distinct groups in produced water from the Daqing Oilfield</title>
+              <author>
+                <persName>
+                  <surname>Hui</surname>
+                  <forename type="first">L</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Ai</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Han</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Guo</surname>
+                  <forename type="first">Y</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Li</surname>
+                  <forename type="first">N</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Shi</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">China Petrol Sci</title>
+              <imprint>
+                <date type="year">2012</date>
+                <biblScope unit="vol">9</biblScope>
+                <biblScope from="469" unit="page">469</biblScope>
+                <biblScope to="484" unit="page">484</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref034">
+            <analytic>
+              <title level="a" type="main">Chapter 6 Microbial processes in oil fields: culprits, problems, and opportunities</title>
+              <author>
+                <persName>
+                  <surname>Youssef</surname>
+                  <forename type="first">N</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Elshahed</surname>
+                  <forename type="first">MS</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>McInerney</surname>
+                  <forename type="first">MJ</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Adv Appl Microbiol</title>
+              <imprint>
+                <date type="year">2009</date>
+                <biblScope unit="vol">66</biblScope>
+                <biblScope from="141" unit="page">141</biblScope>
+                <biblScope to="251" unit="page">251</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref035">
+            <analytic>
+              <title level="a" type="main">Radioisotopic, culture-based, and oligonucleotide microchip analyses of thermophilic microbial communities in a continental high-temperature petroleum reservoir</title>
+              <author>
+                <persName>
+                  <surname>Bonch-Osmolovskaya</surname>
+                  <forename type="first">EA</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Miroshnichenko</surname>
+                  <forename type="first">ML</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Lebedinsky</surname>
+                  <forename type="first">AV</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Chernyh</surname>
+                  <forename type="first">NA</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Nazina</surname>
+                  <forename type="first">TN</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Ivoilov</surname>
+                  <forename type="first">VS</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Environ Microbiol</title>
+              <imprint>
+                <date type="year">2003</date>
+                <biblScope unit="vol">69</biblScope>
+                <biblScope from="6143" unit="page">6143</biblScope>
+                <biblScope to="6151" unit="page">6151</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref036">
+            <analytic>
+              <title level="a" type="main">
+                <hi rend="italic">Thermotoga subterranea</hi>sp. nov., a new thermophilic bacterium isolated from a continental oil reservoir</title>
+              <author>
+                <persName>
+                  <surname>Jeanthon</surname>
+                  <forename type="first">C</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Reysenbach</surname>
+                  <forename type="first">AL</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>L'Haridon</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Gambacorta</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Pace</surname>
+                  <forename type="first">NR</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Glénat</surname>
+                  <forename type="first">P</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Arch Microbiol</title>
+              <imprint>
+                <date type="year">1995</date>
+                <biblScope unit="vol">164</biblScope>
+                <biblScope from="91" unit="page">91</biblScope>
+                <biblScope to="97" unit="page">97</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref037">
+            <analytic>
+              <title level="a" type="main">Microbial enhanced heavy oil recovery by the aid of inhabitant spore-forming bacteria: an insight review</title>
+              <author>
+                <persName>
+                  <surname>Shibulal</surname>
+                  <forename type="first">B</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Al-Bahry</surname>
+                  <forename type="first">SN</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Al-Wahaibi</surname>
+                  <forename type="first">YM</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Elshafie</surname>
+                  <forename type="first">AE</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Al-Bemani</surname>
+                  <forename type="first">AS</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Joshi</surname>
+                  <forename type="first">SJ</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">The Scientific World Journal</title>
+              <imprint>
+                <date type="year">2014</date>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref038">
+            <analytic>
+              <title level="a" type="main">Purification and characterization of a novel biosurfactant produced by 
+                <hi rend="italic">Bacillus licheniformis</hi>
+                MS3</title>
+              <author>
+                <persName>
+                  <surname>Biria</surname>
+                  <forename type="first">D</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Maghsoudi</surname>
+                  <forename type="first">E</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Roostaazad</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Dadafarin</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Lotfi</surname>
+                  <forename type="first">AS</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Amoozegar</surname>
+                  <forename type="first">MA</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">World J Microbiol Biotechnol</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">26</biblScope>
+                <biblScope from="871" unit="page">871</biblScope>
+                <biblScope to="878" unit="page">878</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref039">
+            <analytic>
+              <title level="a" type="main">In situ biosurfactant production by 
+                <hi rend="italic">Bacillus</hi>
+                strains injected into a limestone petroleum reservoir</title>
+              <author>
+                <persName>
+                  <surname>Youssef</surname>
+                  <forename type="first">N</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Simpson</surname>
+                  <forename type="first">D</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Duncan</surname>
+                  <forename type="first">K</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>McInerney</surname>
+                  <forename type="first">MJ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Folmsbee</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Fincher</surname>
+                  <forename type="first">T</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Environ Microbiol</title>
+              <imprint>
+                <date type="year">2007</date>
+                <biblScope unit="vol">73</biblScope>
+                <biblScope from="1239" unit="page">1239</biblScope>
+                <biblScope to="1247" unit="page">1247</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref040">
+            <analytic>
+              <title level="a" type="main">Svein Valla. Metagenomics of microbial life in extreme temperature environments</title>
+              <author>
+                <persName>
+                  <surname>Lewin</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Wentzel</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Curr Opin Biotechnol</title>
+              <imprint>
+                <date type="year">2013</date>
+                <biblScope unit="vol">24</biblScope>
+                <biblScope from="516" unit="page">516</biblScope>
+                <biblScope to="525" unit="page">525</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref041">
+            <analytic>
+              <title level="a" type="main">Pyrosequencing reveals the dominance of methylotrophic methanogenesis in a coal bed methane reservoir associated with Eastern Ordos Basin in China</title>
+              <author>
+                <persName>
+                  <surname>Guo</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Liu</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Yu</surname>
+                  <forename type="first">Z</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Zhang</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Yun</surname>
+                  <forename type="first">J</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Li</surname>
+                  <forename type="first">Y</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Int J Coal Geol</title>
+              <imprint>
+                <date type="year">2012</date>
+                <biblScope unit="vol">93</biblScope>
+                <biblScope from="56" unit="page">56</biblScope>
+                <biblScope to="61" unit="page">61</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref042">
+            <analytic>
+              <title level="a" type="main">Culture-dependent and culture-independent characterization of microbial assemblages associated with high-temperature petroleum reservoirs</title>
+              <author>
+                <persName>
+                  <surname>Orphan</surname>
+                  <forename type="first">V</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Taylor</surname>
+                  <forename type="first">L</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Hafenbradl</surname>
+                  <forename type="first">D</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Delong</surname>
+                  <forename type="first">EF</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Environ Microbiol</title>
+              <imprint>
+                <date type="year">2000</date>
+                <biblScope unit="vol">66</biblScope>
+                <biblScope from="700" unit="page">700</biblScope>
+                <biblScope to="711" unit="page">711</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref043">
+            <analytic>
+              <title level="a" type="main">Degradation of polycyclic aromatic hydrocarbons and long chain alkanes at 60–70 C by 
+                <hi rend="italic">Thermus</hi>
+                and 
+                <hi rend="italic">Bacillus</hi>
+                spp</title>
+              <author>
+                <persName>
+                  <surname>Feitkenhauer</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Müller</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>MAuml</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Biodegradation</title>
+              <imprint>
+                <date type="year">2003</date>
+                <biblScope unit="vol">14</biblScope>
+                <biblScope from="367" unit="page">367</biblScope>
+                <biblScope to="372" unit="page">372</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref044">
+            <analytic>
+              <title level="a" type="main">Sunflower seed oil and oleic acid utilization for the production of rhamnolipids by 
+                <hi rend="italic">Thermus thermophilus</hi>
+                HB8</title>
+              <author>
+                <persName>
+                  <surname>Pantazaki</surname>
+                  <forename type="first">AA</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Dimopoulou</surname>
+                  <forename type="first">MI</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Simou</surname>
+                  <forename type="first">OM</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Pritsa</surname>
+                  <forename type="first">AA</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Microbiol Biotechnol</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">88</biblScope>
+                <biblScope from="939" unit="page">939</biblScope>
+                <biblScope to="951" unit="page">951</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref045">
+            <analytic>
+              <title level="a" type="main">Crude-oil-degrading thermophilic bacterium isolated from an oil field</title>
+              <author>
+                <persName>
+                  <surname>Hao</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Lu</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Wang</surname>
+                  <forename type="first">G</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Can J Microbiol</title>
+              <imprint>
+                <date type="year">2004</date>
+                <biblScope unit="vol">50</biblScope>
+                <biblScope from="175" unit="page">175</biblScope>
+                <biblScope to="182" unit="page">182</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref046">
+            <analytic>
+              <title level="a" type="main">Screening of biosurfactants from hydrocarbon degrading bacteria</title>
+              <author>
+                <persName>
+                  <surname>Nishanthi</surname>
+                  <forename type="first">R</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Kumaran</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Palani</surname>
+                  <forename type="first">P</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Chellaram</surname>
+                  <forename type="first">C</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Anand</surname>
+                  <forename type="first">TP</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Kannan</surname>
+                  <forename type="first">V</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J Ecobiotechnol</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">2</biblScope>
+                <biblScope from="47" unit="page">47</biblScope>
+                <biblScope to="53" unit="page">53</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref047">
+            <analytic>
+              <title level="a" type="main">Microbial biosurfactants production, applications and future potential</title>
+              <author>
+                <persName>
+                  <surname>Banat</surname>
+                  <forename type="first">IM</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Franzetti</surname>
+                  <forename type="first">A</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Gandolfi</surname>
+                  <forename type="first">I</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Bestetti</surname>
+                  <forename type="first">G</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Martinotti</surname>
+                  <forename type="first">MG</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Fracchia</surname>
+                  <forename type="first">L</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Appl Microbiol Biotechnol</title>
+              <imprint>
+                <date type="year">2010</date>
+                <biblScope unit="vol">87</biblScope>
+                <biblScope from="427" unit="page">427</biblScope>
+                <biblScope to="444" unit="page">444</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="book" xml:id="pone.0198050.ref048">
+            <analytic>
+              <author>
+                <persName>
+                  <surname>Bass</surname>
+                  <forename type="first">C</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Lappin-Scott</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Oilfield Rev</title>
+              <imprint>
+                <publisher>Spring</publisher>
+                <date type="year">1997</date>
+                <biblScope from="17" unit="page">17</biblScope>
+                <biblScope to="25" unit="page">25</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref049">
+            <analytic>
+              <title level="a" type="main">Comparison of microbial community compositions of injection and production well samples in a long-term water-flooded petroleum reservoir</title>
+              <author>
+                <persName>
+                  <surname>Ren</surname>
+                  <forename type="first">HY</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Zhang</surname>
+                  <forename type="first">XJ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Song</surname>
+                  <forename type="first">Z</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Rupert</surname>
+                  <forename type="first">W</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Gao</surname>
+                  <forename type="first">GJ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Guo</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Plos one</title>
+              <imprint>
+                <date type="year">2011</date>
+                <biblScope unit="vol">6</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref050">
+            <analytic>
+              <title level="a" type="main">snr-1 gene is required for nitrate reduction in 
+                <hi rend="italic">Pseudomonas aeruginosa</hi>
+                PAO1</title>
+              <author>
+                <persName>
+                  <surname>Kerschen</surname>
+                  <forename type="first">EJ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Irani</surname>
+                  <forename type="first">VR</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Hassett</surname>
+                  <forename type="first">DJ</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Rowe</surname>
+                  <forename type="first">JJ</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J Bacteriol</title>
+              <imprint>
+                <date type="year">2001</date>
+                <biblScope unit="vol">183</biblScope>
+                <biblScope from="2125" unit="page">2125</biblScope>
+                <biblScope to="2131" unit="page">2131</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref051">
+            <analytic>
+              <title level="a" type="main">Microbial biotechnology for enhancing oil recovery: current developments and future prospects</title>
+              <author>
+                <persName>
+                  <surname>Al-Sulaimani</surname>
+                  <forename type="first">H</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Joshi</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Al-Wahaibi</surname>
+                  <forename type="first">Y</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Al-Bahry</surname>
+                  <forename type="first">SN</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Elshafie</surname>
+                  <forename type="first">AE</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Al-Bemani</surname>
+                  <forename type="first">AS</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Biotechnol Bioinformatics Bioeng</title>
+              <imprint>
+                <date type="year">2011</date>
+                <biblScope unit="vol">1</biblScope>
+                <biblScope from="147" unit="page">147</biblScope>
+                <biblScope to="158" unit="page">158</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref052">
+            <analytic>
+              <title level="a" type="main">Characterization and optimization of biosurfactants produced by 
+                <hi rend="italic">Acinetobacter baylyi</hi>
+                ZJ2 isolated from crude oil-contaminated soil sample toward microbial enhanced oil recovery applications</title>
+              <author>
+                <persName>
+                  <surname>Zou</surname>
+                  <forename type="first">C</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Wang</surname>
+                  <forename type="first">M</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Xing</surname>
+                  <forename type="first">Y</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Lan</surname>
+                  <forename type="first">G</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Ge</surname>
+                  <forename type="first">T</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Yan</surname>
+                  <forename type="first">X</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Biochem Eng J</title>
+              <imprint>
+                <date type="year">2014</date>
+                <biblScope unit="vol">90</biblScope>
+                <biblScope from="49" unit="page">49</biblScope>
+                <biblScope to="58" unit="page">58</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref053">
+            <analytic>
+              <title level="a" type="main">Assessment of bacterial communities and activities of thermotolerant enzymes produced by bacteria indigenous to oil-bearing sandstone cores for potential application in Enhanced Oil Recovery</title>
+              <author>
+                <persName>
+                  <surname>Aurepatipan</surname>
+                  <forename type="first">N</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Champreda</surname>
+                  <forename type="first">V</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Kanokratana</surname>
+                  <forename type="first">P</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Chitov</surname>
+                  <forename type="first">T</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Bovonsombut</surname>
+                  <forename type="first">S</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">J Pet Sci Eng</title>
+              <imprint>
+                <date type="year">2017</date>
+                <biblScope unit="vol">163</biblScope>
+                <biblScope from="295" unit="page">295</biblScope>
+                <biblScope to="302" unit="page">302</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+          <biblStruct type="journal" xml:id="pone.0198050.ref054">
+            <analytic>
+              <title level="a" type="main">Production of biosurfactant from 
+                <hi rend="italic">Bacillus licheniformis</hi>
+                for microbial enhanced oil recovery and inhibition the growth of sulfate reducing bacteria</title>
+              <author>
+                <persName>
+                  <surname>El-Sheshtawy</surname>
+                  <forename type="first">HS</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Aiad</surname>
+                  <forename type="first">I</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Osman</surname>
+                  <forename type="first">ME</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Abo-ELnasr</surname>
+                  <forename type="first">AA</forename>
+                </persName>
+              </author>
+              <author>
+                <persName>
+                  <surname>Kobisy</surname>
+                  <forename type="first">AS</forename>
+                </persName>
+              </author>
+            </analytic>
+            <monogr>
+              <title level="j">Egyptian J Petrol</title>
+              <imprint>
+                <date type="year">2015</date>
+                <biblScope unit="vol">24</biblScope>
+                <biblScope from="155" unit="page">155</biblScope>
+                <biblScope to="162" unit="page">162</biblScope>
+              </imprint>
+            </monogr>
+          </biblStruct>
+        </listBibl>
+      </div>
+    </back>
+  </text>
+</TEI>

@@ -1,0 +1,609 @@
+{
+    "Angiography": {
+        "description": "Radiography of blood vessels after injection of a contrast medium.",
+        "mesh_id": "D000792",
+        "mesh_tree": "E01.370.350.700.060, E01.370.370.050",
+        "count": 10
+    },
+    "Calorimetry": {
+        "description": "The measurement of the quantity of heat involved in various processes, such as chemical reactions, changes of state, and formations of solutions, or in the determination of the heat capacities of substances. The fundamental unit of measurement is the joule or the calorie (4.184 joules). (McGraw-Hill Dictionary of Scientific and Technical Terms, 4th ed)",
+        "mesh_id": "D002151",
+        "mesh_tree": "E05.196.131",
+        "count": 17
+    },
+    "Chromatography": {
+        "Chromatography, Affinity": {
+            "description": "A chromatographic technique that utilizes the ability of biological molecules, often ANTIBODIES, to bind to certain ligands specifically and reversibly. It is used in protein biochemistry. (McGraw-Hill Dictionary of Scientific and Technical Terms, 4th ed)",
+            "mesh_id": "D002846",
+            "mesh_tree": "E05.196.181.400.170",
+            "count": 1
+        },
+        "Chromatography, Flame Ionization": {
+            "description": "Pyrolysis of organic compounds at the temperature of a hydrogen-air flame to produce ionic intermediates which can be collected and the resulting ion current measured by gas chromatography.",
+            "mesh_id": "D005410",
+            "mesh_tree": "E05.196.181.349.390",
+            "count": 1
+        },
+        "Chromatography, Flash Column": {
+            "count": 1
+        },
+        "Chromatography, Gas": {
+            "description": "Fractionation of a vaporized sample as a consequence of partition between a mobile gaseous phase and a stationary phase held in a column. Two types are gas-solid chromatography, where the fixed phase is a solid, and gas-liquid, in which the stationary phase is a nonvolatile liquid supported on an inert solid matrix.",
+            "mesh_id": "D002849",
+            "mesh_tree": "E05.196.181.349",
+            "count": 19
+        },
+        "Chromatography, Gel": {
+            "description": "Chromatography on non-ionic gels without regard to the mechanism of solute discrimination.",
+            "mesh_id": "D002850",
+            "mesh_tree": "E05.196.181.400.250",
+            "count": 10
+        },
+        "Chromatography, High Pressure Liquid": {
+            "description": "Liquid chromatographic techniques which feature high inlet pressures, high sensitivity, and high speed.",
+            "mesh_id": "D002851",
+            "mesh_tree": "E05.196.181.400.300",
+            "count": 69
+        },
+        "Chromatography, Ion Exchange": {
+            "best_practice": "Chromatograph data for each run should be preserved in ANDI-MS format (https://www.astm.org/Standards/E1947.htm). Numerical output from downstream analysis of the chromatograph should be shared as Tabular data",
+            "description": "Separation technique in which the stationary phase consists of ion exchange resins. The resins contain loosely held small ions that easily exchange places with other small ions of like charge present in solutions washed over the resins.",
+            "mesh_id": "D002852",
+            "mesh_tree": "E05.196.181.400.383",
+            "most_suitable_repositories": "Chromatography data can be added to any repository able to host generic file types (e.g. Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/>)",
+            "count": 8
+        },
+        "Chromatography, Liquid": {
+            "description": "Chromatographic techniques in which the mobile phase is a liquid.",
+            "mesh_id": "D002853",
+            "mesh_tree": "E05.196.181.400",
+            "count": 1
+        },
+        "Chromatography, Thin Layer": {
+            "description": "Chromatography on thin layers of adsorbents rather than in columns. The adsorbent can be alumina, silica gel, silicates, charcoals, or cellulose. (McGraw-Hill Dictionary of Scientific and Technical Terms, 4th ed)",
+            "mesh_id": "D002855",
+            "mesh_tree": "E05.196.181.400.537",
+            "count": 7
+        },
+        "description": "Techniques used to separate mixtures of substances based on differences in the relative affinities of the substances for mobile and stationary phases. A mobile phase (fluid or gas) passes through a column containing a stationary phase of porous solid or liquid coated on a solid support. Usage is both analytical for small amounts and preparative for bulk amounts.",
+        "mesh_id": "D002845",
+        "mesh_tree": "E05.196.181",
+        "count": 1
+    },
+    "Coulombimetry data": {
+        "count": 1
+    },
+    "Dataset": {
+        "Existing dataset": {
+            "description": "Works consisting of organized collections of data, which have been stored permanently in a formalized manner suitable for communication, interpretation, or processing.",
+            "mesh_id": "D064886",
+            "mesh_tree": "V02.302",
+            "count": 354
+        },
+        "Systematic Review": {
+            "description": "A review of primary literature in health and health policy that attempts to identify, appraise, and synthesize all the empirical evidence that meets specified eligibility criteria to answer a given research question. Its conduct uses explicit methods aimed at minimizing bias in order to produce more reliable findings regarding the effects of interventions for prevention, treatment, and rehabilitation that can be used to inform decision making.",
+            "mesh_id": "D000078182",
+            "mesh_tree": "V03.850",
+            "count": 27
+        },
+        "count": 0
+    },
+    "Densitometry": {
+        "description": "The measurement of the density of a material by measuring the amount of light or radiation passing through (or absorbed by) the material.",
+        "mesh_id": "D003720",
+        "mesh_tree": "E05.196.712.224",
+        "count": 4
+    },
+    "Digital Droplet PCR": {
+        "count": 3
+    },
+    "Electrocardiograph": {
+        "description": "Recording of the moment-to-moment electromotive forces of the HEART as projected onto various sites on the body's surface, delineated as a scalar function of time. The recording is monitored by a tracing on slow moving chart paper or by observing it on a cardioscope, which is a CATHODE RAY TUBE DISPLAY.",
+        "mesh_id": "D004562",
+        "mesh_tree": "E01.370.370.380.240, E01.370.405.240",
+        "count": 46
+    },
+    "Electroencephalogram": {
+        "description": "Recording of electric currents developed in the brain by means of electrodes applied to the scalp, to the surface of the brain, or placed within the substance of the brain.",
+        "mesh_id": "D004569",
+        "mesh_tree": "E01.370.376.300, E01.370.405.245",
+        "count": 21
+    },
+    "Electromyography": {
+        "description": "Recording of the changes in electric potential of muscle by means of surface or needle electrodes.",
+        "mesh_id": "D004576",
+        "mesh_tree": "E01.370.405.255, E01.370.530.255",
+        "count": 11
+    },
+    "Electrooculography": {
+        "description": "Recording of the average amplitude of the resting potential arising between the cornea and the retina in light and dark adaptation as the eyes turn a standard distance to the right and the left. The increase in potential with light adaptation is used to evaluate the condition of the retinal pigment epithelium.",
+        "mesh_id": "D004585",
+        "mesh_tree": "E01.370.380.230.285, E01.370.405.265",
+        "count": 2
+    },
+    "Electrophysiology": {
+        "description": "The study of the generation and behavior of electrical charges in living organisms particularly the nervous system and the effects of electricity on living organisms.",
+        "mesh_id": "D004594",
+        "mesh_tree": "H01.158.344.528, H01.158.782.236",
+        "count": 4
+    },
+    "Electroretinography": {
+        "description": "Recording of electric potentials in the retina after stimulation by light.",
+        "mesh_id": "D004596",
+        "mesh_tree": "E01.370.380.225, E01.370.405.270",
+        "count": 2
+    },
+    "Emission flame photometry": {
+        "count": 1
+    },
+    "Flow cytometry": {
+        "description": "Technique using an instrument system for making, processing, and displaying one or more measurements on individual cells obtained from a cell suspension. Cells are usually stained with one or more fluorescent dyes specific to cell components of interest, e.g., DNA, and fluorescence of each cell is measured as it rapidly transverses the excitation beam (laser or mercury arc lamp). Fluorescence provides a quantitative measure of various biochemical and biophysical properties of the cell, as well as a basis for cell sorting. Other measurable optical parameters include light absorption and light scattering, the latter being applicable to the measurement of cell size, shape, density, granularity, and stain uptake.",
+        "mesh_id": "D005434",
+        "mesh_tree": "E01.370.225.500.363.342, E01.370.225.500.386.350, E05.196.712.516.600.240.350, E05.200.500.363.342, E05.200.500.386.350, E05.242.363.342, E05.242.386.350",
+        "count": 207
+    },
+    "Genetic Data": {
+        "Amplified Fragment Length Polymorphism Analysis": {
+            "description": "The detection of RESTRICTION FRAGMENT LENGTH POLYMORPHISMS by selective PCR amplification of restriction fragments derived from genomic DNA followed by electrophoretic analysis of the amplified restriction fragments.",
+            "mesh_id": "D054458",
+            "mesh_tree": "E05.393.290.382, E05.393.620.500.324",
+            "count": 1
+        },
+        "Assembly": {
+            "count": 2
+        },
+        "DNA Packaging": {
+            "description": "The folding of an organism's\u00a0DNA\u00a0molecule into a compact, orderly\u00a0structure\u00a0that fits within the limited space of a CELL or VIRUS PARTICLE.",
+            "mesh_id": "D042003",
+            "mesh_tree": "G04.400, G05.213",
+            "count": 1
+        },
+        "Genotype": {
+            "best_practice": "Tabular Data containing genotypes for each genotyped individual (more instructions). The same table structure also applies when the 'genotype' is the presence or absence of a PCR product. ",
+            "description": "The genetic constitution of the individual, comprising the ALLELES present at each GENETIC LOCUS.",
+            "mesh_id": "D005838",
+            "mesh_tree": "G05.380",
+            "count": 53
+        },
+        "High-Throughput Nucleotide Sequencing": {
+            "454": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 2
+            },
+            "BGI": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 1
+            },
+            "Genome Analyzer": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 1
+            },
+            "HiSeq": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 84
+            },
+            "Ion Torrent": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 3
+            },
+            "MassARRAY": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 3
+            },
+            "MiSeq": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 29
+            },
+            "MinION": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 0
+            },
+            "NextSeq": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 14
+            },
+            "PacBio": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 3
+            },
+            "TruSeq": {
+                "best_practice": "The BAM file for each run should be made available, along with a .txt file of the settings used in the run. Sample names must be consistent with those in downstream analyses. The code used for data preparation and analysis must also be stored. ",
+                "description": "Techniques of nucleotide sequence analysis that increase the range, complexity, sensitivity, and accuracy of results by greatly increasing the scale of operations and thus the number of nucleotides, and the number of copies of each nucleotide sequenced. The sequencing may be done by analysis of the synthesis or ligation products, hybridization to preexisting sequences, etc.",
+                "mesh_id": "D059014",
+                "mesh_tree": "E05.393.760.319",
+                "most_suitable_repositories": "The BAM files should be uploaded to the NCBI-SRA database <https://www.ncbi.nlm.nih.gov/sra/docs/submit/> in accordance with their guidelines <https://www.ncbi.nlm.nih.gov/sra/docs/submitformats/>. The accompanying code should be shared at CodeOcean <https://codeocean.com/>",
+                "count": 1
+            },
+            "count": 0
+        },
+        "Metagenome": {
+            "Feature table": {
+                "description": "A collective genome representative of the many organisms, primarily microorganisms, existing in a community.",
+                "mesh_id": "D054892",
+                "mesh_tree": "G05.360.340.550",
+                "count": 3
+            },
+            "count": 0
+        },
+        "Microarray Analysis": {
+            "description": "The simultaneous analysis, on a microchip, of multiple samples or targets arranged in an array format.",
+            "mesh_id": "D046228",
+            "mesh_tree": "E05.588.570",
+            "count": 19
+        },
+        "Microsatellite Repeats": {
+            "description": "A variety of simple repeat sequences that are distributed throughout the GENOME. They are characterized by a short repeat unit of 2-8 basepairs that is repeated up to 100 times. They are also known as short tandem repeats (STRs).",
+            "mesh_id": "D018895",
+            "mesh_tree": "G02.111.570.080.708.800.500, G05.360.080.708.800.500, G05.360.340.024.850.500",
+            "count": 5
+        },
+        "Molecular Sequence Annotation": {
+            "description": "The addition of descriptive information about the function or structure of a molecular sequence to its MOLECULAR SEQUENCE DATA record.",
+            "mesh_id": "D058977",
+            "mesh_tree": "E05.393.760.479, L01.453.245.667.580",
+            "count": 20
+        },
+        "Polymorphism, Single Nucleotide": {
+            "description": "A single nucleotide variation in a genetic sequence that occurs at appreciable frequency in the population.",
+            "mesh_id": "D020641",
+            "mesh_tree": "G05.365.795.598",
+            "count": 6
+        },
+        "Read Counts": {
+            "count": 1
+        },
+        "Sequence Alignment": {
+            "description": "The arrangement of two or more amino acid or base sequences from an organism or organisms in such a way as to align areas of the sequences sharing common properties. The degree of relatedness or homology between the sequences is predicted computationally or statistically based on weights assigned to the elements aligned between the sequences. This in turn can serve as a potential indicator of the genetic relatedness between the organisms.",
+            "mesh_id": "D016415",
+            "mesh_tree": "E05.393.751",
+            "count": 39
+        },
+        "Sequence Analysis": {
+            "Sanger": {
+                "description": "A multistage process that includes the determination of a sequence (protein, carbohydrate, etc.), its fragmentation and analysis, and the interpretation of the resulting sequence information.",
+                "mesh_id": "D017421",
+                "mesh_tree": "E05.393.760",
+                "count": 24
+            },
+            "description": "A multistage process that includes the determination of a sequence (protein, carbohydrate, etc.), its fragmentation and analysis, and the interpretation of the resulting sequence information.",
+            "mesh_id": "D017421",
+            "mesh_tree": "E05.393.760",
+            "count": 113
+        },
+        "count": 0
+    },
+    "Image": {
+        "Computerized Tomography scan": {
+            "description": "Examination of any part of the body for diagnostic purposes by means of X-RAYS or GAMMA RAYS, recording the image on a sensitized surface (such as photographic film).",
+            "mesh_id": "D011859",
+            "mesh_tree": "E01.370.350.700",
+            "count": 64
+        },
+        "Diagnostic Imaging": {
+            "description": "Any visual display of structural or functional patterns of organs or tissues for diagnostic evaluation. It includes measuring physiologic and metabolic responses to physical and chemical stimuli, as well as ultramicroscopy.",
+            "mesh_id": "D003952",
+            "mesh_tree": "E01.370.350",
+            "count": 5
+        },
+        "Electrophoresis": {
+            "best_practice": "Provide gel image and any tabular data obtained by quantifying brightness/density of gel features",
+            "description": "An electrochemical process in which macromolecules or colloidal particles with a net electric charge migrate in a solution under the influence of an electric current.",
+            "mesh_id": "D004586",
+            "mesh_tree": "E05.196.401, E05.301.300",
+            "count": 263
+        },
+        "Magnetic Resonance Imaging": {
+            "Functional MRI": {
+                "best_practice": "Gel images should be high resolution 16-bit grayscale images, saved as GEL or IMG/IMF files (these contain additional grayscale calibration data) or as a 16-bit TIFF file. Ensure that the same imaging parameters are used for all gels from that study, and process them all in the same orientation. Limit image editing to cropping, mirroring, or rotation. ",
+                "description": "Non-invasive method of demonstrating internal anatomy based on the principle that atomic nuclei in a strong magnetic field absorb pulses of radiofrequency energy and emit them as radiowaves which can be reconstructed into computerized images. The concept includes proton spin tomographic techniques.",
+                "mesh_id": "D008279",
+                "mesh_tree": "E01.370.350.825.500",
+                "most_suitable_repositories": "Gel image data can be added to any repository able to host generic file types (e.g. Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/>)",
+                "count": 21
+            },
+            "description": "Non-invasive method of demonstrating internal anatomy based on the principle that atomic nuclei in a strong magnetic field absorb pulses of radiofrequency energy and emit them as radiowaves which can be reconstructed into computerized images. The concept includes proton spin tomographic techniques.",
+            "mesh_id": "D008279",
+            "mesh_tree": "E01.370.350.825.500",
+            "count": 70
+        },
+        "Microscopy": {
+            "best_practice": "Provide images or video taken through microscope, and any data collected while using the microscope as Tabular Data",
+            "description": "The use of instrumentation and techniques for visualizing material and details that cannot be seen by the unaided eye. It is usually done by enlarging images, transmitted by light or electron beams, with optical or magnetic lenses that magnify the entire image field. With scanning microscopy, images are generated by collecting output from the specimen in a point-by-point fashion, on a magnified scale, as it is scanned by a narrow beam of light or electrons, a laser, a conductive probe, or a topographical probe.",
+            "mesh_id": "D008853",
+            "mesh_tree": "E01.370.350.515, E05.595, H01.671.617.562",
+            "count": 716
+        },
+        "Photography": {
+            "description": "Method of making images on a sensitized surface by exposure to light or other radiant energy.",
+            "mesh_id": "D010781",
+            "mesh_tree": "E01.370.350.600, E05.712",
+            "count": 55
+        },
+        "Radiography": {
+            "description": "Examination of any part of the body for diagnostic purposes by means of X-RAYS or GAMMA RAYS, recording the image on a sensitized surface (such as photographic film).",
+            "mesh_id": "D011859",
+            "mesh_tree": "E01.370.350.700",
+            "count": 10
+        },
+        "Tomography, Optical Coherence": {
+            "description": "An imaging method using LASERS that is used for mapping subsurface structure. When a reflective site in the sample is at the same optical path length (coherence) as the reference mirror, the detector observes interference fringes.",
+            "mesh_id": "D041623",
+            "mesh_tree": "E01.370.350.589.249.500, E01.370.350.825.805.500, E05.642.249.500",
+            "count": 4
+        },
+        "Tomography, X-Ray Computed": {
+            "description": "Tomography using x-ray transmission and a computer algorithm to reconstruct the image.",
+            "mesh_id": "D014057",
+            "mesh_tree": "E01.370.350.350.810, E01.370.350.600.350.700.810, E01.370.350.700.700.810, E01.370.350.700.810.810, E01.370.350.825.810.810",
+            "count": 2
+        },
+        "Ultrasonography": {
+            "description": "The visualization of deep structures of the body by recording the reflections or echoes of ultrasonic pulses directed into the tissues. Use of ultrasound for imaging or diagnostic purposes employs frequencies ranging from 1.6 to 10 megahertz.",
+            "mesh_id": "D014463",
+            "mesh_tree": "E01.370.350.850",
+            "count": 37
+        },
+        "count": 133
+    },
+    "Mass Spectrometry": {
+        "Gas Chromatography-Mass Spectrometry": {
+            "description": "A microanalytical technique combining mass spectrometry and gas chromatography for the qualitative as well as quantitative determinations of compounds.",
+            "mesh_id": "D008401",
+            "mesh_tree": "E05.196.181.349.500, E05.196.566.500",
+            "count": 31
+        },
+        "Liquid Chromatography-Mass Spectrometry": {
+            "description": "https://en.wikipedia.org/wiki/Liquid_chromatography%E2%80%93mass_spectrometry",
+            "count": 6
+        },
+        "Spectrometry, Mass, Matrix-Assisted Laser Desorption-Ionization": {
+            "description": "A mass spectrometric technique that is used for the analysis of large biomolecules. Analyte molecules are embedded in an excess matrix of small organic molecules that show a high resonant absorption at the laser wavelength used. The matrix absorbs the laser energy, thus inducing a soft disintegration of the sample-matrix mixture into free (gas phase) matrix and analyte molecules and molecular ions. In general, only molecular ions of the analyte molecules are produced, and almost no fragmentation occurs. This makes the method well suited for molecular weight determinations and mixture analysis.",
+            "mesh_id": "D019032",
+            "mesh_tree": "E05.196.566.755",
+            "count": 21
+        },
+        "Thermal ionization": {
+            "description": "https://en.wikipedia.org/wiki/Thermal_ionization_mass_spectrometry",
+            "count": 1
+        },
+        "description": "An analytical method used in determining the identity of a chemical based on its mass using mass analyzers/mass spectrometers.",
+        "mesh_id": "D013058",
+        "mesh_tree": "E05.196.566",
+        "count": 4
+    },
+    "Protein Data": {
+        "Molecular Sequence Annotation": {
+            "description": "The addition of descriptive information about the function or structure of a molecular sequence to its MOLECULAR SEQUENCE DATA record.",
+            "mesh_id": "D058977",
+            "mesh_tree": "E05.393.760.479, L01.453.245.667.580",
+            "count": 3
+        },
+        "Proteome": {
+            "description": "The protein complement of an organism coded for by its genome.",
+            "mesh_id": "D020543",
+            "mesh_tree": "D12.776.817",
+            "count": 1
+        },
+        "Sequence Alignment": {
+            "description": "The arrangement of two or more amino acid or base sequences from an organism or organisms in such a way as to align areas of the sequences sharing common properties. The degree of relatedness or homology between the sequences is predicted computationally or statistically based on weights assigned to the elements aligned between the sequences. This in turn can serve as a potential indicator of the genetic relatedness between the organisms.",
+            "mesh_id": "D016415",
+            "mesh_tree": "E05.393.751",
+            "count": 2
+        },
+        "count": 0
+    },
+    "Real-Time Polymerase Chain Reaction": {
+        "description": "Methods used for detecting the amplified DNA products from the polymerase chain reaction as they accumulate instead of at the end of the reaction",
+        "mesh_id": "D060888",
+        "mesh_tree": "E05.393.620.500.706",
+        "count": 347
+    },
+    "Sound data": {
+        "Interview": {
+            "description": "Work consisting of a conversation with an individual regarding his or her background and other personal and professional details, opinions on specific subjects posed by the interviewer, etc.",
+            "mesh_id": "D007406",
+            "mesh_tree": "F04.669.599",
+            "count": 4
+        },
+        "best_practice": "Digital audio files should be saved as Free Lossless Audio Codec files (FLAC), or as Broadcast WAVE Audio File Format [BWF or BWAV] with uncompressed linear pulse-code modulation (PCM) saved at 96 or 48 kHz/24 bits.",
+        "description": "A type of non-ionizing radiation in which energy is transmitted through solid, liquid, or gas as compression waves. Sound (acoustic or sonic) radiation with frequencies above the audible range is classified as ultrasonic. Sound radiation below the audible range is classified as infrasonic.",
+        "mesh_id": "D013016",
+        "mesh_tree": "G01.750.770.776",
+        "most_suitable_repositories": "Many different repositories host sound data; some are country and field specific, while others are more general. See re3data.org for a complete listing",
+        "count": 24
+    },
+    "Spectrometry": {
+        "Nuclear Magnetic Resonance, Biomolecular": {
+            "description": "NMR spectroscopy on small- to medium-size biological macromolecules. This is often used for structural investigation of proteins and nucleic acids, and often involves more than one isotope.",
+            "mesh_id": "D019906",
+            "mesh_tree": "E05.196.867.519.550",
+            "count": 50
+        },
+        "Spectrometry, Fluorescence": {
+            "description": "Measurement of the intensity and quality of fluorescence.",
+            "mesh_id": "D013050",
+            "mesh_tree": "E05.196.712.516.600.676, E05.196.867.726",
+            "count": 9
+        },
+        "Spectrometry, Force": {
+            "description": "https://en.wikipedia.org/wiki/Force_spectroscopy",
+            "count": 1
+        },
+        "Spectrometry, Ion Mobility": {
+            "description": "https://en.wikipedia.org/wiki/Ion-mobility_spectrometry",
+            "count": 1
+        },
+        "Spectrometry, Time Domain": {
+            "description": "https://en.wikipedia.org/wiki/Terahertz_time-domain_spectroscopy",
+            "count": 1
+        },
+        "Spectrometry, X-Ray Emission": {
+            "description": "The spectrometric analysis of fluorescent X-RAYS, i.e. X-rays emitted after bombarding matter with high energy particles such as PROTONS; ELECTRONS; or higher energy X-rays. Identification of ELEMENTS by this technique is based on the specific type of X-rays that are emitted which are characteristic of the specific elements in the material being analyzed. The characteristic X-rays are distinguished and/or quantified by either wavelength dispersive or energy dispersive methods.",
+            "mesh_id": "D013052",
+            "mesh_tree": "E05.196.867.800, E05.799.830",
+            "count": 28
+        },
+        "Spectrophotometry": {
+            "description": "The art or process of comparing photometrically the relative intensities of the light in different parts of the spectrum.",
+            "mesh_id": "D013053",
+            "mesh_tree": "E05.196.712.726, E05.196.867.826",
+            "count": 240
+        },
+        "Spectrophotometry, Atomic": {
+            "description": "Spectrophotometric techniques by which the absorption or emmision spectra of radiation from atoms are produced and analyzed.",
+            "mesh_id": "D013054",
+            "mesh_tree": "E05.196.712.726.551, E05.196.867.826.551",
+            "count": 23
+        },
+        "Spectropolarimeter data": {
+            "description": "https://en.wikipedia.org/wiki/Polarimetry",
+            "count": 6
+        },
+        "Spectroscopy, Fourier Transform Infrared": {
+            "description": "A spectroscopic technique in which a range of wavelengths is presented simultaneously with an interferometer and the spectrum is mathematically derived from the pattern thus obtained.",
+            "mesh_id": "D017550",
+            "mesh_tree": "E05.196.712.726.676.700, E05.196.867.826.676.700",
+            "count": 28
+        },
+        "Spectroscopy, Photon Correlation": {
+            "description": "https://en.wikipedia.org/wiki/Dynamic_light_scattering",
+            "count": 1
+        },
+        "Spectrum Analysis, Raman": {
+            "description": "Analysis of the intensity of Raman scattering of monochromatic light as a function of frequency of the scattered light.",
+            "mesh_id": "D013059",
+            "mesh_tree": "E05.196.822.860, E05.196.867.890",
+            "count": 13
+        },
+        "X-Ray Absorption Spectroscopy": {
+            "description": "Analysis of the energy absorbed across a spectrum of x-ray energies/wavelengths to determine the chemical structure and electronic states of the absorbing medium.",
+            "mesh_id": "D056928",
+            "mesh_tree": "E05.196.867.972",
+            "count": 2
+        },
+        "count": 0
+    },
+    "Spectrum Analysis": {
+        "best_practice": "The spectra for each sample should be concatenated into tabular data <link to Tabular Data>. The table should list the dilution factor and other loading data for each sample. A separate .txt file should provide detailed information on the machine itself, including make, model, software versions, and the settings used during sample collection. ",
+        "description": "The measurement of the amplitude of the components of a complex waveform throughout the frequency range of the waveform. (McGraw-Hill Dictionary of Scientific and Technical Terms, 6th ed)",
+        "mesh_id": "D013057",
+        "mesh_tree": "E05.196.867",
+        "most_suitable_repositories": "Atmospheric spectroscopy data should be added to HITRAN (https://hitran.org/), spectrometry data from other fields can be added to any other repository able to host generic file types (e.g. Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/>)",
+        "count": 6
+    },
+    "Spirometry data": {
+        "description": "Measurement of volume of air inhaled or exhaled by the lung.",
+        "mesh_id": "D013147",
+        "mesh_tree": "E01.370.386.700.750",
+        "count": 1
+    },
+    "Tabular data": {
+        "Assay": {
+            "best_practice": "Tabular data containing the data collected during the assay. If a gel was used for separation of molecules of interest, a photo of the gel should be provided",
+            "description": "A fairly simple biochemical test to quantify the presence or amount of a molecule of interest.",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/> are good choices.",
+            "count": 675
+        },
+        "Fluorometry": {
+            "description": "An analytical method for detecting and measuring FLUORESCENCE in compounds or targets such as cells, proteins, or nucleotides, or targets previously labeled with FLUORESCENCE AGENTS.",
+            "mesh_id": "D005470",
+            "mesh_tree": "E05.196.712.516.596",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/> are good choices.",
+            "count": 167
+        },
+        "Immunoassay": {
+            "description": "A technique using antibodies for identifying or quantifying a substance. Usually the substance being studied serves as antigen both in antibody production and in measurement of antibody by the test substance.",
+            "mesh_id": "D007118",
+            "mesh_tree": "E05.478.566, E05.601.470",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/> are good choices.",
+            "count": 182
+        },
+        "Research Subjects": {
+            "description": "***Persons who are enrolled in research studies or who are otherwise the subjects of research.",
+            "mesh_id": "D035842",
+            "mesh_tree": "M01.774",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/> are good choices.",
+            "count": 1629
+        },
+        "Sampling Studies": {
+            "description": "***Studies in which a number of subjects are selected from all subjects in a defined population. Conclusions based on sample results may be attributed only to the population sampled.",
+            "mesh_id": "D012494",
+            "mesh_tree": "E05.318.372.875, N05.715.360.330.875, N06.850.520.450.875",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/> are good choices.",
+            "count": 366
+        },
+        "Surveys and Questionnaires": {
+            "description": "Collections of data obtained from voluntary subjects. The information usually takes the form of answers to questions, or suggestions.",
+            "mesh_id": "D011795",
+            "mesh_tree": "E05.318.308.980, N05.715.360.300.800, N06.850.520.308.980",
+            "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/> are good choices.",
+            "count": 16
+        },
+        "best_practice": "Tabular data should saved as a .txt or .csv file. The first row(s) should contain information about the dataset, such as the data file name, author, today's date, when the\ndata within the file were last modified, and companion file names. Please also state which symbol has been used to denote missing data (NA is preferred). Column headings should describe the content of each column and contain only numbers, letters, and underscores - no spaces or special characters. Lowercase letters are preferred. Row names should be consistent with those used in the article and in other related datasets.  \n\nFor a sample table, the rows contain information about individual samples, and the columns contain the measured variables and other information. Sample tables must contain detailed information about exactly when and where each sample was obtained, and columns indicating any subgroup each sample belongs to (e.g. 'sand dunes', or 'control group').",
+        "description": "Tabular data consist of a table with rows and columns. Each cell of the table contains numbers or text. A sample table contains data about one or more entities gathered during a research project. These entities might be biological organisms, soil samples, ceramic dishes, or human organs. ",
+        "most_suitable_repositories": "Many repositories are suitable for tabular data. Your institution, journal, or funder may recommend specific repositories, otherwise Dryad <https://datadryad.org/>, Zenodo, <https://zenodo.org/> and FigShare <https://figshare.com/> are good choices.",
+        "count": 4583
+    },
+    "Video Recording": {
+        "best_practice": "Video should be preserved in a MXF container format, with uncompressed YCbCr or JPEG2000 lossless encoding (codecs). A 640:480 resolution is preferred, with a 4:4:4 sampling scheme, 30 bit sampling scheme, progressive scanning and a 30 MBps data rate. An alternative minimum is Audio Video Interleave [AVI] or QuickTime [MOV] container format with H.264/MPEG-4 AVC or DV encoding (codecs).",
+        "description": "The storing or preserving of video signals to be played back later via a transmitter or receiver.",
+        "mesh_id": "D014741",
+        "mesh_tree": "L01.280.960",
+        "most_suitable_repositories": "Many different repositories host video data; some are country and field specific, while others are more general. See re3data.org for a complete listing",
+        "count": 35
+    },
+    "Voltammetry data": {
+        "description": "https://en.wikipedia.org/wiki/Voltammetry",
+        "count": 2
+    },
+    "X-Ray Diffraction data": {
+        "description": "The scattering of x-rays by matter, especially crystals, with accompanying variation in intensity due to interference effects. Analysis of the crystal structure of materials is performed by passing x-rays through them and registering the diffraction image of the rays (CRYSTALLOGRAPHY, X-RAY). (From McGraw-Hill Dictionary of Scientific and Technical Terms, 4th ed)",
+        "mesh_id": "D014961",
+        "mesh_tree": "E05.196.309.742, E05.196.822.950, G01.867.950, G02.965",
+        "count": 46
+    },
+    "X-Ray fluorescence data": {
+        "description": "https://en.wikipedia.org/wiki/X-ray_fluorescence",
+        "count": 4
+    }
+}

@@ -1,0 +1,3 @@
+Labeling yield and radiochemical purity was analyzed by instant thin layered chromatography (ITLC).
+NOESY and ROESY spectra64,65 were collected with typically 128 scans per t1 increment, with the residual water signal removed by the WATERGATE sequence and 1 s relaxation time.
+The concentrations of Cd and Pb in feathers were measured by furnace atomic absorption spectrometry (VARIAN 240Z).
