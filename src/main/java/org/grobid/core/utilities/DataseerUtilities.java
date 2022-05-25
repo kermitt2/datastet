@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +37,34 @@ public class DataseerUtilities {
             return false;
         Matcher matAndMetMatcher = DataseerUtilities.matAndMetPattern.matcher(localText);
         return matAndMetMatcher.find();
+    }
+
+    static public String getISO8601Date() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC")); 
+        return sdf.format(date);
+    }
+
+    /**
+     * Give application information to be added in a JSON result
+     */
+    public static String applicationDetails(String version) {
+        StringBuilder sb = new StringBuilder();
+
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+        df.setTimeZone(tz);
+        String dateISOString = df.format(new java.util.Date());
+
+        sb.append("\"application\": \"datastet\", ");
+        if (version !=null)
+            sb.append("\"version\": \"" + version + "\", ");
+        sb.append("\"date\": \"" + dateISOString + "\"");
+
+        return sb.toString();
     }
 
 }

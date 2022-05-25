@@ -82,5 +82,5 @@ models:
       # deep learning parameters
       architecture: "BidLSTM_CRF"
       #architecture: "scibert"
-      useELMo: false
+      useELMo: true
       embeddings_name: "glove-840B"

@@ -48,6 +48,9 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Text;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.grobid.core.document.xml.XmlBuilderUtils.teiElement;
 import org.apache.commons.lang3.tuple.Pair;
@@ -200,11 +203,11 @@ public class DatasetParser extends AbstractParser {
                 endPos--;
 
             if (clusterLabel.equals(DatasetTaggingLabels.DATASET_NAME)) {
-                dataset = new Dataset(DatasetType.DATASET_NAME, clusterText);
+                dataset = new Dataset(DatasetType.DATASET_NAME, text.substring(pos, endPos));
             } else if (clusterLabel.equals(DatasetTaggingLabels.DATASET)) {
-                dataset = new Dataset(DatasetType.DATASET, clusterText);
+                dataset = new Dataset(DatasetType.DATASET, text.substring(pos, endPos));
             } else if (clusterLabel.equals(DatasetTaggingLabels.DATA_DEVICE)) {
-                dataset = new Dataset(DatasetType.DATA_DEVICE, clusterText);
+                dataset = new Dataset(DatasetType.DATA_DEVICE, text.substring(pos, endPos));
             } 
 
             if (dataset != null) {
@@ -218,6 +221,7 @@ public class DatasetParser extends AbstractParser {
                 dataset.setBoundingBoxes(boundingBoxes);
 
                 datasets.add(dataset);
+
                 dataset = null;
             }
 

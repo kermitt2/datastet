@@ -41,8 +41,6 @@ import org.w3c.dom.traversal.TreeWalker;
 import org.w3c.dom.ls.*;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -127,65 +125,6 @@ public class DataseerClassifier {
             } catch(Exception e) {
                 logger.error("The config file does not appear valid, see resources/config/dataseer-ml.yml", e);
             }
-
-            /*String pGrobidHome = this.dataseerConfiguration.getGrobidHome();
-
-            GrobidHomeFinder grobidHomeFinder = new GrobidHomeFinder(Arrays.asList(pGrobidHome));
-            GrobidProperties.getInstance(grobidHomeFinder);
-            
-            GrobidProperties.getInstance().addModel(this.dataseerConfiguration.getModel());
-
-            logger.info(">>>>>>>> GROBID_HOME="+GrobidProperties.getGrobidHome());
-            logger.debug(LibraryLoader.getLibraryFolder());
-
-            File libraryFolder = new File(LibraryLoader.getLibraryFolder());
-            if (!libraryFolder.exists() || !libraryFolder.isDirectory()) {
-                logger.error("Unable to find a native sequence labelling library: Folder "
-                    + libraryFolder + " does not exist");
-                throw new RuntimeException(
-                    "Unable to find a native sequence labelling library: Folder "
-                        + libraryFolder + " does not exist");
-            }
-
-            File[] wapitiLibFiles = libraryFolder.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.startsWith(LibraryLoader.WAPITI_NATIVE_LIB_NAME);
-                }
-            });
-
-            if (isEmpty(wapitiLibFiles)) {
-                logger.info("No wapiti library in the Grobid home folder");
-            } else {
-                logger.info("Loading Wapiti native library...");
-                // if DeLFT will be used, we must not load libstdc++, it would create a conflict with tensorflow libstdc++ version
-                // so we temporary rename the lib so that it is not loaded in this case
-                // note that we know that, in this case, the local lib can be ignored because as DeFLT and tensorflow are installed
-                // we are sure that a compatible libstdc++ lib is installed on the system and can be dynamically loaded
-
-                String libstdcppPath = libraryFolder.getAbsolutePath() + File.separator + "libstdc++.so.6";
-                File libstdcppFile = new File(libstdcppPath);
-                if (libstdcppFile.exists()) {
-                    File libstdcppFileNew = new File(libstdcppPath + ".new");
-                    libstdcppFile.renameTo(libstdcppFileNew);
-                
-                }
-                try {
-                    System.load(wapitiLibFiles[0].getAbsolutePath());
-                } finally {
-                    // restore libstdc++
-                    String libstdcppPathNew = libraryFolder.getAbsolutePath() + File.separator + "libstdc++.so.6.new";
-                    File libstdcppFileNew = new File(libstdcppPathNew);
-                    if (libstdcppFileNew.exists()) {
-                        libstdcppFile = new File(libraryFolder.getAbsolutePath() + File.separator + "libstdc++.so.6");
-                        libstdcppFileNew.renameTo(libstdcppFile);
-                    }
-                }
-            }
-
-            logger.info("Loading JEP native library for DeLFT... " + libraryFolder.getAbsolutePath());
-            LibraryLoader.addLibraryPath(libraryFolder.getAbsolutePath());
-            */
 
             // grobid
             engine = GrobidFactory.getInstance().createEngine();
@@ -288,7 +227,7 @@ public class DataseerClassifier {
 
         StringBuilder builder = new StringBuilder();
         builder.append("{\n\t\"model\": \"dataseer\",\n\t\"software\": \"DeLFT\",\n\t\"date\": \"" + 
-            this.getISO8601Date() + "\",\n\t\"classifications\": [");
+            DataseerUtilities.getISO8601Date() + "\",\n\t\"classifications\": [");
 
         boolean first = true;
         // second pass to inject additional results
@@ -397,15 +336,6 @@ public class DataseerClassifier {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public String getISO8601Date() {
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC")); 
-        return sdf.format(date);
     }
 
     /**

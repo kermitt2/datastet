@@ -18,9 +18,14 @@ public interface DataseerPaths {
     public static final String PATH_IS_ALIVE = "isalive";
     
     /**
-     * path extension for processing a textual sentence input.
+     * path extension for classifying a textual sentence input.
      */
     public static final String PATH_DATASEER_SENTENCE = "processDataseerSentence";
+
+    /**
+     * path extension for processing a textual sentence input for dataset mentions.
+     */
+    public static final String PATH_DATASET_SENTENCE = "processDatasetSentence";
 
     /**
      * path extension for processing a TEI file 
