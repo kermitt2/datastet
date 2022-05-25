@@ -76,7 +76,7 @@ public class DataseerClassifierTest {
         List<String> texts = new ArrayList<>();
         for (int i=0; i<textPieces.length; i++) {
             text = textPieces[i].replace("\\t", " ").replaceAll("( )+", " ");
-            System.out.println(text);
+            //System.out.println(text);
             texts.add(text);
         }
         String json = DataseerClassifier.getInstance().classify(texts);

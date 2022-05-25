@@ -67,9 +67,6 @@ public class DatasetParser extends AbstractParser {
     private DataseerConfiguration dataseerConfiguration;
 
     public static DatasetParser getInstance(DataseerConfiguration configuration) {
-        System.out.println(DatasetModels.DATASET);
-        System.out.println(GrobidCRFEngine.valueOf(configuration.getModel("datasets").engine.toUpperCase()));
-        System.out.println(configuration.getModel("datasets").delft.architecture);
         if (instance == null) {
             getNewInstance(configuration);
         }
@@ -139,6 +136,7 @@ public class DatasetParser extends AbstractParser {
 
         if (allRes == null || allRes.length() == 0)
             return null;
+
         String[] resBlocks = allRes.split("\n\n");
         int i = 0;
         for (List<LayoutToken> tokens : tokensList) {
@@ -157,14 +155,14 @@ public class DatasetParser extends AbstractParser {
 
     private List<Dataset> resultExtractionLayoutTokens(String result, List<LayoutToken> tokenizations) {
         List<Dataset> datasets = new ArrayList<>();
-        Dataset dataset = null;
-
+        
         String text = LayoutTokensUtil.toText(tokenizations);
 
         TaggingTokenClusteror clusteror = new TaggingTokenClusteror(DatasetModels.DATASET, result, tokenizations);
         List<TaggingTokenCluster> clusters = clusteror.cluster();
 
         int pos = 0; // position in term of characters for creating the offsets
+        Dataset dataset = null;
 
         for (TaggingTokenCluster cluster : clusters) {
             if (cluster == null) {
@@ -201,19 +199,15 @@ public class DatasetParser extends AbstractParser {
             if ((endPos > 0) && (text.length() >= endPos) && (text.charAt(endPos-1) == ' '))
                 endPos--;
 
-
             if (clusterLabel.equals(DatasetTaggingLabels.DATASET_NAME)) {
                 dataset = new Dataset(DatasetType.DATASET_NAME, clusterText);
             } else if (clusterLabel.equals(DatasetTaggingLabels.DATASET)) {
-                dataset = new Dataset(DatasetType.DATASET_EXPRESSION, clusterText);
+                dataset = new Dataset(DatasetType.DATASET, clusterText);
             } else if (clusterLabel.equals(DatasetTaggingLabels.DATA_DEVICE)) {
                 dataset = new Dataset(DatasetType.DATA_DEVICE, clusterText);
-            }
+            } 
 
             if (dataset != null) {
-                datasets.add(dataset);
-                dataset = null;
-
                 dataset.setOffsetStart(pos);
                 dataset.setOffsetEnd(endPos);
 
@@ -222,6 +216,9 @@ public class DatasetParser extends AbstractParser {
 
                 List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(cluster.concatTokens());
                 dataset.setBoundingBoxes(boundingBoxes);
+
+                datasets.add(dataset);
+                dataset = null;
             }
 
             pos = endPos;

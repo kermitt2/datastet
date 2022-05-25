@@ -24,8 +24,8 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     
     // Orign of the component definition
     public enum DatasetType {
-        DATASET_NAME  ("datset-name"),
-        DATASET_EXPRESSION    ("datset-expression"),
+        DATASET_NAME  ("dataset-name"),
+        DATASET    ("dataset"),
         DATA_DEVICE ("data-device");
         
         private String name;

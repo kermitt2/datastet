@@ -77,7 +77,7 @@ public class DatasetParserTest {
         List<String> texts = new ArrayList<>();
         for (int i=0; i<textPieces.length; i++) {
             text = textPieces[i].replace("\\t", " ").replaceAll("( )+", " ");
-            System.out.println(text);
+            //System.out.println(text);
             texts.add(text);
         }
 
