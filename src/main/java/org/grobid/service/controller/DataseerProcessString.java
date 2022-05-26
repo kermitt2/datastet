@@ -15,12 +15,13 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.io.JsonStringEncoder;
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.*;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.io.*;
 
 /**
  * 
@@ -116,11 +117,57 @@ public class DataseerProcessString {
                     json.append(", ");
                 json.append(dataset.toJson());
             }
-            json.append("]}");
+            json.append("]");
 
             ObjectMapper mapper = new ObjectMapper();
-            Object jsonObject = mapper.readValue(json.toString(), Object.class);
-            String retValString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
+
+            String classifierJson = classifier.classify(text);
+
+            JsonNode rootNode = mapper.readTree(classifierJson);
+
+            JsonNode classificationsNode = rootNode.findPath("classifications"); 
+            if ((classificationsNode != null) && (!classificationsNode.isMissingNode())) {
+
+                if (classificationsNode.isArray()) {
+                    ArrayNode classificationsArray = (ArrayNode)classificationsNode;
+                    JsonNode classificationNode = classificationsArray.get(0);
+
+                    Iterator<String> iterator = classificationNode.fieldNames();
+                    Map<String, Double> scoresPerDatatypes = new TreeMap<>();
+                    while (iterator.hasNext()) {
+                        String field = iterator.next();
+
+                        if (field.equals("has_dataset")) {
+                            JsonNode hasDatasetNode = rootNode.findPath("has_dataset"); 
+                            if ((hasDatasetNode != null) && (!hasDatasetNode.isMissingNode())) {
+                                double hasDatasetScore = hasDatasetNode.doubleValue();
+                                System.out.println(hasDatasetScore);
+                                json.append(", \"has_dataset\": " + hasDatasetScore);
+                            }
+                        } else {
+                            scoresPerDatatypes.put(field, classificationNode.get(field).doubleValue());
+                        }
+                    }
+
+                    // get best type
+                    double bestScore = 0.0;
+                    String bestType = null;
+                    for (Map.Entry<String, Double> entry : scoresPerDatatypes.entrySet()) {
+                        if (entry.getValue() > bestScore) {
+                            bestScore = entry.getValue();
+                            bestType = entry.getKey();
+                        }
+                    }
+
+                    if (bestType != null)  
+                        json.append(", \""+ bestType+"\": " + bestScore);
+                }
+            }
+
+            json.append("}");
+
+            Object finalJsonObject = mapper.readValue(json.toString(), Object.class);
+            String retValString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(finalJsonObject);
 
             if (!isResultOK(retValString)) {
                 response = Response.status(Status.NO_CONTENT).build();

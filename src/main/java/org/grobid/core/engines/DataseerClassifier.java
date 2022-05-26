@@ -170,7 +170,7 @@ public class DataseerClassifier {
             return null;
         logger.info("classify: " + texts.size() + " sentence(s)");
         ObjectMapper mapper = new ObjectMapper();
-        
+
         String the_json = classifierBinary.classify(texts);
         // first pass to select texts to be cascaded to next level
         List<String> cascaded_texts = new ArrayList<String>();
