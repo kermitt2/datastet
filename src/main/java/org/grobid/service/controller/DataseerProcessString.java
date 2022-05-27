@@ -107,7 +107,7 @@ public class DataseerProcessString {
             String output = new String(encoded);
 
             json.append(", \"text\": \"" + output + "\"");
-            json.append(", \"entities\": [");
+            json.append(", \"mentions\": [");
 
             boolean startList = true;
             for(Dataset dataset : result) {
@@ -142,7 +142,7 @@ public class DataseerProcessString {
                             if ((hasDatasetNode != null) && (!hasDatasetNode.isMissingNode())) {
                                 double hasDatasetScore = hasDatasetNode.doubleValue();
                                 System.out.println(hasDatasetScore);
-                                json.append(", \"has_dataset\": " + hasDatasetScore);
+                                json.append(", \"hasDataset\": " + hasDatasetScore);
                             }
                         } else {
                             scoresPerDatatypes.put(field, classificationNode.get(field).doubleValue());
@@ -159,8 +159,10 @@ public class DataseerProcessString {
                         }
                     }
 
-                    if (bestType != null)  
-                        json.append(", \""+ bestType+"\": " + bestScore);
+                    if (bestType != null) { 
+                        json.append(", \"bestDataType\": \"" + bestType + "\"");
+                        json.append(", \"bestTypeScore\": " + bestScore);
+                    }
                 }
             }
 

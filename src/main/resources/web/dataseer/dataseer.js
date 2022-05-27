@@ -39,7 +39,7 @@ var grobid = (function ($) {
         $("#divDoc").hide();
 
         createInputTextArea('text');
-        setBaseUrl('processDataseerSentence');
+        setBaseUrl('processDatasetSentence');
         $('#example0').bind('click', function (event) {
             event.preventDefault();
             $('#inputTextArea').val(examples[0]);
@@ -57,7 +57,7 @@ var grobid = (function ($) {
             $('#inputTextArea').val(examples[3]);
         });
 
-        $("#selectedService").val('processDataseerSentence');
+        $("#selectedService").val('processDatasetSentence');
         $('#selectedService').change(function () {
             processChange();
             return true;
@@ -147,7 +147,7 @@ var grobid = (function ($) {
 
         var selected = $('#selectedService option:selected').attr('value');
         var urlLocal = $('#gbdForm').attr('action');
-        if (selected == 'processDataseerSentence') {
+        if (selected == 'processDatasetSentence') {
             {
                 $.ajax({
                     type: 'GET',
@@ -332,8 +332,8 @@ var grobid = (function ($) {
     function SubmitSuccesful(responseText, statusText) {
         var selected = $('#selectedService option:selected').attr('value');
 
-        if (selected == 'processDataseerSentence') {
-            SubmitSuccesfulText(responseText, statusText);
+        if (selected == 'processDatasetSentence') {
+            SubmitSuccesfulText2(responseText, statusText);
         } else if (selected == 'processDataseerPDF') {
             SubmitSuccesfulXML(responseText, statusText);
         } else if (selected == 'processDataseerTEI') {
@@ -381,6 +381,141 @@ var grobid = (function ($) {
         $('#requestResult').show();
     }
 
+    function SubmitSuccesfulText2(responseText, statusText) {
+        responseJson = responseText;
+        if ((responseJson == null) || (responseJson.length == 0)) {
+            $('#infoResult')
+                .html("<font color='red'>Error encountered while receiving the server's answer: response is empty.</font>");
+            return;
+        } else {
+            $('#infoResult').html('');
+        }
+
+        responseJson = jQuery.parseJSON(responseJson);
+
+        var display = '<div class=\"note-tabs\"> \
+            <ul id=\"resultTab\" class=\"nav nav-tabs\"> \
+                <li class="active"><a href=\"#navbar-fixed-annotation\" data-toggle=\"tab\">Annotations</a></li> \
+                <li><a href=\"#navbar-fixed-json\" data-toggle=\"tab\">Response</a></li> \
+            </ul> \
+            <div class="tab-content"> \
+            <div class="tab-pane active" id="navbar-fixed-annotation">\n';
+
+        display += '<pre style="background-color:#FFF;width:95%;" id="displayAnnotatedText">';
+
+        var string = $('#inputTextArea').val();
+        var newString = "";
+        var lastMaxIndex = string.length;
+
+        display += '<table id="sentence" style="width:100%;table-layout:fixed;" class="table">';
+        //var string = responseJson.text;
+
+        display += '<tr style="background-color:#FFF;">';
+        entities = responseJson.mentions;
+        var lang = 'en';
+        if (responseJson.lang)   
+            lang = responseJson.lang;
+        if (entities) {
+
+            entities.sort(function(a, b) { 
+                var startA = parseInt(a.offsetStart, 10);
+                //var endA = parseInt(a.offsetEnd, 10);
+
+                var startB = parseInt(b.offsetStart, 10);
+                //var endB = parseInt(b.offsetEnd, 10);
+
+                return startA-startB; 
+            });
+
+            var pos = 0; // current position in the text
+
+            for (var currentEntityIndex = 0; currentEntityIndex < entities.length; currentEntityIndex++) {
+
+                var entity = entities[currentEntityIndex];
+                var identifier = entity.wikipediaExternalRef;
+                var wikidataId = entity.wikidataId;
+                
+                var localLang = lang
+                if (entity.lang)
+                    localLang = entity.lang;
+
+                if (identifier && (conceptMap[identifier] == null)) {
+                    fetchConcept(identifier, localLang, function (result) {
+                        conceptMap[result.wikipediaExternalRef] = result;
+                    });
+                }
+
+                var rawForm = entity['rawForm']
+                var mentionType = entity['type']
+
+                var references = entity['references']
+                if (references) {
+                    for(var reference in references) {
+                        reference['subtype'] = 'reference';
+                        if (!reference['rawForm'])
+                            reference['rawForm'] = reference['label']
+                    }
+                }
+                
+                var start = parseInt(entity.offsetStart, 10);
+                var end = parseInt(entity.offsetEnd, 10);
+    
+                if (start < pos) {
+                    // we have a problem in the initial sort of the entities
+                    // the server response is not compatible with the present client 
+                    console.log("Sorting of entities as present in the server's response not valid for this client.");
+                    // note: this should never happen
+                } else {
+                    newString += string.substring(pos, start)
+                        //+ '<span id="annot-' + currentEntityIndex + '" rel="popover" data-color="' + piece['subtype'] + '">'
+                        //+ '<span id="annot-' + currentEntityIndex + '-' + pi + '">'
+                        //+ '<span class="label ' + piece['subtype'] + '" style="cursor:hand;cursor:pointer;" >'
+                        + '<span id="annot-' + currentEntityIndex + '" class="label ' + mentionType + '" style="cursor:hand;cursor:pointer;" >'
+                        + string.substring(start, end) + '</span>';
+                    pos = end;
+                }
+            }
+            newString += string.substring(pos, string.length);
+        }
+
+        newString = "<p>" + newString.replace(/(\r\n|\n|\r)/gm, "</p><p>") + "</p>";
+        //string = string.replace("<p></p>", "");
+
+        display += '<td style="font-size:small;width:60%;border:1px solid #CCC;"><p>' + newString + '</p></td>';
+        display += '<td style="font-size:small;width:40%;padding:0 5px; border:0"><span id="detailed_annot-0" /></td>';
+        display += '</tr>';
+        display += '</table>\n';
+        display += '</pre>\n';
+        display += '</div> \
+                    <div class="tab-pane " id="navbar-fixed-json">\n';
+        display += "<pre class='prettyprint' id='jsonCode'>";
+        display += "<pre class='prettyprint lang-json' id='xmlCode'>";
+        var testStr = vkbeautify.json(responseText);
+
+        display += htmll(testStr);
+
+        display += "</pre>";
+        display += '</div></div></div>';
+
+        $('#requestResult').html(display);
+        window.prettyPrint && prettyPrint();
+
+        if (entities) {
+            for (var entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+                //var entity = entities[entityIndex];
+
+                $('#annot-' + entityIndex).bind('mouseenter', viewEntity);
+                $('#annot-' + entityIndex).bind('click', viewEntity);
+                
+                //$('#annot-' + entityIndex).bind('click', viewEntity);
+            }
+        }
+
+        $('#detailed_annot-0').hide();
+
+        $('#requestResult').show();
+    }
+
     function SubmitSuccesfulXML(responseText, statusText) {
         responseXML = responseText;
         if ((responseXML == null) || (responseXML.length == 0)) {
@@ -415,13 +550,295 @@ var grobid = (function ($) {
         $('#requestResult').show();
     }
 
+    function viewEntity(event) {
+        console.log("viewEntity");
+
+        if (responseJson == null)
+            return;
+
+        if (responseJson.mentions == null) {
+            return;
+        }
+
+        mentions = responseJson.mentions;
+
+        var localID = $(this).attr('id');
+        console.log(localID)
+        
+        if (mentions == null) {
+            return;
+        }
+
+        var hasDataset = null;
+        if (responseJson.hasDataset)
+            hasDataset = responseJson.hasDataset;
+
+        var bestDataType = null;
+        if (responseJson.bestDataType)
+            bestDataType = responseJson.bestDataType;
+        var bestDataScore = null;
+        if (responseJson.bestDataScore)
+            bestDataScore = responseJson.bestDataScore;
+
+        var ind1 = localID.indexOf('-');
+        //var ind2 = localID.indexOf('-', ind1+1);
+
+        var localEntityNumber = parseInt(localID.substring(ind1+1));
+        console.log(localEntityNumber)
+        if (localEntityNumber < mentions.length) {
+
+            var string = toHtml(mentions[localEntityNumber], -1, 0, hasDataset, bestDataType, bestDataScore);
+
+            console.log(string)
+
+            $('#detailed_annot-0').html(string);
+            $('#detailed_annot-0').show();
+        }
+    }
+
+    function toHtml(entity, topPos, pageIndex, hasDataset, bestDataType, bestDataScore) {
+        var wikipedia = null;
+        if (entity.wikipediaExternalRef)
+            wikipedia = entity.wikipediaExternalRef;
+        var wikidataId = null;
+        if (entity.wikidataId)
+            wikidataId = entity.wikidataId;
+
+        var type = entity.type;
+
+        var colorLabel = null;
+        if (type)
+            colorLabel = type;
+
+        var definitions = null; 
+        if (wikipedia)
+            getDefinitions(wikipedia);
+
+        var lang = null;
+        if (entity.lang)
+            lang = entity.lang;
+
+        var content = entity.rawForm;
+        var normalized = null;
+        //if (wikipedia)
+        //    normalized = getPreferredTerm(wikipedia);
+
+        string = "<div class='info-sense-box " + colorLabel + "'";
+        if (topPos != -1)
+            string += " style='vertical-align:top; position:relative; top:" + topPos + "'";
+
+        string += "><h4 style='color:#FFF;padding-left:10px;'>" + content.toUpperCase() +
+            "</h4>";
+        string += "<div class='container-fluid' style='background-color:#F9F9F9;color:#70695C;border:padding:5px;margin-top:5px;'>" +
+            "<table style='width:100%;background-color:#fff;border:0px'><tr style='background-color:#fff;border:0px;'><td style='background-color:#fff;border:0px;'>";
+
+        if (type)
+            string += "<p>Type: <b>" + type + "</b></p>";
+
+        if (content)
+            string += "<p>Raw name: <b>" + content + "</b></p>";                
+
+        if (normalized)
+            string += "<p>Normalized name: <b>" + normalized + "</b></p>";
+
+        if (entity.confidence)
+            string += "<p>conf: <i>" + entity.confidence + "</i></p>";
+
+        if (type === "dataset" && bestDataType != null) {
+            string += "<p>Likely data type: <b>" + bestDataType + "</b></p>";
+            if (bestDataScore != null)
+               string += "<p>conf: <b>" + bestDataScore + "</b></p>";
+        }
+
+        if (wikipedia) {
+            string += "</td><td style='align:right;bgcolor:#fff'>";
+            string += '<span id="img-' + wikipedia + '-' + pageIndex + '"><script type="text/javascript">lookupWikiMediaImage("' + wikipedia + '", "' + 
+                lang + '", "' + pageIndex + '")</script></span>';
+        }
+
+        string += "</td></tr></table>";
+
+        if (entity.mentionContextAttributes || entity.documentContextAttributes) {
+            string += "<br/><div style='width:100%;background-color:#fff;border:0px'>";
+
+            if (entity.mentionContextAttributes) {
+
+                if (entity.mentionContextAttributes.used.value || entity.mentionContextAttributes.created.value || entity.mentionContextAttributes.shared.value)
+                    string += "<p>Mention-level: ";
+
+                if (entity.mentionContextAttributes.used.value) {
+                    string += "<b>used</b> (<i>" + entity.mentionContextAttributes.used.score.toFixed(3) + "</i>)";
+                }
+
+                if (entity.mentionContextAttributes.created.value) {
+                    string += " - <b>created</b> (<i>" + entity.mentionContextAttributes.created.score.toFixed(3) + "</i>)";
+                }
+
+                if (entity.mentionContextAttributes.shared.value) {
+                    string += " - <b>shared</b> (<i>" + entity.mentionContextAttributes.shared.score.toFixed(3) + "</i>)";
+                }
+
+                if (entity.mentionContextAttributes.used.value) 
+                    string += "</p>";
+            }
+
+            if (entity.documentContextAttributes) {
+                if (entity.documentContextAttributes.used.value || entity.documentContextAttributes.created.value || entity.documentContextAttributes.shared.value)
+                    string += "<p>Document-level: ";
+
+                if (entity.documentContextAttributes.used.value) {
+                    string += "<b>used</b> (<i>" + entity.documentContextAttributes.used.score.toFixed(3) + "</i>)";
+                }
+
+                if (entity.documentContextAttributes.created.value) {
+                    string += " - <b>created</b> (<i>" + entity.documentContextAttributes.created.score.toFixed(3) + "</i>)";
+                }
+
+                if (entity.documentContextAttributes.shared.value) {
+                    string += " - <b>shared</b> (<i>" + entity.documentContextAttributes.shared.score.toFixed(3) + "</i>)";
+                }
+
+                if (entity.documentContextAttributes.used.value) {
+                    string += "</p>";
+                }
+            }
+            
+            string += "</div>";
+        }
+
+        // bibliographical reference(s)
+        if (entity['references']) {
+            string += "<br/><p>References: "
+            for(var r in entity['references']) {
+                if (entity['references'][r]['label']) {
+                    //string += "<b>" + entity['references'][r]['label'] + "</b>"    
+                    localLabel = ""
+                    localHtml = ""
+                    if (entity['references'][r]['refKey'] && referenceMap[entity['references'][r]['refKey']]) {
+                        //localHtml += entity['references'][r]['tei']
+//console.log(entity['references'][r]['tei']);
+                        var doc = parse(referenceMap[entity['references'][r]['refKey']]);
+                        var authors = doc.getElementsByTagName("author");
+                        max = authors.length
+                        if (max > 3)
+                            max = 1;
+                        for(var n=0; n < authors.length; n++) {
+                            var lastName = "";
+                            var firstName = "";
+                            var localNodes = authors[n].getElementsByTagName("surname");
+                            if (localNodes && localNodes.length > 0)
+                                lastName = localNodes[0].childNodes[0].nodeValue;
+                            localNodes = authors[n].getElementsByTagName("forename");
+                            if (localNodes && localNodes.length > 0)
+                                foreName = localNodes[0].childNodes[0].nodeValue;
+                            if (n == 0 && authors.length > 3) {
+                                localLabel += lastName + " et al";
+                            } else if (n == 0) {
+                                localLabel += lastName;
+                            } else if (n == max-1 && authors.length <= 3) {
+                                localLabel += " & " + lastName;
+                            } else if (authors.length <= 3) { 
+                                localLabel += ", " + lastName;
+                            }
+                        }
+
+                        var dateNodes = doc.evaluate("//date[@type='published']/@when", doc, null, XPathResult.ANY_TYPE, null);
+                        var date = dateNodes.iterateNext();
+                        var dateStr = "";
+                        if (date) {
+                            var ind = date.textContent.indexOf("-");
+                            var year  = date.textContent;
+                            if (ind != -1)
+                                year  = year.substring(0, ind);
+                            localLabel += " (" + year + ")";
+                        }
+
+                        localHtml += displayBiblio(doc);
+                    }
+
+                    // make the biblio reference information collapsible
+                    string += "<p><div class='panel-group' id='accordionParentReferences-" + pageIndex + "-" + r + "'>";
+                    string += "<div class='panel panel-default'>";
+                    string += "<div class='panel-heading' style='background-color:#FFF;color:#70695C;border:padding:0px;font-size:small;'>";
+                    // accordion-toggle collapsed: put the chevron icon down when starting the page; accordion-toggle : put the chevron icon up
+                    string += "<a class='accordion-toggle collapsed' data-toggle='collapse' data-parent='#accordionParentReferences-" + pageIndex + "-" + r + 
+                        "' href='#collapseElementReferences-"+ pageIndex + "-" + r + "' style='outline:0;'>";
+                    string += "<h5 class='panel-title' style='font-weight:normal;'>" + entity['references'][r]['label'] + " " + localLabel + "</h5>";
+                    string += "</a>";
+                    string += "</div>";
+                    // panel-collapse collapse: hide the content of statemes when starting the page; panel-collapse collapse in: show it
+                    string += "<div id='collapseElementReferences-"+ pageIndex + "-" + r +"' class='panel-collapse collapse'>";
+                    string += "<div class='panel-body'>";
+                    string += "<table class='statements' style='width:100%;background-color:#fff;border:1px'>" + localHtml + "</table>";
+                    string += "</div></div></div></div></p>";
+                }
+            }
+            string += "</p>"
+        }
+
+        if ((definitions != null) && (definitions.length > 0)) {
+            var localHtml = wiki2html(definitions[0]['definition'], lang);
+            string += "<p><div class='wiky_preview_area2'>" + localHtml + "</div></p>";
+        }
+
+        // statements
+        var statements = null;
+        if (wikipedia)
+            statements = getStatements(wikipedia);
+        if ((statements != null) && (statements.length > 0)) {
+            var localHtml = "";
+            for (var i in statements) {
+                var statement = statements[i];
+                localHtml += displayStatement(statement);
+            }
+//                string += "<p><div><table class='statements' style='width:100%;background-color:#fff;border:1px'>" + localHtml + "</table></div></p>";
+
+            // make the statements information collapsible
+            string += "<p><div class='panel-group' id='accordionParentStatements'>";
+            string += "<div class='panel panel-default'>";
+            string += "<div class='panel-heading' style='background-color:#FFF;color:#70695C;border:padding:0px;font-size:small;'>";
+            // accordion-toggle collapsed: put the chevron icon down when starting the page; accordion-toggle : put the chevron icon up
+            string += "<a class='accordion-toggle collapsed' data-toggle='collapse' data-parent='#accordionParentStatements' href='#collapseElementStatements"+ pageIndex + "' style='outline:0;'>";
+            string += "<h5 class='panel-title' style='font-weight:normal;'>Wikidata statements</h5>";
+            string += "</a>";
+            string += "</div>";
+            // panel-collapse collapse: hide the content of statemes when starting the page; panel-collapse collapse in: show it
+            string += "<div id='collapseElementStatements"+ pageIndex +"' class='panel-collapse collapse'>";
+            string += "<div class='panel-body'>";
+            string += "<table class='statements' style='width:100%;background-color:#fff;border:1px'>" + localHtml + "</table>";
+            string += "</div></div></div></div></p>";
+        }
+
+        if ((wikipedia != null) || (wikidataId != null)) {
+            string += '<p>References: '
+            if (wikipedia != null) {
+                string += '<a href="http://' + lang + '.wikipedia.org/wiki?curid=' +
+                    wikipedia +
+                    '" target="_blank"><img style="max-width:28px;max-height:22px;margin-top:5px;" ' +
+                    ' src="resources/img/wikipedia.png"/></a>';
+            }
+            if (wikidataId != null) {
+                string += '<a href="https://www.wikidata.org/wiki/' +
+                    wikidataId +
+                    '" target="_blank"><img style="max-width:28px;max-height:22px;margin-top:5px;" ' +
+                    ' src="resources/img/Wikidata-logo.svg"/></a>';
+            }
+            string += '</p>';
+        }
+
+        string += "</div></div>";
+
+        return string;
+    }
+
+
     function processChange() {
         var selected = $('#selectedService option:selected').attr('value');
 
-        if (selected == 'processDataseerSentence') {
+        if (selected == 'processDatasetSentence') {
             createInputTextArea();
             //$('#consolidateBlock').show();
-            setBaseUrl('processDataseerSentence');
+            setBaseUrl('processDatasetSentence');
         } else if (selected == 'processDataseerPDF') {
             createInputFile(selected);
             setBaseUrl('processDataseerPDF');

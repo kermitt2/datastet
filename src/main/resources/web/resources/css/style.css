@@ -17,13 +17,13 @@
     border-radius: 3px;
 }
 
-.label.software {
+.label.dataset {
     background-color: #800080;
 }
-.label.version-date {
+.label.dataset-name {
     background-color: #3366cc;
 }
-.label.version-number {
+.label.data-device {
     background-color: #0066ff;
 }
 .label.url {
@@ -146,9 +146,9 @@ a.section-active { color: #BC0E0E; }
 span.section-not-active { color: #70695C; }
 span.section-active { color: #BC0E0E; }
 
-a.software { border-color: #800080 !important; } 
-a.version-date { border-color: #3366cc !important; } 
-a.version-number { border-color: #0066ff !important; } 
+a.dataset { border-color: #800080 !important; } 
+a.dataset-name { border-color: #3366cc !important; } 
+a.data-device { border-color: #0066ff !important; } 
 a.url { border-color: #ff3399 !important; } 
 a.creator { border-color: #993300 !important; } 
 a.reference { border-color: #009933 !important; } 
@@ -201,13 +201,13 @@ p {
 }
 span {word-break:normal;}
 
-[rel=popover][data-color=software] + .popover .popover-title {
+[rel=popover][data-color=dataset] + .popover .popover-title {
     background-color: #800080; color: white;
 }
-[rel=popover][data-color=version-date] + .popover .popover-title {
+[rel=popover][data-color=dataset-name] + .popover .popover-title {
     background-color: #3366cc; color: white;
 }
-[rel=popover][data-color=version-number] + .popover .popover-title {
+[rel=popover][data-color=data-device] + .popover .popover-title {
     background-color: #0066ff; color: white;
 }
 [rel=popover][data-color=url] + .popover .popover-title {
@@ -226,13 +226,13 @@ span {word-break:normal;}
 }
 
 /* entity */
-.info-sense-box.software {
+.info-sense-box.dataset {
     background-color: #800080;
 }
-.info-sense-box.version-date {
+.info-sense-box.dataset-name {
     background-color: #3366cc;
 }
-.info-sense-box.version-number {
+.info-sense-box.data-device {
     background-color: #0066ff;
 }
 .info-sense-box.url {
