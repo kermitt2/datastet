@@ -9,6 +9,7 @@ import org.grobid.core.engines.DatasetParser;
 import org.grobid.core.data.Dataset;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.core.utilities.DataseerUtilities;
+import org.grobid.core.utilities.TextUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -161,7 +162,7 @@ public class DataseerProcessString {
 
                     if (bestType != null) { 
                         json.append(", \"bestDataType\": \"" + bestType + "\"");
-                        json.append(", \"bestTypeScore\": " + bestScore);
+                        json.append(", \"bestTypeScore\": " + TextUtilities.formatFourDecimals(bestScore));
                     }
                 }
             }

@@ -18,9 +18,13 @@ var grobid = (function ($) {
 
     function defineBaseURL(ext) {
         var baseUrl = null;
+        var localBase = $(location).attr('href');
         ext = "service/" + ext;
-        if ($(location).attr('href').indexOf("index.html") != -1)
-            baseUrl = $(location).attr('href').replace("index.html", ext);
+        if (localBase.indexOf("index.html") != -1) {
+            baseUrl = localBase.replace("index.html", ext);
+        } else if (localBase.endsWith("#")) {
+            baseUrl = localBase.substring(0,localBase.length-1) + ext;
+        }
         else
             baseUrl = $(location).attr('href') + ext;
         return baseUrl;
@@ -31,31 +35,20 @@ var grobid = (function ($) {
         $('#gbdForm').attr('action', baseUrl);
     }
 
+    function setBaseUrl2(ext) {
+        var baseUrl = defineBaseURL(ext);
+        $('#gbdForm2').attr('action', baseUrl);
+    }
+
     $(document).ready(function () {
 
         $("#subTitle").html("About");
         $("#divAbout").show();
         $("#divRestI").hide();
+        $("#divRestII").hide();
         $("#divDoc").hide();
 
-        createInputTextArea('text');
-        setBaseUrl('processDatasetSentence');
-        $('#example0').bind('click', function (event) {
-            event.preventDefault();
-            $('#inputTextArea').val(examples[0]);
-        });
-        $('#example1').bind('click', function (event) {
-            event.preventDefault();
-            $('#inputTextArea').val(examples[1]);
-        });
-        $('#example2').bind('click', function (event) {
-            event.preventDefault();
-            $('#inputTextArea').val(examples[2]);
-        });
-        $('#example3').bind('click', function (event) {
-            event.preventDefault();
-            $('#inputTextArea').val(examples[3]);
-        });
+        createInputTextArea();
 
         $("#selectedService").val('processDatasetSentence');
         $('#selectedService').change(function () {
@@ -63,11 +56,24 @@ var grobid = (function ($) {
             return true;
         });
 
+        $("#selectedService2").val('processDataseerSentence');
+        $('#selectedService2').change(function () {
+            processChange2();
+            return true;
+        });
+
         $('#submitRequest').bind('click', submitQuery);
+        $('#submitRequest2').bind('click', submitQuery2);
+
+        setBaseUrl('processDatasetSentence');
+        setBaseUrl2('processDataseerSentence');
+        setExamples('1');
+        setExamples('2');
 
         $("#about").click(function () {
             $("#about").attr('class', 'section-active');
             $("#rest").attr('class', 'section-not-active');
+            $("#rest2").attr('class', 'section-not-active');
             $("#doc").attr('class', 'section-not-active');
             $("#demo").attr('class', 'section-not-active');
 
@@ -76,12 +82,14 @@ var grobid = (function ($) {
 
             $("#divAbout").show();
             $("#divRestI").hide();
+            $("#divRestII").hide();
             $("#divDoc").hide();
             $("#divDemo").hide();
             return false;
         });
         $("#rest").click(function () {
             $("#rest").attr('class', 'section-active');
+            $("#rest2").attr('class', 'section-not-active');
             $("#doc").attr('class', 'section-not-active');
             $("#about").attr('class', 'section-not-active');
             $("#demo").attr('class', 'section-not-active');
@@ -91,6 +99,25 @@ var grobid = (function ($) {
             processChange();
 
             $("#divRestI").show();
+            $("#divRestII").hide();
+            $("#divAbout").hide();
+            $("#divDoc").hide();
+            $("#divDemo").hide();
+            return false;
+        });
+        $("#rest2").click(function () {
+            $("#rest").attr('class', 'section-not-active');
+            $("#rest2").attr('class', 'section-active');
+            $("#doc").attr('class', 'section-not-active');
+            $("#about").attr('class', 'section-not-active');
+            $("#demo").attr('class', 'section-not-active');
+
+            $("#subTitle2").hide();
+            //$("#subTitle").show();
+            processChange2();
+
+            $("#divRestI").hide();
+            $("#divRestII").show();
             $("#divAbout").hide();
             $("#divDoc").hide();
             $("#divDemo").hide();
@@ -99,6 +126,7 @@ var grobid = (function ($) {
         $("#doc").click(function () {
             $("#doc").attr('class', 'section-active');
             $("#rest").attr('class', 'section-not-active');
+            $("#rest2").attr('class', 'section-not-active');
             $("#about").attr('class', 'section-not-active');
             $("#demo").attr('class', 'section-not-active');
 
@@ -108,6 +136,7 @@ var grobid = (function ($) {
             $("#divDoc").show();
             $("#divAbout").hide();
             $("#divRestI").hide();
+            $("#divRestII").hide();
             $("#divDemo").hide();
             return false;
         });
@@ -119,12 +148,23 @@ var grobid = (function ($) {
         return true;
     }
 
+    function ShowRequest2(formData, jqForm, options) {
+        var queryString = $.param(formData2);
+        $('#infoResult2').html('<font color="red">Requesting server...</font>');
+        return true;
+    }
+
     function AjaxError(jqXHR, textStatus, errorThrown) {
         $('#infoResult').html("<font color='red'>Error encountered while requesting the server.<br/>" + jqXHR.responseText + "</font>");
         entities = null;
     }
 
-    function AjaxError2(message) {
+    function AjaxError2(jqXHR, textStatus, errorThrown) {
+        $('#infoResult2').html("<font color='red'>Error encountered while requesting the server.<br/>" + jqXHR.responseText + "</font>");
+        entities = null;
+    }
+
+    function AjaxError3(message) {
         if (!message)
             message = "";
         message += " - The PDF document cannot be annotated. Please check the server logs.";
@@ -152,7 +192,7 @@ var grobid = (function ($) {
                 $.ajax({
                     type: 'GET',
                     url: urlLocal,
-                    data: {text: $('#inputTextArea').val()},
+                    data: {text: $('#inputTextArea1').val()},
                     success: SubmitSuccesful,
                     error: AjaxError,
                     contentType: false
@@ -160,7 +200,7 @@ var grobid = (function ($) {
                 });
             }
         }
-        else if (selected == 'processDataseerTEI' || selected == 'processDataseerJATS' || selected == 'processDataseerPDF') {
+        else if (selected == 'processDatasetTEI' || selected == 'processDatasetJATS' || selected == 'processDatasetPDF') {
             var form = document.getElementById('gbdForm');
             var formData = new FormData(form);
             var xhr = new XMLHttpRequest();
@@ -179,7 +219,7 @@ var grobid = (function ($) {
             };
             xhr.send(formData);
         }
-        /*else if (selected == 'annotateDataseerPDF') {
+        /*else if (selected == 'annotateDatasetPDF') {
             // we will have JSON annotations to be layered on the PDF
 
             // request for the annotation information
@@ -322,17 +362,76 @@ var grobid = (function ($) {
                     //console.log(response);
                     setupAnnotations(response);
                 } else if (xhr.status != 200) {
-                    AjaxError2("Response " + xhr.status + ": ");
+                    AjaxError3("Response " + xhr.status + ": ");
                 }
             };
             xhr.send(formData);
         }*/
     }
 
+    function submitQuery2() {
+        $('#infoResult2').html('<font color="grey">Requesting server...</font>');
+        $('#requestResult2').html('');
+
+        // re-init the entity map
+        entityMap = new Object();
+        conceptMap = new Object();
+
+        var selected = $('#selectedService2 option:selected').attr('value');
+        var urlLocal = $('#gbdForm2').attr('action');
+        if (selected == 'processDataseerSentence') {
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: urlLocal,
+                    data: {text: $('#inputTextArea2').val()},
+                    success: SubmitSuccesful2,
+                    error: AjaxError,
+                    contentType: false
+                    //dataType: "text"
+                });
+            }
+        }
+        else if (selected == 'processDataseerTEI' || selected == 'processDataseerJATS' || selected == 'processDataseerPDF') {
+            var form = document.getElementById('gbdForm2');
+            var formData = new FormData(form2);
+            var xhr = new XMLHttpRequest();
+            var url = urlLocal
+            xhr.responseType = 'xml'; 
+            xhr.open('POST', url, true);
+
+            xhr.onreadystatechange = function (e) {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = e.target.response;
+                    //console.log(response);
+                    SubmitSuccesful2(response, xhr.status);
+                } else if (xhr.status != 200) {
+                    AjaxError("Response " + xhr.status + ": ");
+                }
+            };
+            xhr.send(formData2);
+        }
+        
+    }
+
     function SubmitSuccesful(responseText, statusText) {
         var selected = $('#selectedService option:selected').attr('value');
 
         if (selected == 'processDatasetSentence') {
+            SubmitSuccesfulText(responseText, statusText);
+        } else if (selected == 'processDatasetPDF') {
+            //SubmitSuccesfulXML(responseText, statusText);
+        } else if (selected == 'processDatasetTEI') {
+            //SubmitSuccesfulXML(responseText, statusText);
+        } else if (selected == 'processDatasetJATS') {
+            //SubmitSuccesfulXML(responseText, statusText);
+        } 
+    }
+
+    function SubmitSuccesful2(responseText, statusText) {
+        var selected = $('#selectedService2 option:selected').attr('value');
+
+        if (selected == 'processDataseerSentence') {
             SubmitSuccesfulText2(responseText, statusText);
         } else if (selected == 'processDataseerPDF') {
             SubmitSuccesfulXML(responseText, statusText);
@@ -341,19 +440,16 @@ var grobid = (function ($) {
         } else if (selected == 'processDataseerJATS') {
             SubmitSuccesfulXML(responseText, statusText);
         } 
-        /*else if (selected == 'annotateDataseerPDF') {
-            SubmitSuccesfulPDF(responseText, statusText);          
-        }*/
     }
 
-    function SubmitSuccesfulText(responseText, statusText) {
+    function SubmitSuccesfulText2(responseText, statusText) {
         responseJson = responseText;
         if ((responseJson == null) || (responseJson.length == 0)) {
-            $('#infoResult')
+            $('#infoResult2')
                 .html("<font color='red'>Error encountered while receiving the server's answer: response is empty.</font>");
             return;
         } else {
-            $('#infoResult').html('');
+            $('#infoResult2').html('');
         }
 
         responseJson = jQuery.parseJSON(responseJson);
@@ -375,13 +471,13 @@ var grobid = (function ($) {
         display += "</pre>";
         display += '</div></div></div>';
 
-        $('#requestResult').html(display);
+        $('#requestResult2').html(display);
         window.prettyPrint && prettyPrint();
 
-        $('#requestResult').show();
+        $('#requestResult2').show();
     }
 
-    function SubmitSuccesfulText2(responseText, statusText) {
+    function SubmitSuccesfulText(responseText, statusText) {
         responseJson = responseText;
         if ((responseJson == null) || (responseJson.length == 0)) {
             $('#infoResult')
@@ -403,7 +499,7 @@ var grobid = (function ($) {
 
         display += '<pre style="background-color:#FFF;width:95%;" id="displayAnnotatedText">';
 
-        var string = $('#inputTextArea').val();
+        var string = $('#inputTextArea1').val();
         var newString = "";
         var lastMaxIndex = string.length;
 
@@ -519,11 +615,11 @@ var grobid = (function ($) {
     function SubmitSuccesfulXML(responseText, statusText) {
         responseXML = responseText;
         if ((responseXML == null) || (responseXML.length == 0)) {
-            $('#infoResult')
+            $('#infoResult2')
                 .html("<font color='red'>Error encountered while receiving the server's answer: response is empty.</font>");
             return;
         } else {
-            $('#infoResult').html('');
+            $('#infoResult2').html('');
         }
 
         var display = '<div class=\"note-tabs\"> \
@@ -544,15 +640,13 @@ var grobid = (function ($) {
         display += "</pre>";
         display += '</div></div></div>';
 
-        $('#requestResult').html(display);
+        $('#requestResult2').html(display);
         window.prettyPrint && prettyPrint();
 
-        $('#requestResult').show();
+        $('#requestResult2').show();
     }
 
     function viewEntity(event) {
-        console.log("viewEntity");
-
         if (responseJson == null)
             return;
 
@@ -563,7 +657,7 @@ var grobid = (function ($) {
         mentions = responseJson.mentions;
 
         var localID = $(this).attr('id');
-        console.log(localID)
+        //console.log(localID)
         
         if (mentions == null) {
             return;
@@ -576,27 +670,24 @@ var grobid = (function ($) {
         var bestDataType = null;
         if (responseJson.bestDataType)
             bestDataType = responseJson.bestDataType;
-        var bestDataScore = null;
-        if (responseJson.bestDataScore)
-            bestDataScore = responseJson.bestDataScore;
+        var bestTypeScore = null;
+        if (responseJson.bestTypeScore)
+            bestTypeScore = responseJson.bestTypeScore;
 
         var ind1 = localID.indexOf('-');
         //var ind2 = localID.indexOf('-', ind1+1);
 
         var localEntityNumber = parseInt(localID.substring(ind1+1));
-        console.log(localEntityNumber)
+        //console.log(localEntityNumber)
         if (localEntityNumber < mentions.length) {
 
-            var string = toHtml(mentions[localEntityNumber], -1, 0, hasDataset, bestDataType, bestDataScore);
-
-            console.log(string)
-
+            var string = toHtml(mentions[localEntityNumber], -1, 0, hasDataset, bestDataType, bestTypeScore);
             $('#detailed_annot-0').html(string);
             $('#detailed_annot-0').show();
         }
     }
 
-    function toHtml(entity, topPos, pageIndex, hasDataset, bestDataType, bestDataScore) {
+    function toHtml(entity, topPos, pageIndex, hasDataset, bestDataType, bestTypeScore) {
         var wikipedia = null;
         if (entity.wikipediaExternalRef)
             wikipedia = entity.wikipediaExternalRef;
@@ -646,8 +737,8 @@ var grobid = (function ($) {
 
         if (type === "dataset" && bestDataType != null) {
             string += "<p>Likely data type: <b>" + bestDataType + "</b></p>";
-            if (bestDataScore != null)
-               string += "<p>conf: <b>" + bestDataScore + "</b></p>";
+            if (bestTypeScore != null)
+               string += "<p>conf: <b>" + bestTypeScore + "</b></p>";
         }
 
         if (wikipedia) {
@@ -831,30 +922,40 @@ var grobid = (function ($) {
         return string;
     }
 
-
     function processChange() {
         var selected = $('#selectedService option:selected').attr('value');
 
         if (selected == 'processDatasetSentence') {
             createInputTextArea();
-            //$('#consolidateBlock').show();
             setBaseUrl('processDatasetSentence');
-        } else if (selected == 'processDataseerPDF') {
+        } else if (selected == 'processDatasetPDF') {
             createInputFile(selected);
-            setBaseUrl('processDataseerPDF');
-        } else if (selected == 'processDataseerTEI') {
+            setBaseUrl('processDatasetPDF');
+        } else if (selected == 'processDatasetTEI') {
             createInputFile(selected);
-            setBaseUrl('processDataseerTEI');
-        } else if (selected == 'processDataseerJATS') {
+            setBaseUrl('processDatasetTEI');
+        } else if (selected == 'processDatasetJATS') {
             createInputFile(selected);
-            setBaseUrl('processDataseerJATS');
+            setBaseUrl('processDatasetJATS');
         }
+    };
 
-        /*else if (selected == 'annotateSoftwarePDF') {
-            createInputFile(selected);
-            //$('#consolidateBlock').hide();
-            setBaseUrl('annotateSoftwarePDF');
-        }*/
+    function processChange2() {
+        var selected = $('#selectedService2 option:selected').attr('value');
+
+        if (selected == 'processDataseerSentence') {
+            createInputTextArea2();
+            setBaseUrl2('processDataseerSentence');
+        } else if (selected == 'processDataseerPDF') {
+            createInputFile2(selected);
+            setBaseUrl2('processDataseerPDF');
+        } else if (selected == 'processDataseerTEI') {
+            createInputFile2(selected);
+            setBaseUrl2('processDataseerTEI');
+        } else if (selected == 'processDataseerJATS') {
+            createInputFile2(selected);
+            setBaseUrl2('processDataseerJATS');
+        }
     };
 
     /*const wikimediaURL_prefix = 'https://';
@@ -1162,7 +1263,7 @@ var grobid = (function ($) {
         return localHtml;
     }*/
 
-    function createInputFile(selected) {
+    function createInputFile() {
         $('#textInputDiv').hide();
         $('#fileInputDiv').show();
 
@@ -1170,9 +1271,22 @@ var grobid = (function ($) {
         $('#gbdForm').attr('method', 'post');
     }
 
+    function createInputFile2() {
+        $('#textInputDiv2').hide();
+        $('#fileInputDiv2').show();
+
+        $('#gbdForm2').attr('enctype', 'multipart/form-data');
+        $('#gbdForm2').attr('method', 'post');
+    }
+
     function createInputTextArea() {
         $('#fileInputDiv').hide();
         $('#textInputDiv').show();
+    }
+
+    function createInputTextArea2() {
+        $('#fileInputDiv2').hide();
+        $('#textInputDiv2').show();
     }
 
     /*function parse(xmlStr) {
@@ -1196,6 +1310,32 @@ var grobid = (function ($) {
     "The cap was then tightened to create a hypoxic condition (with DO of 0.8 mg/L, measured using a HI 98194 Multiparameter Waterproof Meter, Hanna instruments, Romania).",    
     "The sequences were analysed using the ION PGM system with ion 316 chip kit V2 (Life Technologies, CA, USA) following the manufacturer's recommended protocols."    
     ]
+
+    function setExamples(rank) {
+        for (var ind in examples) {
+            $('#example'+rank+'_'+ind).bind('click', function (event) {
+                var localID = $(this).attr('id');
+                var local_ind_pos = localID.indexOf("_");
+                var local_ind = localID.substring(local_ind_pos+1);
+                var local_rank = localID.substring(local_ind_pos-1, local_ind_pos);
+                $('#inputTextArea'+rank).val(examples[local_ind]);
+            });
+            /*$('#example'+ind).bind('click', function (event) {
+                event.preventDefault();
+                $('#inputTextArea'+rank).val(examples[ind]);
+            });
+            $('#example'+ind).bind('click', function (event) {
+                event.preventDefault();
+                $('#inputTextArea'+rank).val(examples[ind]);
+            });
+            $('#example'+ind).bind('click', function (event) {
+                event.preventDefault();
+                $('#inputTextArea'+rank).val(examples[ind]);
+            });*/
+        }
+    }
+
+    
 
 })(jQuery);
 
