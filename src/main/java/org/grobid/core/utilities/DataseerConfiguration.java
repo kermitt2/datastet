@@ -12,6 +12,7 @@ public class DataseerConfiguration {
     public String pub2teiPath;
     public String gluttonHost;
     public String gluttonPort;
+    public String version;
 
     //models (sequence labeling and text classifiers)
     public List<ModelParameters> models;
@@ -92,6 +93,14 @@ public class DataseerConfiguration {
 
     public void setGluttonPort(String port) {
         this.gluttonPort = port;
+    }
+
+    public String getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
  

@@ -58,6 +58,8 @@ public class DataseerProcessString {
             String retValString = classifier.classify(text);
             long end = System.currentTimeMillis();
 
+            // TBD: update json with runtime and software/version 
+
             if (!isResultOK(retValString)) {
                 response = Response.status(Status.NO_CONTENT).build();
             } else {
@@ -95,14 +97,12 @@ public class DataseerProcessString {
             text = text.replaceAll("\\n", " ").replaceAll("\\t", " ").replace("  ", " ");
             long start = System.currentTimeMillis();
             List<Dataset> result = parser.processingString(text);
-            long end = System.currentTimeMillis();
+            
 
             // building JSON response
             StringBuilder json = new StringBuilder();
             json.append("{");
-            json.append(DataseerUtilities.applicationDetails(GrobidProperties.getVersion()));
-            float runtime = ((float)(end-start)/1000);
-            json.append(", \"runtime\": "+ runtime);
+            json.append(DataseerUtilities.applicationDetails(classifier.getDataseerConfiguration().getVersion()));
 
             byte[] encoded = encoder.quoteAsUTF8(text);
             String output = new String(encoded);
@@ -167,6 +167,9 @@ public class DataseerProcessString {
                 }
             }
 
+            long end = System.currentTimeMillis();
+            float runtime = ((float)(end-start)/1000);
+            json.append(", \"runtime\": "+ runtime);
             json.append("}");
 
             Object finalJsonObject = mapper.readValue(json.toString(), Object.class);

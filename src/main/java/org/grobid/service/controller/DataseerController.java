@@ -88,15 +88,20 @@ public class DataseerController implements DataseerPaths {
         return DataseerProcessString.processDatsetSentence(text);
     }
 
-
-
-
     @Path(PATH_DATASEER_PDF)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_XML)
     @POST
     public Response processPDF(@FormDataParam(INPUT) InputStream inputStream) {
         return DataseerProcessFile.processPDF(inputStream);
+    }
+
+    @Path(PATH_DATASET_PDF)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_XML)
+    @POST
+    public Response processDatasetPDF(@FormDataParam(INPUT) InputStream inputStream) {
+        return DataseerProcessFile.processDatasetPDF(inputStream);
     }
 
     @Path(PATH_DATASEER_TEI)
@@ -113,14 +118,6 @@ public class DataseerController implements DataseerPaths {
     @POST
     public Response processJATS(@FormDataParam(INPUT) InputStream inputStream) {
         return DataseerProcessFile.processJATS(inputStream);
-    }
-
-    @Path(PATH_ANNOTATE_DATASEER_PDF)
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @POST
-    public Response processPDFAnnotation(@FormDataParam(INPUT) InputStream inputStream) {
-        return DataseerProcessFile.processPDFAnnotation(inputStream);
     }
 
     @Path(PATH_DATATYPE_JSON)

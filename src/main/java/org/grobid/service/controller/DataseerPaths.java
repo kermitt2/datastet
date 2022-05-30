@@ -45,9 +45,9 @@ public interface DataseerPaths {
     public static final String PATH_DATASEER_PDF = "processDataseerPDF";
 
     /**
-     * path extension for annotating a PDF file with the dataset-relevant sentences.
+     * path extension for annotating a PDF file with the dataset-relevant mentions
      */
-    public static final String PATH_ANNOTATE_DATASEER_PDF = "annotateDataseerPDF";
+    public static final String PATH_DATASET_PDF = "processDatasetPDF";
 
     /**
      * path extension for getting the json datatype resource file 
