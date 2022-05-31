@@ -162,6 +162,18 @@ public class DataseerClassifier {
     }
 
     /**
+     * Classify a simple piece of text
+     * @return JSON string
+     */
+    public String classifyBinary(String text) throws Exception {
+        if (StringUtils.isEmpty(text))
+            return null;
+        List<String> texts = new ArrayList<String>();
+        texts.add(text);
+        return classifyBinary(texts);
+    }
+
+    /**
      * Classify an array of texts
      * @return JSON string
      */
@@ -307,6 +319,152 @@ public class DataseerClassifier {
         }
         else
             return null;
+    }
+
+        /**
+     * Classify an array of texts
+     * @return JSON string
+     */
+    public String classifyBinary(List<String> texts) throws Exception {
+        if (texts == null || texts.size() == 0)
+            return null;
+        logger.info("classify: " + texts.size() + " sentence(s)");
+        ObjectMapper mapper = new ObjectMapper();
+
+        String the_json = classifierBinary.classify(texts);
+        // first pass to select texts to be cascaded to next level
+        //List<String> cascaded_texts = new ArrayList<String>();
+        JsonNode root = null;
+        if (the_json != null && the_json.length() > 0) {
+            root = mapper.readTree(the_json);
+            JsonNode classificationsNode = root.findPath("classifications");
+            if ((classificationsNode != null) && (!classificationsNode.isMissingNode())) {
+                Iterator<JsonNode> ite = classificationsNode.elements();
+                while (ite.hasNext()) {
+                    JsonNode classificationNode = ite.next();
+                    JsonNode datasetNode = classificationNode.findPath("dataset");
+                    JsonNode noDatasetNode = classificationNode.findPath("no_dataset");
+
+                    if ((datasetNode != null) && (!datasetNode.isMissingNode()) &&
+                        (noDatasetNode != null) && (!noDatasetNode.isMissingNode()) ) {
+                        double probDataset = datasetNode.asDouble();
+                        double probNoDataset = noDatasetNode.asDouble();
+
+                        //System.out.println(probDataset + " " + probNoDataset);
+                        if (probDataset > probNoDataset) {
+                            JsonNode textNode = classificationNode.findPath("text");
+                            //cascaded_texts.add(textNode.asText());
+                        } 
+
+                        // rename "dataset" attribute to avoid confusion with "Dataset" type of the taxonomy
+                        ((ObjectNode)classificationNode).put("has_dataset", probDataset);
+                        ((ObjectNode)classificationNode).remove("dataset");
+                    }
+                }
+            }
+        }
+        //System.out.println("cascaded classify: " + cascaded_texts.size() + " sentences");
+        /*String cascaded_json = null;
+        JsonNode rootCascaded = null;
+        if (cascaded_texts.size() > 0) {
+            cascaded_json = classifierFirstLevel.classify(cascaded_texts);
+            if (cascaded_json != null && cascaded_json.length() > 0)
+                rootCascaded = mapper.readTree(cascaded_json);
+        }*/
+
+        return this.shadowModelName(the_json);
+        
+        // application of the reuse model on the positive texts
+        /*String cascaded_reuse_json = null;
+        JsonNode rootReuseCascaded = null;
+        if (cascaded_texts.size() > 0) {
+            cascaded_reuse_json = classifierReuse.classify(cascaded_texts);
+            if (cascaded_reuse_json != null && cascaded_reuse_json.length() > 0)
+                rootReuseCascaded = mapper.readTree(cascaded_reuse_json);
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("{\n\t\"model\": \"dataseer\",\n\t\"software\": \"DeLFT\",\n\t\"date\": \"" + 
+            DataseerUtilities.getISO8601Date() + "\",\n\t\"classifications\": [");
+
+        boolean first = true;
+        // second pass to inject additional results
+        if (root != null && rootCascaded != null && rootReuseCascaded != null) {
+            JsonNode classificationsNode = root.findPath("classifications");
+            JsonNode classificationsCascadedNode = rootCascaded.findPath("classifications");
+            JsonNode classificationsReuseCascadedNode = rootReuseCascaded.findPath("classifications");
+            if ((classificationsNode != null) && (!classificationsNode.isMissingNode()) && 
+                (classificationsCascadedNode != null) && (!classificationsCascadedNode.isMissingNode()) &&
+                (classificationsReuseCascadedNode != null) && (!classificationsReuseCascadedNode.isMissingNode())) {
+                Iterator<JsonNode> ite = classificationsNode.elements();
+                Iterator<JsonNode> iteCascaded = classificationsCascadedNode.elements();
+                Iterator<JsonNode> iteReuseCascaded = classificationsReuseCascadedNode.elements();
+                while (ite.hasNext()) {
+                    JsonNode classificationNode = ite.next();
+                    JsonNode datasetNode = classificationNode.findPath("has_dataset");
+                    JsonNode noDatasetNode = classificationNode.findPath("no_dataset");
+
+                    if ((datasetNode != null) && (!datasetNode.isMissingNode()) &&
+                        (noDatasetNode != null) && (!noDatasetNode.isMissingNode()) ) {
+                        double probDataset = datasetNode.asDouble();
+                        double probNoDataset = noDatasetNode.asDouble();
+
+                        //System.out.println(probDataset + " " + probNoDataset);
+                        if (probDataset > probNoDataset) {
+                            JsonNode textNode = classificationNode.findPath("text");
+                            if (iteCascaded.hasNext()) {
+                                JsonNode classificationCascadedNode = iteCascaded.next();
+                                // inject dataset/no_dataset probabilities as extra-information relevant for post--processing
+                                ((ObjectNode)classificationCascadedNode).put("has_dataset", probDataset);
+                                ((ObjectNode)classificationCascadedNode).put("no_dataset", probNoDataset);
+
+                                if (iteReuseCascaded.hasNext()) {
+                                    JsonNode classificationReuseCascadedNode = iteReuseCascaded.next();
+                                    JsonNode reuseNode = classificationReuseCascadedNode.findPath("reuse");
+                                    JsonNode noReuseNode = classificationReuseCascadedNode.findPath("no_reuse");
+
+                                    if ((reuseNode != null) && (!reuseNode.isMissingNode()) &&
+                                        (noReuseNode != null) && (!noReuseNode.isMissingNode()) ) {
+                                        double probReuse = reuseNode.asDouble();
+                                        double probNoReuse = noReuseNode.asDouble();
+
+                                        if (probReuse > probNoReuse) {
+                                            ((ObjectNode)classificationCascadedNode).put("reuse", true);
+                                        } else {
+                                            ((ObjectNode)classificationCascadedNode).put("reuse", false);
+                                        }
+                                    }
+                                }
+
+                                if (first)
+                                    first = false;
+                                else
+                                    builder.append(",");
+                                builder.append("\n\t\t");
+                                builder.append(this.prettyPrintJsonNode(classificationCascadedNode, mapper));
+                            }
+                        } else {
+                            if (first)
+                                first = false;
+                            else
+                                builder.append(",");
+                            builder.append("\n\t\t");
+                            builder.append(this.prettyPrintJsonNode(classificationNode, mapper));
+                        }
+                    }
+                }
+            }
+        }
+        builder.append("\n\t]\n}");
+        
+        if (the_json != null) {
+            // replace the model explitely used by a more general "dataseer"
+            // final beautifier
+            String finalJson = builder.toString();
+            return prettyPrintJsonString(finalJson, mapper);
+        }
+        else
+            return null;*/
     }
 
     private String shadowModelName(String the_json) {
@@ -997,7 +1155,7 @@ public class DataseerClassifier {
      * @return enriched TEI string
      */
     public String processPDF(String filePath) throws Exception {
-        // convert PDF into structured TEI thanks to GROBID
+        // convert PDF into structured TEI thanks to GROBID0
 
         List<String> coordinates = new ArrayList<>();
         coordinates.add("s");

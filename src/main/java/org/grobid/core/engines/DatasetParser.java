@@ -50,8 +50,12 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Text;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.*;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.io.*;
 
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.grobid.core.document.xml.XmlBuilderUtils.teiElement;
@@ -70,6 +74,7 @@ public class DatasetParser extends AbstractParser {
     private DataseerLexicon dataseerLexicon = null;
     private EngineParsers parsers;
     private DataseerConfiguration dataseerConfiguration;
+    private DataseerClassifier dataseerClassifier;
 
     public static DatasetParser getInstance(DataseerConfiguration configuration) {
         if (instance == null) {
@@ -104,7 +109,6 @@ public class DatasetParser extends AbstractParser {
      * @return list of identified Dataset objects. 
      */
     public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList) {
-        System.out.println("to process: " + tokensList.size());
 
         List<List<Dataset>> results = new ArrayList<>();
         if (tokensList == null || tokensList.size() == 0) {
@@ -114,25 +118,28 @@ public class DatasetParser extends AbstractParser {
         StringBuilder input = new StringBuilder();
         //List<String> inputs = new ArrayList<>();
         List<List<LayoutToken>> newTokensList = new ArrayList<>();
+        int total = 0;
         for (List<LayoutToken> tokens : tokensList) {
             // to be sure it's done, retokenize according to the DataseerAnalyzer
             tokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(tokens);
             newTokensList.add(tokens);
 
             // create basic input without features
-            
             for(LayoutToken token : tokens) {
-                if (token.getText().trim().length() == 0)
+                if (token.getText().trim().length() == 0) {
+                    //System.out.println("skipped: " + token.getText());
                     continue;
+                }
                 input.append(token.getText());
                 input.append("\n");
             }
 
             //inputs.add(input.toString());
             input.append("\n\n");
+            total++;
         }
 
-        //System.out.println("inputs size: " + inputs.size());
+        System.out.println("total size: " + total);
 
         tokensList = newTokensList;
 
@@ -145,12 +152,8 @@ public class DatasetParser extends AbstractParser {
                     "An exception occured while labeling a sequence.", e);
         }
 
-        //System.out.println(allRes);
-
         if (allRes == null || allRes.length() == 0)
             return results;
-
-        //System.out.println(allRes);
 
         String[] resBlocks = allRes.split("\n\n");
 
@@ -227,15 +230,15 @@ public class DatasetParser extends AbstractParser {
             if (dataset != null) {
                 dataset.setOffsetStart(pos);
                 dataset.setOffsetEnd(endPos);
-                
+
                 dataset.setLabel(clusterLabel);
                 dataset.setTokens(theTokens);
-                
+
                 List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(cluster.concatTokens());
                 dataset.setBoundingBoxes(boundingBoxes);
-                
+
                 datasets.add(dataset);
-                
+
                 dataset = null;
             }
 
@@ -401,14 +404,14 @@ public class DatasetParser extends AbstractParser {
             // we don't process references (although reference titles could be relevant)
             // acknowledgement? 
 
-            // we can process annexes
+            // we can process annexes, except those referring to author information
             documentParts = doc.getDocumentPart(SegmentationLabels.ANNEX);
             if (documentParts != null) {
                 //processDocumentPart(documentParts, doc, entities);
 
                 List<LayoutToken> annexTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
                 if (annexTokens != null) {
-                    selectedLayoutTokenSequences.add(annexTokens);
+                    //selectedLayoutTokenSequences.add(annexTokens);
                 } 
             }
 
@@ -425,7 +428,12 @@ public class DatasetParser extends AbstractParser {
 
             // actual processing of the selected sequences which have been delayed to be processed in groups and
             // take advantage of deep learning batch
-            processLayoutTokenSequenceMultiple(selectedLayoutTokenSequences, entities, disambiguate, addParagraphContext);
+            processLayoutTokenSequences(selectedLayoutTokenSequences, entities, disambiguate, addParagraphContext);
+
+            /*List<Boolean> processing(List<List<LayoutToken>> segments, 
+                                    List<String> sectionTypes, 
+                                    List<Integer> nbDatasets, 
+                                    List<String> datasetTypes)*/
 
             System.out.println(entities.size() + " mentions of interest");
 
@@ -440,7 +448,7 @@ public class DatasetParser extends AbstractParser {
     /**
      * Process with the dataset model a single arbitrary sequence of LayoutToken objects
      */ 
-    private List<List<Dataset>> processLayoutTokenSequenceMultiple(List<List<LayoutToken>> layoutTokenList, 
+    /*private List<List<Dataset>> processLayoutTokenSequenceMultiple(List<List<LayoutToken>> layoutTokenList, 
                                                             List<List<Dataset>> entities,
                                                             boolean disambiguate, 
                                                             boolean addParagraphContext) {
@@ -448,18 +456,20 @@ public class DatasetParser extends AbstractParser {
         for(List<LayoutToken> layoutTokens : layoutTokenList)
             layoutTokenizations.add(new LayoutTokenization(layoutTokens));
         return processLayoutTokenSequences(layoutTokenizations, entities, disambiguate, addParagraphContext);
-    }
+    }*/
 
     /**
      * Process with the dataset model a set of arbitrary sequence of LayoutTokenization
      */ 
-    private List<List<Dataset>> processLayoutTokenSequences(List<LayoutTokenization> layoutTokenizations, 
+    private List<List<Dataset>> processLayoutTokenSequences(List<List<LayoutToken>> layoutTokenList, 
                                                   List<List<Dataset>> entities, 
                                                   boolean disambiguate,
                                                   boolean addParagraphContext) {
+        if (this.dataseerClassifier == null)
+            dataseerClassifier = DataseerClassifier.getInstance();
         List<List<LayoutToken>> allLayoutTokens = new ArrayList<>();
-        for(LayoutTokenization layoutTokenization : layoutTokenizations) {
-            List<LayoutToken> layoutTokens = layoutTokenization.getTokenization();
+        List<String> allSentences = new ArrayList<>();
+        for(List<LayoutToken> layoutTokens : layoutTokenList) {
             layoutTokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(layoutTokens);
 
             if ( (layoutTokens == null) || (layoutTokens.size() == 0) ) {
@@ -484,24 +494,64 @@ public class DatasetParser extends AbstractParser {
                 int endPos = sentencePosition.end;
 
                 List<LayoutToken> sentenceTokens = new ArrayList<>();
+                int pos = 0;
                 for(LayoutToken token : layoutTokens) {
-                    if (startPos <= token.getOffset() && (token.getOffset()+token.getText().length()) <= endPos) {
+                    if (startPos <= pos && (pos+token.getText().length()) <= endPos) {
                         sentenceTokens.add(token);
-                    } else if (endPos < (token.getOffset()+token.getText().length())) {
+                    } else if (endPos < (pos+token.getText().length())) {
                         break;
                     }
+                    pos += token.getText().length();
                 }
+
                 allLayoutTokens.add(sentenceTokens);
+                allSentences.add(localText.substring(startPos, endPos));
             }
         }
 
         List<List<Dataset>> results = processing(allLayoutTokens);
+        
+        List<Boolean> hasDatasets = new ArrayList<>();
 
-        System.out.println("results: " + results.size());
-        System.out.println("allLayoutTokens: " + allLayoutTokens.size());
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String jsonClassification = dataseerClassifier.classifyBinary(allSentences);
+            System.out.println(jsonClassification);
+            JsonNode root = mapper.readTree(jsonClassification);
+            JsonNode classificationsNode = root.findPath("classifications");
+            if ((classificationsNode != null) && (!classificationsNode.isMissingNode())) {
+                Iterator<JsonNode> ite = classificationsNode.elements();
+                while (ite.hasNext()) {
+                    JsonNode classificationNode = ite.next();
+                    JsonNode datasetNode = classificationNode.findPath("dataset");
+                    JsonNode noDatasetNode = classificationNode.findPath("no_dataset");
+
+                    if ((datasetNode != null) && (!datasetNode.isMissingNode()) &&
+                        (noDatasetNode != null) && (!noDatasetNode.isMissingNode()) ) {
+                        double probDataset = datasetNode.asDouble();
+                        double probNoDataset = noDatasetNode.asDouble();
+
+                        System.out.println(probDataset + " " + probNoDataset);
+                        if (probDataset > probNoDataset) 
+                            hasDatasets.add(true);
+                        else 
+                            hasDatasets.add(false);
+                    }
+                }
+            }
+        } catch(JsonProcessingException e) {
+            LOGGER.error("Parsing of dataseer classifier JSON result failed", e);
+        } catch(Exception e) {
+            LOGGER.error("Error when applying dataseer sentence classifier", e);
+        }
+
+        System.out.println("hasDatasets size: " + hasDatasets.size());
+        System.out.println("allLayoutTokens size: " + allLayoutTokens.size());
 
         for (int i=0; i<allLayoutTokens.size(); i++) {
             List<LayoutToken> layoutTokens = allLayoutTokens.get(i);
+            boolean hasDataset = hasDatasets.get(i);
+
             if ( (layoutTokens == null) || (layoutTokens.size() == 0) )
                 continue;
 
@@ -510,7 +560,31 @@ public class DatasetParser extends AbstractParser {
                 continue;
 
             // text of the selected segment
-            String text = LayoutTokensUtil.toText(layoutTokens);            
+            //String text = LayoutTokensUtil.toText(layoutTokens);            
+
+            // note using dehyphenized text looks nicer, but break entity-level offsets
+            // we would need to re-align offsets in a post-processing if we go with 
+            // dehyphenized text in the context
+            String localText = LayoutTokensUtil.normalizeDehyphenizeText(layoutTokens);
+
+            //System.out.println(hasDataset + " " + localEntities.size() + " mentions / " + localText);
+
+            List<Dataset> filteredLocalEntities = new ArrayList<>();
+            if (!hasDataset) {
+                for (Dataset localDataset : localEntities) {
+                    if (localDataset.getType() == DatasetType.DATASET) {
+                        continue;
+                    } else {
+                        localDataset.setContext(localText);
+                        filteredLocalEntities.add(localDataset);
+                    }
+                }
+            } else {
+                for (Dataset localDataset : localEntities) {
+                    localDataset.setContext(localText);
+                }
+                filteredLocalEntities = localEntities;
+            }
 
             // disambiguation
             /*if (disambiguate) {
@@ -533,13 +607,8 @@ public class DatasetParser extends AbstractParser {
                 }
             }*/
             
-            // note using dehyphenized text looks nicer, but break entity-level offsets
-            // we would need to re-align offsets in a post-processing if we go with 
-            // dehyphenized text in the context
-            //text = LayoutTokensUtil.normalizeDehyphenizeText(layoutTokens);
-            
             //addContext(localEntities, text, layoutTokens, true, addParagraphContext);
-            entities.add(localEntities);
+            entities.add(filteredLocalEntities);
         }
 
         return entities;

@@ -274,7 +274,7 @@ public class DataseerProcessFile {
 
             json.append("}");
 
-            System.out.println(json.toString());
+            //System.out.println(json.toString());
 
             Object finalJsonObject = mapper.readValue(json.toString(), Object.class);
             String retValString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(finalJsonObject);

@@ -9,6 +9,7 @@ import org.grobid.core.layout.LayoutToken;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 
 import java.util.List;
 
@@ -85,6 +86,20 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
     // characteristics of the mention contexts relatively to the referenced dataset considering all mentions in a document
     private DatasetContextAttributes documentContextAttributes = null;
+
+    // the text context where the entity takes place - typically a snippet with the 
+    // sentence including the mention
+    private String context = null;
+    
+    // offset of the context with respect of the paragraph 
+    private int paragraphContextOffset = -1;
+
+    // offset of the context with rspect to the complete content
+    private int globalContextOffset = -1;
+
+    // full paragraph context where the entity takes place, this is an optional field
+    // relevant for certain scenarios only
+    private String paragraph = null;
 
     public Dataset() {
         this.offsets = new OffsetPosition();
@@ -211,6 +226,38 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     public void setFiltered(boolean filtered) {
         this.filtered = filtered;
     } 
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public String getContext() {
+        return this.context;
+    }
+
+    public void setParagraphContextOffset(int paragraphContextOffset) {
+        this.paragraphContextOffset = paragraphContextOffset;
+    }
+
+    public int getParagraphContextOffset() {
+        return this.paragraphContextOffset;
+    }
+
+    public void setGlobalContextOffset(int globalContextOffset) {
+        this.globalContextOffset = globalContextOffset;
+    }
+
+    public int getGlobalContextOffset() {
+        return this.globalContextOffset;
+    }
+
+    public void setParagraph(String paragraph) {
+        this.paragraph = paragraph;
+    }
+
+    public String getParagraph() {
+        return this.paragraph;
+    }
     
     @Override
     public boolean equals(Object object) {
@@ -238,6 +285,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     
     public String toJson() {
         ObjectMapper mapper = new ObjectMapper();
+        JsonStringEncoder encoder = JsonStringEncoder.getInstance();
         
         StringBuffer buffer = new StringBuffer();
         buffer.append("{ ");
@@ -282,6 +330,35 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             buffer.append(", \"offsetEnd\" : " + offsets.end);  
         }
         
+        byte[] encoded = null;
+        String output;
+
+        if (context != null && context.length()>0) {
+            encoded = encoder.quoteAsUTF8(context.replace("\n", " ").replace("  ", " "));
+            output = new String(encoded);
+            buffer.append(", \"context\" : \"" + output + "\"");
+            /*try {
+                buffer.append(", \"context\" : \"" + mapper.writeValueAsString(context.replace("\n", " ").replace("  ", " ")) + "\"");
+            } catch (JsonProcessingException e) {
+                logger.warn("could not serialize in JSON the context: " + context);
+            }*/
+        }
+
+        if (paragraph != null && paragraph.length()>0) {
+            if (paragraphContextOffset != -1) {
+                buffer.append(", \"contextOffset\": " + paragraphContextOffset);
+            }
+
+            encoded = encoder.quoteAsUTF8(paragraph.replace("\n", " ").replace("  ", " "));
+            output = new String(encoded);
+            buffer.append(", \"paragraph\": \"" + output + "\"");
+            /*try {
+                buffer.append(", \"paragraph\": \"" + mapper.writeValueAsString(paragraph.replace("\n", " ").replace("  ", " ")) + "\"");
+            } catch (JsonProcessingException e) {
+                logger.warn("could not serialize in JSON the paragraph context: " + paragraph);
+            }*/
+        }
+
         //buffer.append(", \"conf\" : \"" + conf + "\"");
         
         if ( (boundingBoxes != null) && (boundingBoxes.size() > 0) ) {

@@ -149,7 +149,7 @@ var grobid = (function ($) {
     }
 
     function ShowRequest2(formData, jqForm, options) {
-        var queryString = $.param(formData2);
+        var queryString = $.param(formData);
         $('#infoResult2').html('<font color="red">Requesting server...</font>');
         return true;
     }
@@ -394,7 +394,7 @@ var grobid = (function ($) {
         }
         else if (selected == 'processDataseerTEI' || selected == 'processDataseerJATS' || selected == 'processDataseerPDF') {
             var form = document.getElementById('gbdForm2');
-            var formData = new FormData(form2);
+            var formData = new FormData(form);
             var xhr = new XMLHttpRequest();
             var url = urlLocal
             xhr.responseType = 'xml'; 
@@ -409,7 +409,7 @@ var grobid = (function ($) {
                     AjaxError("Response " + xhr.status + ": ");
                 }
             };
-            xhr.send(formData2);
+            xhr.send(formData);
         }
         
     }
