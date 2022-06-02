@@ -256,10 +256,10 @@ public class DatasetParser extends AbstractParser {
         for(DatasetComponent localComponent : components) {
             Dataset localDataset = null; 
             if (localComponent.getType() == DatasetType.DATASET_NAME) {
-                localDataset = new Dataset(DatasetType.DATASET_NAME);
+                localDataset = new Dataset(DatasetType.DATASET_NAME, localComponent.getRawForm());
                 localDataset.setDatasetName(localComponent);
             } else if (localComponent.getType() == DatasetType.DATASET) {
-                localDataset = new Dataset(DatasetType.DATASET);
+                localDataset = new Dataset(DatasetType.DATASET, localComponent.getRawForm());
                 localDataset.setDataset(localComponent);
             } else if (localComponent.getType() == DatasetType.DATA_DEVICE) {
                 for(Dataset knownDataset : localDatasets) {

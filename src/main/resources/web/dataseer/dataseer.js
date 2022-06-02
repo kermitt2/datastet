@@ -696,36 +696,36 @@ var grobid = (function ($) {
                     });
                 }
 
-                console.log(entity)
+                //console.log(entity)
                 var pieces = []
 
-                if (entity['type'] === 'dataset-name') {
-                    var datasetName = entity;
-                    //datasetName['subtype'] = 'dataset-name'
+                if (entity['dataset-name']) {
+                    var datasetName = entity['dataset-name'];
+                    datasetName['subtype'] = 'dataset-name'
                     pieces.push(datasetName);
                 }
 
-                if (entity['type'] === 'dataset') {
-                    var dataset = entity;
-                    //dataset['subtype'] = 'dataset'
+                if (entity['dataset']) {
+                    var dataset = entity['dataset'];
+                    dataset['subtype'] = 'dataset'
                     pieces.push(dataset);
                 }
 
-                if (entity['type'] === 'data-device') {
-                    var dataDevice = entity;
-                    //dataDevice['subtype'] = 'data-device';
+                if (entity['data-device']) {
+                    var dataDevice = entity['data-device'];
+                    dataDevice['subtype'] = 'data-device';
                     pieces.push(dataDevice);
                 }
 
-                if (entity['type'] === 'url') {
-                    var url = entity
-                    //url['subtype'] = 'url'
+                if (entity['url']) {
+                    var url = entity['url'];
+                    url['subtype'] = 'url';
                     pieces.push(url)
                 }
 
-                if (entity['type'] === 'publisher') {
-                    var creator = entity
-                    //creator['subtype'] = 'publisher'
+                if (entity['publisher']) {
+                    var creator = entity['publisher']
+                    creator['subtype'] = 'publisher'
                     pieces.push(creator)
                 }
 
@@ -765,7 +765,7 @@ var grobid = (function ($) {
                                 page_height = pageInfo[pageNumber-1].page_height;
                                 page_width = pageInfo[pageNumber-1].page_width;
                             }
-                            annotateEntity(id, rawForm, type, thePos, page_height, page_width, n, pi+m);
+                            annotateEntity(id, rawForm, piece["subtype"], thePos, page_height, page_width, n, pi+m);
                         });
                     }
                 }
@@ -888,10 +888,10 @@ var grobid = (function ($) {
                 }
 
                 var attributesInfo = ""
-                console.log(key)
+                //console.log(key)
                 if (usage_map.get(key)) {
                     documentAttributes = usage_map.get(key);
-                    console.log(documentAttributes);
+                    //console.log(documentAttributes);
                     if (documentAttributes.used.value)
                         attributesInfo += "used";
                     if (documentAttributes.created.value)
@@ -986,8 +986,8 @@ var grobid = (function ($) {
     }
 
     function annotateEntity(theId, rawForm, theType, thePos, page_height, page_width, entityIndex, positionIndex) {
-        console.log('annotate: ' + ' ' + rawForm + ' ' + theType + ' ')
-        console.log(thePos)
+        //console.log('annotate: ' + ' ' + rawForm + ' ' + theType + ' ')
+        //console.log(thePos)
 
         var page = thePos.p;
         var pageDiv = $('#page-'+page);
@@ -1162,7 +1162,7 @@ var grobid = (function ($) {
         if (entity.lang)
             lang = entity.lang;
 
-        var content = entity.rawForm;
+        var content = entity.normalizedForm;
         var normalized = null;
         //if (wikipedia)
         //    normalized = getPreferredTerm(wikipedia);

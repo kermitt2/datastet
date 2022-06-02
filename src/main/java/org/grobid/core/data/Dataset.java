@@ -54,13 +54,13 @@ public class Dataset extends KnowledgeEntity {
     protected DatasetType type = null;
 
     // surface form of the component as it appears in the source document
-    //protected String rawForm = null;
+    protected String rawForm = null;
     
     // list of layout tokens corresponding to the component mention in the source document
     //protected List<LayoutToken> tokens = null;
     
     // normalized form of the component
-    //protected String normalizedForm = null;
+    protected String normalizedForm = null;
     
     // relative offset positions in context, if defined and expressed as (Java) character offset
     //protected OffsetPosition offsets = null;
@@ -115,6 +115,12 @@ public class Dataset extends KnowledgeEntity {
         this.type = type;
     }
 
+    public Dataset(DatasetType type, String rawForm) {
+        this.type = type;
+        this.rawForm = rawForm;
+        this.normalizedForm = normalizeRawForm(rawForm);
+    }
+
     public DatasetType getType() {
         return this.type;
     }
@@ -123,7 +129,7 @@ public class Dataset extends KnowledgeEntity {
         this.type = type;
     }
 
-    /*public String getRawForm() {
+    public String getRawForm() {
         return rawForm;
     }
     
@@ -140,7 +146,7 @@ public class Dataset extends KnowledgeEntity {
         this.normalizedForm = normalizeRawForm(normalized);
     }
 
-    public OffsetPosition getOffsets() {
+    /*public OffsetPosition getOffsets() {
         return offsets;
     }
     
@@ -320,19 +326,23 @@ public class Dataset extends KnowledgeEntity {
     public String toJson() {
         ObjectMapper mapper = new ObjectMapper();
         JsonStringEncoder encoder = JsonStringEncoder.getInstance();
-        
+        byte[] encoded = null;
+        String output;
+
         StringBuffer buffer = new StringBuffer();
         buffer.append("{ ");
-        /*try {
-            buffer.append("\"rawForm\" : " + mapper.writeValueAsString(rawForm));
-        } catch (JsonProcessingException e) {
-            buffer.append("\"rawForm\" : \"" + "JsonProcessingException" + "\"");
-        }*/
 
-        //if (type != null) 
-        {
+        encoded = encoder.quoteAsUTF8(rawForm);
+        output = new String(encoded);
+        try {
+            buffer.append("\"rawForm\" : " + mapper.writeValueAsString(output));
+        } catch (JsonProcessingException e) {
+            logger.warn("could not serialize in JSON the normalized form: " + type.getName());
+        }
+
+        if (type != null) {
             try {
-                buffer.append("\"type\" : " + mapper.writeValueAsString(type.getName()));
+                buffer.append(", \"type\" : " + mapper.writeValueAsString(type.getName()));
             } catch (JsonProcessingException e) {
                 logger.warn("could not serialize in JSON the normalized form: " + type.getName());
             }
@@ -358,11 +368,13 @@ public class Dataset extends KnowledgeEntity {
             buffer.append(", \"publisher\":" + url.toJson());
         }
 
-        /*if (normalizedForm != null) {
-            try {
-                buffer.append(", \"normalizedForm\" : " + mapper.writeValueAsString(normalizedForm));
+        if (normalizedForm != null) {
+            encoded = encoder.quoteAsUTF8(normalizedForm);
+            output = new String(encoded);
+            try{
+                buffer.append(", \"normalizedForm\" : " + mapper.writeValueAsString(output));
             } catch (JsonProcessingException e) {
-                logger.warn("could not serialize in JSON the normalized form: " + normalizedForm);
+                logger.warn("could not serialize in JSON the normalized form: " + type.getName());
             }
         }
 
@@ -372,7 +384,7 @@ public class Dataset extends KnowledgeEntity {
         }
         if (wikipediaExternalRef != -1) {
             buffer.append(", \"wikipediaExternalRef\": " + wikipediaExternalRef);
-        }*/
+        }
 
         if (lang != null) {
             buffer.append(", \"lang\": \"" + lang + "\"");
@@ -385,14 +397,15 @@ public class Dataset extends KnowledgeEntity {
             buffer.append(", \"offsetStart\" : " + offsets.start);
             buffer.append(", \"offsetEnd\" : " + offsets.end);  
         }*/
-        
-        byte[] encoded = null;
-        String output;
 
         if (context != null && context.length()>0) {
             encoded = encoder.quoteAsUTF8(context.replace("\n", " ").replace("  ", " "));
             output = new String(encoded);
-            buffer.append(", \"context\" : \"" + output + "\"");
+            try {
+                buffer.append(", \"context\" : " + mapper.writeValueAsString(output));
+            } catch (JsonProcessingException e) {
+                logger.warn("could not serialize in JSON the normalized form: " + type.getName());
+            }
             /*try {
                 buffer.append(", \"context\" : \"" + mapper.writeValueAsString(context.replace("\n", " ").replace("  ", " ")) + "\"");
             } catch (JsonProcessingException e) {
@@ -407,7 +420,11 @@ public class Dataset extends KnowledgeEntity {
 
             encoded = encoder.quoteAsUTF8(paragraph.replace("\n", " ").replace("  ", " "));
             output = new String(encoded);
-            buffer.append(", \"paragraph\": \"" + output + "\"");
+            try{
+                buffer.append(", \"paragraph\": \"" + mapper.writeValueAsString(output) + "\"");
+            } catch (JsonProcessingException e) {
+                logger.warn("could not serialize in JSON the normalized form: " + type.getName());
+            }
             /*try {
                 buffer.append(", \"paragraph\": \"" + mapper.writeValueAsString(paragraph.replace("\n", " ").replace("  ", " ")) + "\"");
             } catch (JsonProcessingException e) {
@@ -481,13 +498,13 @@ public class Dataset extends KnowledgeEntity {
      * This is a string normalization process adapted to the dataset 
      * attribute strings
      */
-    /*private static String normalizeRawForm(String raw) {
+    private static String normalizeRawForm(String raw) {
         if (raw == null)
             return null;
         String result = raw.replace("\n", " ");
         result = result.replaceAll("( )+", " ");
         result = TextUtilities.cleanField(result, false);
         return result;
-    }*/
+    }
     
 }
