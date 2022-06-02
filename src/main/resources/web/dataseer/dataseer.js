@@ -16,6 +16,9 @@ var grobid = (function ($) {
     // store the current entities extracted by the service
     var entityMap = new Object();
 
+    // store the references attached to the entities and extracted by the service
+    var referenceMap = new Object();
+
     function defineBaseURL(ext) {
         var baseUrl = null;
         var localBase = $(location).attr('href');
@@ -200,7 +203,7 @@ var grobid = (function ($) {
                 });
             }
         }
-        else if (selected == 'processDatasetTEI' || selected == 'processDatasetJATS' || selected == 'processDatasetPDF') {
+        else if (selected == 'processDatasetTEI' || selected == 'processDatasetJATS') {
             var form = document.getElementById('gbdForm');
             var formData = new FormData(form);
             var xhr = new XMLHttpRequest();
@@ -219,7 +222,7 @@ var grobid = (function ($) {
             };
             xhr.send(formData);
         }
-        /*else if (selected == 'annotateDatasetPDF') {
+        else if (selected == 'processDatasetPDF') {
             // we will have JSON annotations to be layered on the PDF
 
             // request for the annotation information
@@ -366,7 +369,7 @@ var grobid = (function ($) {
                 }
             };
             xhr.send(formData);
-        }*/
+        }
     }
 
     function submitQuery2() {
@@ -644,6 +647,456 @@ var grobid = (function ($) {
         window.prettyPrint && prettyPrint();
 
         $('#requestResult2').show();
+    }
+
+    function fetchConcept(identifier, lang, successFunction) {
+        $.ajax({
+            type: 'GET',
+            url: 'https://cloud.science-miner.com/nerd/service/kb/concept/' + identifier + '?lang=' + lang,
+            success: successFunction,
+            dataType: 'json'
+        });
+    }
+
+    function setupAnnotations(response) {
+        // we must check/wait that the corresponding PDF page is rendered at this point
+        if ((response == null) || (response.length == 0)) {
+            $('#infoResult')
+                .html("<font color='red'>Error encountered while receiving the server's answer: response is empty.</font>");
+            return;
+        } else {
+            // we will print an index summarizing the result here
+            $('#infoResult').empty();
+            $('#infoResult').hide();
+        }
+
+        var json = response;
+        var pageInfo = json.pages;
+
+        var page_height = 0.0;
+        var page_width = 0.0;
+
+        entities = json.mentions;
+        if (entities) {
+            // hey bro, this must be asynchronous to avoid blocking the brothers
+            entities.forEach(function (entity, n) {
+                entityMap[n] = [];
+                entityMap[n].push(entity);
+
+                var identifier = entity.wikipediaExternalRef;
+                var wikidataId = entity.wikidataId;
+                
+                var localLang = lang
+                if (entity.lang)
+                    localLang = entity.lang;
+
+                if (identifier && (conceptMap[identifier] == null)) {
+                    fetchConcept(identifier, localLang, function (result) {
+                        conceptMap[result.wikipediaExternalRef] = result;
+                    });
+                }
+
+                console.log(entity)
+                var pieces = []
+
+                if (entity['type'] === 'dataset-name') {
+                    var datasetName = entity;
+                    //datasetName['subtype'] = 'dataset-name'
+                    pieces.push(datasetName);
+                }
+
+                if (entity['type'] === 'dataset') {
+                    var dataset = entity;
+                    //dataset['subtype'] = 'dataset'
+                    pieces.push(dataset);
+                }
+
+                if (entity['type'] === 'data-device') {
+                    var dataDevice = entity;
+                    //dataDevice['subtype'] = 'data-device';
+                    pieces.push(dataDevice);
+                }
+
+                if (entity['type'] === 'url') {
+                    var url = entity
+                    //url['subtype'] = 'url'
+                    pieces.push(url)
+                }
+
+                if (entity['type'] === 'publisher') {
+                    var creator = entity
+                    //creator['subtype'] = 'publisher'
+                    pieces.push(creator)
+                }
+
+                var references = entity['references']
+                if (references) {
+                    for(var r in references) {
+                        references[r]['subtype'] = 'reference';
+                        if (!references[r]['rawForm']) {
+                            references[r]['rawForm'] = references[r]['label']
+                        }
+                        pieces.push(references[r])    
+                    }
+                }
+
+                pieces.sort(function(a, b) { 
+                    var startA = parseInt(a.offsetStart, 10);
+                    //var endA = parseInt(a.offsetEnd, 10);
+
+                    var startB = parseInt(b.offsetStart, 10);
+                    //var endB = parseInt(b.offsetEnd, 10);
+
+                    return startA-startB; 
+                });
+
+                var type = entity['type']
+                var id = entity['id']
+                for (var pi in pieces) {
+                    piece = pieces[pi]
+                    //console.log(piece)
+                    var pos = piece.boundingBoxes;
+                    var rawForm = piece.rawForm
+                    if ((pos != null) && (pos.length > 0)) {
+                        pos.forEach(function(thePos, m) {
+                            // get page information for the annotation
+                            var pageNumber = thePos.p;
+                            if (pageInfo[pageNumber-1]) {
+                                page_height = pageInfo[pageNumber-1].page_height;
+                                page_width = pageInfo[pageNumber-1].page_width;
+                            }
+                            annotateEntity(id, rawForm, type, thePos, page_height, page_width, n, pi+m);
+                        });
+                    }
+                }
+            });
+        }
+
+        var references = json.references
+        if (references) {
+            references.forEach(function (reference, n) {
+                referenceMap[reference.refKey] = reference.tei;
+            });
+        }
+
+        //displaySummary(response)
+        $('#infoResult').show();
+    }
+
+    function displaySummary(response) {
+
+        $('#infoResult').empty();
+        entities = response.mentions;
+        // get page canvs width for visual alignment
+        if ($("canvas").length > 0)
+            width = $("canvas").first().width();
+        else 
+            width = "70%";
+        if (entities) {
+            var summary = '';
+            summary += "<div id='mention-count' style='background-color: white; width: 100%;'><p>&nbsp;&nbsp;<b>"+ entities.length + "</b> mentions found</p></div>";
+
+            summary += "<table width='" + width+ "px' style='table-layout: fixed; overflow: scroll; padding-left:5px; width:"+width+"%;'>";
+            summary += '<colgroup><col span="1" style="width: 20%;"><col span="1" style="width: 5%;"><col span="1" style="width: 55%;"><col span="1" style="width: 20%;"></colgroup>';
+
+            var local_map = new Map();
+            var usage_map = new Map();
+
+            entities.forEach(function (entity, n) {
+                var local_page = -1;
+                if (entity['dataset-name'] && entity['dataset-name'].boundingBoxes && entity['dataset-name'].boundingBoxes.length>0)
+                    local_page = entity['dataset-name'].boundingBoxes[0].p;
+                else if (entity['dataset'] && entity['dataset'].boundingBoxes && entity['dataset'].boundingBoxes.length>0)
+                    local_page = entity['dataset'].boundingBoxes[0].p;
+                else if (entity['data-device'] && entity['data-device'].boundingBoxes && entity['data-device'].boundingBoxes.length>0)
+                    local_page = entity['data-device'].boundingBoxes[0].p;
+                var the_id = 'annot-' + n + '-00';
+                if (local_page != -1)
+                    the_id += '_' + local_page;
+                var nameRaw = null;
+                if (entity['dataset-name'])
+                    nameRaw = entity['dataset-name'].normalizedForm;
+                else if (entity['dataset'])
+                    nameRaw = entity['dataset'].normalizedForm;
+                else if (entity['data-device'])
+                    nameRaw = entity['data-device'].normalizedForm;
+                if (!local_map.has(nameRaw)) {
+                    local_map.set(nameRaw, new Array());
+                }
+                var localArray = local_map.get(nameRaw)
+                localArray.push(the_id)
+                local_map.set(nameRaw, localArray);
+
+                if (entity['documentContextAttributes']) {
+                    //console.log(entity['documentContextAttributes']);
+                    usage_map.set(nNameRaw, entity['documentContextAttributes']);
+                }
+            });
+
+            console.log(usage_map);
+
+            var span_ids = new Array();
+
+            var n = 0;
+            for (let [key, value] of local_map) {
+                summary += "<tr width='"+width+"' style='background: ";
+                if (n%2 == 0) {
+                    summary += "#eee;'>"
+                } else {
+                    summary += "#fff;'>"
+                }
+                summary += "<td>"+key+"</td>";
+                summary += "<td>"+value.length+"</td>";
+                summary += "<td style='display: inline-block; word-break: break-word;' >";
+
+                value.sort(function(a, b) {
+                    var a_page = -1;
+                    if (a.indexOf("_") != -1) {
+                        var local_page = a.substring(a.indexOf("_")+1);
+                        a_page = parseInt(local_page);
+                        if (isNaN(a_page))
+                            a_page = -1;
+                    }
+
+                    var b_page = -1;
+                    if (b.indexOf("_") != -1) {
+                        var local_page = b.substring(b.indexOf("_")+1);
+                        b_page = parseInt(local_page);
+                        if (isNaN(b_page))
+                            b_page = -1;
+                    }
+
+                    if (a_page < b_page) {
+                        return -1;
+                    }
+                    if (a_page > b_page) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
+                for (var i=0; i<value.length; i++) {
+                    var the_id_full = value[i];
+                    var the_id = the_id_full;
+                    var local_page = the_id_full;
+                    if (the_id_full.indexOf("_") != -1) {
+                        the_id = the_id_full.substring(0,the_id_full.indexOf("_"));
+                        local_page = the_id_full.substring(the_id_full.indexOf("_"));
+                    }
+                    summary += "<span class='index' id='index_"+the_id+"'>page"+local_page+"</span> ";
+                    span_ids.push('index_'+the_id);
+                }
+
+                var attributesInfo = ""
+                console.log(key)
+                if (usage_map.get(key)) {
+                    documentAttributes = usage_map.get(key);
+                    console.log(documentAttributes);
+                    if (documentAttributes.used.value)
+                        attributesInfo += "used";
+                    if (documentAttributes.created.value)
+                        attributesInfo += " created";
+                    if (documentAttributes.shared.value)
+                        attributesInfo += " shared";
+                }
+
+                summary += "<td>" + attributesInfo + "</td></tr>";
+                n++;
+            };
+
+            summary += "</table>";
+
+            summary += "</div>";
+
+            $('#infoResult').html('<div style="width: '+width+
+                    '; border-style: solid; border-width: 1px; border-color: gray; background-color: white;">' +
+                    summary);
+
+            $('#toggle-group').bigSlide( {side: 'right', menu: '#drawer', menuWidth: width, afterOpen() {
+                //$("#pure-toggle-right").checked = false;
+                $("#pure-toggle-right").bind('click', function (event) {
+                    console.log("#pure-toggle-right click");
+                    $("#toggle-group").click();
+                });
+                $('#drawer').show();
+
+            }, 
+            afterClose() {
+                $('#drawer').hide();
+            }
+            });
+
+            for(var span_index in span_ids) {
+                summary = summary.replace(span_ids[span_index], span_ids[span_index]+"-drawer");
+            }
+            $('#drawer').html('<div style="width: '+width+
+                '; border-style: solid; border-width: 1px; border-color: gray; background-color: white; margin: auto;">'+ 
+                summary.replace('mention-count', 'mention-count-drawer'));
+
+            //$("#toggle-group").click(); //slides the menu open
+            $("#pure-toggle-right").show();
+            $("#toggle-group").show();
+
+            //menu.reset(); //removes all the css that sliiide added to any element
+
+            for(var span_index in span_ids) {
+                var span_id = span_ids[span_index];
+                $("#"+span_ids[span_index]).bind('click', function (event) {
+                    var localId = $(this).attr('id');
+
+                    const local_target = document.querySelector('#'+localId.replace('index_',''));
+                    const topPos = local_target.getBoundingClientRect().top + window.pageYOffset - 100;
+
+                    window.scrollTo({
+                      top: topPos, 
+                      behavior: 'smooth' 
+                    });
+
+                    local_target.click();
+                });
+
+                $("#"+span_ids[span_index]+"-drawer").bind('click', function (event) {
+                    var localId = $(this).attr('id');
+
+                    const local_target = document.querySelector('#'+localId.replace('index_','').replace("-drawer",""));
+                    const topPos = local_target.getBoundingClientRect().top + window.pageYOffset - 100;
+
+                    window.scrollTo({
+                      top: topPos, 
+                      behavior: 'smooth' 
+                    });
+
+                    local_target.click();
+
+                    $("#toggle-group").click();
+                });
+            }
+
+            /*$("#pure-toggle-right").bind('click', function (event) {
+                if (('#pure-toggle-right').checked) {
+                    menu.deactivate(); 
+                    $("#pure-toggle-right").checked = false;
+                }
+                else {
+                    menu.activate();
+                    $("#pure-toggle-right").checked = true;
+                }
+            });*/
+        }
+    }
+
+    function annotateEntity(theId, rawForm, theType, thePos, page_height, page_width, entityIndex, positionIndex) {
+        console.log('annotate: ' + ' ' + rawForm + ' ' + theType + ' ')
+        console.log(thePos)
+
+        var page = thePos.p;
+        var pageDiv = $('#page-'+page);
+        var canvas = pageDiv.children('canvas').eq(0);;
+
+        var canvasHeight = canvas.height();
+        var canvasWidth = canvas.width();
+        var scale_y = canvasHeight / page_height;
+        var scale_x = canvasWidth / page_width;
+
+        /*console.log('canvasHeight: ' + canvasHeight);
+        console.log('canvasWidth: ' + canvasWidth);
+        console.log('page_height: ' + page_height);
+        console.log('page_width: ' + page_width);
+        console.log('scale_x: ' + scale_x);
+        console.log('scale_y: ' + scale_y);*/
+
+        var x = (thePos.x * scale_x) - 1;
+        var y = (thePos.y * scale_y) - 1;
+        var width = (thePos.w * scale_x) + 1;
+        var height = (thePos.h * scale_y) + 1;
+
+        //make clickable the area
+        var element = document.createElement("a");
+        var attributes = "display:block; width:"+width+"px; height:"+height+"px; position:absolute; top:"+
+            y+"px; left:"+x+"px;";
+        element.setAttribute("style", attributes + "border:2px solid;");
+        
+        // to have a pop-up window, uncomment
+        //element.setAttribute("data-toggle", "popover");
+        //element.setAttribute("data-placement", "top");
+        //element.setAttribute("data-content", "content");
+        //element.setAttribute("data-trigger", "hover");
+        /*$(element).popover({
+            content: "<p>Software Entity</p><p>" +rawForm+"<p>",
+            html: true,
+            container: 'body'
+        });*/
+        //console.log(element)
+
+        element.setAttribute("class", theType.toLowerCase());
+        element.setAttribute("id", 'annot-' + entityIndex + '-' + positionIndex);
+        element.setAttribute("page", page);
+
+        pageDiv.append(element);
+
+        $('#annot-' + entityIndex + '-' + positionIndex).bind('mouseenter', viewEntityPDF);
+        $('#annot-' + entityIndex + '-' + positionIndex).bind('click', viewEntityPDF);
+    }
+
+    function viewEntity(event) {
+        if (responseJson == null)
+            return;
+
+        if (responseJson.mentions == null) {
+            return;
+        }
+
+        var localID = $(this).attr('id');
+        //console.log(localID)
+        if (entities == null) {
+            return;
+        }
+
+        var ind1 = localID.indexOf('-');
+        var ind2 = localID.indexOf('-', ind1+1);
+
+        var localEntityNumber = parseInt(localID.substring(ind1+1,ind2));
+        //console.log(localEntityNumber)
+        if (localEntityNumber < entities.length) {
+
+            var string = toHtml(entities[localEntityNumber], -1, 0);
+
+            $('#detailed_annot-0').html(string);
+            $('#detailed_annot-0').show();
+        }
+    }
+
+    function viewEntityPDF() {
+        var pageIndex = $(this).attr('page');
+        var localID = $(this).attr('id');
+
+        //console.log('viewEntityPDF ' + pageIndex + ' / ' + localID);
+        if (entities == null) {
+            return;
+        }
+
+        var topPos = $(this).position().top;
+
+        var ind1 = localID.indexOf('-');
+        var localEntityNumber = parseInt(localID.substring(ind1 + 1, localID.length));
+
+        if ((entityMap[localEntityNumber] == null) || (entityMap[localEntityNumber].length == 0)) {
+            // this should never be the case
+            console.log("Error for visualising annotation with id " + localEntityNumber
+                + ", empty list of entities");
+        }
+
+        var lang = 'en'; //default
+        var string = "";
+        for (var entityListIndex = entityMap[localEntityNumber].length - 1;
+             entityListIndex >= 0;
+             entityListIndex--) {
+            var entity = entityMap[localEntityNumber][entityListIndex];
+
+            string = toHtml(entity, topPos, pageIndex);
+        }
+        $('#detailed_annot-' + pageIndex).html(string);
+        $('#detailed_annot-' + pageIndex).show();
     }
 
     function viewEntity(event) {
@@ -958,7 +1411,7 @@ var grobid = (function ($) {
         }
     };
 
-    /*const wikimediaURL_prefix = 'https://';
+    const wikimediaURL_prefix = 'https://';
     const wikimediaURL_suffix = '.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&pithumbsize=200&pageids=';
 
     wikimediaUrls = {};
@@ -1261,7 +1714,7 @@ var grobid = (function ($) {
         }
 
         return localHtml;
-    }*/
+    }
 
     function createInputFile() {
         $('#textInputDiv').hide();
