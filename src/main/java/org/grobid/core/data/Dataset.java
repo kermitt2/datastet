@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
  *  Representation of a mention of a dataset, name or implicit expression, or data device.  
  *
  */
-public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {   
+public class Dataset extends KnowledgeEntity {   
     private static final Logger logger = LoggerFactory.getLogger(Dataset.class);
     
     // Orign of the component definition
@@ -40,32 +41,41 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         }
     };
 
+    protected DatasetComponent datasetName = null;
+    protected DatasetComponent dataset = null;
+    protected DatasetComponent dataDevice = null;
+    protected DatasetComponent url = null;
+    protected DatasetComponent publisher = null;
+
+    // one or several bibliographical references attached to the dataset entity
+    private List<BiblioComponent> bibRefs = null;
+
     // type of dataset object
     protected DatasetType type = null;
 
     // surface form of the component as it appears in the source document
-    protected String rawForm = null;
+    //protected String rawForm = null;
     
     // list of layout tokens corresponding to the component mention in the source document
-    protected List<LayoutToken> tokens = null;
+    //protected List<LayoutToken> tokens = null;
     
     // normalized form of the component
-    protected String normalizedForm = null;
+    //protected String normalizedForm = null;
     
     // relative offset positions in context, if defined and expressed as (Java) character offset
-    protected OffsetPosition offsets = null;
+    //protected OffsetPosition offsets = null;
     
     // confidence score of the component in context, if defined
     protected double conf = 0.8;
     
     // optional bounding box in the source document
-    protected List<BoundingBox> boundingBoxes = null;
+    //protected List<BoundingBox> boundingBoxes = null;
     
     // language
     protected String lang = null;
 
     // tagging label of the LayoutToken cluster corresponding to the component
-    protected TaggingLabel label = null;
+    //protected TaggingLabel label = null;
 
     // a status flag indicating that the component was filtered 
     protected boolean filtered = false;
@@ -101,29 +111,8 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     // relevant for certain scenarios only
     private String paragraph = null;
 
-    public Dataset() {
-        this.offsets = new OffsetPosition();
-    }
-
-    public Dataset(DatasetType type, String rawForm) {
-        this.rawForm = rawForm;
-        this.normalizedForm = normalizeRawForm(rawForm);
-        this.offsets = new OffsetPosition();
+    public Dataset(DatasetType type) {
         this.type = type;
-    }
-
-    /**
-     * This is a deep copy of a component, excluding layout tokens, offset and bounding boxes information.
-     * The usage is for propagation of the component information to entities in other position.
-     */
-    public Dataset(Dataset ent) {
-        this.type = type;
-        this.rawForm = ent.rawForm;
-        this.normalizedForm = ent.normalizedForm;
-        this.conf = ent.conf;
-        this.lang = ent.lang;
-        this.label = ent.label;
-        this.filtered = ent.filtered;
     }
 
     public DatasetType getType() {
@@ -134,7 +123,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         this.type = type;
     }
 
-    public String getRawForm() {
+    /*public String getRawForm() {
         return rawForm;
     }
     
@@ -173,7 +162,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
     public int getOffsetEnd() {
         return offsets.end;
-    }
+    }*/
     
     public double getConf() {
         return this.conf;
@@ -183,7 +172,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         this.conf = conf;
     }
     
-    public List<BoundingBox> getBoundingBoxes() {
+    /*public List<BoundingBox> getBoundingBoxes() {
         return boundingBoxes;
     }
 
@@ -205,7 +194,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
     public void setLabel(TaggingLabel label) {
         this.label = label;
-    }
+    }*/
 
     public String getLang() {
         return this.lang;
@@ -213,10 +202,6 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
     public void setLang(String lang) {
         this.lang = lang;
-    }
-
-    public void normalize() {
-        // TBD is necessary
     }
 
     public boolean isFiltered() {
@@ -259,6 +244,55 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         return this.paragraph;
     }
     
+    public List<BiblioComponent> getBibRefs() {
+        return this.bibRefs;
+    }
+
+    public void setBibRefs(List<BiblioComponent> bibRefs) {
+        this.bibRefs = bibRefs;
+    }
+
+    public void addBibRef(BiblioComponent bibRef) {
+        if (bibRefs == null) {
+            bibRefs = new ArrayList<BiblioComponent>();
+        }
+        bibRefs.add(bibRef);
+    }
+
+    public DatasetComponent getDatasetName() {
+        return this.datasetName;
+    }
+
+    public void setDatasetName(DatasetComponent datasetName) {
+        this.datasetName = datasetName;
+    }
+
+    public DatasetComponent getDataset() {
+        return this.dataset;
+    }
+
+    public void setDataset(DatasetComponent dataset) {
+        this.dataset = dataset;
+    }
+
+    public DatasetComponent getDataDevice() {
+        return this.dataDevice;
+    }
+
+    public void setDataDevice(DatasetComponent dataDevice) {
+        this.dataDevice = dataDevice;
+    }
+
+
+    public DatasetComponent getUrl() {
+        return this.url;
+    }
+
+    public void setUrl(DatasetComponent url) {
+        this.url = url;
+    }
+
+    /*
     @Override
     public boolean equals(Object object) {
         boolean result = false;
@@ -281,7 +315,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             return offsets.start - start;
         else 
             return offsets.end - end;
-    }
+    }*/
     
     public String toJson() {
         ObjectMapper mapper = new ObjectMapper();
@@ -289,21 +323,42 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         
         StringBuffer buffer = new StringBuffer();
         buffer.append("{ ");
-        try {
+        /*try {
             buffer.append("\"rawForm\" : " + mapper.writeValueAsString(rawForm));
         } catch (JsonProcessingException e) {
             buffer.append("\"rawForm\" : \"" + "JsonProcessingException" + "\"");
-        }
+        }*/
 
-        if (type != null) {
+        //if (type != null) 
+        {
             try {
-                buffer.append(", \"type\" : " + mapper.writeValueAsString(type.getName()));
+                buffer.append("\"type\" : " + mapper.writeValueAsString(type.getName()));
             } catch (JsonProcessingException e) {
                 logger.warn("could not serialize in JSON the normalized form: " + type.getName());
             }
         }
 
-        if (normalizedForm != null) {
+        if (datasetName != null) {
+            buffer.append(", \"dataset-name\":" + datasetName.toJson());
+        }
+
+        if (dataset != null) {
+            buffer.append(", \"dataset\":" + dataset.toJson());
+        }
+
+        if (dataDevice != null) {
+            buffer.append(", \"data-device\":" + dataDevice.toJson());
+        }
+
+        if (url != null) {
+            buffer.append(", \"url\":" + url.toJson());
+        }
+
+        if (publisher != null) {
+            buffer.append(", \"publisher\":" + url.toJson());
+        }
+
+        /*if (normalizedForm != null) {
             try {
                 buffer.append(", \"normalizedForm\" : " + mapper.writeValueAsString(normalizedForm));
             } catch (JsonProcessingException e) {
@@ -317,7 +372,8 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         }
         if (wikipediaExternalRef != -1) {
             buffer.append(", \"wikipediaExternalRef\": " + wikipediaExternalRef);
-        }
+        }*/
+
         if (lang != null) {
             buffer.append(", \"lang\": \"" + lang + "\"");
         }
@@ -325,10 +381,10 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             buffer.append(", \"confidence\": " + TextUtilities.formatFourDecimals(disambiguationScore.doubleValue()));
         }
 
-        if (offsets != null) {
+        /*if (offsets != null) {
             buffer.append(", \"offsetStart\" : " + offsets.start);
             buffer.append(", \"offsetEnd\" : " + offsets.end);  
-        }
+        }*/
         
         byte[] encoded = null;
         String output;
@@ -361,7 +417,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
         //buffer.append(", \"conf\" : \"" + conf + "\"");
         
-        if ( (boundingBoxes != null) && (boundingBoxes.size() > 0) ) {
+        /*if ( (boundingBoxes != null) && (boundingBoxes.size() > 0) ) {
             buffer.append(", \"boundingBoxes\" : [");
             boolean first = true;
             for (BoundingBox box : boundingBoxes) {
@@ -372,13 +428,29 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
                 buffer.append("{").append(box.toJson()).append("}");
             }
             buffer.append("] ");
-        }
+        }*/
         
+        if (bibRefs != null) {
+            buffer.append(", \"references\": ["); 
+            boolean first = true;
+            for(BiblioComponent bibRef : bibRefs) {
+                if (bibRef.getBiblio() == null)
+                    continue;
+                if (!first)
+                    buffer.append(", ");
+                else
+                    first = false;
+                buffer.append(bibRef.toJson());
+            }
+
+            buffer.append(" ] ");
+        }
+
         buffer.append(" }");
         return buffer.toString();
     }
     
-    public String toString() {
+    /*public String toString() {
         StringBuffer buffer = new StringBuffer();
         if (rawForm != null) {
             buffer.append(rawForm + "\t");
@@ -403,19 +475,19 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         }
 
         return buffer.toString();
-    }
+    }*/
 
     /**
      * This is a string normalization process adapted to the dataset 
      * attribute strings
      */
-    private static String normalizeRawForm(String raw) {
+    /*private static String normalizeRawForm(String raw) {
         if (raw == null)
             return null;
         String result = raw.replace("\n", " ");
         result = result.replaceAll("( )+", " ");
         result = TextUtilities.cleanField(result, false);
         return result;
-    }
+    }*/
     
 }

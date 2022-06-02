@@ -7,6 +7,7 @@ import org.grobid.core.data.BiblioItem;
 import org.grobid.core.data.BibDataSet;
 import org.grobid.core.data.Dataset;
 import org.grobid.core.data.Dataset.DatasetType;
+import org.grobid.core.data.DatasetComponent;
 import org.grobid.core.document.Document;
 import org.grobid.core.document.DocumentPiece;
 import org.grobid.core.document.DocumentSource;
@@ -164,7 +165,9 @@ public class DatasetParser extends AbstractParser {
             if (tokens == null || tokens.size() == 0) {
                 results.add(null);
             } else {
-                List<Dataset> localDatasets = resultExtractionLayoutTokens(resBlocks[i], tokens);
+                String text = LayoutTokensUtil.toText(tokens);
+                List<DatasetComponent> localDatasetcomponents = resultExtractionLayoutTokens(resBlocks[i], tokens, text);
+                List<Dataset> localDatasets = groupByEntities(localDatasetcomponents, tokens, text);
                 results.add(localDatasets);
             }
             i++;
@@ -173,16 +176,16 @@ public class DatasetParser extends AbstractParser {
         return results;
     }
 
-    private List<Dataset> resultExtractionLayoutTokens(String result, List<LayoutToken> tokenizations) {
-        List<Dataset> datasets = new ArrayList<>();
+    private List<DatasetComponent> resultExtractionLayoutTokens(String result, List<LayoutToken> tokenizations, String text) {
+        List<DatasetComponent> datasetComponents = new ArrayList<>();
         
-        String text = LayoutTokensUtil.toText(tokenizations);
+        //String text = LayoutTokensUtil.toText(tokenizations);
 
         TaggingTokenClusteror clusteror = new TaggingTokenClusteror(DatasetModels.DATASET, result, tokenizations);
         List<TaggingTokenCluster> clusters = clusteror.cluster();
 
         int pos = 0; // position in term of characters for creating the offsets
-        Dataset dataset = null;
+        DatasetComponent dataset = null;
 
         for (TaggingTokenCluster cluster : clusters) {
             if (cluster == null) {
@@ -220,11 +223,11 @@ public class DatasetParser extends AbstractParser {
                 endPos--;
 
             if (clusterLabel.equals(DatasetTaggingLabels.DATASET_NAME)) {
-                dataset = new Dataset(DatasetType.DATASET_NAME, text.substring(pos, endPos));
+                dataset = new DatasetComponent(DatasetType.DATASET_NAME, text.substring(pos, endPos));
             } else if (clusterLabel.equals(DatasetTaggingLabels.DATASET)) {
-                dataset = new Dataset(DatasetType.DATASET, text.substring(pos, endPos));
+                dataset = new DatasetComponent(DatasetType.DATASET, text.substring(pos, endPos));
             } else if (clusterLabel.equals(DatasetTaggingLabels.DATA_DEVICE)) {
-                dataset = new Dataset(DatasetType.DATA_DEVICE, text.substring(pos, endPos));
+                dataset = new DatasetComponent(DatasetType.DATA_DEVICE, text.substring(pos, endPos));
             } 
 
             if (dataset != null) {
@@ -237,7 +240,7 @@ public class DatasetParser extends AbstractParser {
                 List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(cluster.concatTokens());
                 dataset.setBoundingBoxes(boundingBoxes);
 
-                datasets.add(dataset);
+                datasetComponents.add(dataset);
 
                 dataset = null;
             }
@@ -245,7 +248,33 @@ public class DatasetParser extends AbstractParser {
             pos = endPos;
         }
 
-        return datasets;
+        return datasetComponents;
+    }
+
+    private List<Dataset> groupByEntities(List<DatasetComponent> components, List<LayoutToken> tokens, String text) {
+        List<Dataset> localDatasets = new ArrayList<>();
+        for(DatasetComponent localComponent : components) {
+            Dataset localDataset = null; 
+            if (localComponent.getType() == DatasetType.DATASET_NAME) {
+                localDataset = new Dataset(DatasetType.DATASET_NAME);
+                localDataset.setDatasetName(localComponent);
+            } else if (localComponent.getType() == DatasetType.DATASET) {
+                localDataset = new Dataset(DatasetType.DATASET);
+                localDataset.setDataset(localComponent);
+            } else if (localComponent.getType() == DatasetType.DATA_DEVICE) {
+                for(Dataset knownDataset : localDatasets) {
+                    if (knownDataset != null && knownDataset.getDataset() != null) {
+                        knownDataset.setDataDevice(localComponent);
+                    }
+                }
+            }
+            if (localDataset != null) {
+                localDataset.setContext(text);
+                localDatasets.add(localDataset);
+            }
+        } 
+
+        return localDatasets;
     }
 
     /**
@@ -446,19 +475,6 @@ public class DatasetParser extends AbstractParser {
     }
 
     /**
-     * Process with the dataset model a single arbitrary sequence of LayoutToken objects
-     */ 
-    /*private List<List<Dataset>> processLayoutTokenSequenceMultiple(List<List<LayoutToken>> layoutTokenList, 
-                                                            List<List<Dataset>> entities,
-                                                            boolean disambiguate, 
-                                                            boolean addParagraphContext) {
-        List<LayoutTokenization> layoutTokenizations = new ArrayList<LayoutTokenization>();
-        for(List<LayoutToken> layoutTokens : layoutTokenList)
-            layoutTokenizations.add(new LayoutTokenization(layoutTokens));
-        return processLayoutTokenSequences(layoutTokenizations, entities, disambiguate, addParagraphContext);
-    }*/
-
-    /**
      * Process with the dataset model a set of arbitrary sequence of LayoutTokenization
      */ 
     private List<List<Dataset>> processLayoutTokenSequences(List<List<LayoutToken>> layoutTokenList, 
@@ -516,7 +532,7 @@ public class DatasetParser extends AbstractParser {
         ObjectMapper mapper = new ObjectMapper();
         try {
             String jsonClassification = dataseerClassifier.classifyBinary(allSentences);
-            System.out.println(jsonClassification);
+            //System.out.println(jsonClassification);
             JsonNode root = mapper.readTree(jsonClassification);
             JsonNode classificationsNode = root.findPath("classifications");
             if ((classificationsNode != null) && (!classificationsNode.isMissingNode())) {
@@ -531,7 +547,7 @@ public class DatasetParser extends AbstractParser {
                         double probDataset = datasetNode.asDouble();
                         double probNoDataset = noDatasetNode.asDouble();
 
-                        System.out.println(probDataset + " " + probNoDataset);
+                        //System.out.println(probDataset + " " + probNoDataset);
                         if (probDataset > probNoDataset) 
                             hasDatasets.add(true);
                         else 

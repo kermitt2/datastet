@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.grobid.core.engines.DataseerClassifier;
 import org.grobid.core.engines.DatasetParser;
 import org.grobid.core.data.Dataset;
+import org.grobid.core.data.Dataset.DatasetType;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.core.utilities.DataseerUtilities;
 import org.grobid.core.utilities.TextUtilities;
@@ -97,7 +98,6 @@ public class DataseerProcessString {
             text = text.replaceAll("\\n", " ").replaceAll("\\t", " ").replace("  ", " ");
             long start = System.currentTimeMillis();
             List<Dataset> result = parser.processingString(text);
-            
 
             // building JSON response
             StringBuilder json = new StringBuilder();
@@ -107,24 +107,19 @@ public class DataseerProcessString {
             byte[] encoded = encoder.quoteAsUTF8(text);
             String output = new String(encoded);
 
-            json.append(", \"text\": \"" + output + "\"");
+            //json.append(", \"text\": \"" + output + "\"");
             json.append(", \"mentions\": [");
-
-            boolean startList = true;
-            for(Dataset dataset : result) {
-                if (startList)
-                    startList = false;
-                else 
-                    json.append(", ");
-                json.append(dataset.toJson());
-            }
-            json.append("]");
 
             ObjectMapper mapper = new ObjectMapper();
 
             String classifierJson = classifier.classify(text);
 
             JsonNode rootNode = mapper.readTree(classifierJson);
+
+            // get best type
+            double bestScore = 0.0;
+            String bestType = null;
+            double hasDatasetScore = 0.0;
 
             JsonNode classificationsNode = rootNode.findPath("classifications"); 
             if ((classificationsNode != null) && (!classificationsNode.isMissingNode())) {
@@ -141,36 +136,46 @@ public class DataseerProcessString {
                         if (field.equals("has_dataset")) {
                             JsonNode hasDatasetNode = rootNode.findPath("has_dataset"); 
                             if ((hasDatasetNode != null) && (!hasDatasetNode.isMissingNode())) {
-                                double hasDatasetScore = hasDatasetNode.doubleValue();
-                                System.out.println(hasDatasetScore);
-                                json.append(", \"hasDataset\": " + hasDatasetScore);
+                                hasDatasetScore = hasDatasetNode.doubleValue();
+                                
                             }
                         } else {
                             scoresPerDatatypes.put(field, classificationNode.get(field).doubleValue());
                         }
                     }
-
-                    // get best type
-                    double bestScore = 0.0;
-                    String bestType = null;
+                    
                     for (Map.Entry<String, Double> entry : scoresPerDatatypes.entrySet()) {
                         if (entry.getValue() > bestScore) {
                             bestScore = entry.getValue();
                             bestType = entry.getKey();
                         }
                     }
-
-                    if (bestType != null) { 
-                        json.append(", \"bestDataType\": \"" + bestType + "\"");
-                        json.append(", \"bestTypeScore\": " + TextUtilities.formatFourDecimals(bestScore));
-                    }
                 }
             }
+
+            boolean startList = true;
+            for(Dataset dataset : result) {
+                if (startList)
+                    startList = false;
+                else 
+                    json.append(", ");
+
+                if (dataset.getType() == DatasetType.DATASET && (bestType != null) && dataset.getDataset() != null) {
+                    dataset.getDataset().setBestDataType(bestType);
+                    dataset.getDataset().setBestDataTypeScore(bestScore);
+                    dataset.getDataset().setHasDatasetScore(hasDatasetScore);
+                }
+
+                json.append(dataset.toJson());
+            }
+            json.append("]");
 
             long end = System.currentTimeMillis();
             float runtime = ((float)(end-start)/1000);
             json.append(", \"runtime\": "+ runtime);
             json.append("}");
+
+            System.out.println(json.toString());
 
             Object finalJsonObject = mapper.readValue(json.toString(), Object.class);
             String retValString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(finalJsonObject);
