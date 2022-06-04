@@ -162,7 +162,7 @@ public class DataseerClassifier {
     }
 
     /**
-     * Classify a simple piece of text
+     * Classify a simple piece of text whether it refers to some dataset or not
      * @return JSON string
      */
     public String classifyBinary(String text) throws Exception {
@@ -171,6 +171,18 @@ public class DataseerClassifier {
         List<String> texts = new ArrayList<String>();
         texts.add(text);
         return classifyBinary(texts);
+    }
+
+    /**
+     * Classify a simple piece of text for the data type of a referenced dataset
+     * @return JSON string
+     */
+    public String classifyFirstLevel(String text) throws Exception {
+        if (StringUtils.isEmpty(text))
+            return null;
+        List<String> texts = new ArrayList<String>();
+        texts.add(text);
+        return classifyFirstLevel(texts);
     }
 
     /**
@@ -321,8 +333,8 @@ public class DataseerClassifier {
             return null;
     }
 
-        /**
-     * Classify an array of texts
+    /**
+     * Classify a simple piece of text whether it refers to some dataset or not
      * @return JSON string
      */
     public String classifyBinary(List<String> texts) throws Exception {
@@ -363,108 +375,27 @@ public class DataseerClassifier {
                 }
             }
         }
-        //System.out.println("cascaded classify: " + cascaded_texts.size() + " sentences");
-        /*String cascaded_json = null;
-        JsonNode rootCascaded = null;
-        if (cascaded_texts.size() > 0) {
-            cascaded_json = classifierFirstLevel.classify(cascaded_texts);
-            if (cascaded_json != null && cascaded_json.length() > 0)
-                rootCascaded = mapper.readTree(cascaded_json);
-        }*/
 
         return this.shadowModelName(the_json);
-        
-        // application of the reuse model on the positive texts
-        /*String cascaded_reuse_json = null;
-        JsonNode rootReuseCascaded = null;
-        if (cascaded_texts.size() > 0) {
-            cascaded_reuse_json = classifierReuse.classify(cascaded_texts);
-            if (cascaded_reuse_json != null && cascaded_reuse_json.length() > 0)
-                rootReuseCascaded = mapper.readTree(cascaded_reuse_json);
-        }
+    }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("{\n\t\"model\": \"dataseer\",\n\t\"software\": \"DeLFT\",\n\t\"date\": \"" + 
-            DataseerUtilities.getISO8601Date() + "\",\n\t\"classifications\": [");
+    /**
+     * Classify a simple piece of text for the data type of a referenced dataset
+     * @return JSON string
+     */
+    public String classifyFirstLevel(List<String> texts) throws Exception {
+        if (texts == null || texts.size() == 0)
+            return null;
+        logger.info("classify: " + texts.size() + " sentence(s)");
+        ObjectMapper mapper = new ObjectMapper();
 
-        boolean first = true;
-        // second pass to inject additional results
-        if (root != null && rootCascaded != null && rootReuseCascaded != null) {
-            JsonNode classificationsNode = root.findPath("classifications");
-            JsonNode classificationsCascadedNode = rootCascaded.findPath("classifications");
-            JsonNode classificationsReuseCascadedNode = rootReuseCascaded.findPath("classifications");
-            if ((classificationsNode != null) && (!classificationsNode.isMissingNode()) && 
-                (classificationsCascadedNode != null) && (!classificationsCascadedNode.isMissingNode()) &&
-                (classificationsReuseCascadedNode != null) && (!classificationsReuseCascadedNode.isMissingNode())) {
-                Iterator<JsonNode> ite = classificationsNode.elements();
-                Iterator<JsonNode> iteCascaded = classificationsCascadedNode.elements();
-                Iterator<JsonNode> iteReuseCascaded = classificationsReuseCascadedNode.elements();
-                while (ite.hasNext()) {
-                    JsonNode classificationNode = ite.next();
-                    JsonNode datasetNode = classificationNode.findPath("has_dataset");
-                    JsonNode noDatasetNode = classificationNode.findPath("no_dataset");
+        JsonNode rootCascaded = null;
+        String cascaded_json = classifierFirstLevel.classify(texts);
+        if (cascaded_json != null && cascaded_json.length() > 0)
+            rootCascaded = mapper.readTree(cascaded_json);
 
-                    if ((datasetNode != null) && (!datasetNode.isMissingNode()) &&
-                        (noDatasetNode != null) && (!noDatasetNode.isMissingNode()) ) {
-                        double probDataset = datasetNode.asDouble();
-                        double probNoDataset = noDatasetNode.asDouble();
-
-                        //System.out.println(probDataset + " " + probNoDataset);
-                        if (probDataset > probNoDataset) {
-                            JsonNode textNode = classificationNode.findPath("text");
-                            if (iteCascaded.hasNext()) {
-                                JsonNode classificationCascadedNode = iteCascaded.next();
-                                // inject dataset/no_dataset probabilities as extra-information relevant for post--processing
-                                ((ObjectNode)classificationCascadedNode).put("has_dataset", probDataset);
-                                ((ObjectNode)classificationCascadedNode).put("no_dataset", probNoDataset);
-
-                                if (iteReuseCascaded.hasNext()) {
-                                    JsonNode classificationReuseCascadedNode = iteReuseCascaded.next();
-                                    JsonNode reuseNode = classificationReuseCascadedNode.findPath("reuse");
-                                    JsonNode noReuseNode = classificationReuseCascadedNode.findPath("no_reuse");
-
-                                    if ((reuseNode != null) && (!reuseNode.isMissingNode()) &&
-                                        (noReuseNode != null) && (!noReuseNode.isMissingNode()) ) {
-                                        double probReuse = reuseNode.asDouble();
-                                        double probNoReuse = noReuseNode.asDouble();
-
-                                        if (probReuse > probNoReuse) {
-                                            ((ObjectNode)classificationCascadedNode).put("reuse", true);
-                                        } else {
-                                            ((ObjectNode)classificationCascadedNode).put("reuse", false);
-                                        }
-                                    }
-                                }
-
-                                if (first)
-                                    first = false;
-                                else
-                                    builder.append(",");
-                                builder.append("\n\t\t");
-                                builder.append(this.prettyPrintJsonNode(classificationCascadedNode, mapper));
-                            }
-                        } else {
-                            if (first)
-                                first = false;
-                            else
-                                builder.append(",");
-                            builder.append("\n\t\t");
-                            builder.append(this.prettyPrintJsonNode(classificationNode, mapper));
-                        }
-                    }
-                }
-            }
-        }
-        builder.append("\n\t]\n}");
-        
-        if (the_json != null) {
-            // replace the model explitely used by a more general "dataseer"
-            // final beautifier
-            String finalJson = builder.toString();
-            return prettyPrintJsonString(finalJson, mapper);
-        }
-        else
-            return null;*/
+        String finalJson = this.shadowModelName(cascaded_json);;
+        return prettyPrintJsonString(finalJson, mapper);
     }
 
     private String shadowModelName(String the_json) {

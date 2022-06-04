@@ -94,7 +94,7 @@ public class DataseerParser extends AbstractParser {
      * @param segments the list of textual segments, segmented into LayoutTokens
      * @param sectionTypes list giving for each segment its section type as String (head, paragraph, list)
      * @param nbDatasets list giving for each segment if the number of datasets predicted by the classifier 
-     * @param datasetTypes list giving for each segment the classifier prediction as data type as String, or null of has_dataset
+     * @param datasetTypes list giving for each segment the classifier prediction as data type as String, or null if no dataset
      * 
      * @return list of Boolean, one for each inputed text segment, indicating if the segment
      * is relevant for data set section. 
@@ -296,6 +296,7 @@ public class DataseerParser extends AbstractParser {
                 features.nbDataset = nbDataset;
             else
                 features.nbDataset = 4;
+
             features.datasetType = datasetTypes.get(m);
             
             //features.punctuationProfile = TextUtilities.punctuationProfile(line);

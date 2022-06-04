@@ -212,8 +212,6 @@ public class DataseerProcessFile {
         JsonStringEncoder encoder = JsonStringEncoder.getInstance();
 
         boolean disambiguate = false;
-        boolean addParagraphContext = false;
-
         try {
             ObjectMapper mapper = new ObjectMapper();
 
@@ -232,7 +230,7 @@ public class DataseerProcessFile {
             long start = System.currentTimeMillis();
             // starts conversion process
             Pair<List<List<Dataset>>, Document> extractedResults = 
-                    parser.processPDF(originFile, disambiguate, addParagraphContext);
+                    parser.processPDF(originFile, disambiguate);
             
             StringBuilder json = new StringBuilder();
             json.append("{ ");

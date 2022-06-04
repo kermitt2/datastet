@@ -137,7 +137,6 @@ public class DataseerProcessString {
                             JsonNode hasDatasetNode = rootNode.findPath("has_dataset"); 
                             if ((hasDatasetNode != null) && (!hasDatasetNode.isMissingNode())) {
                                 hasDatasetScore = hasDatasetNode.doubleValue();
-                                
                             }
                         } else {
                             scoresPerDatatypes.put(field, classificationNode.get(field).doubleValue());

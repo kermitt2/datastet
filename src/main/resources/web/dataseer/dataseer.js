@@ -1194,6 +1194,10 @@ var grobid = (function ($) {
                string += "<p>conf: <b>" + bestTypeScore + "</b></p>";
         }
 
+        if (entity['data-device']) {
+            string += "<p>Data acquisition device: <b>" + entity['data-device']['normalizedForm'] + "</b></p>";
+        }
+
         if (wikipedia) {
             string += "</td><td style='align:right;bgcolor:#fff'>";
             string += '<span id="img-' + wikipedia + '-' + pageIndex + '"><script type="text/javascript">lookupWikiMediaImage("' + wikipedia + '", "' + 

@@ -305,8 +305,7 @@ public class DatasetParser extends AbstractParser {
     }
 
     public Pair<List<List<Dataset>>,Document> processPDF(File file, 
-                                                        boolean disambiguate, 
-                                                        boolean addParagraphContext) throws IOException {
+                                                        boolean disambiguate) throws IOException {
         List<List<Dataset>> entities = new ArrayList<>();
         Document doc = null;
         try {
@@ -333,6 +332,7 @@ public class DatasetParser extends AbstractParser {
             // the corresponding model to further filter by structure types 
 
             List<List<LayoutToken>> selectedLayoutTokenSequences = new ArrayList<>();
+            List<Boolean> relevantSections = new ArrayList<>();
 
             // from the header, we are interested in title, abstract and keywords
             SortedSet<DocumentPiece> documentParts = doc.getDocumentPart(SegmentationLabels.HEADER);
@@ -351,18 +351,21 @@ public class DatasetParser extends AbstractParser {
                     List<LayoutToken> titleTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_TITLE);
                     if (titleTokens != null) {
                         selectedLayoutTokenSequences.add(titleTokens);
+                        relevantSections.add(false);
                     } 
 
                     // abstract
                     List<LayoutToken> abstractTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_ABSTRACT);
                     if (abstractTokens != null) {
                         selectedLayoutTokenSequences.add(abstractTokens);
+                        relevantSections.add(false);
                     } 
 
                     // keywords
                     List<LayoutToken> keywordTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_KEYWORD);
                     if (keywordTokens != null) {
                         selectedLayoutTokenSequences.add(keywordTokens);
+                        relevantSections.add(false);
                     }
                 }
             }
@@ -397,6 +400,7 @@ public class DatasetParser extends AbstractParser {
                         }
 
                         TaggingLabel clusterLabel = cluster.getTaggingLabel();
+                        String clusterText = LayoutTokensUtil.toText(cluster.concatTokens());
 
                         List<LayoutToken> localTokenization = cluster.concatTokens();
                         if ((localTokenization == null) || (localTokenization.size() == 0))
@@ -409,8 +413,10 @@ public class DatasetParser extends AbstractParser {
                         } else if (clusterLabel.equals(TaggingLabels.PARAGRAPH) || clusterLabel.equals(TaggingLabels.ITEM)) {
                             //|| clusterLabel.equals(TaggingLabels.SECTION) {
                             if (lastClusterLabel == null || curParagraphTokens == null  || isNewParagraph(lastClusterLabel)) { 
-                                if (curParagraphTokens != null)
+                                if (curParagraphTokens != null) {
                                     selectedLayoutTokenSequences.add(curParagraphTokens);
+                                    relevantSections.add(true);
+                                }
                                 curParagraphTokens = new ArrayList<>();
                             }
                             curParagraphTokens.addAll(localTokenization);
@@ -420,13 +426,17 @@ public class DatasetParser extends AbstractParser {
                             //processLayoutTokenSequenceTableFigure(localTokenization, entities);
                         } else if (clusterLabel.equals(TaggingLabels.FIGURE)) {
                             //processLayoutTokenSequenceTableFigure(localTokenization, entities);
+                        } else if (clusterLabel.equals(TaggingLabels.SECTION)) {
+                            //currentSection = clusterText;
                         }
 
                         lastClusterLabel = clusterLabel;
                     }
                     // last paragraph
-                    if (curParagraphTokens != null)
+                    if (curParagraphTokens != null) {
                         selectedLayoutTokenSequences.add(curParagraphTokens);
+                        relevantSections.add(true);
+                    }
                 }
             }
 
@@ -440,8 +450,12 @@ public class DatasetParser extends AbstractParser {
 
                 List<LayoutToken> annexTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
                 if (annexTokens != null) {
-                    //selectedLayoutTokenSequences.add(annexTokens);
-                } 
+                    selectedLayoutTokenSequences.add(annexTokens);
+                    if (this.checkAuthorAnnex(annexTokens))
+                        relevantSections.add(true);
+                    else 
+                        relevantSections.add(false);
+                }
             }
 
             // footnotes are also relevant
@@ -452,17 +466,181 @@ public class DatasetParser extends AbstractParser {
                 List<LayoutToken> footnoteTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
                 if (footnoteTokens != null) {
                     selectedLayoutTokenSequences.add(footnoteTokens);
-                } 
+                    relevantSections.add(false);
+                }
             }
 
-            // actual processing of the selected sequences which have been delayed to be processed in groups and
-            // take advantage of deep learning batch
-            processLayoutTokenSequences(selectedLayoutTokenSequences, entities, disambiguate, addParagraphContext);
+            // segment zone into sentences
+            List<List<LayoutToken>> allLayoutTokens = new ArrayList<>();
+            List<String> allSentences = new ArrayList<>();
+            int zoneIndex = 0;
+            Map<Integer,Integer> mapSentencesToZones = new HashMap<>();
+            for(List<LayoutToken> layoutTokens : selectedLayoutTokenSequences) {
+                layoutTokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(layoutTokens);
 
-            /*List<Boolean> processing(List<List<LayoutToken>> segments, 
-                                    List<String> sectionTypes, 
-                                    List<Integer> nbDatasets, 
-                                    List<String> datasetTypes)*/
+                if ( (layoutTokens == null) || (layoutTokens.size() == 0) ) {
+                    allLayoutTokens.add(null);
+                    continue;
+                }
+
+                // positions for lexical match
+                List<OffsetPosition> urlPositions = Lexicon.getInstance().tokenPositionsUrlPattern(layoutTokens);
+                
+                // segment into sentences
+                String localText = LayoutTokensUtil.toText(layoutTokens);
+                List<OffsetPosition> sentencePositions = 
+                    SentenceUtilities.getInstance().runSentenceDetection(localText, urlPositions, layoutTokens, null);
+                if (sentencePositions == null) {
+                    sentencePositions = new ArrayList<>();
+                    sentencePositions.add(new OffsetPosition(0, localText.length()));
+                }
+
+                for(OffsetPosition sentencePosition : sentencePositions) {
+                    int startPos = sentencePosition.start;
+                    int endPos = sentencePosition.end;
+
+                    List<LayoutToken> sentenceTokens = new ArrayList<>();
+                    int pos = 0;
+                    for(LayoutToken token : layoutTokens) {
+                        if (startPos <= pos && (pos+token.getText().length()) <= endPos) {
+                            sentenceTokens.add(token);
+                        } else if (endPos < (pos+token.getText().length())) {
+                            break;
+                        }
+                        pos += token.getText().length();
+                    }
+
+                    allLayoutTokens.add(sentenceTokens);
+                    allSentences.add(localText.substring(startPos, endPos));
+                    mapSentencesToZones.put(allSentences.size()-1, zoneIndex);
+                }
+
+                zoneIndex++;
+            }
+
+            System.out.println("allLayoutTokens size: " + allLayoutTokens.size());
+            System.out.println("allSentences size: " + allSentences.size());
+
+            // pre-process labeling of every sentences in batch
+            processLayoutTokenSequences(allLayoutTokens, entities, disambiguate);
+
+            System.out.println("entities size: " + entities.size());
+            System.out.println("mapSentencesToZones size: " + mapSentencesToZones.size());
+            System.out.println("relevantSections size: " + relevantSections.size());
+
+            // pre-process classification of every sentences in batch
+            if (this.dataseerClassifier == null)
+                dataseerClassifier = DataseerClassifier.getInstance();
+
+            List<Double> bestScores = new ArrayList<>();
+            List<String> bestTypes = new ArrayList<>();
+            List<Double> hasDatasetScores = new ArrayList<>();
+            try {
+                String jsonClassification = dataseerClassifier.classify(allSentences);
+                //System.out.println(jsonClassification);
+
+                //List<Boolean> hasDatasets = new ArrayList<>();
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    //System.out.println(jsonClassification);
+                    JsonNode root = mapper.readTree(jsonClassification);
+                    JsonNode classificationsNode = root.findPath("classifications");
+                    if ((classificationsNode != null) && (!classificationsNode.isMissingNode())) {
+                        Iterator<JsonNode> ite = classificationsNode.elements();
+                        while(ite.hasNext()) {
+                            JsonNode classificationNode = ite.next();
+
+                            double bestScore = 0.0;
+                            String bestType = null;
+                            Iterator<String> iterator = classificationNode.fieldNames();
+                            Map<String, Double> scoresPerDatatypes = new TreeMap<>();
+                            while(iterator.hasNext()) {
+                                String field = iterator.next();
+
+                                if (field.equals("has_dataset")) {
+                                    JsonNode hasDatasetNode = classificationNode.findPath("has_dataset"); 
+                                    if ((hasDatasetNode != null) && (!hasDatasetNode.isMissingNode())) {
+                                        hasDatasetScores.add(hasDatasetNode.doubleValue());
+                                    }
+                                } else {
+                                    scoresPerDatatypes.put(field, classificationNode.get(field).doubleValue());
+                                }
+                            }
+                            
+                            for (Map.Entry<String, Double> entry : scoresPerDatatypes.entrySet()) {
+                                if (entry.getValue() > bestScore) {
+                                    bestScore = entry.getValue();
+                                    bestType = entry.getKey();
+                                }
+                            }
+
+                            bestTypes.add(bestType);
+                            bestScores.add(bestScore);
+                        }
+                    }
+                } catch(JsonProcessingException e) {
+                    LOGGER.error("Parsing of dataseer classifier JSON result failed", e);
+                } catch(Exception e) {
+                    LOGGER.error("Error when applying dataseer sentence classifier", e);
+                }
+
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("bestTypes size: " + bestTypes.size());
+            System.out.println("bestScores size: " + bestScores.size());
+            System.out.println("hasDatasetScores size: " + hasDatasetScores.size());
+
+            int i = 0;
+            for(List<Dataset> localDatasets : entities) {
+                for(Dataset localDataset : localDatasets) {
+                    if (localDataset.getType() == DatasetType.DATASET && (bestTypes.get(i) != null) && localDataset.getDataset() != null) {
+                        localDataset.getDataset().setBestDataType(bestTypes.get(i));
+                        localDataset.getDataset().setBestDataTypeScore(bestScores.get(i));
+                        localDataset.getDataset().setHasDatasetScore(hasDatasetScores.get(i));
+                    }
+                }
+                i++;
+            }
+
+            // selection of relevant data sections
+            //List<Boolean> relevantSections = DataseerParser.getInstance().processingText(segments, sectionTypes, nbDatasets, datasetTypes);
+
+            // filter implicit datasets based on selected relevant data section
+            List<List<Dataset>> filteredEntities = new ArrayList<>();
+            int index = 0;
+            for(List<Dataset> localDatasets : entities) {
+                List<Dataset> filteredLocalEntities = new ArrayList<>();
+
+                int currentZone = mapSentencesToZones.get(index);
+
+                //System.out.println("sentence index: " + index);
+                //System.out.println("currentZone: " + mapSentencesToZones.get(index));
+                //System.out.println("relevantSections: " + relevantSections.get(currentZone));
+
+                if (!relevantSections.get(currentZone)) {
+                    index++;
+                    continue;
+                }
+
+                for (Dataset localDataset : localDatasets) {
+                    if (localDataset.getType() == DatasetType.DATASET && !relevantSections.get(currentZone)) {
+                        continue;
+                    } else if (localDataset.getType() == DatasetType.DATASET &&
+                        localDataset.getDataset() != null && 
+                        localDataset.getDataset().getHasDatasetScore() < 0.5) {
+                        continue;
+                    } else {
+                        //localDataset.setContext(localText);
+                        filteredLocalEntities.add(localDataset);
+                    }
+                }
+
+                filteredEntities.add(filteredLocalEntities);
+                index++;
+            }
+            entities = filteredEntities;
 
             System.out.println(entities.size() + " mentions of interest");
 
@@ -479,8 +657,18 @@ public class DatasetParser extends AbstractParser {
      */ 
     private List<List<Dataset>> processLayoutTokenSequences(List<List<LayoutToken>> layoutTokenList, 
                                                   List<List<Dataset>> entities, 
-                                                  boolean disambiguate,
-                                                  boolean addParagraphContext) {
+                                                  boolean disambiguate) {
+        List<List<Dataset>> results = processing(layoutTokenList);
+        entities.addAll(results);
+        return entities;
+    }
+
+    /**
+     * Process with the dataset model a set of arbitrary sequence of LayoutTokenization
+     */ 
+    private List<List<Dataset>> processLayoutTokenSequences2(List<List<LayoutToken>> layoutTokenList, 
+                                                  List<List<Dataset>> entities, 
+                                                  boolean disambiguate) {
         if (this.dataseerClassifier == null)
             dataseerClassifier = DataseerClassifier.getInstance();
         List<List<LayoutToken>> allLayoutTokens = new ArrayList<>();
@@ -622,9 +810,28 @@ public class DatasetParser extends AbstractParser {
                     }
                 }
             }*/
-            
-            //addContext(localEntities, text, layoutTokens, true, addParagraphContext);
-            entities.add(filteredLocalEntities);
+
+            // enrich datasets with predicted data types
+            /*List<String> datasetContexts = new ArrayList<>();
+            for (Dataset localDataset : localEntities) {
+                if (localDataset.getType() == DatasetType.DATASET) {
+                    String context = localDataset.getContext();
+                    datasetContexts.add(context);
+                }
+            }
+
+            String jsonClassification = dataseerClassifier.classifyBinary(datasetContexts);
+
+            for(Dataset localDataset : localEntities) {
+                if (localDataset.getType() == DatasetType.DATASET) {
+                    String context = localDataset.getContext();
+
+
+                }
+            }
+
+            //addContext(localEntities, text, layoutTokens, true);
+            entities.add(filteredLocalEntities);*/
         }
 
         return entities;
@@ -633,6 +840,15 @@ public class DatasetParser extends AbstractParser {
     public static boolean isNewParagraph(TaggingLabel lastClusterLabel) {
         return (!TEIFormatter.MARKER_LABELS.contains(lastClusterLabel) && lastClusterLabel != TaggingLabels.FIGURE
                 && lastClusterLabel != TaggingLabels.TABLE);
+    }
+
+    public static boolean checkAuthorAnnex(List<LayoutToken> annexTokens) {
+        for(int i=0; i<annexTokens.size() && i<10; i++) {
+            String localText = annexTokens.get(i).getText();
+            if (localText != null && localText.toLowerCase().startsWith("author"))
+                return true;
+        }
+        return false;
     }
 
 }

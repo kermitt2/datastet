@@ -20,7 +20,7 @@ public class FeaturesVectorDataseer {
     
     public String sectionType = null; // header or paragraph or list
     public boolean has_dataset; // if the segment has been predicted as having a dataset by the classifier
-    public int nbDataset = 0; // number of predicted datasets in the segment, discretised
+    public int nbDataset = 0; // number of predicted data sentences in the segment (implicit, not named, datasets), discretised
     public String datasetType = null; // most frequent dataset present in the segment
 
     //public String capitalisation = null; // one of INITCAP, ALLCAPS, NOCAPS
@@ -65,11 +65,13 @@ public class FeaturesVectorDataseer {
         res.append(" " + TextUtilities.prefix(string, 3));
         res.append(" " + TextUtilities.prefix(string, 4));*/
 
+        // (4)
         if (sectionType != null)
             res.append(" " + sectionType);
         else
             res.append(" p");
 
+        // (5)
         if (has_dataset)
             res.append(" 1");
         else
@@ -77,6 +79,7 @@ public class FeaturesVectorDataseer {
 
         res.append(" " + nbDataset);
 
+        // (7)
         if (datasetType != null)
             res.append(" " + datasetType);
         else
@@ -101,7 +104,7 @@ public class FeaturesVectorDataseer {
         /*if (punctType != null)
             res.append(" " + punctType); // in case the token is a punctuation (NO otherwise)*/
 
-        // relative document position (1)
+        // relative document position (8)
         res.append(" " + relativeDocumentPosition);
         
         // punctuation profile
@@ -118,10 +121,10 @@ public class FeaturesVectorDataseer {
             res.append(" "+punctuationProfile.length());
         }*/
 
-        // current segment length on a predefined scale and relative to the longest segment
+        // current segment length on a predefined scale and relative to the longest segment (9)
         res.append(" " + segmentLength);
 
-        // materials and methods pattern
+        // materials and methods pattern (10)
         if (materialsAndMethodPattern)
             res.append(" 1");
         else
