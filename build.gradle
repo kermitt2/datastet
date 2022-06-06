@@ -86,8 +86,8 @@ dependencies {
     //implementation fileTree(dir: new File(rootProject.rootDir, 'lib'), include: localLibs)
 
     //Grobid
-    implementation group: 'org.grobid', name: 'grobid-core', version: '0.7.1'
-    implementation group: 'org.grobid', name: 'grobid-trainer', version: '0.7.1'
+    implementation group: 'org.grobid', name: 'grobid-core', version: '0.7.2-SNAPSHOT'
+    implementation group: 'org.grobid', name: 'grobid-trainer', version: '0.7.2-SNAPSHOT'
 
     implementation group: 'net.arnx', name: 'jsonic', version: '1.3.10'
 
