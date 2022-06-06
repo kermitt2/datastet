@@ -42,6 +42,17 @@
     </head>
     
     <body>  
+        
+        <div id="toggle-group" href="#drawer" style="z-index:99;"> 
+            <input type="checkbox" id="pure-toggle-right" class="pure-toggle" data-toggle="right">
+            <label class="pure-toggle-label" for="pure-toggle-right" data-toggle-label="right">
+                <span class="pure-toggle-icon"></span>
+            </label>
+        </div>
+
+        <!--div id="drawer" style="z-index:99; display: flex; justify-content: center;"></div-->
+        <nav id="drawer" class="panel" role="navigation" style="z-index:98; display: flex; justify-content: center;"></nav>
+
         <div class="container" style="width:85%;">  
             
           <div class="content">  
@@ -210,9 +221,29 @@
                 <br>
                 <div id="infoResult2"></div>
                 <div id="requestResult2"></div>
+            </div>    
+        </div>
+
+        <div class="modal fade" id="confirm-process" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+                    </div>
+                
+                    <div class="modal-body">
+                        <p>Upload and process the PDF file <span id="name_pdf_example"></span> ?</p>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a id="validate-process" data-dismiss="modal" class="btn btn-success btn-ok">Process</a>
+                    </div>
+                </div>
             </div>
-    
-        </div>  
+        </div>
         
         <footer>
           <p><span style="color:#848484;">&copy; The contributors - 2020-2022 </span></p>

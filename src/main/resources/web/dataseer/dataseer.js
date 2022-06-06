@@ -780,7 +780,7 @@ var grobid = (function ($) {
             });
         }
 
-        //displaySummary(response)
+        displaySummary(response)
         $('#infoResult').show();
     }
 
@@ -805,32 +805,22 @@ var grobid = (function ($) {
 
             entities.forEach(function (entity, n) {
                 var local_page = -1;
-                if (entity['dataset-name'] && entity['dataset-name'].boundingBoxes && entity['dataset-name'].boundingBoxes.length>0)
+                if (entity['dataset-name'].boundingBoxes && entity['dataset-name'].boundingBoxes.length>0)
                     local_page = entity['dataset-name'].boundingBoxes[0].p;
-                else if (entity['dataset'] && entity['dataset'].boundingBoxes && entity['dataset'].boundingBoxes.length>0)
-                    local_page = entity['dataset'].boundingBoxes[0].p;
-                else if (entity['data-device'] && entity['data-device'].boundingBoxes && entity['data-device'].boundingBoxes.length>0)
-                    local_page = entity['data-device'].boundingBoxes[0].p;
                 var the_id = 'annot-' + n + '-00';
                 if (local_page != -1)
                     the_id += '_' + local_page;
-                var nameRaw = null;
-                if (entity['dataset-name'])
-                    nameRaw = entity['dataset-name'].normalizedForm;
-                else if (entity['dataset'])
-                    nameRaw = entity['dataset'].normalizedForm;
-                else if (entity['data-device'])
-                    nameRaw = entity['data-device'].normalizedForm;
-                if (!local_map.has(nameRaw)) {
-                    local_map.set(nameRaw, new Array());
+                var datasetNameRaw = entity['dataset-name'].normalizedForm;
+                if (!local_map.has(datasetNameRaw)) {
+                    local_map.set(datasetNameRaw, new Array());
                 }
-                var localArray = local_map.get(nameRaw)
+                var localArray = local_map.get(datasetNameRaw)
                 localArray.push(the_id)
-                local_map.set(nameRaw, localArray);
+                local_map.set(datasetNameRaw, localArray);
 
                 if (entity['documentContextAttributes']) {
                     //console.log(entity['documentContextAttributes']);
-                    usage_map.set(nNameRaw, entity['documentContextAttributes']);
+                    usage_map.set(datasetNameRaw, entity['documentContextAttributes']);
                 }
             });
 
@@ -888,11 +878,11 @@ var grobid = (function ($) {
                     span_ids.push('index_'+the_id);
                 }
 
-                var attributesInfo = ""
-                //console.log(key)
+                var attributesInfo = "";
+                //console.log(key);
                 if (usage_map.get(key)) {
                     documentAttributes = usage_map.get(key);
-                    //console.log(documentAttributes);
+                    console.log(documentAttributes);
                     if (documentAttributes.used.value)
                         attributesInfo += "used";
                     if (documentAttributes.created.value)
@@ -1023,7 +1013,7 @@ var grobid = (function ($) {
         //element.setAttribute("data-content", "content");
         //element.setAttribute("data-trigger", "hover");
         /*$(element).popover({
-            content: "<p>Software Entity</p><p>" +rawForm+"<p>",
+            content: "<p>Dataset Entity</p><p>" +rawForm+"<p>",
             html: true,
             container: 'body'
         });*/
