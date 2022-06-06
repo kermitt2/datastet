@@ -660,12 +660,6 @@ public class DatasetParser extends AbstractParser {
                 }
 
                 for (Dataset localDataset : localDatasets) {
-                    /*if (localDataset.getType() == DatasetType.DATASET) {
-                        continue;
-                    } else*/ 
-
-                    /*if (localDataset.getDataset() != null)
-                        System.out.println("hasDatasetScore: " + localDataset.getDataset().getHasDatasetScore());*/
 
                     if (localDataset.getType() == DatasetType.DATASET &&
                         localDataset.getDataset() != null && 
@@ -673,7 +667,6 @@ public class DatasetParser extends AbstractParser {
                         continue;
                     } 
                         
-                    //localDataset.setContext(localText);
                     filteredLocalEntities.add(localDataset);
                 }
 
@@ -748,8 +741,23 @@ public class DatasetParser extends AbstractParser {
                     }
                 }
 
+                // we prepare a matcher for all the identified dataset mention forms 
+                FastMatcher termPattern = prepareTermPattern(entities);
+                // we prepare the frequencies for each dataset name in the whole document
+                Map<String, Integer> frequencies = prepareFrequencies(entities, doc.getTokenizations());
+                // we prepare a map for mapping a dataset name with its positions of annotation in the document and its IDF
+                Map<String, Double> termProfiles = prepareTermProfiles(entities);
+                List<OffsetPosition> placeTaken = preparePlaceTaken(entities);
+
+
+
+
+
+
+
+
                 if (bibRefComponents.size() > 0) {
-                    // attach references to software entities 
+                    // attach references to dataset entities 
                     entities = attachRefBib(entities, bibRefComponents);
                 }
 
@@ -787,7 +795,7 @@ public class DatasetParser extends AbstractParser {
                     "An exception occured while running consolidation on bibliographical references.", e);
                 }
 
-                // propagate the bib. ref. to the entities corresponding to the same software name without bib. ref.
+                // propagate the bib. ref. to the entities corresponding to the same dataset name without bib. ref.
                 for(List<Dataset> datasets1 : entities) {
                     for(Dataset entity1 : datasets1) {
                         if (entity1.getBibRefs() != null && entity1.getBibRefs().size() > 0) {
@@ -1035,11 +1043,11 @@ public class DatasetParser extends AbstractParser {
     }
 
     /**
-     * Try to attach relevant bib ref component to software entities
+     * Try to attach relevant bib ref component to dataset entities
      */
     public List<List<Dataset>> attachRefBib(List<List<Dataset>> entities, List<BiblioComponent> refBibComponents) {
 
-        // we anchor the process to the software names and aggregate other closest components on the right
+        // we anchor the process to the dataset names and aggregate other closest components on the right
         // if we cross a bib ref component we attach it, if a bib ref component is just after the last 
         // component of the entity group, we attach it 
         for(List<Dataset> datasets : entities) {
@@ -1094,6 +1102,212 @@ public class DatasetParser extends AbstractParser {
         return entities;
     }
 
+    public List<OffsetPosition> preparePlaceTaken(List<List<Dataset>> entities) {
+        List<OffsetPosition> localPositions = new ArrayList<>();
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                DatasetComponent nameComponent = entity.getDatasetName();
+                if (nameComponent == null)
+                    continue;
+                List<LayoutToken> localTokens = nameComponent.getTokens();
+                localPositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
+                    localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
+                DatasetComponent publisherComponent = entity.getPublisher();
+                if (publisherComponent != null) {
+                    localTokens = publisherComponent.getTokens();
+                    if (localTokens.size() > 0) {
+                        localPositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
+                            localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
+                    }
+                }
+                DatasetComponent urlComponent = entity.getUrl();
+                if (urlComponent != null) {
+                    localTokens = urlComponent.getTokens();
+                    if (localTokens.size() > 0) {
+                        localPositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
+                            localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
+                    }
+                }
+            }
+        }
+        return localPositions;
+    }
 
+    public Map<String, Double> prepareTermProfiles(List<List<Dataset>> entities) {
+        Map<String, Double> result = new TreeMap<String, Double>();
+
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                DatasetComponent nameComponent = entity.getDatasetName();
+                if (nameComponent == null)
+                    continue;
+                String term = nameComponent.getRawForm();
+                term = term.replace("\n", " ");
+                term = term.replaceAll("( )+", " ");
+
+                Double profile = result.get(term);
+                if (profile == null) {
+                    profile = DataseerLexicon.getInstance().getTermIDF(term);
+                    result.put(term, profile);
+                }
+
+                if (!term.equals(nameComponent.getNormalizedForm())) {
+                    profile = result.get(nameComponent.getNormalizedForm());
+                    if (profile == null) {
+                        profile = DataseerLexicon.getInstance().getTermIDF(nameComponent.getNormalizedForm());
+                        result.put(nameComponent.getNormalizedForm(), profile);
+                    }
+                }
+            }
+        }
+
+        return result;
+    } 
+
+    public FastMatcher prepareTermPattern(List<List<Dataset>> entities) {
+        FastMatcher termPattern = new FastMatcher();
+        List<String> added = new ArrayList<>();
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                DatasetComponent nameComponent = entity.getDatasetName();
+                if (nameComponent == null)
+                    continue;
+                String term = nameComponent.getRawForm();
+                term = term.replace("\n", " ");
+                term = term.replaceAll("( )+", " ");
+
+                if (term.trim().length() == 0)
+                    continue;
+
+                // for safety, we don't propagate something that looks like a stopword with simply an Uppercase first letter
+                if (FeatureFactory.getInstance().test_first_capital(term) && 
+                    !FeatureFactory.getInstance().test_all_capital(term) &&
+                    DataseerLexicon.getInstance().isEnglishStopword(term.toLowerCase()) ) {
+                    continue;
+                }
+
+                if (!added.contains(term)) {
+                    termPattern.loadTerm(term, DataseerAnalyzer.getInstance(), false);
+                    added.add(term);
+                }
+
+                if (!term.equals(nameComponent.getNormalizedForm())) {
+                    if (!added.contains(nameComponent.getNormalizedForm())) {
+                        termPattern.loadTerm(nameComponent.getNormalizedForm(), DataseerAnalyzer.getInstance(), false);
+                        added.add(nameComponent.getNormalizedForm());
+                    }
+                }
+            }
+        }
+        return termPattern;
+    }
+
+    public Map<String, Integer> prepareFrequencies(List<List<Dataset>> entities, List<LayoutToken> tokens) {
+        Map<String, Integer> frequencies = new TreeMap<String, Integer>();
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                DatasetComponent nameComponent = entity.getDatasetName();
+                if (nameComponent == null)
+                    continue;
+                String term = nameComponent.getRawForm();
+                if (frequencies.get(term) == null) {
+                    FastMatcher localTermPattern = new FastMatcher();
+                    localTermPattern.loadTerm(term, DataseerAnalyzer.getInstance());
+                    List<OffsetPosition> results = localTermPattern.matchLayoutToken(tokens, true, true);
+                    // ignore delimiters, but case sensitive matching
+                    int freq = 0;
+                    if (results != null) {  
+                        freq = results.size();
+                    }
+                    frequencies.put(term, new Integer(freq));
+                }
+            }
+        }
+        return frequencies;
+    }
+
+    /*public List<List<Dataset>> propagateLayoutTokenSequence(List<List<LayoutToken>> layoutTokens, 
+                                              List<List<Dataset>> entities,
+                                              Map<String, Double> termProfiles,
+                                              FastMatcher termPattern, 
+                                              List<OffsetPosition> placeTaken,
+                                              Map<String, Integer> frequencies) {
+
+        List<OffsetPosition> results = termPattern.matchLayoutToken(layoutTokens, true, true);
+        // above: do not ignore delimiters and case sensitive matching
+        
+        if ( (results == null) || (results.size() == 0) ) {
+            return entities;
+        }
+
+        List<Dataset> localEntities = new ArrayList<>();
+        for(OffsetPosition position : results) {
+            // the match positions are expressed relative to the local layoutTokens index, while the offset at
+            // token level are expressed relative to the complete doc positions in characters
+            List<LayoutToken> matchedTokens = layoutTokens.subList(position.start, position.end+1);
+            
+            // we recompute matched position using local tokens (safer than using doc level offsets)
+            int matchedPositionStart = 0;
+            for(int i=0; i < position.start; i++) {
+                LayoutToken theToken = layoutTokens.get(i);
+                if (theToken.getText() == null)
+                    continue;
+                matchedPositionStart += theToken.getText().length();
+            }
+
+            String term = LayoutTokensUtil.toText(matchedTokens);
+            OffsetPosition matchedPosition = new OffsetPosition(matchedPositionStart, matchedPositionStart+term.length());
+
+            // this positions is expressed at document-level, to check if we have not matched something already recognized
+            OffsetPosition rawMatchedPosition = new OffsetPosition(
+                matchedTokens.get(0).getOffset(),
+                matchedTokens.get(matchedTokens.size()-1).getOffset() + matchedTokens.get(matchedTokens.size()-1).getText().length()
+            );
+
+            int termFrequency = 1;
+            if (frequencies != null && frequencies.get(term) != null)
+                termFrequency = frequencies.get(term);
+
+            // check the tf-idf of the term
+            double tfidf = -1.0;
+            
+            // is the match already present in the entity list? 
+            if (overlapsPosition(placeTaken, rawMatchedPosition)) {
+                continue;
+            }
+            if (termProfiles.get(term) != null) {
+                tfidf = termFrequency * termProfiles.get(term);
+            }
+
+            // ideally we should make a small classifier here with entity frequency, tfidf, disambiguation success and 
+            // and/or log-likelyhood/dice coefficient as features - but for the time being we introduce a simple rule
+            // with an experimentally defined threshold:
+            if ( (tfidf <= 0) || (tfidf > 0.001) ) {
+                // add new entity mention
+                DatasetComponent name = new DatasetComponent();
+                name.setRawForm(term);
+                // these offsets are relative now to the local layoutTokens sequence
+                name.setOffsetStart(matchedPosition.start);
+                name.setOffsetEnd(matchedPosition.end);
+                name.setLabel(DatasetTaggingLabels.DATASET_NAME);
+                name.setTokens(matchedTokens);
+
+                List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(matchedTokens);
+                name.setBoundingBoxes(boundingBoxes);
+
+                Dataset entity = new Dataset();
+                entity.setDatasetName(name);
+                //entity.setType(DataseerLexicon.Dataset_Type.DATASET);
+                entity.setPropagated(true);
+                localEntities.add(entity);
+                entities.add(entity);
+            }
+        }
+
+        // add context to the new entities
+        //addContext(localEntities, null, layoutTokens, true, addParagraphContext);
+
+        return entities;
+    }*/
 
 }

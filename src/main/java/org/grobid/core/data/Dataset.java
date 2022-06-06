@@ -289,13 +289,20 @@ public class Dataset extends KnowledgeEntity {
         this.dataDevice = dataDevice;
     }
 
-
     public DatasetComponent getUrl() {
         return this.url;
     }
 
     public void setUrl(DatasetComponent url) {
         this.url = url;
+    }
+
+    public DatasetComponent getPublisher() {
+        return this.publisher;
+    }
+
+    public void setPublisher(DatasetComponent publisher) {
+        this.publisher = publisher;
     }
 
     /*
@@ -507,4 +514,95 @@ public class Dataset extends KnowledgeEntity {
         return result;
     }
     
-}
+    public void mergeDocumentContextAttributes(DatasetContextAttributes attributes) {
+        if (this.documentContextAttributes == null)
+            this.documentContextAttributes = attributes;
+
+        if (this.documentContextAttributes.getUsed() == null || !this.documentContextAttributes.getUsed()) {
+            this.documentContextAttributes.setUsed(attributes.getUsed());
+        }
+
+        if (this.documentContextAttributes.getUsedScore() != null) {
+            if (attributes.getUsedScore() > this.documentContextAttributes.getUsedScore()) 
+                this.documentContextAttributes.setUsedScore(attributes.getUsedScore());
+        } else
+            this.documentContextAttributes.setUsedScore(attributes.getUsedScore());
+
+        if (this.documentContextAttributes.getCreated() == null || !this.documentContextAttributes.getCreated()) {
+            this.documentContextAttributes.setCreated(attributes.getCreated());
+        }
+
+        if (this.documentContextAttributes.getCreatedScore() != null) {
+            if (attributes.getCreatedScore() > this.documentContextAttributes.getCreatedScore()) 
+                this.documentContextAttributes.setCreatedScore(attributes.getCreatedScore());
+        } else
+            this.documentContextAttributes.setCreatedScore(attributes.getCreatedScore());
+
+        if (this.documentContextAttributes.getShared() == null || !this.documentContextAttributes.getShared()) {
+            this.documentContextAttributes.setShared(attributes.getShared());
+        }
+
+        if (this.documentContextAttributes.getSharedScore() != null) {
+            if (attributes.getSharedScore() > this.documentContextAttributes.getSharedScore()) 
+                this.documentContextAttributes.setSharedScore(attributes.getSharedScore());
+        } else
+            this.documentContextAttributes.setSharedScore(attributes.getSharedScore());
+    }
+
+    /**
+     * Assuming that dataset names are identical, this method merges the attributes
+     * of the two entities.    
+     */
+    public static void merge(Dataset entity1, Dataset entity2) {
+
+        if (entity1.getPublisher() == null)
+            entity1.setPublisher(entity2.getPublisher());
+        else if (entity2.getPublisher() == null)
+            entity2.setPublisher(entity1.getPublisher());
+
+        if (entity1.getUrl() == null)
+            entity1.setUrl(entity2.getUrl());
+        else if (entity2.getUrl() == null)
+            entity2.setUrl(entity1.getUrl());
+
+        if (entity1.getBibRefs() == null)
+            entity1.setBibRefs(entity2.getBibRefs());
+        else if (entity2.getBibRefs() == null)
+            entity2.setBibRefs(entity1.getBibRefs());
+    }
+
+    /**
+     * Assuming that dataset names are identical, this method merges the attributes
+     * of the two entities with a copy of the added attribute component.    
+     */
+    public static void mergeWithCopy(Dataset entity1, Dataset entity2) {
+
+        if (entity1.getPublisher() == null && entity2.getPublisher() != null)
+            entity1.setPublisher(new DatasetComponent(entity2.getPublisher()));
+        else if (entity2.getPublisher() == null && entity1.getPublisher() != null)
+            entity2.setPublisher(new DatasetComponent(entity1.getPublisher()));
+
+        if (entity1.getUrl() == null && entity2.getUrl() != null)
+            entity1.setUrl(new DatasetComponent(entity2.getUrl()));
+        else if (entity2.getUrl() == null && entity1.getUrl() != null)
+            entity2.setUrl(new DatasetComponent(entity1.getUrl()));
+
+        if (entity1.getBibRefs() == null && entity2.getBibRefs() != null) {
+            List<BiblioComponent> newBibRefs = new ArrayList<>();
+            for(BiblioComponent bibComponent : entity2.getBibRefs()) {
+                newBibRefs.add(new BiblioComponent(bibComponent));
+            }
+            if (newBibRefs.size() > 0)
+                entity1.setBibRefs(newBibRefs);
+        }
+        else if (entity2.getBibRefs() == null && entity1.getBibRefs() != null) {
+            List<BiblioComponent> newBibRefs = new ArrayList<>();
+            for(BiblioComponent bibComponent : entity1.getBibRefs()) {
+                newBibRefs.add(new BiblioComponent(bibComponent));
+            }
+            if (newBibRefs.size() > 0)
+                entity2.setBibRefs(newBibRefs);
+        }
+    }
+
+ }
