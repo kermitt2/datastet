@@ -8,6 +8,7 @@ import org.grobid.core.data.BibDataSet;
 import org.grobid.core.data.Dataset;
 import org.grobid.core.data.Dataset.DatasetType;
 import org.grobid.core.data.DatasetComponent;
+import org.grobid.core.data.BiblioComponent;
 import org.grobid.core.document.Document;
 import org.grobid.core.document.DocumentPiece;
 import org.grobid.core.document.DocumentSource;
@@ -120,12 +121,14 @@ public class DatasetParser extends AbstractParser {
         //List<String> inputs = new ArrayList<>();
         List<List<LayoutToken>> newTokensList = new ArrayList<>();
         int total = 0;
+        int maxTokens = 0;
         for (List<LayoutToken> tokens : tokensList) {
             // to be sure it's done, retokenize according to the DataseerAnalyzer
             tokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(tokens);
             newTokensList.add(tokens);
 
             // create basic input without features
+            int nbTokens = 0;
             for(LayoutToken token : tokens) {
                 if (token.getText().trim().length() == 0) {
                     //System.out.println("skipped: " + token.getText());
@@ -133,14 +136,19 @@ public class DatasetParser extends AbstractParser {
                 }
                 input.append(token.getText());
                 input.append("\n");
+                nbTokens++;
             }
 
+            if (nbTokens > maxTokens)
+                maxTokens = nbTokens;
+            
             //inputs.add(input.toString());
             input.append("\n\n");
             total++;
         }
 
         System.out.println("total size: " + total);
+        System.out.println("max token sequence: " + maxTokens);
 
         tokensList = newTokensList;
 
@@ -473,15 +481,25 @@ public class DatasetParser extends AbstractParser {
             // segment zone into sentences
             List<List<LayoutToken>> allLayoutTokens = new ArrayList<>();
             List<String> allSentences = new ArrayList<>();
+            List<Integer> sentenceOffsetStarts = new ArrayList<>();
             int zoneIndex = 0;
+            int accumulatedOffset = 0;
             Map<Integer,Integer> mapSentencesToZones = new HashMap<>();
             for(List<LayoutToken> layoutTokens : selectedLayoutTokenSequences) {
                 layoutTokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(layoutTokens);
 
                 if ( (layoutTokens == null) || (layoutTokens.size() == 0) ) {
-                    allLayoutTokens.add(null);
+                    //allLayoutTokens.add(null);
+                    //allSentences.add(null);
+                    List<LayoutToken> dummyLayoutTokens = new ArrayList<>();
+                    dummyLayoutTokens. add(new LayoutToken("dummy"));
+                    allLayoutTokens.add(dummyLayoutTokens);
+                    //System.out.println("dummy sentence at " + (allSentences.size()));
+                    allSentences.add("dummy");
                     continue;
                 }
+
+                accumulatedOffset = layoutTokens.get(0).getOffset();
 
                 // positions for lexical match
                 List<OffsetPosition> urlPositions = Lexicon.getInstance().tokenPositionsUrlPattern(layoutTokens);
@@ -499,6 +517,8 @@ public class DatasetParser extends AbstractParser {
                     int startPos = sentencePosition.start;
                     int endPos = sentencePosition.end;
 
+                    sentenceOffsetStarts.add(accumulatedOffset+startPos);
+
                     List<LayoutToken> sentenceTokens = new ArrayList<>();
                     int pos = 0;
                     for(LayoutToken token : layoutTokens) {
@@ -514,7 +534,6 @@ public class DatasetParser extends AbstractParser {
                     allSentences.add(localText.substring(startPos, endPos));
                     mapSentencesToZones.put(allSentences.size()-1, zoneIndex);
                 }
-
                 zoneIndex++;
             }
 
@@ -522,7 +541,7 @@ public class DatasetParser extends AbstractParser {
             System.out.println("allSentences size: " + allSentences.size());
 
             // pre-process labeling of every sentences in batch
-            processLayoutTokenSequences(allLayoutTokens, entities, disambiguate);
+            processLayoutTokenSequences(allLayoutTokens, entities, sentenceOffsetStarts, disambiguate);
 
             System.out.println("entities size: " + entities.size());
             System.out.println("mapSentencesToZones size: " + mapSentencesToZones.size());
@@ -594,7 +613,12 @@ public class DatasetParser extends AbstractParser {
 
             int i = 0;
             for(List<Dataset> localDatasets : entities) {
+                if (localDatasets == null || localDatasets.size() == 0)
+                    continue;
                 for(Dataset localDataset : localDatasets) {
+                    if (localDataset == null)
+                        continue;
+
                     if (localDataset.getType() == DatasetType.DATASET && (bestTypes.get(i) != null) && localDataset.getDataset() != null) {
                         localDataset.getDataset().setBestDataType(bestTypes.get(i));
                         localDataset.getDataset().setBestDataTypeScore(bestScores.get(i));
@@ -613,11 +637,22 @@ public class DatasetParser extends AbstractParser {
             for(List<Dataset> localDatasets : entities) {
                 List<Dataset> filteredLocalEntities = new ArrayList<>();
 
-                int currentZone = mapSentencesToZones.get(index);
+                if (mapSentencesToZones.get(index) == null) {
+                    index++;
+                    continue;
+                }
 
-                //System.out.println("sentence index: " + index);
-                //System.out.println("currentZone: " + mapSentencesToZones.get(index));
-                //System.out.println("relevantSections: " + relevantSections.get(currentZone));
+                Integer currentZoneObject = mapSentencesToZones.get(index);
+                if (currentZoneObject == null) {
+                    index++;
+                    continue;
+                }  
+
+                int currentZone = currentZoneObject.intValue();
+
+                /*System.out.println("\nsentence index: " + index);
+                System.out.println("currentZone: " + mapSentencesToZones.get(index));
+                System.out.println("relevantSections: " + relevantSections.get(currentZone));*/
 
                 if (!relevantSections.get(currentZone)) {
                     index++;
@@ -625,16 +660,21 @@ public class DatasetParser extends AbstractParser {
                 }
 
                 for (Dataset localDataset : localDatasets) {
-                    if (localDataset.getType() == DatasetType.DATASET && !relevantSections.get(currentZone)) {
+                    /*if (localDataset.getType() == DatasetType.DATASET) {
                         continue;
-                    } else if (localDataset.getType() == DatasetType.DATASET &&
+                    } else*/ 
+
+                    /*if (localDataset.getDataset() != null)
+                        System.out.println("hasDatasetScore: " + localDataset.getDataset().getHasDatasetScore());*/
+
+                    if (localDataset.getType() == DatasetType.DATASET &&
                         localDataset.getDataset() != null && 
                         localDataset.getDataset().getHasDatasetScore() < 0.5) {
                         continue;
-                    } else {
-                        //localDataset.setContext(localText);
-                        filteredLocalEntities.add(localDataset);
-                    }
+                    } 
+                        
+                    //localDataset.setContext(localText);
+                    filteredLocalEntities.add(localDataset);
                 }
 
                 filteredEntities.add(filteredLocalEntities);
@@ -643,6 +683,133 @@ public class DatasetParser extends AbstractParser {
             entities = filteredEntities;
 
             System.out.println(entities.size() + " mentions of interest");
+
+            // we attach and match bibliographical reference callout
+            TEIFormatter formatter = new TEIFormatter(doc, parsers.getFullTextParser());
+            // second pass, body
+            if ( (bodyClusters != null) && (resCitations != null) && (resCitations.size() > 0) ) {
+                List<BiblioComponent> bibRefComponents = new ArrayList<BiblioComponent>();
+                for (TaggingTokenCluster cluster : bodyClusters) {
+                    if (cluster == null) {
+                        continue;
+                    }
+
+                    TaggingLabel clusterLabel = cluster.getTaggingLabel();
+
+                    List<LayoutToken> localTokenization = cluster.concatTokens();
+                    if ((localTokenization == null) || (localTokenization.size() == 0))
+                        continue;
+
+                    if (clusterLabel.equals(TaggingLabels.CITATION_MARKER)) {
+                        List<LayoutToken> refTokens = TextUtilities.dehyphenize(localTokenization);
+                        String chunkRefString = LayoutTokensUtil.toText(refTokens);
+
+                        List<nu.xom.Node> refNodes = formatter.markReferencesTEILuceneBased(refTokens,
+                                    doc.getReferenceMarkerMatcher(),
+                                    true, // generate coordinates
+                                    false); // do not mark unsolved callout as ref
+
+                        if (refNodes != null) {                            
+                            for (nu.xom.Node refNode : refNodes) {
+                                if (refNode instanceof Element) {
+                                    // get the bib ref key
+                                    String refKey = ((Element)refNode).getAttributeValue("target");
+                       
+                                    if (refKey == null)
+                                        continue;
+
+                                    int refKeyVal = -1;
+                                    if (refKey.startsWith("#b")) {
+                                        refKey = refKey.substring(2, refKey.length());
+                                        try {
+                                            refKeyVal = Integer.parseInt(refKey);
+                                        } catch(Exception e) {
+                                            LOGGER.warn("Invalid ref identifier: " + refKey);
+                                        }
+                                    }
+                                    if (refKeyVal == -1)
+                                        continue;
+
+                                    // get the bibref object
+                                    BibDataSet resBib = resCitations.get(refKeyVal);
+                                    if (resBib != null) {
+                                        BiblioComponent biblioComponent = new BiblioComponent(resBib.getResBib(), refKeyVal);
+                                        biblioComponent.setRawForm(refNode.getValue());
+                                        biblioComponent.setOffsetStart(refTokens.get(0).getOffset());
+                                        biblioComponent.setOffsetEnd(refTokens.get(refTokens.size()-1).getOffset() + 
+                                            refTokens.get(refTokens.size()-1).getText().length());
+                                        List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(refTokens);
+                                        biblioComponent.setBoundingBoxes(boundingBoxes);
+                                        bibRefComponents.add(biblioComponent);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (bibRefComponents.size() > 0) {
+                    // attach references to software entities 
+                    entities = attachRefBib(entities, bibRefComponents);
+                }
+
+                // consolidate the attached ref bib (we don't consolidate all bibliographical references
+                // to avoid useless costly computation)
+                List<BibDataSet> citationsToConsolidate = new ArrayList<BibDataSet>();
+                List<Integer> consolidated = new ArrayList<Integer>();
+                for(List<Dataset> datasets : entities) {
+                    for(Dataset entity : datasets) {
+                        if (entity.getBibRefs() != null && entity.getBibRefs().size() > 0) {
+                            List<BiblioComponent> bibRefs = entity.getBibRefs();
+                            for(BiblioComponent bibRef: bibRefs) {
+                                Integer refKeyVal = new Integer(bibRef.getRefKey());
+                                if (!consolidated.contains(refKeyVal)) {
+                                    citationsToConsolidate.add(resCitations.get(refKeyVal));
+                                    consolidated.add(refKeyVal);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                try {
+                    Consolidation consolidator = Consolidation.getInstance();
+                    Map<Integer,BiblioItem> resConsolidation = consolidator.consolidate(citationsToConsolidate);
+                    for(int j=0; j<citationsToConsolidate.size(); j++) {
+                        BiblioItem resCitation = citationsToConsolidate.get(j).getResBib();
+                        BiblioItem bibo = resConsolidation.get(j);
+                        if (bibo != null) {
+                            BiblioItem.correct(resCitation, bibo);
+                        }
+                    }
+                } catch(Exception e) {
+                    throw new GrobidException(
+                    "An exception occured while running consolidation on bibliographical references.", e);
+                }
+
+                // propagate the bib. ref. to the entities corresponding to the same software name without bib. ref.
+                for(List<Dataset> datasets1 : entities) {
+                    for(Dataset entity1 : datasets1) {
+                        if (entity1.getBibRefs() != null && entity1.getBibRefs().size() > 0) {
+                            for(List<Dataset> datasets2 : entities) {
+                                for(Dataset entity2 : datasets2) {
+                                    if (entity2.getBibRefs() != null) {
+                                        continue;
+                                    }
+                                    if (entity2.getDatasetName() != null && 
+                                        entity2.getDatasetName().getNormalizedForm().equals(entity1.getDatasetName().getNormalizedForm())) {
+                                        List<BiblioComponent> newBibRefs = new ArrayList<>();
+                                        for(BiblioComponent bibComponent : entity1.getBibRefs()) {
+                                            newBibRefs.add(new BiblioComponent(bibComponent));
+                                        }
+                                        entity2.setBibRefs(newBibRefs);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -657,9 +824,25 @@ public class DatasetParser extends AbstractParser {
      */ 
     private List<List<Dataset>> processLayoutTokenSequences(List<List<LayoutToken>> layoutTokenList, 
                                                   List<List<Dataset>> entities, 
+                                                  List<Integer> sentenceOffsetStarts,
                                                   boolean disambiguate) {
         List<List<Dataset>> results = processing(layoutTokenList);
         entities.addAll(results);
+
+        int i = 0;
+        for(List<Dataset> datasets : entities) {
+            if (datasets == null) {
+                i++;
+                continue;
+            }
+            for(Dataset dataset : datasets) {
+                if (dataset == null)
+                    continue;
+                dataset.setGlobalContextOffset(sentenceOffsetStarts.get(i));
+            }
+            i++;
+        }
+
         return entities;
     }
 
@@ -850,5 +1033,67 @@ public class DatasetParser extends AbstractParser {
         }
         return false;
     }
+
+    /**
+     * Try to attach relevant bib ref component to software entities
+     */
+    public List<List<Dataset>> attachRefBib(List<List<Dataset>> entities, List<BiblioComponent> refBibComponents) {
+
+        // we anchor the process to the software names and aggregate other closest components on the right
+        // if we cross a bib ref component we attach it, if a bib ref component is just after the last 
+        // component of the entity group, we attach it 
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                if (entity.getDatasetName() == null)
+                    continue;
+
+                // positions are relative to the context if present, so they have to be shifted in this case
+                // to be comparable with reference marker offsets
+                int shiftOffset = 0;
+                if (entity.getGlobalContextOffset() != -1) {
+                    shiftOffset = entity.getGlobalContextOffset();
+                }
+
+                // find the name component
+                DatasetComponent nameComponent = entity.getDatasetName();
+                int pos = nameComponent.getOffsetEnd() + shiftOffset;
+                
+                // find end boundary
+                int endPos = pos;
+                /*List<SoftwareComponent> theComps = new ArrayList<>();
+                DatasetComponent comp = entity.getVersion();
+                if (comp != null) 
+                    theComps.add(comp);
+                comp = entity.getCreator();
+                if (comp != null) 
+                    theComps.add(comp);
+                comp = entity.getSoftwareURL();
+                if (comp != null) 
+                    theComps.add(comp);
+
+                for(DatasetComponent theComp : theComps) {
+                    int localPos = theComp.getOffsetEnd() + shiftOffset;
+                    if (localPos > endPos)
+                        endPos = localPos;
+                }*/
+
+                //System.out.println(nameComponent.getRawForm() + ": " + endPos);
+
+                // find included or just next bib ref callout
+                for(BiblioComponent refBib : refBibComponents) {
+                    //System.out.println(refBib.getOffsetStart() + " - " + refBib.getOffsetStart());
+                    if ( (refBib.getOffsetStart() >= pos) &&
+                         (refBib.getOffsetStart() <= endPos+5) ) {
+                        entity.addBibRef(refBib);
+                        endPos = refBib.getOffsetEnd();
+                    }
+                }
+            }
+        }
+        
+        return entities;
+    }
+
+
 
 }

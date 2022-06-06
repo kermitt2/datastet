@@ -26,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -39,6 +40,9 @@ import com.fasterxml.jackson.core.io.*;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import javax.xml.bind.DatatypeConverter;
+
+import org.grobid.core.data.BibDataSet;
+import org.grobid.core.data.BiblioComponent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -264,7 +268,14 @@ public class DataseerProcessFile {
                     json.append(dataset.toJson());
                 }
             }
-            json.append("]");
+
+            json.append("], \"references\":[");
+
+            List<BibDataSet> bibDataSet = doc.getBibDataSets();
+            if (bibDataSet != null && bibDataSet.size()>0) {
+                serializeReferences(json, bibDataSet, extractedResults.getLeft());
+                json.append("]");
+            }
 
             long end = System.currentTimeMillis();
             float runtime = ((float)(end-start)/1000);
@@ -307,6 +318,40 @@ public class DataseerProcessFile {
      */
     public static boolean isResultOK(String result) {
         return StringUtils.isBlank(result) ? false : true;
+    }
+
+    /**
+     * Serialize the bibliographical references present in a list of entities
+     */ 
+    public static void serializeReferences(StringBuilder json, 
+                                           List<BibDataSet> bibDataSet, 
+                                           List<List<Dataset>> entities) {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Integer> serializedKeys = new ArrayList<Integer>();
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                List<BiblioComponent> bibRefs = entity.getBibRefs();
+                if (bibRefs != null) {
+                    for(BiblioComponent bibComponent : bibRefs) {
+                        int refKey = bibComponent.getRefKey();
+                        if (!serializedKeys.contains(refKey)) {
+                            if (serializedKeys.size()>0)
+                                json.append(", ");
+                            if (bibComponent.getBiblio() != null) {
+                                json.append("{ \"refKey\": " + refKey);
+                                try {
+                                    json.append(", \"tei\": " + mapper.writeValueAsString(bibComponent.getBiblio().toTEI(refKey)));
+                                } catch (JsonProcessingException e) {
+                                    LOGGER.warn("tei for biblio cannot be encoded", e);
+                                }
+                                json.append("}");
+                            }
+                            serializedKeys.add(new Integer(refKey));
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

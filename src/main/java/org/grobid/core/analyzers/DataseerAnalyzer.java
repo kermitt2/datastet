@@ -98,6 +98,8 @@ public class DataseerAnalyzer implements org.grobid.core.analyzers.Analyzer {
 
     public List<LayoutToken> retokenizeLayoutTokens(List<LayoutToken> tokens) {
         List<LayoutToken> result = new ArrayList<>();
+        if (tokens == null || tokens.size() == 0)
+            return result;
         for (LayoutToken token : tokens) {
             result.addAll(tokenize(token));
         }

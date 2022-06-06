@@ -187,6 +187,7 @@ var grobid = (function ($) {
         // re-init the entity map
         entityMap = new Object();
         conceptMap = new Object();
+        referenceMap = new Object();
 
         var selected = $('#selectedService option:selected').attr('value');
         var urlLocal = $('#gbdForm').attr('action');
@@ -1174,7 +1175,7 @@ var grobid = (function ($) {
         string += "><h4 style='color:#FFF;padding-left:10px;'>" + content.toUpperCase() +
             "</h4>";
         string += "<div class='container-fluid' style='background-color:#F9F9F9;color:#70695C;border:padding:5px;margin-top:5px;'>" +
-            "<table style='width:100%;background-color:#fff;border:0px'><tr style='background-color:#fff;border:0px;'><td style='background-color:#fff;border:0px;'>";
+            "<table style='width:100%;background-color:#fff;border:0px'><tr style='background-color:#fff;border:0px;margin-top:5px;'><td style='background-color:#fff;border:0px;'>";
 
         if (type)
             string += "<p>Type: <b>" + type + "</b></p>";
@@ -1262,9 +1263,9 @@ var grobid = (function ($) {
                     //string += "<b>" + entity['references'][r]['label'] + "</b>"    
                     localLabel = ""
                     localHtml = ""
-                    if (entity['references'][r]['refKey'] && referenceMap[entity['references'][r]['refKey']]) {
+
+                    if (entity['references'][r]['refKey'] != null && referenceMap[entity['references'][r]['refKey']]) {
                         //localHtml += entity['references'][r]['tei']
-//console.log(entity['references'][r]['tei']);
                         var doc = parse(referenceMap[entity['references'][r]['refKey']]);
                         var authors = doc.getElementsByTagName("author");
                         max = authors.length
@@ -1696,11 +1697,38 @@ var grobid = (function ($) {
         }
 
         //doi
-        var doiNodes = doc.evaluate("//idno[@type='doi']", doc, null, XPathResult.ANY_TYPE, null);
+        var doiNodes = doc.evaluate("//idno[@type='DOI']", doc, null, XPathResult.ANY_TYPE, null);
         var doi = doiNodes.iterateNext();
         if (doi && doi.textContent) {
             //if (doi.textContent.startsWith("10."))
-                localHtml += "<tr><td>DOI</td><td><a href=\"https://doi.org/" + doi.textContent + "\" target=\"_blank\">"+doi.textContent+"</a></td></tr>";
+                localHtml += "<tr><td>DOI</td><td><a href=\"https://doi.org/" + doi.textContent + 
+                    "\" target=\"_blank\" style=\"color:#BC0E0E;\">"+doi.textContent+"</a></td></tr>";
+            /*else 
+                localHtml += "<tr><td>DOI</td><td><a href=\"https://doi.org/" + doi.textContent + "\">"+doi.textContent+"</a></td></tr>";*/
+        }
+
+        // PMC
+        var pmcNodes = doc.evaluate("//idno[@type='PMCID']", doc, null, XPathResult.ANY_TYPE, null);
+        var pmc = pmcNodes.iterateNext();
+        if (pmc && pmc.textContent) {
+            localHtml += "<tr><td>PMC ID</td><td><a href=\"https://www.ncbi.nlm.nih.gov/pmc/articles/" + pmc.textContent + 
+                "/\" target=\"_blank\" style=\"color:#BC0E0E;\">"+pmc.textContent+"</a></td></tr>";
+        }
+
+        // PMID
+        var pmidNodes = doc.evaluate("//idno[@type='PMID']", doc, null, XPathResult.ANY_TYPE, null);
+        var pmid = pmidNodes.iterateNext();
+        if (pmid && pmid.textContent) {
+            localHtml += "<tr><td>PMID</td><td><a href=\"https://pubmed.ncbi.nlm.nih.gov/" + pmid.textContent + 
+                "/\" target=\"_blank\" style=\"color:#BC0E0E;\">"+pmid.textContent+"</a></td></tr>";
+        }
+
+        // Open Access full text
+        var oaNodes = doc.evaluate("//ptr[@type='open-access']/@target", doc, null, XPathResult.ANY_TYPE, null);
+        var oa = oaNodes.iterateNext();
+        if (oa && oa.textContent) {
+            localHtml += "<tr><td>Open Access</td><td><a href=\"" + oa.textContent + "/\" target=\"_blank\" style=\"color:#BC0E0E;\">"+
+                oa.textContent+"</a></td></tr>";
         }
 
         // publisher
@@ -1718,6 +1746,10 @@ var grobid = (function ($) {
         }
 
         return localHtml;
+    }
+
+    function isEmpty(element){
+        return !$.trim(element.html())
     }
 
     function createInputFile() {
@@ -1746,7 +1778,7 @@ var grobid = (function ($) {
         $('#textInputDiv2').show();
     }
 
-    /*function parse(xmlStr) {
+    function parse(xmlStr) {
         var parseXml;
 
         if (typeof window.DOMParser != "undefined") {
@@ -1760,7 +1792,7 @@ var grobid = (function ($) {
         } else {
             throw new Error("No XML parser found");
         }
-    }*/
+    }
 
     var examples = ["Insulin levels of all samples were measured by ELISA kit (Mercodia).", 
     "Temperatures and depths of oil reservoirs were retrieved from the well logs.",

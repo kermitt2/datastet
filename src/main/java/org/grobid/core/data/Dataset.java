@@ -146,29 +146,29 @@ public class Dataset extends KnowledgeEntity {
         this.normalizedForm = normalizeRawForm(normalized);
     }
 
-    /*public OffsetPosition getOffsets() {
-        return offsets;
+    public OffsetPosition getOffsets() {
+        if (datasetName != null)
+            return datasetName.getOffsets();
+        else if (dataset != null)
+            return dataset.getOffsets();
+        return null;
     }
     
-    public void setOffsets(OffsetPosition offsets) {
-        this.offsets = offsets;
-    }
-    
-    public void setOffsetStart(int start) {
-        offsets.start = start;
-    }
-
     public int getOffsetStart() {
-        return offsets.start;
-    }
-
-    public void setOffsetEnd(int end) {
-        offsets.end = end;
+        if (datasetName != null)
+            return datasetName.getOffsetStart();
+        else if (dataset != null)
+            return dataset.getOffsetStart();
+        return -1;
     }
 
     public int getOffsetEnd() {
-        return offsets.end;
-    }*/
+        if (datasetName != null)
+            return datasetName.getOffsetEnd();
+        else if (dataset != null)
+            return dataset.getOffsetEnd();
+        return -1;
+    }
     
     public double getConf() {
         return this.conf;
