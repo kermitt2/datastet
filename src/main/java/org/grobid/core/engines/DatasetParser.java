@@ -496,6 +496,7 @@ public class DatasetParser extends AbstractParser {
                     allLayoutTokens.add(dummyLayoutTokens);
                     //System.out.println("dummy sentence at " + (allSentences.size()));
                     allSentences.add("dummy");
+                    sentenceOffsetStarts.add(accumulatedOffset);
                     continue;
                 }
 
@@ -517,8 +518,6 @@ public class DatasetParser extends AbstractParser {
                     int startPos = sentencePosition.start;
                     int endPos = sentencePosition.end;
 
-                    sentenceOffsetStarts.add(accumulatedOffset+startPos);
-
                     List<LayoutToken> sentenceTokens = new ArrayList<>();
                     int pos = 0;
                     for(LayoutToken token : layoutTokens) {
@@ -533,12 +532,14 @@ public class DatasetParser extends AbstractParser {
                     allLayoutTokens.add(sentenceTokens);
                     allSentences.add(localText.substring(startPos, endPos));
                     mapSentencesToZones.put(allSentences.size()-1, zoneIndex);
+                    sentenceOffsetStarts.add(accumulatedOffset+startPos);
                 }
                 zoneIndex++;
             }
 
             System.out.println("allLayoutTokens size: " + allLayoutTokens.size());
             System.out.println("allSentences size: " + allSentences.size());
+            System.out.println("sentenceOffsetStarts size: " + sentenceOffsetStarts.size());
 
             // pre-process labeling of every sentences in batch
             processLayoutTokenSequences(allLayoutTokens, entities, sentenceOffsetStarts, disambiguate);
@@ -647,7 +648,8 @@ public class DatasetParser extends AbstractParser {
                                                                         termProfiles, 
                                                                         termPattern, 
                                                                         placeTaken.get(index), 
-                                                                        frequencies);
+                                                                        frequencies,
+                                                                        sentenceOffsetStarts.get(index));
                 Collections.sort(localEntities);
                 newEntities.add(localEntities);
                 index++;
@@ -817,7 +819,9 @@ public class DatasetParser extends AbstractParser {
                                         continue;
                                     }
                                     if (entity2.getDatasetName() != null && 
-                                        entity2.getDatasetName().getNormalizedForm().equals(entity1.getDatasetName().getNormalizedForm())) {
+                                        entity2.getDatasetName().getNormalizedForm().equals(entity1.getDatasetName().getNormalizedForm()) ||
+                                        entity2.getDatasetName().getRawForm().equals(entity1.getDatasetName().getRawForm())
+                                        ) {
                                         List<BiblioComponent> newBibRefs = new ArrayList<>();
                                         for(BiblioComponent bibComponent : entity1.getBibRefs()) {
                                             newBibRefs.add(new BiblioComponent(bibComponent));
@@ -1261,7 +1265,8 @@ System.out.println("add term: " + term);
                                               Map<String, Double> termProfiles,
                                               FastMatcher termPattern, 
                                               List<OffsetPosition> placeTaken,
-                                              Map<String, Integer> frequencies) {
+                                              Map<String, Integer> frequencies,
+                                              int sentenceOffsetStart) {
 
         List<OffsetPosition> results = termPattern.matchLayoutToken(layoutTokens, true, true);
         // above: do not ignore delimiters and case sensitive matching
@@ -1332,6 +1337,7 @@ System.out.println("add term: " + term);
                 entity.setContext(localText);
                 //entity.setType(DataseerLexicon.Dataset_Type.DATASET);
                 entity.setPropagated(true);
+                entity.setGlobalContextOffset(sentenceOffsetStart);
                 if (entities == null) 
                     entities = new ArrayList<>();
                 entities.add(entity);
