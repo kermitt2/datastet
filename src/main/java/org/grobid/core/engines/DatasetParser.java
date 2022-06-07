@@ -613,8 +613,9 @@ public class DatasetParser extends AbstractParser {
 
             int i = 0;
             for(List<Dataset> localDatasets : entities) {
-                if (localDatasets == null || localDatasets.size() == 0)
+                if (localDatasets == null || localDatasets.size() == 0) {
                     continue;
+                }
                 for(Dataset localDataset : localDatasets) {
                     if (localDataset == null)
                         continue;
@@ -628,12 +629,37 @@ public class DatasetParser extends AbstractParser {
                 i++;
             }
 
+            // we prepare a matcher for all the identified dataset mention forms 
+            FastMatcher termPattern = prepareTermPattern(entities);
+            // we prepare the frequencies for each dataset name in the whole document
+            Map<String, Integer> frequencies = prepareFrequencies(entities, doc.getTokenizations());
+            // we prepare a map for mapping a dataset name with its positions of annotation in the document and its IDF
+            Map<String, Double> termProfiles = prepareTermProfiles(entities);
+            List<List<OffsetPosition>> placeTaken = preparePlaceTaken(entities);
+
+            System.out.println("entities size: " + entities.size());
+
+            int index = 0;
+            List<List<Dataset>> newEntities = new ArrayList<>();
+            for (List<LayoutToken> sentenceTokens : allLayoutTokens) {
+                List<Dataset> localEntities = propagateLayoutTokenSequence(sentenceTokens, 
+                                                                        entities.get(index), 
+                                                                        termProfiles, 
+                                                                        termPattern, 
+                                                                        placeTaken.get(index), 
+                                                                        frequencies);
+                Collections.sort(localEntities);
+                newEntities.add(localEntities);
+                index++;
+            }
+            entities = newEntities;
+
             // selection of relevant data sections
             //List<Boolean> relevantSections = DataseerParser.getInstance().processingText(segments, sectionTypes, nbDatasets, datasetTypes);
 
             // filter implicit datasets based on selected relevant data section
             List<List<Dataset>> filteredEntities = new ArrayList<>();
-            int index = 0;
+            index = 0;
             for(List<Dataset> localDatasets : entities) {
                 List<Dataset> filteredLocalEntities = new ArrayList<>();
 
@@ -676,7 +702,7 @@ public class DatasetParser extends AbstractParser {
             entities = filteredEntities;
 
             System.out.println(entities.size() + " mentions of interest");
-
+            
             // we attach and match bibliographical reference callout
             TEIFormatter formatter = new TEIFormatter(doc, parsers.getFullTextParser());
             // second pass, body
@@ -741,20 +767,6 @@ public class DatasetParser extends AbstractParser {
                     }
                 }
 
-                // we prepare a matcher for all the identified dataset mention forms 
-                FastMatcher termPattern = prepareTermPattern(entities);
-                // we prepare the frequencies for each dataset name in the whole document
-                Map<String, Integer> frequencies = prepareFrequencies(entities, doc.getTokenizations());
-                // we prepare a map for mapping a dataset name with its positions of annotation in the document and its IDF
-                Map<String, Double> termProfiles = prepareTermProfiles(entities);
-                List<OffsetPosition> placeTaken = preparePlaceTaken(entities);
-
-
-
-
-
-
-
 
                 if (bibRefComponents.size() > 0) {
                     // attach references to dataset entities 
@@ -816,7 +828,7 @@ public class DatasetParser extends AbstractParser {
                             }
                         }
                     }
-                } 
+                }
             }
 
         } catch (Exception e) {
@@ -1102,33 +1114,50 @@ public class DatasetParser extends AbstractParser {
         return entities;
     }
 
-    public List<OffsetPosition> preparePlaceTaken(List<List<Dataset>> entities) {
-        List<OffsetPosition> localPositions = new ArrayList<>();
+    public List<List<OffsetPosition>> preparePlaceTaken(List<List<Dataset>> entities) {
+        List<List<OffsetPosition>> localPositions = new ArrayList<>();
         for(List<Dataset> datasets : entities) {
+            List<OffsetPosition> localSentencePositions = new ArrayList<>();
             for(Dataset entity : datasets) {
                 DatasetComponent nameComponent = entity.getDatasetName();
-                if (nameComponent == null)
-                    continue;
-                List<LayoutToken> localTokens = nameComponent.getTokens();
-                localPositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
-                    localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
-                DatasetComponent publisherComponent = entity.getPublisher();
-                if (publisherComponent != null) {
-                    localTokens = publisherComponent.getTokens();
-                    if (localTokens.size() > 0) {
-                        localPositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
-                            localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
+                if (nameComponent != null) {
+                    List<LayoutToken> localTokens = nameComponent.getTokens();
+                    localSentencePositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
+                        localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
+                    DatasetComponent publisherComponent = entity.getPublisher();
+                    if (publisherComponent != null) {
+                        localTokens = publisherComponent.getTokens();
+                        if (localTokens.size() > 0) {
+                            localSentencePositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
+                                localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
+                        }
+                    }
+                }
+                nameComponent = entity.getDataset();
+                if (nameComponent != null) {
+                    List<LayoutToken> localTokens = nameComponent.getTokens();
+                    localSentencePositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
+                        localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
+
+                    DatasetComponent deviceComponent = entity.getDataDevice();
+                    if (deviceComponent != null) {
+                        localTokens = deviceComponent.getTokens();
+                        if (localTokens.size() > 0) {
+                            localSentencePositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
+                                localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
+                        }
                     }
                 }
                 DatasetComponent urlComponent = entity.getUrl();
                 if (urlComponent != null) {
-                    localTokens = urlComponent.getTokens();
+                    List<LayoutToken> localTokens = urlComponent.getTokens();
                     if (localTokens.size() > 0) {
-                        localPositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
+                        localSentencePositions.add(new OffsetPosition(localTokens.get(0).getOffset(), 
                             localTokens.get(localTokens.size()-1).getOffset() + localTokens.get(localTokens.size()-1).getText().length()-1));
                     }
                 }
             }
+            localPositions.add(localSentencePositions);
         }
         return localPositions;
     }
@@ -1189,6 +1218,7 @@ public class DatasetParser extends AbstractParser {
                 if (!added.contains(term)) {
                     termPattern.loadTerm(term, DataseerAnalyzer.getInstance(), false);
                     added.add(term);
+System.out.println("add term: " + term);
                 }
 
                 if (!term.equals(nameComponent.getNormalizedForm())) {
@@ -1226,8 +1256,8 @@ public class DatasetParser extends AbstractParser {
         return frequencies;
     }
 
-    /*public List<List<Dataset>> propagateLayoutTokenSequence(List<List<LayoutToken>> layoutTokens, 
-                                              List<List<Dataset>> entities,
+    public List<Dataset> propagateLayoutTokenSequence(List<LayoutToken> layoutTokens, 
+                                              List<Dataset> entities,
                                               Map<String, Double> termProfiles,
                                               FastMatcher termPattern, 
                                               List<OffsetPosition> placeTaken,
@@ -1235,12 +1265,14 @@ public class DatasetParser extends AbstractParser {
 
         List<OffsetPosition> results = termPattern.matchLayoutToken(layoutTokens, true, true);
         // above: do not ignore delimiters and case sensitive matching
-        
+
         if ( (results == null) || (results.size() == 0) ) {
             return entities;
         }
 
-        List<Dataset> localEntities = new ArrayList<>();
+        String localText = LayoutTokensUtil.toText(layoutTokens);
+        //System.out.println(results.size() + " results for: " + localText);
+
         for(OffsetPosition position : results) {
             // the match positions are expressed relative to the local layoutTokens index, while the offset at
             // token level are expressed relative to the complete doc positions in characters
@@ -1295,19 +1327,31 @@ public class DatasetParser extends AbstractParser {
                 List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(matchedTokens);
                 name.setBoundingBoxes(boundingBoxes);
 
-                Dataset entity = new Dataset();
+                Dataset entity = new Dataset(DatasetType.DATASET_NAME, name.getRawForm());
                 entity.setDatasetName(name);
+                entity.setContext(localText);
                 //entity.setType(DataseerLexicon.Dataset_Type.DATASET);
                 entity.setPropagated(true);
-                localEntities.add(entity);
+                if (entities == null) 
+                    entities = new ArrayList<>();
                 entities.add(entity);
             }
         }
-
-        // add context to the new entities
-        //addContext(localEntities, null, layoutTokens, true, addParagraphContext);
-
         return entities;
-    }*/
+    }
+
+    private boolean overlapsPosition(final List<OffsetPosition> list, final OffsetPosition position) {
+        for (OffsetPosition pos : list) {
+            if (pos.start == position.start)  
+                return true;
+            if (pos.end == position.end)  
+                return true;
+            if (position.start <= pos.start &&  pos.start <= position.end)  
+                return true;
+            if (pos.start <= position.start && position.start <= pos.end)  
+                return true;
+        } 
+        return false;
+    }
 
 }

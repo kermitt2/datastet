@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  *  Representation of a mention of a dataset, name or implicit expression, or data device.  
  *
  */
-public class Dataset extends KnowledgeEntity {   
+public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {   
     private static final Logger logger = LoggerFactory.getLogger(Dataset.class);
     
     // Orign of the component definition
@@ -110,6 +110,9 @@ public class Dataset extends KnowledgeEntity {
     // full paragraph context where the entity takes place, this is an optional field
     // relevant for certain scenarios only
     private String paragraph = null;
+
+    // propagated means entity is coming from the document level propagation step 
+    private boolean propagated = false;
 
     public Dataset(DatasetType type) {
         this.type = type;
@@ -305,14 +308,33 @@ public class Dataset extends KnowledgeEntity {
         this.publisher = publisher;
     }
 
-    /*
+    public DatasetContextAttributes getMentionContextAttributes() {
+        return this.mentionContextAttributes;
+    }
+
+    public void setMentionContextAttributes(DatasetContextAttributes attributes) {
+        this.mentionContextAttributes = attributes;
+    }
+
+    public DatasetContextAttributes getDocumentContextAttributes() {
+        return this.documentContextAttributes;
+    }
+
+    public boolean isPropagated() {
+        return propagated;
+    }
+
+    public void setPropagated(boolean propagated) {
+        this.propagated = propagated;
+    }
+
     @Override
     public boolean equals(Object object) {
         boolean result = false;
         if ( (object != null) && object instanceof Dataset) {
             int start = ((Dataset)object).getOffsetStart();
             int end = ((Dataset)object).getOffsetEnd();
-            if ( (start == offsets.start) && (end == offsets.end) ) {
+            if ( (start == this.getOffsetStart()) && (end == this.getOffsetEnd()) ) {
                 result = true;
             }
         }
@@ -324,11 +346,11 @@ public class Dataset extends KnowledgeEntity {
         int start = theEntity.getOffsetStart();
         int end = theEntity.getOffsetEnd();
         
-        if (offsets.start != start) 
-            return offsets.start - start;
+        if (this.getOffsetStart() != start) 
+            return this.getOffsetStart() - start;
         else 
-            return offsets.end - end;
-    }*/
+            return this.getOffsetEnd() - end;
+    }
     
     public String toJson() {
         ObjectMapper mapper = new ObjectMapper();
