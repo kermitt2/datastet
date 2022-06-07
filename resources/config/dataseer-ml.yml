@@ -11,6 +11,10 @@ pub2teiPath: "../../Pub2TEI/"
 gluttonHost: "https://cloud.science-miner.com/glutton"
 gluttonPort: 
 
+# if true we use binary classifiers for the contexts, otherwise use a single multi-label classifier
+# binary classifiers perform better, but havier to use
+useBinaryContextClassifiers: true
+
 # sequence labeling model (identify data-related sections)
 models:
 
@@ -89,3 +93,35 @@ models:
         # parameters used at runtime/prediction
         max_sequence_length: 300
         batch_size: 10
+
+  - name: "dataset_context"
+    engine: "delft"
+    delft:
+      #architecture: "gru"
+      #embeddings_name: "glove-840B"
+      architecture: "bert"
+      transformer: "allenai/scibert_scivocab_cased"
+
+  - name: "dataset_context_used"
+    engine: "delft"
+    delft:
+      #architecture: "gru"
+      #embeddings_name: "glove-840B"
+      architecture: "bert"
+      transformer: "allenai/scibert_scivocab_cased"
+
+  - name: "dataset_context_creation"
+    engine: "delft"
+    delft:
+      #architecture: "gru"
+      #embeddings_name: "glove-840B"
+      architecture: "bert"
+      transformer: "allenai/scibert_scivocab_cased"
+
+  - name: "dataset_context_shared"
+    engine: "delft"
+    delft:
+      #architecture: "gru"
+      #embeddings_name: "glove-840B"
+      architecture: "bert"
+      transformer: "allenai/scibert_scivocab_cased"

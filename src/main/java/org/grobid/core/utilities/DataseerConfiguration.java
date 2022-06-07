@@ -13,6 +13,7 @@ public class DataseerConfiguration {
     public String gluttonHost;
     public String gluttonPort;
     public String version;
+    private Boolean useBinaryContextClassifiers;
 
     //models (sequence labeling and text classifiers)
     public List<ModelParameters> models;
@@ -101,6 +102,14 @@ public class DataseerConfiguration {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Boolean getUseBinaryContextClassifiers() {
+        return this.useBinaryContextClassifiers;
+    }
+
+    public void setUseBinaryContextClassifiers(Boolean binary) {
+        this.useBinaryContextClassifiers = binary;
     }
 }
  
