@@ -340,7 +340,8 @@ public class DatasetParser extends AbstractParser {
             // the corresponding model to further filter by structure types 
 
             List<List<LayoutToken>> selectedLayoutTokenSequences = new ArrayList<>();
-            List<Boolean> relevantSections = new ArrayList<>();
+            List<Boolean> relevantSectionsNamedDatasets = new ArrayList<>();
+            List<Boolean> relevantSectionsImplicitDatasets = new ArrayList<>();
 
             // from the header, we are interested in title, abstract and keywords
             SortedSet<DocumentPiece> documentParts = doc.getDocumentPart(SegmentationLabels.HEADER);
@@ -359,21 +360,24 @@ public class DatasetParser extends AbstractParser {
                     List<LayoutToken> titleTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_TITLE);
                     if (titleTokens != null) {
                         selectedLayoutTokenSequences.add(titleTokens);
-                        relevantSections.add(false);
+                        relevantSectionsNamedDatasets.add(false);
+                        relevantSectionsImplicitDatasets.add(false);
                     } 
 
                     // abstract
                     List<LayoutToken> abstractTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_ABSTRACT);
                     if (abstractTokens != null) {
                         selectedLayoutTokenSequences.add(abstractTokens);
-                        relevantSections.add(false);
+                        relevantSectionsNamedDatasets.add(true);
+                        relevantSectionsImplicitDatasets.add(false);
                     } 
 
                     // keywords
                     List<LayoutToken> keywordTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_KEYWORD);
                     if (keywordTokens != null) {
                         selectedLayoutTokenSequences.add(keywordTokens);
-                        relevantSections.add(false);
+                        relevantSectionsNamedDatasets.add(false);
+                        relevantSectionsImplicitDatasets.add(false);
                     }
                 }
             }
@@ -423,7 +427,8 @@ public class DatasetParser extends AbstractParser {
                             if (lastClusterLabel == null || curParagraphTokens == null  || isNewParagraph(lastClusterLabel)) { 
                                 if (curParagraphTokens != null) {
                                     selectedLayoutTokenSequences.add(curParagraphTokens);
-                                    relevantSections.add(true);
+                                    relevantSectionsNamedDatasets.add(true);
+                                    relevantSectionsImplicitDatasets.add(true);
                                 }
                                 curParagraphTokens = new ArrayList<>();
                             }
@@ -443,7 +448,8 @@ public class DatasetParser extends AbstractParser {
                     // last paragraph
                     if (curParagraphTokens != null) {
                         selectedLayoutTokenSequences.add(curParagraphTokens);
-                        relevantSections.add(true);
+                        relevantSectionsNamedDatasets.add(true);
+                        relevantSectionsImplicitDatasets.add(true);
                     }
                 }
             }
@@ -459,10 +465,14 @@ public class DatasetParser extends AbstractParser {
                 List<LayoutToken> annexTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
                 if (annexTokens != null) {
                     selectedLayoutTokenSequences.add(annexTokens);
-                    if (this.checkAuthorAnnex(annexTokens))
-                        relevantSections.add(true);
-                    else 
-                        relevantSections.add(false);
+                    if (this.checkAuthorAnnex(annexTokens)) {
+                        relevantSectionsNamedDatasets.add(true);
+                        relevantSectionsImplicitDatasets.add(true);
+                    }
+                    else {
+                        relevantSectionsNamedDatasets.add(false);
+                        relevantSectionsImplicitDatasets.add(false);
+                    }
                 }
             }
 
@@ -474,7 +484,8 @@ public class DatasetParser extends AbstractParser {
                 List<LayoutToken> footnoteTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
                 if (footnoteTokens != null) {
                     selectedLayoutTokenSequences.add(footnoteTokens);
-                    relevantSections.add(false);
+                    relevantSectionsNamedDatasets.add(true);
+                    relevantSectionsImplicitDatasets.add(false);
                 }
             }
 
@@ -546,7 +557,7 @@ public class DatasetParser extends AbstractParser {
 
             System.out.println("entities size: " + entities.size());
             System.out.println("mapSentencesToZones size: " + mapSentencesToZones.size());
-            System.out.println("relevantSections size: " + relevantSections.size());
+            System.out.println("relevantSections size: " + relevantSectionsNamedDatasets.size());
 
             // pre-process classification of every sentences in batch
             if (this.dataseerClassifier == null)
@@ -680,14 +691,20 @@ public class DatasetParser extends AbstractParser {
 
                 /*System.out.println("\nsentence index: " + index);
                 System.out.println("currentZone: " + mapSentencesToZones.get(index));
-                System.out.println("relevantSections: " + relevantSections.get(currentZone));*/
-
-                if (!relevantSections.get(currentZone)) {
-                    index++;
-                    continue;
-                }
+                System.out.println("relevantSectionsNamedDatasets: " + relevantSectionsNamedDatasets.get(currentZone));
+                System.out.println("relevantSectionsImplicitDatasets: " + relevantSectionsImplicitDatasets.get(currentZone));*/
 
                 for (Dataset localDataset : localDatasets) {
+
+                    if (localDataset.getType() == DatasetType.DATASET &&
+                        !relevantSectionsImplicitDatasets.get(currentZone)) {
+                        continue;
+                    } 
+
+                    if (localDataset.getType() == DatasetType.DATASET_NAME &&
+                        !relevantSectionsNamedDatasets.get(currentZone)) {
+                        continue;
+                    } 
 
                     if (localDataset.getType() == DatasetType.DATASET &&
                         localDataset.getDataset() != null && 
