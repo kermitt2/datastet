@@ -515,18 +515,8 @@ var grobid = (function ($) {
         var lang = 'en';
         if (responseJson.lang)   
             lang = responseJson.lang;
+
         if (entities) {
-
-            entities.sort(function(a, b) { 
-                var startA = parseInt(a.offsetStart, 10);
-                //var endA = parseInt(a.offsetEnd, 10);
-
-                var startB = parseInt(b.offsetStart, 10);
-                //var endB = parseInt(b.offsetEnd, 10);
-
-                return startA-startB; 
-            });
-
             var pos = 0; // current position in the text
 
             for (var currentEntityIndex = 0; currentEntityIndex < entities.length; currentEntityIndex++) {
@@ -545,8 +535,37 @@ var grobid = (function ($) {
                     });
                 }
 
-                var rawForm = entity['rawForm']
-                var mentionType = entity['type']
+                var pieces = []
+
+                var datasetName = entity['dataset-name'];
+                if (datasetName) {
+                    datasetName['subtype'] = 'dataset-name';
+                    pieces.push(datasetName);
+                }
+
+                var datasetImplicit = entity['dataset'];
+                if (datasetImplicit) {
+                    datasetImplicit['subtype'] = 'dataset';
+                    pieces.push(datasetImplicit);
+                }
+
+                var dataDevice = entity['data-device'];
+                if (dataDevice) {
+                    dataDevice['subtype'] = 'data-device';
+                    pieces.push(dataDevice);
+                }
+
+                var url = entity['url']
+                if (url) {
+                    url['subtype'] = 'url'
+                    pieces.push(url)
+                }
+
+                var publisher = entity['publisher']
+                if (publisher) {
+                    publisher['subtype'] = 'publisher'
+                    pieces.push(publisher)
+                }
 
                 var references = entity['references']
                 if (references) {
@@ -554,25 +573,41 @@ var grobid = (function ($) {
                         reference['subtype'] = 'reference';
                         if (!reference['rawForm'])
                             reference['rawForm'] = reference['label']
+                        pieces.push(reference)    
                     }
                 }
-                
-                var start = parseInt(entity.offsetStart, 10);
-                var end = parseInt(entity.offsetEnd, 10);
-    
-                if (start < pos) {
-                    // we have a problem in the initial sort of the entities
-                    // the server response is not compatible with the present client 
-                    console.log("Sorting of entities as present in the server's response not valid for this client.");
-                    // note: this should never happen
-                } else {
-                    newString += string.substring(pos, start)
-                        //+ '<span id="annot-' + currentEntityIndex + '" rel="popover" data-color="' + piece['subtype'] + '">'
-                        //+ '<span id="annot-' + currentEntityIndex + '-' + pi + '">'
-                        //+ '<span class="label ' + piece['subtype'] + '" style="cursor:hand;cursor:pointer;" >'
-                        + '<span id="annot-' + currentEntityIndex + '" class="label ' + mentionType + '" style="cursor:hand;cursor:pointer;" >'
-                        + string.substring(start, end) + '</span>';
-                    pos = end;
+            
+                pieces.sort(function(a, b) { 
+                    var startA = parseInt(a.offsetStart, 10);
+                    //var endA = parseInt(a.offsetEnd, 10);
+
+                    var startB = parseInt(b.offsetStart, 10);
+                    //var endB = parseInt(b.offsetEnd, 10);
+
+                    return startA-startB; 
+                });
+
+                for (var pi in pieces) {
+                    piece = pieces[pi]
+
+                    var entityRawForm = piece.rawForm;
+                    var start = parseInt(piece.offsetStart, 10);
+                    var end = parseInt(piece.offsetEnd, 10);
+        
+                    if (start < pos) {
+                        // we have a problem in the initial sort of the entities
+                        // the server response is not compatible with the present client 
+                        console.log("Sorting of entities as present in the server's response not valid for this client.");
+                        // note: this should never happen
+                    } else {
+                        newString += string.substring(pos, start)
+                            //+ '<span id="annot-' + currentEntityIndex + '" rel="popover" data-color="' + piece['subtype'] + '">'
+                            //+ '<span id="annot-' + currentEntityIndex + '-' + pi + '">'
+                            //+ '<span class="label ' + piece['subtype'] + '" style="cursor:hand;cursor:pointer;" >'
+                            + '<span id="annot-' + currentEntityIndex + '-' + pi + '" class="label ' + piece['subtype'] + '" style="cursor:hand;cursor:pointer;" >'
+                            + string.substring(start, end) + '</span>';
+                        pos = end;
+                    }
                 }
             }
             newString += string.substring(pos, string.length);
@@ -602,12 +637,23 @@ var grobid = (function ($) {
 
         if (entities) {
             for (var entityIndex = 0; entityIndex < entities.length; entityIndex++) {
-                //var entity = entities[entityIndex];
+                var entity = entities[entityIndex];
 
-                $('#annot-' + entityIndex).bind('mouseenter', viewEntity);
-                $('#annot-' + entityIndex).bind('click', viewEntity);
-                
-                //$('#annot-' + entityIndex).bind('click', viewEntity);
+                var indexComp = 0;
+                if (entity['dataset-name'])
+                    indexComp++;
+                if (entity['dataset'])
+                    indexComp++;
+                if (entity['data-device'])
+                    indexComp++;
+                if (entity['url'])
+                    indexComp++;
+                if (entity['publisher'])
+                    indexComp++;
+                for(var currentIndexComp = 0; currentIndexComp< indexComp; currentIndexComp++) {
+                    $('#annot-' + entityIndex + '-' + currentIndexComp).bind('mouseenter', viewEntity);
+                    $('#annot-' + entityIndex + '-' + currentIndexComp).bind('click', viewEntity);
+                }
             }
         }
 
@@ -795,50 +841,73 @@ var grobid = (function ($) {
             width = "70%";
         if (entities) {
             var summary = '';
-            summary += "<div id='mention-count' style='background-color: white; width: 100%;'><p>&nbsp;&nbsp;<b>"+ entities.length + "</b> mentions found</p></div>";
+            summary += "<div id='mention-count' style='background-color: white; width: 100%;'><p>&nbsp;&nbsp;<b>"+ entities.length + "</b> dataset mentions found</p></div>";
 
             summary += "<table width='" + width+ "px' style='table-layout: fixed; overflow: scroll; padding-left:5px; width:"+width+"%;'>";
-            summary += '<colgroup><col span="1" style="width: 20%;"><col span="1" style="width: 5%;"><col span="1" style="width: 55%;"><col span="1" style="width: 20%;"></colgroup>';
+            summary += '<colgroup><col span="1" style="width: 10%;"><col span="1" style="width: 25%;"><col span="1" style="width: 5%;"><col span="1" style="width: 40%;"><col span="1" style="width: 20%;"></colgroup>';
 
             var local_map = new Map();
             var usage_map = new Map();
+            var type_map = new Map();
 
             entities.forEach(function (entity, n) {
                 var local_page = -1;
-                if (entity['dataset-name'].boundingBoxes && entity['dataset-name'].boundingBoxes.length>0)
+                if (entity['dataset-name'] && entity['dataset-name'].boundingBoxes && entity['dataset-name'].boundingBoxes.length>0)
                     local_page = entity['dataset-name'].boundingBoxes[0].p;
+                else if (entity['dataset'] && entity['dataset'].boundingBoxes && entity['dataset'].boundingBoxes.length>0)
+                    local_page = entity['dataset'].boundingBoxes[0].p;
+
                 var the_id = 'annot-' + n + '-00';
                 if (local_page != -1)
                     the_id += '_' + local_page;
-                var datasetNameRaw = entity['dataset-name'].normalizedForm;
-                if (!local_map.has(datasetNameRaw)) {
-                    local_map.set(datasetNameRaw, new Array());
-                }
-                var localArray = local_map.get(datasetNameRaw)
-                localArray.push(the_id)
-                local_map.set(datasetNameRaw, localArray);
 
-                if (entity['documentContextAttributes']) {
-                    //console.log(entity['documentContextAttributes']);
-                    usage_map.set(datasetNameRaw, entity['documentContextAttributes']);
+                var datasetNameRaw;
+                if (entity['dataset-name']) 
+                    datasetNameRaw = entity['dataset-name'].normalizedForm;
+                else if (entity['dataset']) 
+                    datasetNameRaw = entity['dataset'].normalizedForm;
+
+                if (datasetNameRaw) {
+                    if (!type_map.has(datasetNameRaw)) 
+                        type_map[datasetNameRaw] = entity['type']
+
+                    if (!local_map.has(datasetNameRaw)) 
+                        local_map.set(datasetNameRaw, new Array());
+                    
+                    var localArray = local_map.get(datasetNameRaw)
+                    localArray.push(the_id)
+                    local_map.set(datasetNameRaw, localArray);
+
+                    if (entity['documentContextAttributes']) {
+                        //console.log(entity['documentContextAttributes']);
+                        usage_map.set(datasetNameRaw, entity['documentContextAttributes']);
+                    }
                 }
             });
 
-            console.log(usage_map);
-
             var span_ids = new Array();
 
+            var allTableContentNamed = "";
+            var allTableContentImplicit = "";
             var n = 0;
             for (let [key, value] of local_map) {
-                summary += "<tr width='"+width+"' style='background: ";
+                var tableContent = "";
+                tableContent += "<tr width='"+width+"' style='background: ";
                 if (n%2 == 0) {
-                    summary += "#eee;'>"
+                    tableContent += "#eee;'>"
                 } else {
-                    summary += "#fff;'>"
+                    tableContent += "#fff;'>"
                 }
-                summary += "<td>"+key+"</td>";
-                summary += "<td>"+value.length+"</td>";
-                summary += "<td style='display: inline-block; word-break: break-word;' >";
+                if (type_map[key]) {
+                    if (type_map[key] === 'dataset-name')
+                        tableContent += "<td>named</td>";
+                    else if (type_map[key] === 'dataset')
+                        tableContent += "<td>implicit</td>";
+                } else
+                    tableContent += "<td></td>";
+                tableContent += "<td>"+key+"</td>";
+                tableContent += "<td>"+value.length+"</td>";
+                tableContent += "<td style='display: inline-block; word-break: break-word;' >";
 
                 value.sort(function(a, b) {
                     var a_page = -1;
@@ -874,7 +943,7 @@ var grobid = (function ($) {
                         the_id = the_id_full.substring(0,the_id_full.indexOf("_"));
                         local_page = the_id_full.substring(the_id_full.indexOf("_"));
                     }
-                    summary += "<span class='index' id='index_"+the_id+"'>page"+local_page+"</span> ";
+                    tableContent += "<span class='index' id='index_"+the_id+"'>page"+local_page+"</span> ";
                     span_ids.push('index_'+the_id);
                 }
 
@@ -891,10 +960,18 @@ var grobid = (function ($) {
                         attributesInfo += " shared";
                 }
 
-                summary += "<td>" + attributesInfo + "</td></tr>";
+                tableContent += "<td>" + attributesInfo + "</td></tr>";
+
+                if (type_map[key]) {
+                    if (type_map[key] === 'dataset-name')
+                        allTableContentNamed += tableContent;
+                    else
+                        allTableContentImplicit += tableContent;
+                }
                 n++;
             };
 
+            summary += allTableContentNamed + allTableContentImplicit;
             summary += "</table>";
 
             summary += "</div>";
@@ -1029,34 +1106,6 @@ var grobid = (function ($) {
         $('#annot-' + entityIndex + '-' + positionIndex).bind('click', viewEntityPDF);
     }
 
-    function viewEntity(event) {
-        if (responseJson == null)
-            return;
-
-        if (responseJson.mentions == null) {
-            return;
-        }
-
-        var localID = $(this).attr('id');
-        //console.log(localID)
-        if (entities == null) {
-            return;
-        }
-
-        var ind1 = localID.indexOf('-');
-        var ind2 = localID.indexOf('-', ind1+1);
-
-        var localEntityNumber = parseInt(localID.substring(ind1+1,ind2));
-        //console.log(localEntityNumber)
-        if (localEntityNumber < entities.length) {
-
-            var string = toHtml(entities[localEntityNumber], -1, 0);
-
-            $('#detailed_annot-0').html(string);
-            $('#detailed_annot-0').show();
-        }
-    }
-
     function viewEntityPDF() {
         var pageIndex = $(this).attr('page');
         var localID = $(this).attr('id');
@@ -1080,11 +1129,21 @@ var grobid = (function ($) {
         var lang = 'en'; //default
         var string = "";
         for (var entityListIndex = entityMap[localEntityNumber].length - 1;
-             entityListIndex >= 0;
-             entityListIndex--) {
+                entityListIndex >= 0;
+                entityListIndex--) {
             var entity = entityMap[localEntityNumber][entityListIndex];
 
-            string = toHtml(entity, topPos, pageIndex);
+            var hasDataset = null;
+            if (entity["dataset"] && entity["dataset"]["hasDataset"])
+                hasDataset = entity["dataset"]["hasDataset"];
+            var bestDataType = null;
+            if (entity["dataset"] && entity["dataset"]["bestDataType"])
+                bestDataType = entity["dataset"]["bestDataType"];
+            var bestTypeScore = null;
+            if (entity["dataset"] && entity["dataset"]["bestTypeScore"])
+                bestTypeScore = entity["dataset"]["bestTypeScore"];
+
+            string = toHtml(entity, topPos, pageIndex, hasDataset, bestDataType, bestTypeScore);
         }
         $('#detailed_annot-' + pageIndex).html(string);
         $('#detailed_annot-' + pageIndex).show();
@@ -1107,23 +1166,24 @@ var grobid = (function ($) {
             return;
         }
 
-        var hasDataset = null;
-        if (responseJson.hasDataset)
-            hasDataset = responseJson.hasDataset;
-
-        var bestDataType = null;
-        if (responseJson.bestDataType)
-            bestDataType = responseJson.bestDataType;
-        var bestTypeScore = null;
-        if (responseJson.bestTypeScore)
-            bestTypeScore = responseJson.bestTypeScore;
-
         var ind1 = localID.indexOf('-');
         //var ind2 = localID.indexOf('-', ind1+1);
 
         var localEntityNumber = parseInt(localID.substring(ind1+1));
         //console.log(localEntityNumber)
+
         if (localEntityNumber < mentions.length) {
+            var entity = mentions[localEntityNumber];
+
+            var hasDataset = null;
+            if (entity["dataset"] && entity["dataset"]["hasDataset"])
+                hasDataset = entity["dataset"]["hasDataset"];
+            var bestDataType = null;
+            if (entity["dataset"] && entity["dataset"]["bestDataType"])
+                bestDataType = entity["dataset"]["bestDataType"];
+            var bestTypeScore = null;
+            if (entity["dataset"] && entity["dataset"]["bestTypeScore"])
+                bestTypeScore = entity["dataset"]["bestTypeScore"];
 
             var string = toHtml(mentions[localEntityNumber], -1, 0, hasDataset, bestDataType, bestTypeScore);
             $('#detailed_annot-0').html(string);
@@ -1167,8 +1227,12 @@ var grobid = (function ($) {
         string += "<div class='container-fluid' style='background-color:#F9F9F9;color:#70695C;border:padding:5px;margin-top:5px;'>" +
             "<table style='width:100%;background-color:#fff;border:0px'><tr style='background-color:#fff;border:0px;margin-top:5px;'><td style='background-color:#fff;border:0px;'>";
 
-        if (type)
-            string += "<p>Type: <b>" + type + "</b></p>";
+        if (type) {
+            if (type === 'dataset')
+                string += "<p>Type: <b>implicit dataset</b></p>";
+            else
+                string += "<p>Type: <b>" + type + "</b></p>";
+        }
 
         if (content)
             string += "<p>Raw name: <b>" + content + "</b></p>";                
@@ -1187,6 +1251,10 @@ var grobid = (function ($) {
 
         if (entity['data-device']) {
             string += "<p>Data acquisition device: <b>" + entity['data-device']['normalizedForm'] + "</b></p>";
+        }
+
+        if (entity['url']) {
+            string += "<p>URL: <b>" + entity['url']['normalizedForm'] + "</b></p>";
         }
 
         if (wikipedia) {
