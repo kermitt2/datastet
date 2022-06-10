@@ -28,7 +28,8 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     public enum DatasetType {
         DATASET_NAME  ("dataset-name"),
         DATASET    ("dataset"),
-        DATA_DEVICE ("data-device");
+        DATA_DEVICE ("data-device"),
+        URL ("url");
         
         private String name;
 
