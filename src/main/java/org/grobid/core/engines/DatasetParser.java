@@ -174,8 +174,20 @@ public class DatasetParser extends AbstractParser {
                 results.add(null);
             } else {
                 String text = LayoutTokensUtil.toText(tokens);
-                List<DatasetComponent> localDatasetcomponents = resultExtractionLayoutTokens(resBlocks[i], tokens, text);
+                List<DatasetComponent> localDatasetcomponents = new ArrayList<>();
                 localDatasetcomponents = addUrlComponents(tokens, localDatasetcomponents, text);
+                List<DatasetComponent> bufferLocalDatasetcomponents = resultExtractionLayoutTokens(resBlocks[i], tokens, text);
+                List<OffsetPosition> localDatasetcomponentOffsets = new ArrayList<>();
+                for(DatasetComponent localDatasetcomponent : localDatasetcomponents) {
+                    localDatasetcomponentOffsets.add(localDatasetcomponent.getOffsets());
+                }
+                for(DatasetComponent component : bufferLocalDatasetcomponents) {
+                    if (overlapsPosition(localDatasetcomponentOffsets, component.getOffsets())) 
+                        continue;
+                    localDatasetcomponents.add(component);
+                }
+
+                Collections.sort(localDatasetcomponents);
                 List<Dataset> localDatasets = groupByEntities(localDatasetcomponents, tokens, text);
                 results.add(localDatasets);
             }
@@ -323,7 +335,7 @@ public class DatasetParser extends AbstractParser {
             List<LayoutToken> urlTokens = new ArrayList<>();
             int tokenPos = 0;
             for(LayoutToken localToken : sentenceTokens) {
-                if (tokenPos <= pos && (tokenPos+localToken.getText().length() <= endPos) ) {
+                if (pos <= tokenPos && (tokenPos+localToken.getText().length() <= endPos) ) {
                     urlTokens.add(localToken);
                 }
                 if (tokenPos > endPos) {
@@ -331,6 +343,12 @@ public class DatasetParser extends AbstractParser {
                 }
                 tokenPos += localToken.getText().length();
             }
+
+            System.out.print("url tokens: ");
+            for(LayoutToken token : urlTokens) {
+                System.out.print(token.getText());
+            }
+            System.out.println("");
 
             urlComponent.setTokens(urlTokens);
 
