@@ -28,6 +28,8 @@ import org.grobid.core.features.FeatureFactory;
 import org.grobid.core.layout.BoundingBox;
 import org.grobid.core.layout.LayoutToken;
 import org.grobid.core.layout.LayoutTokenization;
+import org.grobid.core.layout.PDFAnnotation;
+import org.grobid.core.layout.PDFAnnotation.Type;
 import org.grobid.core.lexicon.DataseerLexicon;
 import org.grobid.core.lexicon.Lexicon;
 import org.grobid.core.tokenization.TaggingTokenCluster;
@@ -111,6 +113,20 @@ public class DatasetParser extends AbstractParser {
      * @return list of identified Dataset objects. 
      */
     public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList) {
+        return processing(tokensList, null);
+    }
+
+    /**
+     * Sequence labelling of a list of layout tokens for identifying dataset names.
+     * Input corresponds to a list of sentences, each sentence being itself a list of Layout tokens.
+     *  
+     * @param tokensList     the list of LayoutTokens sequences to be labeled
+     * @param pdfAnnotations the list of PDF annotation objects (URI, GOTO, GOTOR) to better control 
+     *                       the recognition
+     * 
+     * @return list of identified Dataset objects. 
+     */
+    public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList, List<PDFAnnotation> pdfAnnotations) {
 
         List<List<Dataset>> results = new ArrayList<>();
         if (tokensList == null || tokensList.size() == 0) {
@@ -175,7 +191,11 @@ public class DatasetParser extends AbstractParser {
             } else {
                 String text = LayoutTokensUtil.toText(tokens);
                 List<DatasetComponent> localDatasetcomponents = new ArrayList<>();
-                localDatasetcomponents = addUrlComponents(tokens, localDatasetcomponents, text);
+                localDatasetcomponents = addUrlComponents(tokens, localDatasetcomponents, text, pdfAnnotations);
+/*System.out.println("\n" + text);
+for(DatasetComponent localDatasetcomponent : localDatasetcomponents) {
+System.out.println(localDatasetcomponent.toJson());
+}*/
                 List<DatasetComponent> bufferLocalDatasetcomponents = resultExtractionLayoutTokens(resBlocks[i], tokens, text);
                 List<OffsetPosition> localDatasetcomponentOffsets = new ArrayList<>();
                 for(DatasetComponent localDatasetcomponent : localDatasetcomponents) {
@@ -188,6 +208,10 @@ public class DatasetParser extends AbstractParser {
                 }
 
                 Collections.sort(localDatasetcomponents);
+/*System.out.println("\n" + text);
+for(DatasetComponent localDatasetcomponent : localDatasetcomponents) {
+System.out.println(localDatasetcomponent.toJson());
+}*/
                 List<Dataset> localDatasets = groupByEntities(localDatasetcomponents, tokens, text);
                 results.add(localDatasets);
             }
@@ -307,9 +331,12 @@ public class DatasetParser extends AbstractParser {
         return localDatasets;
     }
 
-    private List<DatasetComponent> addUrlComponents(List<LayoutToken> sentenceTokens, List<DatasetComponent> existingComponents, String text) {
+    private List<DatasetComponent> addUrlComponents(List<LayoutToken> sentenceTokens, 
+                                                    List<DatasetComponent> existingComponents, 
+                                                    String text, 
+                                                    List<PDFAnnotation> pdfAnnotations) {
         // positions for lexical match
-        List<OffsetPosition> urlPositions = Lexicon.getInstance().characterPositionsUrlPattern(sentenceTokens);
+        List<OffsetPosition> urlPositions = DatasetParser.characterPositionsUrlPattern(sentenceTokens, pdfAnnotations, text);
         List<OffsetPosition> existingPositions = new ArrayList<>();
         for(DatasetComponent existingComponent : existingComponents) {
             existingPositions.add(existingComponent.getOffsets());
@@ -321,34 +348,61 @@ public class DatasetParser extends AbstractParser {
                 continue;
             }
 
-            int pos = urlPosition.start;
+            int startPos = urlPosition.start;
             int endPos = urlPosition.end;
 
-            DatasetComponent urlComponent = new DatasetComponent(text.substring(pos, endPos));
-            urlComponent.setOffsetStart(pos);
-            urlComponent.setOffsetEnd(endPos);
-
-            urlComponent.setLabel(DatasetTaggingLabels.DATASET_URL);
-            urlComponent.setType(DatasetType.URL);
+            int startTokenIndex = -1;
+            int endTokensIndex = -1;
 
             // token sublist 
             List<LayoutToken> urlTokens = new ArrayList<>();
             int tokenPos = 0;
+            int tokenIndex = 0;
             for(LayoutToken localToken : sentenceTokens) {
-                if (pos <= tokenPos && (tokenPos+localToken.getText().length() <= endPos) ) {
+                if (startPos <= tokenPos && (tokenPos+localToken.getText().length() <= endPos) ) {
                     urlTokens.add(localToken);
+                    if (startTokenIndex == -1)
+                        startTokenIndex = tokenIndex;
+                    if (tokenIndex > endTokensIndex)
+                        endTokensIndex = tokenIndex;
                 }
                 if (tokenPos > endPos) {
                     break;
                 }
                 tokenPos += localToken.getText().length();
+                tokenIndex++;
             }
 
-            System.out.print("url tokens: ");
+            // to refine the url position/recognition, check overlapping PDF annotation
+            PDFAnnotation targetAnnotation = null;
+            if (pdfAnnotations != null && urlTokens.size()>0) {
+                LayoutToken lastToken = urlTokens.get(urlTokens.size()-1);
+                for (PDFAnnotation pdfAnnotation : pdfAnnotations) {
+                    if (pdfAnnotation.getType() != null && pdfAnnotation.getType() == PDFAnnotation.Type.URI) {
+                        if (pdfAnnotation.cover(lastToken)) {
+//System.out.println("found overlapping PDF annotation for URL: " + pdfAnnotation.getDestination() + " in sentence: " + text);
+                            targetAnnotation = pdfAnnotation;
+                        }
+                    }
+                }
+            }
+
+            DatasetComponent urlComponent = new DatasetComponent(text.substring(startPos, endPos));
+            urlComponent.setOffsetStart(startPos);
+            urlComponent.setOffsetEnd(endPos);
+            if (targetAnnotation != null) {
+                urlComponent.setDestination(targetAnnotation.getDestination());
+                urlComponent.setNormalizedForm(targetAnnotation.getDestination());
+            }
+
+            urlComponent.setLabel(DatasetTaggingLabels.DATASET_URL);
+            urlComponent.setType(DatasetType.URL);
+
+            /*System.out.print("\nurl tokens: ");
             for(LayoutToken token : urlTokens) {
                 System.out.print(token.getText());
             }
-            System.out.println("");
+            System.out.println("");*/
 
             urlComponent.setTokens(urlTokens);
 
@@ -412,6 +466,9 @@ public class DatasetParser extends AbstractParser {
                 processingReferenceSection(doc, parsers.getReferenceSegmenterParser(), config.getConsolidateCitations());
 
             doc.setBibDataSets(resCitations);
+
+            // annotations for gathering urls
+            List<PDFAnnotation> pdfAnnotations = doc.getPDFAnnotations();
 
             // here we process the relevant textual content of the document
 
@@ -540,35 +597,93 @@ public class DatasetParser extends AbstractParser {
             // we can process annexes, except those referring to author information
             documentParts = doc.getDocumentPart(SegmentationLabels.ANNEX);
             if (documentParts != null) {
-                //processDocumentPart(documentParts, doc, entities);
+                // similar full text processing
+                Pair<String, LayoutTokenization> featSeg = parsers.getFullTextParser().getBodyTextFeatured(doc, documentParts);
+                if (featSeg != null) {
+                    // if featSeg is null, it usually means that no body segment is found in the
+                    // document segmentation
+                    String bodytext = featSeg.getLeft();
 
-                List<LayoutToken> annexTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
-                if (annexTokens != null) {
-//System.out.println("---------------------------------");
-//System.out.println(LayoutTokensUtil.toText(annexTokens));
-                    if (this.checkDASAnnex(annexTokens)) {
-                        selectedLayoutTokenSequences.add(annexTokens);
+                    LayoutTokenization tokenizationBody = featSeg.getRight();
+                    String rese = null;
+                    if ( (bodytext != null) && (bodytext.trim().length() > 0) ) {               
+                        rese = parsers.getFullTextParser().label(bodytext);
+                    } else {
+                        LOGGER.debug("Fulltext model applied to Annex: The input to the sequence labelling processing is empty");
+                    }
+
+                    TaggingTokenClusteror clusteror = new TaggingTokenClusteror(GrobidModels.FULLTEXT, rese, 
+                        tokenizationBody.getTokenization(), true);
+                    List<TaggingTokenCluster> bodyAnnexClusters = clusteror.cluster();
+                    List<LayoutToken> curParagraphTokens = null;
+                    TaggingLabel lastClusterLabel = null;
+                    String currentSection = null;
+                    String previousSection = null;
+                    for (TaggingTokenCluster cluster : bodyAnnexClusters) {
+                        if (cluster == null) {
+                            continue;
+                        }
+
+                        TaggingLabel clusterLabel = cluster.getTaggingLabel();
+                        String clusterText = LayoutTokensUtil.toText(cluster.concatTokens());
+
+                        List<LayoutToken> localTokenization = cluster.concatTokens();
+                        if ((localTokenization == null) || (localTokenization.size() == 0))
+                            continue;
+                        
+                        if (TEIFormatter.MARKER_LABELS.contains(clusterLabel)) {
+                            if (previousSection == null || previousSection.equals("das")) {
+                                if (curParagraphTokens == null)
+                                    curParagraphTokens = new ArrayList<>();
+                                curParagraphTokens.addAll(localTokenization);
+                            }
+                        } else if (clusterLabel.equals(TaggingLabels.PARAGRAPH) || clusterLabel.equals(TaggingLabels.ITEM)) {
+                            if (lastClusterLabel == null || curParagraphTokens == null  || isNewParagraph(lastClusterLabel)) { 
+                                if (curParagraphTokens != null && previousSection == null) {
+                                    selectedLayoutTokenSequences.add(curParagraphTokens);
+                                    relevantSectionsNamedDatasets.add(true);
+                                    relevantSectionsImplicitDatasets.add(false);
+                                } else if (curParagraphTokens != null && previousSection.equals("das")) {
+                                    selectedLayoutTokenSequences.add(curParagraphTokens);
+                                    relevantSectionsNamedDatasets.add(true);
+                                    relevantSectionsImplicitDatasets.add(true);
+                                } 
+                                curParagraphTokens = new ArrayList<>();
+                            }
+                            if (curParagraphTokens == null)
+                                curParagraphTokens = new ArrayList<>();
+                            curParagraphTokens.addAll(localTokenization);
+                        } else if (clusterLabel.equals(TaggingLabels.SECTION)) {
+                            // section are important to catch possible data availability statement section or author 
+                            // contribution section
+                            previousSection = currentSection;
+                            if (this.checkDASAnnex(localTokenization)) {
+                                currentSection = "das";
+                            } else if (this.checkAuthorAnnex(localTokenization)) {
+                                currentSection = "author";
+                            } else {
+                                currentSection = null;
+                            }
+                        }
+
+                        lastClusterLabel = clusterLabel;
+                    }
+                    // last paragraph
+                    if (curParagraphTokens != null && currentSection == null) {
+                        selectedLayoutTokenSequences.add(curParagraphTokens);
+                        relevantSectionsNamedDatasets.add(true);
+                        relevantSectionsImplicitDatasets.add(false);
+                    } else if (curParagraphTokens != null && currentSection.equals("das")) {
+                        selectedLayoutTokenSequences.add(curParagraphTokens);
                         relevantSectionsNamedDatasets.add(true);
                         relevantSectionsImplicitDatasets.add(true);
-                    }
-                    else if (!this.checkAuthorAnnex(annexTokens)) {
-                        selectedLayoutTokenSequences.add(annexTokens);
-                        relevantSectionsNamedDatasets.add(true);
-                        relevantSectionsImplicitDatasets.add(false);
-                    }
-                    else {
-                        //selectedLayoutTokenSequences.add(annexTokens);
-                        relevantSectionsNamedDatasets.add(false);
-                        relevantSectionsImplicitDatasets.add(false);
-                    }
+                    } 
                 }
             }
 
             // footnotes are also relevant
             documentParts = doc.getDocumentPart(SegmentationLabels.FOOTNOTE);
             if (documentParts != null) {
-                //processDocumentPart(documentParts, doc, components);
-
                 List<LayoutToken> footnoteTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
                 if (footnoteTokens != null) {
                     selectedLayoutTokenSequences.add(footnoteTokens);
@@ -603,7 +718,7 @@ public class DatasetParser extends AbstractParser {
                 
                 // segment into sentences
                 String localText = LayoutTokensUtil.toText(layoutTokens);
-                List<OffsetPosition> urlPositions = Lexicon.getInstance().characterPositionsUrlPattern(layoutTokens);
+                List<OffsetPosition> urlPositions = DatasetParser.characterPositionsUrlPattern(layoutTokens, pdfAnnotations, localText);
                 List<OffsetPosition> sentencePositions = 
                     SentenceUtilities.getInstance().runSentenceDetection(localText, urlPositions, layoutTokens, null);
                 if (sentencePositions == null) {
@@ -639,7 +754,7 @@ public class DatasetParser extends AbstractParser {
             System.out.println("sentenceOffsetStarts size: " + sentenceOffsetStarts.size());
 
             // pre-process labeling of every sentences in batch
-            processLayoutTokenSequences(allLayoutTokens, entities, sentenceOffsetStarts, disambiguate);
+            processLayoutTokenSequences(allLayoutTokens, entities, sentenceOffsetStarts, pdfAnnotations, disambiguate);
 
             System.out.println("entities size: " + entities.size());
             System.out.println("mapSentencesToZones size: " + mapSentencesToZones.size());
@@ -648,6 +763,8 @@ public class DatasetParser extends AbstractParser {
             // pre-process classification of every sentences in batch
             if (this.dataseerClassifier == null)
                 dataseerClassifier = DataseerClassifier.getInstance();
+
+            int totalClassificationNodes = 0;
 
             List<Double> bestScores = new ArrayList<>();
             List<String> bestTypes = new ArrayList<>();
@@ -664,26 +781,32 @@ public class DatasetParser extends AbstractParser {
                     JsonNode classificationsNode = root.findPath("classifications");
                     if ((classificationsNode != null) && (!classificationsNode.isMissingNode())) {
                         Iterator<JsonNode> ite = classificationsNode.elements();
+                        
                         while(ite.hasNext()) {
                             JsonNode classificationNode = ite.next();
-
-                            double bestScore = 0.0;
-                            String bestType = null;
                             Iterator<String> iterator = classificationNode.fieldNames();
                             Map<String, Double> scoresPerDatatypes = new TreeMap<>();
                             while(iterator.hasNext()) {
                                 String field = iterator.next();
-
                                 if (field.equals("has_dataset")) {
                                     JsonNode hasDatasetNode = classificationNode.findPath("has_dataset"); 
                                     if ((hasDatasetNode != null) && (!hasDatasetNode.isMissingNode())) {
                                         hasDatasetScores.add(hasDatasetNode.doubleValue());
                                     }
-                                } else {
+                                } else if (field.equals("text")) {
+                                    String localSentence = classificationNode.get("text").textValue();
+                                    // the following should never happen 
+                                    if (!localSentence.equals(allSentences.get(totalClassificationNodes))) {
+                                        System.out.println("sentence, got: " + localSentence);
+                                        System.out.println("\texpecting: " + allSentences.get(totalClassificationNodes));
+                                    }
+                                } else if (!field.equals("no_dataset")) {
                                     scoresPerDatatypes.put(field, classificationNode.get(field).doubleValue());
-                                }
+                                } 
                             }
                             
+                            double bestScore = 0.0;
+                            String bestType = null;
                             for (Map.Entry<String, Double> entry : scoresPerDatatypes.entrySet()) {
                                 if (entry.getValue() > bestScore) {
                                     bestScore = entry.getValue();
@@ -693,6 +816,8 @@ public class DatasetParser extends AbstractParser {
 
                             bestTypes.add(bestType);
                             bestScores.add(bestScore);
+
+                            totalClassificationNodes++;                            
                         }
                     }
                 } catch(JsonProcessingException e) {
@@ -705,6 +830,8 @@ public class DatasetParser extends AbstractParser {
                 e.printStackTrace();
             }
 
+            System.out.println("total data sentence classifications: " + totalClassificationNodes);
+
             System.out.println("bestTypes size: " + bestTypes.size());
             System.out.println("bestScores size: " + bestScores.size());
             System.out.println("hasDatasetScores size: " + hasDatasetScores.size());
@@ -712,11 +839,13 @@ public class DatasetParser extends AbstractParser {
             int i = 0;
             for(List<Dataset> localDatasets : entities) {
                 if (localDatasets == null || localDatasets.size() == 0) {
+                    i++;
                     continue;
                 }
                 for(Dataset localDataset : localDatasets) {
-                    if (localDataset == null)
+                    if (localDataset == null) {
                         continue;
+                    }
 
                     if (localDataset.getType() == DatasetType.DATASET && (bestTypes.get(i) != null) && localDataset.getDataset() != null) {
                         localDataset.getDataset().setBestDataType(bestTypes.get(i));
@@ -726,6 +855,18 @@ public class DatasetParser extends AbstractParser {
                 }
                 i++;
             }
+
+/*System.out.println("--------- Sentences: ");
+int ind =- 0;
+for(String sentence : allSentences) {
+    System.out.println(sentence);
+    List<Dataset> localEntities = entities.get(ind);
+    for(Dataset entity : localEntities) {
+        System.out.println(entity.toJson());
+    }
+    System.out.println("\n\n");
+    ind++;
+}*/
 
             // we prepare a matcher for all the identified dataset mention forms 
             FastMatcher termPattern = prepareTermPattern(entities);
@@ -953,8 +1094,9 @@ public class DatasetParser extends AbstractParser {
     private List<List<Dataset>> processLayoutTokenSequences(List<List<LayoutToken>> layoutTokenList, 
                                                   List<List<Dataset>> entities, 
                                                   List<Integer> sentenceOffsetStarts,
+                                                  List<PDFAnnotation> pdfAnnotations,
                                                   boolean disambiguate) {
-        List<List<Dataset>> results = processing(layoutTokenList);
+        List<List<Dataset>> results = processing(layoutTokenList, pdfAnnotations);
         entities.addAll(results);
 
         int i = 0;
@@ -1297,6 +1439,101 @@ System.out.println("add term: " + term);
                 return true;
         } 
         return false;
+    }
+
+    public static List<OffsetPosition> characterPositionsUrlPattern(List<LayoutToken> layoutTokens, List<PDFAnnotation> pdfAnnotations, String text) {
+        List<OffsetPosition> urlPositions = Lexicon.getInstance().characterPositionsUrlPattern(layoutTokens);
+        List<OffsetPosition> resultPositions = new ArrayList<>();
+
+        // do we need to extend the url position based on additional position of the corresponding 
+        // PDF annotation?
+        for(OffsetPosition urlPosition : urlPositions) {
+
+            int startPos = urlPosition.start;
+            int endPos = urlPosition.end;
+
+            int startTokenIndex = -1;
+            int endTokensIndex = -1;
+
+            // token sublist 
+            List<LayoutToken> urlTokens = new ArrayList<>();
+            int tokenPos = 0;
+            int tokenIndex = 0;
+            for(LayoutToken localToken : layoutTokens) {
+                if (startPos <= tokenPos && (tokenPos+localToken.getText().length() <= endPos) ) {
+                    urlTokens.add(localToken);
+                    if (startTokenIndex == -1)
+                        startTokenIndex = tokenIndex;
+                    if (tokenIndex > endTokensIndex)
+                        endTokensIndex = tokenIndex;
+                }
+                if (tokenPos > endPos) {
+                    break;
+                }
+                tokenPos += localToken.getText().length();
+                tokenIndex++;
+            }
+
+            //String urlString = LayoutTokensUtil.toText(urlTokens);
+            String urlString = text.substring(startPos, endPos);
+
+            PDFAnnotation targetAnnotation = null;
+            if (urlTokens.size()>0) {
+                LayoutToken lastToken = urlTokens.get(urlTokens.size()-1);
+                if (pdfAnnotations != null) {
+                    for (PDFAnnotation pdfAnnotation : pdfAnnotations) {
+                        if (pdfAnnotation.getType() != null && pdfAnnotation.getType() == PDFAnnotation.Type.URI) {
+                            if (pdfAnnotation.cover(lastToken)) {
+    //System.out.println("found overlapping PDF annotation for URL: " + pdfAnnotation.getDestination());
+                                targetAnnotation = pdfAnnotation;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (targetAnnotation != null) {
+                String destination = targetAnnotation.getDestination();
+
+                int destinationPos = 0;
+                if (destination.indexOf(urlString) != -1) {
+                    destinationPos = destination.indexOf(urlString)+urlString.length();
+                }
+
+                if (endTokensIndex < layoutTokens.size()-1) {
+                    for(int j=endTokensIndex+1; j<layoutTokens.size(); j++) {
+                        LayoutToken nextToken = layoutTokens.get(j);
+
+                        if ("\n".equals(nextToken.getText()) || 
+                            " ".equals(nextToken.getText()) ||
+                            nextToken.getText().length() == 0) {
+                            endPos += nextToken.getText().length();
+                            urlTokens.add(nextToken);
+                            continue;
+                        }
+
+                        int pos = destination.indexOf(nextToken.getText(), destinationPos);
+                        if (pos != -1) {
+                            endPos += nextToken.getText().length();
+                            destinationPos = pos + nextToken.getText().length();
+                            urlTokens.add(nextToken);
+                        } else 
+                            break;
+                    }
+                }
+            }
+
+            // finally avoid ending a URL by a dot, because it can harm the sentence segmentation
+            if (text.charAt(endPos-1) == '.') 
+                endPos = endPos-1;
+
+            OffsetPosition position = new OffsetPosition();
+            position.start = startPos;
+            position.end = endPos;
+            resultPositions.add(position);
+        }
+        return resultPositions;
     }
 
 }

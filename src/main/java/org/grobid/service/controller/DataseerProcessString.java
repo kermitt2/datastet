@@ -95,7 +95,7 @@ public class DataseerProcessString {
         try {
             LOGGER.debug(">> set raw sentence text for stateless service'...");
             
-            text = text.replaceAll("\\n", " ").replaceAll("\\t", " ").replace("  ", " ");
+            text = text.replaceAll("\\n", " ").replaceAll("\\t", " ");
             long start = System.currentTimeMillis();
             List<Dataset> result = parser.processingString(text);
 

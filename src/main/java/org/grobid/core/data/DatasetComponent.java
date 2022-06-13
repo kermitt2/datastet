@@ -53,6 +53,9 @@ public class DatasetComponent extends KnowledgeEntity implements Comparable<Data
     // type of dataset object
     protected DatasetType type = null;
 
+    // in case we have a URL/URI value, this is the string target location
+    protected String destination = null;
+
     // predicted data type related to the component
     protected double bestDataTypeScore = 0.0;
     protected String bestDataType = null;
@@ -212,6 +215,14 @@ public class DatasetComponent extends KnowledgeEntity implements Comparable<Data
 
     public void setHasDatasetScore(double score) {
         this.hasDatasetScore = score;
+    }
+
+    public String getDestination() {
+        return this.destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination= destination;
     }
 
     protected String bestType = null;
