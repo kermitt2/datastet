@@ -480,6 +480,9 @@ System.out.println(localDatasetcomponent.toJson());
             List<Boolean> relevantSectionsNamedDatasets = new ArrayList<>();
             List<Boolean> relevantSectionsImplicitDatasets = new ArrayList<>();
 
+            // the following array stores the index of the sections identified as Data availability statement
+            List<Integer> sectionsDAS = new ArrayList<>();
+
             // from the header, we are interested in title, abstract and keywords
             SortedSet<DocumentPiece> documentParts = doc.getDocumentPart(SegmentationLabels.HEADER);
             BiblioItem resHeader = null;
@@ -1131,9 +1134,18 @@ for(String sentence : allSentences) {
     }
 
     public static boolean checkDASAnnex(List<LayoutToken> annexTokens) {
+        boolean dataFound = false;
+        boolean availabilityFound = false;
         for(int i=0; i<annexTokens.size() && i<10; i++) {
             String localText = annexTokens.get(i).getText();
-            if (localText != null && localText.toLowerCase().startsWith("data"))
+            if (localText != null) {
+                localText = localText.toLowerCase();
+                if (localText.startsWith("data")) 
+                    dataFound = true;
+                if (localText.contains("availab") || localText.contains("sharing"))
+                    availabilityFound = true;
+            }
+            if (dataFound && availabilityFound)
                 return true;
         }
         return false;
@@ -1165,23 +1177,6 @@ for(String sentence : allSentences) {
                 
                 // find end boundary
                 int endPos = pos;
-                /*List<SoftwareComponent> theComps = new ArrayList<>();
-                DatasetComponent comp = entity.getVersion();
-                if (comp != null) 
-                    theComps.add(comp);
-                comp = entity.getCreator();
-                if (comp != null) 
-                    theComps.add(comp);
-                comp = entity.getSoftwareURL();
-                if (comp != null) 
-                    theComps.add(comp);
-
-                for(DatasetComponent theComp : theComps) {
-                    int localPos = theComp.getOffsetEnd() + shiftOffset;
-                    if (localPos > endPos)
-                        endPos = localPos;
-                }*/
-
                 //System.out.println(nameComponent.getRawForm() + ": " + endPos);
 
                 // find included or just next bib ref callout

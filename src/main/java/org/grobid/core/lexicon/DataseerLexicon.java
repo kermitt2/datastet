@@ -40,6 +40,9 @@ public class DataseerLexicon {
 
     private List<String> englishStopwords = null;
 
+    private Set<String> doiPrefixes = null;
+    private Set<String> urlDomains = null;
+
     private static volatile DataseerLexicon instance;
 
     // to use the url pattern in grobid-core after merging branch update_header
@@ -109,6 +112,58 @@ public class DataseerLexicon {
                     dis.close();
             } catch(Exception e) {
                 throw new GrobidResourceException("Cannot close IO stream.", e);
+            }
+        }
+
+        // read the datacite DOI prefixes
+        dis = null;
+        try {
+            doiPrefixes = new HashSet<>();
+
+            dis = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            String l = null;
+            while ((l = dis.readLine()) != null) {
+                l = l.trim();
+                if (l.length() == 0) 
+                    continue;
+                doiPrefixes.add(l);
+            }
+        } catch (FileNotFoundException e) {
+            throw new GrobidException("DatasetLexicon DOI prefix file not found.", e);
+        } catch (IOException e) {
+            throw new GrobidException("Cannot read DatasetLexicon DOI prefix file.", e);
+        } finally {
+            try {
+                if (dis != null)
+                    dis.close();
+            } catch(Exception e) {
+                throw new GrobidResourceException("DatasetLexicon DOI prefix file: cannot close IO stream.", e);
+            }
+        }
+
+        // read the data source url domains 
+        dis = null;
+        try {
+            urlDomains = new HashSet<>();
+
+            dis = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            String l = null;
+            while ((l = dis.readLine()) != null) {
+                l = l.trim();
+                if (l.length() == 0) 
+                    continue;
+                urlDomains.add(l);
+            }
+        } catch (FileNotFoundException e) {
+            throw new GrobidException("DatasetLexicon url domain file not found.", e);
+        } catch (IOException e) {
+            throw new GrobidException("Cannot read DatasetLexicon url domain file.", e);
+        } finally {
+            try {
+                if (dis != null)
+                    dis.close();
+            } catch(Exception e) {
+                throw new GrobidResourceException("DatasetLexicon url domain file: cannot close IO stream.", e);
             }
         }
 
@@ -207,5 +262,71 @@ public class DataseerLexicon {
         if (value.length() == 1) 
             value = value.toLowerCase();
         return this.englishStopwords.contains(value);
+    }
+
+    /**
+     * Return a boolean value indicating if an URL or DOI is data DOI (referenced by datacite)
+     * or a known dataset URL.
+     * 
+     * To determine this, we use a list of DOI prefix collected from a datacite dump and a list
+     * of known domains of data repository.
+     */
+    public boolean isDatasetURLorDOI(String url) {
+        if (url == null || url.length() == 0)
+            return false;
+        return (isDatasetURL(url) || isDatasetDOI(url));
+    }
+
+    /**
+     * Return a boolean value indicating if an URL data source as a known dataset URL.
+     * 
+     * To determine this, we use a list of known domains of data repository.
+     */
+    public boolean isDatasetURL(String url) {
+        if (url == null || url.length() == 0)
+            return false;
+
+        // strip protocol prefix
+        if (url.startsWith("https://"))
+            url = url.substring(8);
+        if (url.startsWith("http://"))
+            url = url.substring(7);
+        if (url.startsWith("www."))
+            url = url.substring(4);
+
+        // strip url path
+        int ind = url.indexOf("/");
+        if (ind != -1) 
+            url = url.substring(0, ind);
+
+        if (urlDomains != null && urlDomains.contains(url))
+            return true;
+        return false;
+    }
+
+
+    /**
+     * Return a boolean value indicating if a DOI is data DOI (referenced by datacite).
+     * 
+     * To determine this, we use a list of DOI prefix collected from a datacite dump.
+     */
+    public boolean isDatasetDOI(String doi) {
+        if (doi == null || doi.length() == 0)
+            return false;
+
+        // strip protocol prefix
+        if (doi.startsWith("https://"))
+            doi = doi.substring(8);
+        if (doi.startsWith("http://"))
+            doi = doi.substring(7);
+
+        // strip url path
+        int ind = doi.indexOf("/");
+        if (ind != -1) 
+            doi = doi.substring(0, ind);
+
+        if (doiPrefixes != null && doiPrefixes.contains(doi))
+            return true;
+        return false;
     }
 }
