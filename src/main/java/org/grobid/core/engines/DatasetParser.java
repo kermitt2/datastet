@@ -321,7 +321,7 @@ System.out.println(localDatasetcomponent.toJson());
                 if (localDataset != null)
                     localDataset.setUrl(localComponent);
             }                
-        } 
+        }
 
         if (localDataset != null) {
             localDataset.setContext(text);
@@ -925,9 +925,14 @@ for(String sentence : allSentences) {
                 System.out.println("relevantSectionsImplicitDatasets: " + relevantSectionsImplicitDatasets.get(currentZone));*/
 
                 for (Dataset localDataset : localDatasets) {
+                    boolean referenceDataSource = false;
+                    if (localDataset.getUrl() != null && 
+                        DataseerLexicon.getInstance().isDatasetURLorDOI(localDataset.getUrl().getNormalizedForm())) {
+                        referenceDataSource = true;
+                    }
 
                     if (localDataset.getType() == DatasetType.DATASET &&
-                        !relevantSectionsImplicitDatasets.get(currentZone)) {
+                        !relevantSectionsImplicitDatasets.get(currentZone) && !referenceDataSource) {
                         continue;
                     } 
 
@@ -938,7 +943,7 @@ for(String sentence : allSentences) {
 
                     if (localDataset.getType() == DatasetType.DATASET &&
                         localDataset.getDataset() != null && 
-                        localDataset.getDataset().getHasDatasetScore() < 0.5) {
+                        localDataset.getDataset().getHasDatasetScore() < 0.5 && !referenceDataSource) {
                         continue;
                     } 
                         

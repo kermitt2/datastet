@@ -320,13 +320,10 @@ public class DataseerLexicon {
         if (ind != -1) 
             url = url.substring(0, ind);
 
-System.out.println(" -----------------> check URL string with: " + url);
-
         if (urlDomains != null && urlDomains.contains(url))
             return true;
         return false;
     }
-
 
     /**
      * Return a boolean value indicating if a DOI is data DOI (referenced by datacite).
@@ -345,8 +342,6 @@ System.out.println(" -----------------> check URL string with: " + url);
         int ind = doi.indexOf("/");
         if (ind != -1) 
             doi = doi.substring(0, ind);
-
-System.out.println(" -----------------> check DOI string with: " + doi);
 
         if (doiPrefixes != null && doiPrefixes.contains(doi))
             return true;
