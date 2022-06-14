@@ -1,7 +1,8 @@
-https://identifiers.org
-https://www.ncbi.nlm.nih.gov
-https://bigd.big.ac.cn
-https://twc-stanford.shinyapps.io
-https://github.com
-https://osf.io
-https://themusiclab.org
+identifiers.org
+ncbi.nlm.nih.gov
+bigd.big.ac.cn
+twc-stanford.shinyapps.io
+github.com
+osf.io
+themusiclab.org
+kaggle.com

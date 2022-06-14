@@ -116,6 +116,17 @@ public class DataseerLexicon {
         }
 
         // read the datacite DOI prefixes
+        file = new File("resources/lexicon/doiPrefixes.txt");
+        file = new File(file.getAbsolutePath());
+        if (!file.exists()) {
+            throw new GrobidResourceException("Cannot initialize DatasetLexicon DOI prefix file, because file '" + 
+                file.getAbsolutePath() + "' does not exists.");
+        }
+        if (!file.canRead()) {
+            throw new GrobidResourceException("Cannot initialize DatasetLexicon DOI prefix file, because cannot read file '" + 
+                file.getAbsolutePath() + "'.");
+        }
+
         dis = null;
         try {
             doiPrefixes = new HashSet<>();
@@ -142,6 +153,16 @@ public class DataseerLexicon {
         }
 
         // read the data source url domains 
+        file = new File("resources/lexicon/domains.txt");
+        file = new File(file.getAbsolutePath());
+        if (!file.exists()) {
+            throw new GrobidResourceException("Cannot initialize DatasetLexicon url domain file, because file '" + 
+                file.getAbsolutePath() + "' does not exists.");
+        }
+        if (!file.canRead()) {
+            throw new GrobidResourceException("Cannot initialize DatasetLexicon url domain file, because cannot read file '" + 
+                file.getAbsolutePath() + "'.");
+        }
         dis = null;
         try {
             urlDomains = new HashSet<>();
@@ -299,6 +320,8 @@ public class DataseerLexicon {
         if (ind != -1) 
             url = url.substring(0, ind);
 
+System.out.println(" -----------------> check URL string with: " + url);
+
         if (urlDomains != null && urlDomains.contains(url))
             return true;
         return false;
@@ -315,15 +338,15 @@ public class DataseerLexicon {
             return false;
 
         // strip protocol prefix
-        if (doi.startsWith("https://"))
-            doi = doi.substring(8);
-        if (doi.startsWith("http://"))
-            doi = doi.substring(7);
+        doi = doi.replace("https://doi.org/", "");
+        doi = doi.replace("http://doi.org/", "");
 
         // strip url path
         int ind = doi.indexOf("/");
         if (ind != -1) 
             doi = doi.substring(0, ind);
+
+System.out.println(" -----------------> check DOI string with: " + doi);
 
         if (doiPrefixes != null && doiPrefixes.contains(doi))
             return true;
