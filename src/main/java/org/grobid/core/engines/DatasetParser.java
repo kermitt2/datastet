@@ -891,7 +891,13 @@ for(String sentence : allSentences) {
                                                                         placeTaken.get(index), 
                                                                         frequencies,
                                                                         sentenceOffsetStarts.get(index));
-                Collections.sort(localEntities);
+                if (localEntities != null) {
+                    Collections.sort(localEntities);
+                
+                    // revisit and attach URL component
+                    localEntities = attachUrlComponents(localEntities, sentenceTokens, allSentences.get(index), pdfAnnotations);
+                }
+
                 newEntities.add(localEntities);
                 index++;
             }
@@ -1408,6 +1414,7 @@ System.out.println("add term: " + term);
                 name.setOffsetStart(matchedPosition.start);
                 name.setOffsetEnd(matchedPosition.end);
                 name.setLabel(DatasetTaggingLabels.DATASET_NAME);
+                name.setType(DatasetType.DATASET_NAME);
                 name.setTokens(matchedTokens);
 
                 List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(matchedTokens);
@@ -1534,6 +1541,88 @@ System.out.println("add term: " + term);
             resultPositions.add(position);
         }
         return resultPositions;
+    }
+
+    public List<Dataset> attachUrlComponents(List<Dataset> datasets, 
+                                             List<LayoutToken> tokens, 
+                                             String sentenceString, 
+                                             List<PDFAnnotation> pdfAnnotations) {
+        // revisit url including propagated dataset names
+        if (datasets == null || datasets.size() == 0) {
+            return datasets;
+        }
+
+        for(Dataset dataset : datasets) {
+            if (dataset == null)
+                continue;
+
+            // reinit all URL
+            if (dataset.getUrl() != null) {
+                dataset.setUrl(null);
+            }
+        }
+
+        List<DatasetComponent> localDatasetcomponents = new ArrayList<>();
+        for(Dataset dataset : datasets) {
+            if (dataset.getDataset() != null)
+                localDatasetcomponents.add(dataset.getDataset());
+            if (dataset.getDatasetName() != null)
+                localDatasetcomponents.add(dataset.getDatasetName());
+            if (dataset.getDataDevice() != null)
+                localDatasetcomponents.add(dataset.getDataDevice());
+            if (dataset.getPublisher() != null) 
+                localDatasetcomponents.add(dataset.getPublisher());
+            if (dataset.getBibRefs() != null) {
+                for(BiblioComponent biblio : dataset.getBibRefs()) {
+                    localDatasetcomponents.add(biblio);
+                }
+            }
+        }
+
+        Collections.sort(localDatasetcomponents);
+
+        int sizeBefore = localDatasetcomponents.size();
+        localDatasetcomponents = addUrlComponents(tokens, localDatasetcomponents, sentenceString, pdfAnnotations);
+
+        // attach URL to the closest dataset
+        while (localDatasetcomponents.size() - sizeBefore > 0) {
+            DatasetComponent previousComponent = null;
+            DatasetComponent urlComponent = null;
+            for(DatasetComponent localDatasetcomponent : localDatasetcomponents) { 
+                if (localDatasetcomponent.getType() == DatasetType.URL && previousComponent != null) {
+                    urlComponent = localDatasetcomponent;
+                    break;
+                } 
+
+                if (localDatasetcomponent.getType() == DatasetType.DATASET_NAME ||  localDatasetcomponent.getType() == DatasetType.DATASET)
+                    previousComponent = localDatasetcomponent;
+            }
+
+            if (previousComponent != null && urlComponent != null) {;
+                // URL attachment
+                for(Dataset dataset : datasets) {
+                    if (dataset.getDataset() != null && previousComponent.getType() == DatasetType.DATASET) {
+                        if (dataset.getDataset().getOffsetStart() == previousComponent.getOffsetStart() && 
+                            dataset.getDataset().getOffsetEnd() == previousComponent.getOffsetEnd()) {
+                            dataset.setUrl(urlComponent);
+                            break;
+                        }
+                    } else if (dataset.getDatasetName() != null && previousComponent.getType() == DatasetType.DATASET_NAME) {
+                        if (dataset.getDatasetName().getOffsetStart() == previousComponent.getOffsetStart() && 
+                            dataset.getDatasetName().getOffsetEnd() == previousComponent.getOffsetEnd()) {
+                            dataset.setUrl(urlComponent);
+                            break;
+                        }
+                    }
+                }
+
+                // remove attached URL from components
+                localDatasetcomponents.remove(urlComponent);
+            } else {
+                break;
+            }
+        }
+        return datasets;
     }
 
 }
