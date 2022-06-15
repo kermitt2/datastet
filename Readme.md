@@ -20,6 +20,11 @@ The back-end service remain compatible with [dataseer-ml](https://github.com/dat
 
 Note: `.docx` format is also supported in a GROBID specific branch, but not yet merged. 
 
+![GROBID Dataset mentions Demo](doc/images/screen02.jpeg)
+
+![GROBID Dataset mentions Demo](doc/images/screen03.jpeg)
+
+
 ## Web API
 
 ### /service/annotateDatasetSentence
