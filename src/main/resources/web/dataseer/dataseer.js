@@ -543,9 +543,9 @@ var grobid = (function ($) {
                     pieces.push(datasetName);
                 }
 
-                var datasetImplicit = entity['dataset'];
+                var datasetImplicit = entity['dataset-implicit'];
                 if (datasetImplicit) {
-                    datasetImplicit['subtype'] = 'dataset';
+                    datasetImplicit['subtype'] = 'dataset-implicit';
                     pieces.push(datasetImplicit);
                 }
 
@@ -642,7 +642,7 @@ var grobid = (function ($) {
                 var indexComp = 0;
                 if (entity['dataset-name'])
                     indexComp++;
-                if (entity['dataset'])
+                if (entity['dataset-implicit'])
                     indexComp++;
                 if (entity['data-device'])
                     indexComp++;
@@ -752,9 +752,9 @@ var grobid = (function ($) {
                     pieces.push(datasetName);
                 }
 
-                if (entity['dataset']) {
-                    var dataset = entity['dataset'];
-                    dataset['subtype'] = 'dataset'
+                if (entity['dataset-implicit']) {
+                    var dataset = entity['dataset-implicit'];
+                    dataset['subtype'] = 'dataset-implicit'
                     pieces.push(dataset);
                 }
 
@@ -854,8 +854,8 @@ var grobid = (function ($) {
                 var local_page = -1;
                 if (entity['dataset-name'] && entity['dataset-name'].boundingBoxes && entity['dataset-name'].boundingBoxes.length>0)
                     local_page = entity['dataset-name'].boundingBoxes[0].p;
-                else if (entity['dataset'] && entity['dataset'].boundingBoxes && entity['dataset'].boundingBoxes.length>0)
-                    local_page = entity['dataset'].boundingBoxes[0].p;
+                else if (entity['dataset-implicit'] && entity['dataset-implicit'].boundingBoxes && entity['dataset-implicit'].boundingBoxes.length>0)
+                    local_page = entity['dataset-implicit'].boundingBoxes[0].p;
 
                 var the_id = 'annot-' + n + '-00';
                 if (local_page != -1)
@@ -864,8 +864,8 @@ var grobid = (function ($) {
                 var datasetNameRaw;
                 if (entity['dataset-name']) 
                     datasetNameRaw = entity['dataset-name'].normalizedForm;
-                else if (entity['dataset']) 
-                    datasetNameRaw = entity['dataset'].normalizedForm;
+                else if (entity['dataset-implicit']) 
+                    datasetNameRaw = entity['dataset-implicit'].normalizedForm;
 
                 if (datasetNameRaw) {
                     if (!type_map.has(datasetNameRaw)) 
@@ -901,7 +901,7 @@ var grobid = (function ($) {
                 if (type_map[key]) {
                     if (type_map[key] === 'dataset-name')
                         tableContent += "<td>named</td>";
-                    else if (type_map[key] === 'dataset')
+                    else if (type_map[key] === 'dataset-implicit')
                         tableContent += "<td>implicit</td>";
                 } else
                     tableContent += "<td></td>";
@@ -1133,15 +1133,19 @@ var grobid = (function ($) {
                 entityListIndex--) {
             var entity = entityMap[localEntityNumber][entityListIndex];
 
+            var localComponent = None;
+            if (entity["dataset-implicit"])
+                localComponent = entity["dataset-implicit"];
+
             var hasDataset = null;
-            if (entity["dataset"] && entity["dataset"]["hasDataset"])
-                hasDataset = entity["dataset"]["hasDataset"];
+            if (localComponent && localComponent["hasDataset"])
+                hasDataset = localComponent["hasDataset"];
             var bestDataType = null;
-            if (entity["dataset"] && entity["dataset"]["bestDataType"])
-                bestDataType = entity["dataset"]["bestDataType"];
+            if (localComponent && localComponent["bestDataType"])
+                bestDataType = localComponent["bestDataType"];
             var bestTypeScore = null;
-            if (entity["dataset"] && entity["dataset"]["bestTypeScore"])
-                bestTypeScore = entity["dataset"]["bestTypeScore"];
+            if (localComponent && localComponent["bestTypeScore"])
+                bestTypeScore = localComponent["bestTypeScore"];
 
             string = toHtml(entity, topPos, pageIndex, hasDataset, bestDataType, bestTypeScore);
         }
@@ -1175,15 +1179,19 @@ var grobid = (function ($) {
         if (localEntityNumber < mentions.length) {
             var entity = mentions[localEntityNumber];
 
+            var localComponent = null;
+            if (entity["dataset-implicit"])
+                localComponent = entity["dataset-implicit"];
+
             var hasDataset = null;
-            if (entity["dataset"] && entity["dataset"]["hasDataset"])
-                hasDataset = entity["dataset"]["hasDataset"];
+            if (localComponent && localComponent["hasDataset"])
+                hasDataset = localComponent["hasDataset"];
             var bestDataType = null;
-            if (entity["dataset"] && entity["dataset"]["bestDataType"])
-                bestDataType = entity["dataset"]["bestDataType"];
+            if (localComponent && localComponent["bestDataType"])
+                bestDataType = localComponent["bestDataType"];
             var bestTypeScore = null;
-            if (entity["dataset"] && entity["dataset"]["bestTypeScore"])
-                bestTypeScore = entity["dataset"]["bestTypeScore"];
+            if (localComponent && localComponent["bestTypeScore"])
+                bestTypeScore = localComponent["bestTypeScore"];
 
             var string = toHtml(mentions[localEntityNumber], -1, 0, hasDataset, bestDataType, bestTypeScore);
             $('#detailed_annot-0').html(string);
@@ -1228,7 +1236,7 @@ var grobid = (function ($) {
             "<table style='width:100%;background-color:#fff;border:0px'><tr style='background-color:#fff;border:0px;margin-top:5px;'><td style='background-color:#fff;border:0px;'>";
 
         if (type) {
-            if (type === 'dataset')
+            if (type === 'dataset-implicit')
                 string += "<p>Type: <b>implicit dataset</b></p>";
             else
                 string += "<p>Type: <b>" + type + "</b></p>";
@@ -1243,7 +1251,7 @@ var grobid = (function ($) {
         if (entity.confidence)
             string += "<p>conf: <i>" + entity.confidence + "</i></p>";
 
-        if (type === "dataset" && bestDataType != null) {
+        if (type === "dataset-implicit" && bestDataType != null) {
             string += "<p>Likely data type: <b>" + bestDataType + "</b></p>";
             if (bestTypeScore != null)
                string += "<p>conf: <b>" + bestTypeScore + "</b></p>";

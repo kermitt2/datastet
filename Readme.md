@@ -105,8 +105,8 @@ which should return this:
   "date" : "2022-06-15T12:25+0000",
   "mentions" : [ {
     "rawForm" : "Insulin levels",
-    "type" : "dataset",
-    "dataset" : {
+    "type" : "dataset-implicit",
+    "dataset-implicit" : {
       "rawForm" : "Insulin levels",
       "normalizedForm" : "Insulin levels",
       "offsetStart" : 0,

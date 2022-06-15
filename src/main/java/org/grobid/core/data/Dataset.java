@@ -372,7 +372,10 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
         if (type != null) {
             try {
-                buffer.append(", \"type\" : " + mapper.writeValueAsString(type.getName()));
+                String localTypeValue = type.getName();
+                if (localTypeValue.equals("dataset"))
+                    localTypeValue = "dataset-implicit";
+                buffer.append(", \"type\" : " + mapper.writeValueAsString(localTypeValue));
             } catch (JsonProcessingException e) {
                 logger.warn("could not serialize in JSON the normalized form: " + type.getName());
             }
@@ -383,7 +386,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         }
 
         if (dataset != null) {
-            buffer.append(", \"dataset\":" + dataset.toJson());
+            buffer.append(", \"dataset-implicit\":" + dataset.toJson());
         }
 
         if (dataDevice != null) {

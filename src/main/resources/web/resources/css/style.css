@@ -17,7 +17,7 @@
     border-radius: 3px;
 }
 
-.label.dataset {
+.label.dataset-implicit {
     background-color: #800080;
 }
 .label.dataset-name {
@@ -146,7 +146,7 @@ a.section-active { color: #BC0E0E; }
 span.section-not-active { color: #70695C; }
 span.section-active { color: #BC0E0E; }
 
-a.dataset { border-color: #800080 !important; } 
+a.dataset-implicit { border-color: #800080 !important; } 
 a.dataset-name { border-color: #3366cc !important; } 
 a.data-device { border-color: #0066ff !important; } 
 a.url { border-color: #ff3399 !important; } 
@@ -201,7 +201,7 @@ p {
 }
 span {word-break:normal;}
 
-[rel=popover][data-color=dataset] + .popover .popover-title {
+[rel=popover][data-color=dataset-implicit] + .popover .popover-title {
     background-color: #800080; color: white;
 }
 [rel=popover][data-color=dataset-name] + .popover .popover-title {
@@ -226,7 +226,7 @@ span {word-break:normal;}
 }
 
 /* entity */
-.info-sense-box.dataset {
+.info-sense-box.dataset-implicit {
     background-color: #800080;
 }
 .info-sense-box.dataset-name {
