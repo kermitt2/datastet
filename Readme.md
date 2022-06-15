@@ -14,16 +14,54 @@ Most of the datasets discussed in scientific articles are actually not named, bu
 Mentions of dataset are characterized automatically as _used_ or not in the research work described in the scientific document, _created_ and _shared_. 
 The identified datasets are further classified in a hierarchy of dataset types, these data types being directly derived from MeSH.
 
+
+![GROBID Dataset mentions Demo](doc/images/screen03.png)
+
+![GROBID Dataset mentions Demo](doc/images/screen02.png)
+
 The module can process a variety of scientific article formats, including mainstream publisher's native XML submission formats: PDF, TEI, JATS/NLM, ScholarOne, BMJ, Elsevier staging format, OUP, PNAS, RSC, Sage, Wiley, etc. PDF is considered as the "universal" scientific document format, but it is also the most challenging one. We use GROBID to process and structure efficiently and reliably PDF. 
 
 The back-end service remain compatible with [dataseer-ml](https://github.com/dataseer/dataseer-ml) and the [DataSeer-Web application](https://github.com/dataseer/dataseer-web).  
 
 Note: `.docx` format is also supported in a GROBID specific branch, but not yet merged. 
 
-![GROBID Dataset mentions Demo](doc/images/screen02.png)
+## Run with docker
 
-![GROBID Dataset mentions Demo](doc/images/screen03.png)
+The easiest way to deploy and run the service is to use the Docker image. 
 
+TBD
+
+## Build & Run
+
+Building the module requires JDK 1.8 or higher. First install and build the latest development version of GROBID as explained by the [documentation](http://grobid.readthedocs.org), together with [DeLFT](https://github.com/kermitt2/delft) for Deep Learning model support.
+
+Under the installed and built `grobid/` directory, clone the present module `datastet` (it will appear as sibling sub-project to grobid-core, grobid-trainer, etc.):
+
+> cd grobid/
+
+> git clone https://github.com/kermitt2/datastet
+
+Copy the provided pre-trained models in the standard grobid-home path:
+
+> ./gradlew copyModels 
+
+Try compiling everything with:
+
+> ./gradlew clean install 
+
+Run some test: 
+
+> ./gradlew test
+
+To start the service:
+
+> ./gradlew run
+
+## Console web app
+
+Javascript demo/console web app is then accessible at ```http://localhost:8060```. From the console and the `Dataset services` tab, you can process chunk of text (select `Process text sentence`) or process a complete PDF document (select `process PDF`). 
+
+Legacy Dataseer services are available with the `Dataseer services` tab. 
 
 ## Web API
 
