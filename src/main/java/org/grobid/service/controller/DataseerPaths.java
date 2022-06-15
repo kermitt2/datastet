@@ -16,16 +16,21 @@ public interface DataseerPaths {
      * path extension for is alive request.
      */
     public static final String PATH_IS_ALIVE = "isalive";
-    
-    /**
-     * path extension for classifying a textual sentence input.
-     */
-    public static final String PATH_DATASEER_SENTENCE = "processDataseerSentence";
 
     /**
      * path extension for processing a textual sentence input for dataset mentions.
      */
-    public static final String PATH_DATASET_SENTENCE = "processDatasetSentence";
+    public static final String PATH_DATASET_SENTENCE = "annotateDatasetSentence";
+
+    /**
+     * path extension for annotating a PDF file with the dataset-relevant mentions
+     */
+    public static final String PATH_DATASET_PDF = "annotateDatasetPDF";
+
+    /**
+     * path extension for classifying a textual sentence input.
+     */
+    public static final String PATH_DATASEER_SENTENCE = "annotateDataseerSentence";
 
     /**
      * path extension for processing a TEI file 
@@ -43,11 +48,6 @@ public interface DataseerPaths {
      * into TEI via GROBID.
      */
     public static final String PATH_DATASEER_PDF = "processDataseerPDF";
-
-    /**
-     * path extension for annotating a PDF file with the dataset-relevant mentions
-     */
-    public static final String PATH_DATASET_PDF = "processDatasetPDF";
 
     /**
      * path extension for getting the json datatype resource file 

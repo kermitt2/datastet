@@ -53,7 +53,7 @@ var grobid = (function ($) {
 
         createInputTextArea();
 
-        $("#selectedService").val('processDatasetSentence');
+        $("#selectedService").val('annotateDatasetSentence');
         $('#selectedService').change(function () {
             processChange();
             return true;
@@ -68,8 +68,8 @@ var grobid = (function ($) {
         $('#submitRequest').bind('click', submitQuery);
         $('#submitRequest2').bind('click', submitQuery2);
 
-        setBaseUrl('processDatasetSentence');
-        setBaseUrl2('processDataseerSentence');
+        setBaseUrl('annotateDatasetSentence');
+        setBaseUrl2('annotateDataseerSentence');
         setExamples('1');
         setExamples('2');
 
@@ -191,7 +191,7 @@ var grobid = (function ($) {
 
         var selected = $('#selectedService option:selected').attr('value');
         var urlLocal = $('#gbdForm').attr('action');
-        if (selected == 'processDatasetSentence') {
+        if (selected == 'annotateDatasetSentence') {
             {
                 $.ajax({
                     type: 'GET',
@@ -223,7 +223,7 @@ var grobid = (function ($) {
             };
             xhr.send(formData);
         }
-        else if (selected == 'processDatasetPDF') {
+        else if (selected == 'annotateDatasetPDF') {
             // we will have JSON annotations to be layered on the PDF
 
             // request for the annotation information
@@ -421,9 +421,9 @@ var grobid = (function ($) {
     function SubmitSuccesful(responseText, statusText) {
         var selected = $('#selectedService option:selected').attr('value');
 
-        if (selected == 'processDatasetSentence') {
+        if (selected == 'annotateDatasetSentence') {
             SubmitSuccesfulText(responseText, statusText);
-        } else if (selected == 'processDatasetPDF') {
+        } else if (selected == 'annotateDatasetPDF') {
             //SubmitSuccesfulXML(responseText, statusText);
         } else if (selected == 'processDatasetTEI') {
             //SubmitSuccesfulXML(responseText, statusText);
@@ -1441,12 +1441,12 @@ var grobid = (function ($) {
     function processChange() {
         var selected = $('#selectedService option:selected').attr('value');
 
-        if (selected == 'processDatasetSentence') {
+        if (selected == 'annotateDatasetSentence') {
             createInputTextArea();
-            setBaseUrl('processDatasetSentence');
-        } else if (selected == 'processDatasetPDF') {
+            setBaseUrl('annotateDatasetSentence');
+        } else if (selected == 'annotateDatasetPDF') {
             createInputFile(selected);
-            setBaseUrl('processDatasetPDF');
+            setBaseUrl('annotateDatasetPDF');
         } else if (selected == 'processDatasetTEI') {
             createInputFile(selected);
             setBaseUrl('processDatasetTEI');
