@@ -29,7 +29,49 @@ Note: `.docx` format is also supported in a GROBID specific branch, but not yet 
 
 The easiest way to deploy and run the service is to use the Docker image. 
 
-TBD
+It's possible to use a Docker image via [docker HUB](https://hub.docker.com/r/grobid/datastet), pull the image (5.25GB) as follow: 
+
+```bash
+docker pull grobid/software-mentions:0.7.2-SNAPSHOT
+```
+
+(check the latest version on project's [docker HUB](https://hub.docker.com/r/grobid/datastet)!)
+
+After pulling or building the Docker image, you can now run the `datastet` service as a container:
+
+```bash
+>  docker run --rm --gpus all -it -p 8060:8060 --init grobid/datastet:0.7.2-SNAPSHOT
+```
+
+The build image includes the automatic support of GPU when available on the host machine via the parameter `--gpus all` (with automatic recognition of the CUDA version), with fall back to CPU if GPU are not available. The support of GPU is only available on Linux host machine.
+
+The `datastet` service is available at the default host/port `localhost:8060`, but it is possible to map the port at launch time of the container as follow:
+
+```bash
+> docker run --rm --gpus all -it -p 8080:8060 --init grobid/datastet:0.7.2-SNAPSHOT
+```
+
+By default, BidLSTM-CFR with ELMo model if used for the dataset mention recognition (it performs better than SciBERT with 3 points F1-score). Every classification models are fine-tuned SciBERT models. To modify the configuration without rebuilding the image - for instance rather use the SciBERT model, it is possible to mount a modified config file at launch as follow: 
+
+```bash
+> docker run --rm --gpus all --init -p 8060:8060 -v /home/lopez/grobid/datastet/resources/config/dataseer-ml.yml:/opt/grobid/datastet/resources/config/dataseer-ml.yml:ro  grobid/datastet:0.7.2-SNAPSHOT
+```
+
+As an alterntive, a docker image for the `datastet` service can be built with the project Dockerfile to match the current master version. The complete process is as follow: 
+
+- copy the `Dockerfile.datastet` at the root of the GROBID installation:
+
+```bash
+~/grobid/datastet$ cp ./Dockerfile.datastet ..
+```
+
+- from the GROBID root installation (`grobid/`), launch the docker build:
+
+```bash
+> docker build -t grobid/datastet:0.7.2-SNAPSHOT --build-arg GROBID_VERSION=0.7.2-SNAPSHOT --file Dockerfile.datastet .
+```
+
+The Docker image build take several minutes, installing GROBID, datastet, a complete Python Deep Learning environment based on [DeLFT](https://github.com/kermitt2/delft) and deep learning models downloaded from the internet (one fine-tuned model with a BERT layer has a size of around 400 MB). The resulting image is thus very large, more than 10GB, due to the deep learning resources and models. 
 
 ## Build & Run
 
@@ -41,9 +83,9 @@ Under the installed and built `grobid/` directory, clone the present module `dat
 
 > git clone https://github.com/kermitt2/datastet
 
-Copy the provided pre-trained models in the standard grobid-home path:
+Download from AWS S3 and install the trained models in the standard grobid-home path:
 
-> ./gradlew copyModels 
+> ./gradlew installModels 
 
 Try compiling everything with:
 

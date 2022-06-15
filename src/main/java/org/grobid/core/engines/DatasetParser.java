@@ -759,9 +759,9 @@ System.out.println(localDatasetcomponent.toJson());
             // pre-process labeling of every sentences in batch
             processLayoutTokenSequences(allLayoutTokens, entities, sentenceOffsetStarts, pdfAnnotations, disambiguate);
 
-            System.out.println("entities size: " + entities.size());
-            System.out.println("mapSentencesToZones size: " + mapSentencesToZones.size());
-            System.out.println("relevantSections size: " + relevantSectionsNamedDatasets.size());
+            //System.out.println("entities size: " + entities.size());
+            //System.out.println("mapSentencesToZones size: " + mapSentencesToZones.size());
+            //System.out.println("relevantSections size: " + relevantSectionsNamedDatasets.size());
 
             // pre-process classification of every sentences in batch
             if (this.dataseerClassifier == null)
@@ -961,8 +961,6 @@ for(String sentence : allSentences) {
             }
             entities = filteredEntities;
 
-            System.out.println(entities.size() + " mentions of interest");
-            
             // we attach and match bibliographical reference callout
             TEIFormatter formatter = new TEIFormatter(doc, parsers.getFullTextParser());
             // second pass, body
@@ -1309,7 +1307,6 @@ for(String sentence : allSentences) {
                 if (!added.contains(term)) {
                     termPattern.loadTerm(term, DataseerAnalyzer.getInstance(), false);
                     added.add(term);
-System.out.println("add term: " + term);
                 }
 
                 if (!term.equals(nameComponent.getNormalizedForm())) {

@@ -132,10 +132,10 @@ WORKDIR /opt/grobid/datastet
 
 # trigger gradle wrapper install
 RUN ./gradlew --version
-RUN ./gradlew copyModels && rm -rf resources/models 
+RUN ./gradlew installModels && rm -rf resources/models 
 
 # this will build and load embeddings on the image forever :)
-RUN ./gradlew clean build
+RUN ./gradlew clean build test
 
 CMD ["./gradlew", "run"]
 

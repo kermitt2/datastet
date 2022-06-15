@@ -233,11 +233,53 @@ artifacts {
     archives shadowJar
 }
 
-task copyModels(type: Copy) {
+task installModels(type: Copy) {
     from "${rootDir}/resources/models/"
     include "**"
     into "${rootDir}/../grobid-home/models/"
+
+    doLast {
+        download {
+            src "https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-binary_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
+        download {
+            src "https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-first_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
+        download {
+            src "https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-reuse_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
+        /*download {
+            src "https://grobid.s3.amazonaws.com/dataset_context_creation_bert-0.3.0.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/dataset_context_creation_bert-0.3.0.zip", dest: "${rootDir}/../grobid-home/models/")
+        download {
+            src "https://grobid.s3.amazonaws.com/dataset_context_shared_bert-0.3.0.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/dataset_context_shared_bert-0.3.0.zip", dest: "${rootDir}/../grobid-home/models/")
+        */
+    }
 }
+
+
+dataseer-binary_bert/
+dataseer-first_bert/
+dataseer-reuse_bert/
+datasets-BidLSTM_CRF-with_ELMo/
+
+
 
 test {
     testLogging.showStandardStreams = true
