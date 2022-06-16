@@ -28,51 +28,35 @@ models:
       window: 20
       nbMaxIterations: 2000
 
-  # model for dataset mention recognition
-  - name: "dataseer-mention"
-    engine: "wapiti"
-    #engine: "delft"
-    wapiti:
-      # wapiti training parameters, they will be used at training time only
-      epsilon: 0.00001
-      window: 20
-      nbMaxIterations: 2000
-    delft:
-      # deep learning parameters
-      architecture: "BidLSTM_CRF"
-      #architecture: "scibert"
-      useELMo: false
-      embeddings_name: "glove-840B"
-
   # classifier model, dataset binary (datset or not dataset in the current sentence)
   - name: "dataseer-binary"
     engine: "delft"
     delft:
       # deep learning parameters
-      architecture: "gru"
-      #architecture: "bert"
-      embeddings_name: "word2vec"
-      #transformer: "allenai/scibert_scivocab_cased"
+      #architecture: "gru"
+      architecture: "bert"
+      #embeddings_name: "word2vec"
+      transformer: "allenai/scibert_scivocab_cased"
 
   # identification of the data type (first level hierarchy) 
   - name: "dataseer-first"
     engine: "delft"
     delft:
       # deep learning parameters
-      architecture: "gru"
-      #architecture: "bert"
-      embeddings_name: "word2vec"
-      #transformer: "allenai/scibert_scivocab_cased"
+      #architecture: "gru"
+      architecture: "bert"
+      #embeddings_name: "word2vec"
+      transformer: "allenai/scibert_scivocab_cased"
 
   # mention context classification (reuse binary for the moment)
   - name: "dataseer-reuse"
     engine: "delft"
     delft:
       # deep learning parameters
-      architecture: "gru"
-      #architecture: "bert"
-      embeddings_name: "word2vec"
-      #transformer: "allenai/scibert_scivocab_cased"
+      #architecture: "gru"
+      architecture: "bert"
+      #embeddings_name: "word2vec"
+      transformer: "allenai/scibert_scivocab_cased"
 
   # model for dataset mention recognition
   - name: "datasets"

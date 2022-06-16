@@ -57,6 +57,14 @@ CMD nvidia-smi
 # setting locale is likely useless but to be sure
 ENV LANG C.UTF-8
 
+# update NVIDIA Cuda key (following a key rotation in April 2022)
+RUN apt-get install -y wget
+RUN apt-key del 7fa2af80
+RUN rm /etc/apt/sources.list.d/cuda.list
+RUN rm /etc/apt/sources.list.d/nvidia-ml.list
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+RUN dpkg -i cuda-keyring_1.0-1_all.deb
+
 # install JRE 8, python and other dependencies
 RUN apt-get update && \
     apt-get -y --no-install-recommends install apt-utils build-essential gcc libxml2 unzip curl \
@@ -120,7 +128,7 @@ COPY --from=builder /opt/grobid-source/grobid-home/scripts/preload_embeddings.py
 RUN ln -s /opt/grobid /opt/delft
 
 COPY --from=builder /opt/grobid-source/datastet /opt/grobid/datastet
-#COPY --from=builder /root/.m2/repository/org /opt/grobid/datastet/lib/org
+COPY --from=builder /root/.m2/repository/org /opt/grobid/datastet/lib/org
 
 WORKDIR /opt/grobid/datastet
 
@@ -132,7 +140,14 @@ WORKDIR /opt/grobid/datastet
 
 # trigger gradle wrapper install
 RUN ./gradlew --version
-RUN ./gradlew installModels && rm -rf resources/models 
+RUN ./gradlew installModels && rm -rf resources/models && rm ../grobid-home/models/dataseer*.zip
+
+# install ELMo
+RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json
+RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5
+RUN mkdir /opt/elmo
+RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json /opt/elmo/
+RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5 /opt/elmo/
 
 # this will build and load embeddings on the image forever :)
 RUN ./gradlew clean build test

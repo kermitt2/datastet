@@ -68,9 +68,9 @@ repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
     maven { url "https://grobid.s3.eu-west-1.amazonaws.com/repo/" }
-    /*maven {
+    maven {
         url new File(rootProject.rootDir, "lib")
-    }*/
+    }
 }
 
 ext {
@@ -272,14 +272,6 @@ task installModels(type: Copy) {
         */
     }
 }
-
-
-dataseer-binary_bert/
-dataseer-first_bert/
-dataseer-reuse_bert/
-datasets-BidLSTM_CRF-with_ELMo/
-
-
 
 test {
     testLogging.showStandardStreams = true
