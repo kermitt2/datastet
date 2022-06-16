@@ -1133,7 +1133,7 @@ var grobid = (function ($) {
                 entityListIndex--) {
             var entity = entityMap[localEntityNumber][entityListIndex];
 
-            var localComponent = None;
+            var localComponent = null;
             if (entity["dataset-implicit"])
                 localComponent = entity["dataset-implicit"];
 
