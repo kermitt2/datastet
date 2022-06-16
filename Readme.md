@@ -40,7 +40,7 @@ docker pull grobid/software-mentions:0.7.2-SNAPSHOT
 After pulling or building the Docker image, you can now run the `datastet` service as a container:
 
 ```bash
->  docker run --rm --gpus all -it -p 8060:8060 --init grobid/datastet:0.7.2-SNAPSHOT
+>  docker run --rm --gpus all -it -p 8060:8060 grobid/datastet:0.7.2-SNAPSHOT
 ```
 
 The build image includes the automatic support of GPU when available on the host machine via the parameter `--gpus all` (with automatic recognition of the CUDA version), with fall back to CPU if GPU are not available. The support of GPU is only available on Linux host machine.
@@ -48,13 +48,13 @@ The build image includes the automatic support of GPU when available on the host
 The `datastet` service is available at the default host/port `localhost:8060`, but it is possible to map the port at launch time of the container as follow:
 
 ```bash
-> docker run --rm --gpus all -it -p 8080:8060 --init grobid/datastet:0.7.2-SNAPSHOT
+> docker run --rm --gpus all -it -p 8080:8060 grobid/datastet:0.7.2-SNAPSHOT
 ```
 
 By default, BidLSTM-CFR with ELMo model if used for the dataset mention recognition (it performs better than SciBERT with 3 points F1-score). Every classification models are fine-tuned SciBERT models. To modify the configuration without rebuilding the image - for instance rather use the SciBERT model, it is possible to mount a modified config file at launch as follow: 
 
 ```bash
-> docker run --rm --gpus all --init -p 8060:8060 -v /home/lopez/grobid/datastet/resources/config/dataseer-ml.yml:/opt/grobid/datastet/resources/config/dataseer-ml.yml:ro  grobid/datastet:0.7.2-SNAPSHOT
+> docker run --rm --gpus all -p 8060:8060 -v /home/lopez/grobid/datastet/resources/config/dataseer-ml.yml:/opt/grobid/datastet/resources/config/dataseer-ml.yml:ro  grobid/datastet:0.7.2-SNAPSHOT
 ```
 
 As an alterntive, a docker image for the `datastet` service can be built with the project Dockerfile to match the current master version. The complete process is as follow: 
