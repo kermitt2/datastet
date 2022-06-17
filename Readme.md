@@ -75,7 +75,7 @@ The Docker image build take several minutes, installing GROBID, datastet, a comp
 
 ## Build & Run
 
-Building the module requires JDK 1.8 or higher. First install and build the latest development version of GROBID as explained by the [documentation](http://grobid.readthedocs.org), together with [DeLFT](https://github.com/kermitt2/delft) for Deep Learning model support.
+Building the module requires JDK 1.8 or higher. First install and build the latest development version of GROBID (currently `0.7.2-SNAPSHOT`) as explained by the [documentation](http://grobid.readthedocs.org), together with [DeLFT](https://github.com/kermitt2/delft) (currently version `0.3.1`) for Deep Learning model support.
 
 Under the installed and built `grobid/` directory, clone the present module `datastet` (it will appear as sibling sub-project to grobid-core, grobid-trainer, etc.):
 
