@@ -32,7 +32,7 @@ The easiest way to deploy and run the service is to use the Docker image.
 It's possible to use a Docker image via [docker HUB](https://hub.docker.com/r/grobid/datastet), pull the image (5.25GB) as follow: 
 
 ```bash
-docker pull grobid/software-mentions:0.7.2-SNAPSHOT
+docker pull grobid/datastet:0.7.2-SNAPSHOT
 ```
 
 (check the latest version on project's [docker HUB](https://hub.docker.com/r/grobid/datastet)!)
