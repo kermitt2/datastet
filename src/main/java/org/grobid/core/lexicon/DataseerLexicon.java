@@ -62,14 +62,14 @@ public class DataseerLexicon {
         LOGGER.info("Init dataseer lexicon");
 
         // term idf
-        File file = new File("resources/lexicon/idf.label.en.txt.gz");
+        File file = new File("resources/lexicon/idf.label.en.txt.gz").getAbsoluteFile();
         file = new File(file.getAbsolutePath());
         if (!file.exists()) {
-            throw new GrobidResourceException("Cannot initialize software dictionary, because file '" + 
+            throw new GrobidResourceException("Cannot initialize dataset dictionary, because file '" + 
                 file.getAbsolutePath() + "' does not exists.");
         }
         if (!file.canRead()) {
-            throw new GrobidResourceException("Cannot initialize software dictionary, because cannot read file '" + 
+            throw new GrobidResourceException("Cannot initialize dataset dictionary, because cannot read file '" + 
                 file.getAbsolutePath() + "'.");
         }
 
@@ -116,7 +116,7 @@ public class DataseerLexicon {
         }
 
         // read the datacite DOI prefixes
-        file = new File("resources/lexicon/doiPrefixes.txt");
+        file = new File("resources/lexicon/doiPrefixes.txt").getAbsoluteFile();
         file = new File(file.getAbsolutePath());
         if (!file.exists()) {
             throw new GrobidResourceException("Cannot initialize DatasetLexicon DOI prefix file, because file '" + 
@@ -153,7 +153,7 @@ public class DataseerLexicon {
         }
 
         // read the data source url domains 
-        file = new File("resources/lexicon/domains.txt");
+        file = new File("resources/lexicon/domains.txt").getAbsoluteFile();
         file = new File(file.getAbsolutePath());
         if (!file.exists()) {
             throw new GrobidResourceException("Cannot initialize DatasetLexicon url domain file, because file '" + 
