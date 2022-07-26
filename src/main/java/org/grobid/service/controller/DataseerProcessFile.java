@@ -274,8 +274,8 @@ public class DataseerProcessFile {
             List<BibDataSet> bibDataSet = doc.getBibDataSets();
             if (bibDataSet != null && bibDataSet.size()>0) {
                 serializeReferences(json, bibDataSet, extractedResults.getLeft());
-                json.append("]");
             }
+            json.append("]");
 
             long end = System.currentTimeMillis();
             float runtime = ((float)(end-start)/1000);

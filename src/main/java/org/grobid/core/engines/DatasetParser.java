@@ -789,12 +789,13 @@ System.out.println(localDatasetcomponent.toJson());
                             JsonNode classificationNode = ite.next();
                             Iterator<String> iterator = classificationNode.fieldNames();
                             Map<String, Double> scoresPerDatatypes = new TreeMap<>();
+                            double hasDatasetScore = 0.0;
                             while(iterator.hasNext()) {
                                 String field = iterator.next();
                                 if (field.equals("has_dataset")) {
                                     JsonNode hasDatasetNode = classificationNode.findPath("has_dataset"); 
                                     if ((hasDatasetNode != null) && (!hasDatasetNode.isMissingNode())) {
-                                        hasDatasetScores.add(hasDatasetNode.doubleValue());
+                                        hasDatasetScore = hasDatasetNode.doubleValue();                                        
                                     }
                                 } else if (field.equals("text")) {
                                     String localSentence = classificationNode.get("text").textValue();
@@ -819,6 +820,7 @@ System.out.println(localDatasetcomponent.toJson());
 
                             bestTypes.add(bestType);
                             bestScores.add(bestScore);
+                            hasDatasetScores.add(hasDatasetScore);
 
                             totalClassificationNodes++;                            
                         }
@@ -1093,8 +1095,8 @@ for(String sentence : allSentences) {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new GrobidException("Cannot process pdf file: " + file.getPath());
+            //e.printStackTrace();
+            throw new GrobidException("Cannot process pdf file: " + file.getPath(), e);
         }
 
         return Pair.of(entities, doc);
