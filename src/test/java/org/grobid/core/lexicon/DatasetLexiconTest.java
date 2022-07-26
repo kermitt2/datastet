@@ -42,7 +42,7 @@ public class DatasetLexiconTest {
         DataseerConfiguration dataseerConfiguration = null;
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml"), DataseerConfiguration.class);
+            dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml").getAbsoluteFile(), DataseerConfiguration.class);
 
             String pGrobidHome = dataseerConfiguration.getGrobidHome();
 

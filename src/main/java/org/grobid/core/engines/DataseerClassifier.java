@@ -121,7 +121,9 @@ public class DataseerClassifier {
             this.dataseerConfiguration = null;
             try {
                 ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-                dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml"), DataseerConfiguration.class);
+
+                File configFile = new File("resources/config/dataseer-ml.yml").getAbsoluteFile();
+                dataseerConfiguration = mapper.readValue(configFile, DataseerConfiguration.class);
             } catch(Exception e) {
                 logger.error("The config file does not appear valid, see resources/config/dataseer-ml.yml", e);
             }

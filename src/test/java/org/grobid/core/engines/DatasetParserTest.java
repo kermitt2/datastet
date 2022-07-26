@@ -40,7 +40,7 @@ public class DatasetParserTest {
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
-            File yamlFile = new File("resources/config/dataseer-ml.yml");
+            File yamlFile = new File("resources/config/dataseer-ml.yml").getAbsoluteFile();
             yamlFile = new File(yamlFile.getAbsolutePath());
             dataseerConfiguration = mapper.readValue(yamlFile, DataseerConfiguration.class);
 
