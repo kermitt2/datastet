@@ -13,6 +13,7 @@ target
 *.obj
 *.zip
 *.gz
+!resources/lexicon/*.gz
 data/db/*
 data/training
 data/eval
