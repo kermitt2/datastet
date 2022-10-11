@@ -289,7 +289,7 @@ public class DataseerClassifier {
                                 if (iteReuseCascaded.hasNext()) {
                                     JsonNode classificationReuseCascadedNode = iteReuseCascaded.next();
                                     JsonNode reuseNode = classificationReuseCascadedNode.findPath("reuse");
-                                    JsonNode noReuseNode = classificationReuseCascadedNode.findPath("no_reuse");
+                                    JsonNode noReuseNode = classificationReuseCascadedNode.findPath("not_reuse");
 
                                     if ((reuseNode != null) && (!reuseNode.isMissingNode()) &&
                                         (noReuseNode != null) && (!noReuseNode.isMissingNode()) ) {
