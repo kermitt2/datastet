@@ -35,7 +35,7 @@ public class GrobidEngineInitialiser {
         DataseerConfiguration dataseerConfiguration = null;
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml"), DataseerConfiguration.class);
+            dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml").getAbsoluteFile(), DataseerConfiguration.class);
         } catch(Exception e) {
             LOGGER.error("The config file does not appear valid, see resources/config/dataseer-ml.yml", e);
             dataseerConfiguration = null;
