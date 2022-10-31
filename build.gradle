@@ -52,7 +52,7 @@ apply plugin: 'org.gretty'
 */
 
 group = "org.grobid.datastet"
-version = '0.7.2-SNAPSHOT'
+version = '0.7.3-SNAPSHOT'
 
 description = """datastet"""
 
@@ -86,8 +86,8 @@ dependencies {
     //implementation fileTree(dir: new File(rootProject.rootDir, 'lib'), include: localLibs)
 
     //Grobid
-    implementation group: 'org.grobid', name: 'grobid-core', version: '0.7.2-SNAPSHOT'
-    implementation group: 'org.grobid', name: 'grobid-trainer', version: '0.7.2-SNAPSHOT'
+    implementation group: 'org.grobid', name: 'grobid-core', version: '0.7.3-SNAPSHOT'
+    implementation group: 'org.grobid', name: 'grobid-trainer', version: '0.7.3-SNAPSHOT'
 
     implementation group: 'net.arnx', name: 'jsonic', version: '1.3.10'
 
@@ -251,25 +251,38 @@ task installModels(type: Copy) {
             overwrite false
         }
         ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-first_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
-        download {
+        
+        /*download {
             src "https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip"
             dest "${rootDir}/../grobid-home/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-reuse_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
-        /*download {
-            src "https://grobid.s3.amazonaws.com/dataset_context_creation_bert-0.3.0.zip"
-            dest "${rootDir}/../grobid-home/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/dataset_context_creation_bert-0.3.0.zip", dest: "${rootDir}/../grobid-home/models/")
+        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-reuse_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")*/
+
         download {
-            src "https://grobid.s3.amazonaws.com/dataset_context_shared_bert-0.3.0.zip"
+            src "https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip"
             dest "${rootDir}/../grobid-home/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/dataset_context_shared_bert-0.3.0.zip", dest: "${rootDir}/../grobid-home/models/")
-        */
+        ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        download {
+            src "https://grobid.s3.amazonaws.com/context_used_bert-0.3.2.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/context_used_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        download {
+            src "https://grobid.s3.amazonaws.com/context_creation_bert-0.3.2.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/context_creation_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        download {
+            src "https://grobid.s3.amazonaws.com/context_shared_bert-0.3.2.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/context_shared_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
     }
 }
 
@@ -291,7 +304,7 @@ wrapper {
 
 // Run like this: ./gradlew train_dataseer -PgH=/path/grobid/home
 task(train_dataseer, dependsOn: 'classes', type: JavaExec, group: 'training') {
-    main = 'org.grobid.trainer.DataseerTrainerRunner'
+    mainClass = 'org.grobid.trainer.DataseerTrainerRunner'
     classpath = sourceSets.main.runtimeClasspath
     args '0', 'dataseer', getArg('gH', '../grobid-home'), getArg('t', '0')
 //    jvmArgs '-Xms2g', '-Xmx8g'
@@ -299,7 +312,7 @@ task(train_dataseer, dependsOn: 'classes', type: JavaExec, group: 'training') {
 
 // Run like this: ./gradlew train_dataseer -PgH=/path/grobid/home
 //task(train_dataseer, dependsOn: 'classes', type: JavaExec, group: 'training') {
-//    main = 'org.grobid.trainer.DataseerTrainer'
+//    mainClass = 'org.grobid.trainer.DataseerTrainer'
 //    classpath = sourceSets.main.runtimeClasspath
 //    args '0', 'dataseer', getArg('gH', '../grobid-home'), getArg('b', ''),
 //    jvmArgs '-Xms2g', '-Xmx8g'
@@ -307,7 +320,7 @@ task(train_dataseer, dependsOn: 'classes', type: JavaExec, group: 'training') {
 
 // Run like this: ./gradlew eval_dataseer -PgH=/path/grobid/home
 task(eval_dataseer, dependsOn: 'classes', type: JavaExec, group: 'evaluation') {
-    main = 'org.grobid.trainer.DataseerTrainerRunner'
+    mainClass = 'org.grobid.trainer.DataseerTrainerRunner'
     classpath = sourceSets.main.runtimeClasspath
     args '1', 'dataseer', getArg('gH', '../grobid-home')
 //    jvmArgs '-Xms2g', '-Xmx8g'
@@ -315,7 +328,7 @@ task(eval_dataseer, dependsOn: 'classes', type: JavaExec, group: 'evaluation') {
 
 // Run like this: ./gradlew eval_dataseer_split -PgH=/path/grobid/home -Ps=0.8 -Pt=10
 task(eval_dataseer_split, dependsOn: 'classes', type: JavaExec, group: 'evaluation') {
-    main = 'org.grobid.trainer.DataseerTrainerRunner'
+    mainClass = 'org.grobid.trainer.DataseerTrainerRunner'
     classpath = sourceSets.main.runtimeClasspath
     args '2', 'dataseer', getArg('gH', '../grobid-home'), getArg('s', 0.9), getArg('t', '0')
     jvmArgs '-Xms2g', '-Xmx8g'
@@ -323,7 +336,7 @@ task(eval_dataseer_split, dependsOn: 'classes', type: JavaExec, group: 'evaluati
 
 // Run like this: ./gradlew eval_dataseer_nfold -PgH=/path/grobid/home -Pt=10
 task(eval_dataseer_nfold, dependsOn: 'classes', type: JavaExec, group: 'evaluation') {
-    main = 'org.grobid.trainer.DataseerTrainerRunner'
+    mainClass = 'org.grobid.trainer.DataseerTrainerRunner'
     classpath = sourceSets.main.runtimeClasspath
     args '3', 'dataseer', getArg('gH', '../grobid-home'), getArg('n', 10), getArg('t', '0')
     jvmArgs '-Xms2g', '-Xmx8g'
@@ -331,7 +344,7 @@ task(eval_dataseer_nfold, dependsOn: 'classes', type: JavaExec, group: 'evaluati
 
 // Run like this: ./gradlew annotated_corpus_generator_csv -Pfull=/path/input/fulltext -Ppdf=/path/input/pdf -Pcsv=/path/csv -Pxml=/output/directory
 task(annotated_corpus_generator_csv, dependsOn: 'classes', type: JavaExec, group: 'import') {
-    main = 'org.grobid.trainer.AnnotatedCorpusGeneratorCSV'
+    mainClass = 'org.grobid.trainer.AnnotatedCorpusGeneratorCSV'
     classpath = sourceSets.main.runtimeClasspath
     args getArg('full', ''), getArg('pdf', ''), getArg('csv', ''), getArg('xml', 'resources/dataset/dataseer/corpus/')
     jvmArgs '-Xms2g', '-Xmx8g'
@@ -342,7 +355,7 @@ task(annotated_corpus_generator_csv, dependsOn: 'classes', type: JavaExec, group
 apply plugin: 'application'
 application {
     mainClassName = 'org.grobid.service.DataseerApplication'
-
+    
     run {
         args = ['server', 'resources/config/server.yml']
     }

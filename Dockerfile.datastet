@@ -140,7 +140,7 @@ WORKDIR /opt/grobid/datastet
 
 # trigger gradle wrapper install
 RUN ./gradlew --version
-RUN ./gradlew installModels && rm -rf resources/models && rm ../grobid-home/models/dataseer*.zip
+RUN ./gradlew installModels && rm -rf resources/models && rm ../grobid-home/models/dataseer*.zip && rm ../grobid-home/models/context_*.zip
 
 # install ELMo
 RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json

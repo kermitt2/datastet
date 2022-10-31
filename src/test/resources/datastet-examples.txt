@@ -1,0 +1,5 @@
+The DEGs were annotated using the following databases: the NR protein database (NCBI), Swiss Prot, Gene Ontology (GO), the Kyoto Encyclopedia of Genes and Genomes (KEGG) database, and the Clusters of Orthologous Groups database (COG) according to the methods of described by Zhou et al.
+The electrochemiluminescence immunoassay was used to measure serum concentration of 25-hydroxyvitamin D using Roche Modular E170 Analyzer (Roche Diagnostics, Basel, Switzerland).
+We found that this technique works very well in practice, for the MNIST and NORB datasets (see below).
+We also compare ShanghaiTechRGBD with other RGB-D crowd counting datasets in , and we can see that ShanghaiTechRGBD is the most challenging RGB-D crowd counting dataset in terms of the number of images and heads.
+

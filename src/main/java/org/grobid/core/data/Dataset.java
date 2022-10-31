@@ -480,6 +480,14 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             buffer.append("] ");
         }*/
         
+        if (mentionContextAttributes != null) {
+            buffer.append(", \"mentionContextAttributes\": " + mentionContextAttributes.toJson());
+        }
+
+        if (documentContextAttributes != null) {
+            buffer.append(", \"documentContextAttributes\": " + documentContextAttributes.toJson());
+        }
+
         if (bibRefs != null) {
             buffer.append(", \"references\": ["); 
             boolean first = true;

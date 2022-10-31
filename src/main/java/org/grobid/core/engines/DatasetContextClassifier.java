@@ -96,22 +96,22 @@ public class DatasetContextClassifier {
     }
 
     private DatasetContextClassifier(DataseerConfiguration configuration) {
-        ModelParameters parameter = configuration.getModel("dataset_context");
+        ModelParameters parameter = configuration.getModel("context");
 
-        ModelParameters parameterUsed = configuration.getModel("dataset_context_used");
-        ModelParameters parameterCreated = configuration.getModel("dataset_context_creation");
-        ModelParameters parameterShared = configuration.getModel("dataset_context_shared");
+        ModelParameters parameterUsed = configuration.getModel("context_used");
+        ModelParameters parameterCreated = configuration.getModel("context_creation");
+        ModelParameters parameterShared = configuration.getModel("context_shared");
 
         this.useBinary = configuration.getUseBinaryContextClassifiers();
         if (this.useBinary == null)
             this.useBinary = true;
 
         if (this.useBinary) {
-            this.classifierBinaryUsed = new DeLFTClassifierModel("dataset_context_used", parameterUsed.delft.architecture);
-            this.classifierBinaryCreated = new DeLFTClassifierModel("dataset_context_creation", parameterCreated.delft.architecture);
-            this.classifierBinaryShared = new DeLFTClassifierModel("dataset_context_shared", parameterShared.delft.architecture);
+            this.classifierBinaryUsed = new DeLFTClassifierModel("context_used", parameterUsed.delft.architecture);
+            this.classifierBinaryCreated = new DeLFTClassifierModel("context_creation", parameterCreated.delft.architecture);
+            this.classifierBinaryShared = new DeLFTClassifierModel("context_shared", parameterShared.delft.architecture);
         } else {
-            this.classifier = new DeLFTClassifierModel("dataset_context", parameter.delft.architecture);
+            this.classifier = new DeLFTClassifierModel("context", parameter.delft.architecture);
         }
     }
 
@@ -160,21 +160,24 @@ public class DatasetContextClassifier {
      * This method uses one multi-class, multi-label classifier.
      * 
      **/
-    public List<Dataset> classifyDocumentContexts(List<Dataset> entities) {
+    public List<List<Dataset>> classifyDocumentContexts(List<List<Dataset>> entities) {
 
         if (this.useBinary)
             return classifyDocumentContextsBinary(entities);
 
         List<String> contexts = new ArrayList<>();
-        for(Dataset entity : entities) {
-            if (entity.getContext() != null && entity.getContext().length()>0) {
-                String localContext = TextUtilities.dehyphenize(entity.getContext());
-                localContext = localContext.replace("\n", " ");
-                localContext = localContext.replaceAll("( )+", " ");
-                contexts.add(localContext);
-            } else {
-                // dummy place holder
-                contexts.add("");
+
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                if (entity.getContext() != null && entity.getContext().length()>0) {
+                    String localContext = TextUtilities.dehyphenize(entity.getContext());
+                    localContext = localContext.replace("\n", " ");
+                    localContext = localContext.replaceAll("( )+", " ");
+                    contexts.add(localContext);
+                } else {
+                    // dummy place holder
+                    contexts.add("");
+                }
             }
         }
 
@@ -247,8 +250,10 @@ public class DatasetContextClassifier {
                     else 
                         contextAttributes.setShared(false);
                     
-                    Dataset entity = entities.get(entityRank);
-                    entity.setMentionContextAttributes(contextAttributes);
+                    //Dataset entity = entities.get(entityRank);
+                    Dataset entity = getEntityByGlobalRank(entities, entityRank);
+                    if (entity != null)
+                        entity.setMentionContextAttributes(contextAttributes);
 
                     entityRank++;
                 }
@@ -262,6 +267,18 @@ public class DatasetContextClassifier {
         return documentPropagation(entities);
     }
 
+    private static Dataset getEntityByGlobalRank(List<List<Dataset>> entities, int rank) {
+        int currentRank = 0;
+        for(List<Dataset> datasets : entities) {
+            int localSize = datasets.size();
+            if (currentRank + localSize > rank) {
+                return datasets.get(rank - currentRank);
+            } else {
+                currentRank += localSize;
+            }
+        }
+        return null;
+    }
 
     /**
      * Process the contexts of a set of entities identified in a document. Each context is
@@ -271,17 +288,19 @@ public class DatasetContextClassifier {
      * This method uses binary classifiers.
      * 
      **/
-    public List<Dataset> classifyDocumentContextsBinary(List<Dataset> entities) {
+    public List<List<Dataset>> classifyDocumentContextsBinary(List<List<Dataset>> entities) {
         List<String> contexts = new ArrayList<>();
-        for(Dataset entity : entities) {
-            if (entity.getContext() != null && entity.getContext().length()>0) {
-                String localContext = TextUtilities.dehyphenize(entity.getContext());
-                localContext = localContext.replace("\n", " ");
-                localContext = localContext.replaceAll("( )+", " ");
-                contexts.add(localContext);
-            } else {
-                // dummy place holder
-                contexts.add("");
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                if (entity.getContext() != null && entity.getContext().length()>0) {
+                    String localContext = TextUtilities.dehyphenize(entity.getContext());
+                    localContext = localContext.replace("\n", " ");
+                    localContext = localContext.replaceAll("( )+", " ");
+                    contexts.add(localContext);
+                } else {
+                    // dummy place holder
+                    contexts.add("");
+                }
             }
         }
 
@@ -320,7 +339,14 @@ public class DatasetContextClassifier {
                     Iterator<JsonNode> ite = classificationsNode.elements();
                     while (ite.hasNext()) {
                         JsonNode classificationNode = ite.next();
-                        Dataset entity = entities.get(entityRank);
+                        //Dataset entity = entities.get(entityRank);
+                        Dataset entity = getEntityByGlobalRank(entities, entityRank);
+
+                        if (entity == null) {
+                            entityRank++;
+                            continue;
+                        }
+
                         DatasetContextAttributes contextAttributes = entity.getMentionContextAttributes();
                         if (contextAttributes == null)
                             contextAttributes = new DatasetContextAttributes();
@@ -415,25 +441,33 @@ public class DatasetContextClassifier {
         return documentPropagation(entities);
     }
 
-    private List<Dataset> documentPropagation(List<Dataset> entities) {
+    private List<List<Dataset>> documentPropagation(List<List<Dataset>> entities) {
         Map<String, List<Dataset>> entityMap = new TreeMap<>();
-        for(Dataset entity : entities) {
-            String datasetNameRaw = entity.getDatasetName().getRawForm();
-            List<Dataset> localList = entityMap.get(datasetNameRaw);
-            if (localList == null) {
-                localList = new ArrayList<>();
-            } 
-            localList.add(entity);
-            entityMap.put(datasetNameRaw, localList);
+        for(List<Dataset> datasets : entities) {
+            for(Dataset entity : datasets) {
+                if (entity.getDatasetName() == null)
+                    continue;
 
-            String datasetNameNormalized = entity.getDatasetName().getNormalizedForm();
-            if (datasetNameNormalized != null && !datasetNameRaw.equals(datasetNameNormalized)) {
-                localList = entityMap.get(datasetNameNormalized);
+                if (entity.getDatasetName().getRawForm() == null || entity.getDatasetName().getRawForm().length() == 0)
+                    continue;
+
+                String datasetNameRaw = entity.getDatasetName().getRawForm();
+                List<Dataset> localList = entityMap.get(datasetNameRaw);
                 if (localList == null) {
                     localList = new ArrayList<>();
                 } 
                 localList.add(entity);
-                entityMap.put(datasetNameNormalized, localList);
+                entityMap.put(datasetNameRaw, localList);
+
+                String datasetNameNormalized = entity.getDatasetName().getNormalizedForm();
+                if (datasetNameNormalized != null && !datasetNameRaw.equals(datasetNameNormalized)) {
+                    localList = entityMap.get(datasetNameNormalized);
+                    if (localList == null) {
+                        localList = new ArrayList<>();
+                    } 
+                    localList.add(entity);
+                    entityMap.put(datasetNameNormalized, localList);
+                }
             }
         }
 

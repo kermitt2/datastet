@@ -239,9 +239,28 @@ System.out.println(localDatasetcomponent.toJson());
             TaggingLabel clusterLabel = cluster.getTaggingLabel();
             Engine.getCntManager().i(clusterLabel);
             
-            String clusterText = LayoutTokensUtil.toText(cluster.concatTokens());
+            //String clusterText = LayoutTokensUtil.toText(cluster.concatTokens());
             List<LayoutToken> theTokens = cluster.concatTokens();
 
+            // remove possible trailing superscript number tokens, this is very unfrequent 
+            // but it looks bad when it happens
+            int indexLastToken = theTokens.size();
+            for(int j=theTokens.size()-1; j>=0; j--) {
+                LayoutToken lastToken = theTokens.get(j);
+                if (lastToken.isSuperscript() && 
+                    lastToken.getText() != null && 
+                    lastToken.getText().length() > 0 &&
+                    lastToken.getText().matches("[0-9]+")) {
+                    indexLastToken--;
+                } else {
+                    break;
+                }
+            }
+
+            if (indexLastToken != theTokens.size()) {
+                theTokens = theTokens.subList(0, indexLastToken);
+            }
+ 
             if ((pos < text.length()-1) && (text.charAt(pos) == ' '))
                 pos += 1;
             if ((pos < text.length()-1) && (text.charAt(pos) == '\n'))
@@ -282,11 +301,15 @@ System.out.println(localDatasetcomponent.toJson());
                 dataset.setLabel(clusterLabel);
                 dataset.setTokens(theTokens);
 
-                List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(cluster.concatTokens());
+                List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(theTokens);
                 dataset.setBoundingBoxes(boundingBoxes);
 
-                datasetComponents.add(dataset);
-
+                // if we just have junk/number, this is not a valid dataset name
+                if (dataset.getNormalizedForm() != null && 
+                    dataset.getNormalizedForm().length() > 0 &&
+                    !dataset.getNormalizedForm().matches("[0-9]+")) {
+                    datasetComponents.add(dataset);
+                }
                 dataset = null;
             }
 
@@ -494,30 +517,37 @@ System.out.println(localDatasetcomponent.toJson());
                 if ((header != null) && (header.trim().length() > 0)) {
                     labeledResult = parsers.getHeaderParser().label(header);
                     resHeader = new BiblioItem();
-                    resHeader.generalResultMapping(labeledResult, tokenizationHeader);
+                    try {
+                        resHeader.generalResultMapping(labeledResult, tokenizationHeader);
+                    } catch(Exception e) {
+                        LOGGER.error("Problem decoding header labeling, header will be skipped", e);
+                        resHeader = null;
+                    }
 
-                    // title
-                    List<LayoutToken> titleTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_TITLE);
-                    if (titleTokens != null) {
-                        selectedLayoutTokenSequences.add(titleTokens);
-                        relevantSectionsNamedDatasets.add(false);
-                        relevantSectionsImplicitDatasets.add(false);
-                    } 
+                    if (resHeader != null) {
+                        // title
+                        List<LayoutToken> titleTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_TITLE);
+                        if (titleTokens != null) {
+                            selectedLayoutTokenSequences.add(titleTokens);
+                            relevantSectionsNamedDatasets.add(false);
+                            relevantSectionsImplicitDatasets.add(false);
+                        } 
 
-                    // abstract
-                    List<LayoutToken> abstractTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_ABSTRACT);
-                    if (abstractTokens != null) {
-                        selectedLayoutTokenSequences.add(abstractTokens);
-                        relevantSectionsNamedDatasets.add(true);
-                        relevantSectionsImplicitDatasets.add(false);
-                    } 
+                        // abstract
+                        List<LayoutToken> abstractTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_ABSTRACT);
+                        if (abstractTokens != null) {
+                            selectedLayoutTokenSequences.add(abstractTokens);
+                            relevantSectionsNamedDatasets.add(true);
+                            relevantSectionsImplicitDatasets.add(false);
+                        } 
 
-                    // keywords
-                    List<LayoutToken> keywordTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_KEYWORD);
-                    if (keywordTokens != null) {
-                        selectedLayoutTokenSequences.add(keywordTokens);
-                        relevantSectionsNamedDatasets.add(false);
-                        relevantSectionsImplicitDatasets.add(false);
+                        // keywords
+                        List<LayoutToken> keywordTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_KEYWORD);
+                        if (keywordTokens != null) {
+                            selectedLayoutTokenSequences.add(keywordTokens);
+                            relevantSectionsNamedDatasets.add(false);
+                            relevantSectionsImplicitDatasets.add(false);
+                        }
                     }
                 }
             }
@@ -695,6 +725,17 @@ System.out.println(localDatasetcomponent.toJson());
                 }
             }
 
+            // explicit availability statements 
+            documentParts = doc.getDocumentPart(SegmentationLabels.AVAILABILITY);
+            if (documentParts != null) {
+                List<LayoutToken> availabilityTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
+                if (availabilityTokens != null) {
+                    selectedLayoutTokenSequences.add(availabilityTokens);
+                    relevantSectionsNamedDatasets.add(true);
+                    relevantSectionsImplicitDatasets.add(true);
+                }
+            }
+
             // segment zone into sentences
             List<List<LayoutToken>> allLayoutTokens = new ArrayList<>();
             List<String> allSentences = new ArrayList<>();
@@ -752,9 +793,9 @@ System.out.println(localDatasetcomponent.toJson());
                 zoneIndex++;
             }
 
-            System.out.println("allLayoutTokens size: " + allLayoutTokens.size());
-            System.out.println("allSentences size: " + allSentences.size());
-            System.out.println("sentenceOffsetStarts size: " + sentenceOffsetStarts.size());
+            //System.out.println("allLayoutTokens size: " + allLayoutTokens.size());
+            //System.out.println("allSentences size: " + allSentences.size());
+            //System.out.println("sentenceOffsetStarts size: " + sentenceOffsetStarts.size());
 
             // pre-process labeling of every sentences in batch
             processLayoutTokenSequences(allLayoutTokens, entities, sentenceOffsetStarts, pdfAnnotations, disambiguate);
@@ -1094,6 +1135,9 @@ for(String sentence : allSentences) {
                 }
             }
 
+            // finally classify the context for predicting the role of the dataset mention
+            entities = DatasetContextClassifier.getInstance(dataseerConfiguration).classifyDocumentContexts(entities);    
+
         } catch (Exception e) {
             //e.printStackTrace();
             throw new GrobidException("Cannot process pdf file: " + file.getPath(), e);
@@ -1271,6 +1315,39 @@ for(String sentence : allSentences) {
                     result.put(term, profile);
                 }
 
+                if (!term.equals(term.toLowerCase())) {
+                    profile = result.get(term.toLowerCase());
+                    if (profile == null) {
+                        profile = DataseerLexicon.getInstance().getTermIDF(term.toLowerCase());
+                        result.put(term.toLowerCase(), profile);
+                    }
+                }
+
+                String termCleaned = term.replaceAll("[(),;]", "");
+                if (!term.equals(termCleaned)) {
+                    profile = result.get(termCleaned);
+                    if (profile == null) {
+                        profile = DataseerLexicon.getInstance().getTermIDF(termCleaned);
+                        result.put(termCleaned, profile);
+                    }
+                }
+
+                if (term.endsWith("dataset") || term.endsWith("Dataset")) {
+                    String termAlt = term+"s";
+                    profile = result.get(termAlt);
+                    if (profile == null) {
+                        profile = DataseerLexicon.getInstance().getTermIDF(termAlt);
+                        result.put(termAlt, profile);
+                    }
+                } else if (term.endsWith("datasets") || term.endsWith("Datasets")) {
+                    String termAlt = term.substring(0,term.length()-1);
+                    profile = result.get(termAlt);
+                    if (profile == null) {
+                        profile = DataseerLexicon.getInstance().getTermIDF(termAlt);
+                        result.put(termAlt, profile);
+                    }
+                }
+
                 if (!term.equals(nameComponent.getNormalizedForm())) {
                     profile = result.get(nameComponent.getNormalizedForm());
                     if (profile == null) {
@@ -1311,6 +1388,34 @@ for(String sentence : allSentences) {
                     added.add(term);
                 }
 
+                // add lower case version
+                if (!term.equals(term.toLowerCase()) && !added.contains(term.toLowerCase())) {
+                    termPattern.loadTerm(term.toLowerCase(), DataseerAnalyzer.getInstance(), false);
+                    added.add(term.toLowerCase());
+                }
+
+                // add version without trivial punctuations
+                String termCleaned = term.replaceAll("[(),;]", "");
+                if (!term.equals(termCleaned) && !added.contains(termCleaned)) {
+                    termPattern.loadTerm(termCleaned, DataseerAnalyzer.getInstance(), false);
+                    added.add(termCleaned);
+                }
+                
+                // add common trivial variant singular/plurial
+                if (term.endsWith("dataset") || term.endsWith("Dataset")) {
+                    String termAlt = term+"s";
+                    if (!added.contains(termAlt)) {
+                        termPattern.loadTerm(termAlt, DataseerAnalyzer.getInstance(), false);
+                        added.add(termAlt);
+                    }
+                } else if (term.endsWith("datasets") || term.endsWith("Datasets")) {
+                    String termAlt = term.substring(0,term.length()-1);
+                    if (!added.contains(termAlt)) {
+                        termPattern.loadTerm(termAlt, DataseerAnalyzer.getInstance(), false);
+                        added.add(termAlt);
+                    }
+                }
+                
                 if (!term.equals(nameComponent.getNormalizedForm())) {
                     if (!added.contains(nameComponent.getNormalizedForm())) {
                         termPattern.loadTerm(nameComponent.getNormalizedForm(), DataseerAnalyzer.getInstance(), false);
