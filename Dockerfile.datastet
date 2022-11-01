@@ -143,13 +143,13 @@ RUN ./gradlew --version
 RUN ./gradlew installModels && rm -rf resources/models && rm ../grobid-home/models/dataseer*.zip && rm ../grobid-home/models/context_*.zip
 
 # install ELMo
-RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json
-RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5
-RUN mkdir /opt/elmo
-RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json /opt/elmo/
-RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5 /opt/elmo/
+#RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json
+#RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5
+#RUN mkdir /opt/elmo
+#RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json /opt/elmo/
+#RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5 /opt/elmo/
 
-# this will build and load embeddings on the image forever :)
+# this will build and load embeddings on the image forever (only if required by the config) :)
 WORKDIR /opt/grobid/datastet
 RUN ./gradlew clean build test
 

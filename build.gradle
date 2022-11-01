@@ -245,6 +245,7 @@ task installModels(type: Copy) {
             overwrite false
         }
         ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-binary_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
+        
         download {
             src "https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip"
             dest "${rootDir}/../grobid-home/models/"
@@ -252,12 +253,19 @@ task installModels(type: Copy) {
         }
         ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-first_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
         
-        /*download {
+        download {
             src "https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip"
             dest "${rootDir}/../grobid-home/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-reuse_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")*/
+        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-reuse_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
+
+        download {
+            src "https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip"
+            dest "${rootDir}/../grobid-home/models/"
+            overwrite false
+        }
+        ant.unzip(src: "${rootDir}/../grobid-home/models/datasets-BERT_CRF-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
 
         download {
             src "https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip"
@@ -265,18 +273,21 @@ task installModels(type: Copy) {
             overwrite false
         }
         ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        
         download {
             src "https://grobid.s3.amazonaws.com/context_used_bert-0.3.2.zip"
             dest "${rootDir}/../grobid-home/models/"
             overwrite false
         }
         ant.unzip(src: "${rootDir}/../grobid-home/models/context_used_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        
         download {
             src "https://grobid.s3.amazonaws.com/context_creation_bert-0.3.2.zip"
             dest "${rootDir}/../grobid-home/models/"
             overwrite false
         }
         ant.unzip(src: "${rootDir}/../grobid-home/models/context_creation_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        
         download {
             src "https://grobid.s3.amazonaws.com/context_shared_bert-0.3.2.zip"
             dest "${rootDir}/../grobid-home/models/"
@@ -355,7 +366,7 @@ task(annotated_corpus_generator_csv, dependsOn: 'classes', type: JavaExec, group
 apply plugin: 'application'
 application {
     mainClassName = 'org.grobid.service.DataseerApplication'
-    
+
     run {
         args = ['server', 'resources/config/server.yml']
     }
