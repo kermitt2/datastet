@@ -18,7 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *  Representation of a mention of a dataset, name or implicit expression, or data device.  
+ *  Representation of a full context mention of a dataset entity (named or implicit expression).
+ *  This description includes the dataset name and other related attributes like URL or data device 
+ *  describing the entity.  
  *
  */
 public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {   

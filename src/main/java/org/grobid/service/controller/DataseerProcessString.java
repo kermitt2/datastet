@@ -92,12 +92,13 @@ public class DataseerProcessString {
         DataseerClassifier classifier = DataseerClassifier.getInstance();
         DatasetParser parser = DatasetParser.getInstance(classifier.getDataseerConfiguration());
         JsonStringEncoder encoder = JsonStringEncoder.getInstance();
+        boolean disambiguate = true;
         try {
             LOGGER.debug(">> set raw sentence text for stateless service'...");
             
             text = text.replaceAll("\\n", " ").replaceAll("\\t", " ");
             long start = System.currentTimeMillis();
-            List<Dataset> result = parser.processingString(text);
+            List<Dataset> result = parser.processingString(text, disambiguate);
 
             // building JSON response
             StringBuilder json = new StringBuilder();
@@ -174,7 +175,7 @@ public class DataseerProcessString {
             json.append(", \"runtime\": "+ runtime);
             json.append("}");
 
-            System.out.println(json.toString());
+            //System.out.println(json.toString());
 
             Object finalJsonObject = mapper.readValue(json.toString(), Object.class);
             String retValString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(finalJsonObject);

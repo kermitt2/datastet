@@ -14,6 +14,8 @@ public class DataseerConfiguration {
     public String gluttonPort;
     public String version;
     private Boolean useBinaryContextClassifiers;
+    private String entityFishingHost;
+    private String entityFishingPort;
 
     //models (sequence labeling and text classifiers)
     public List<ModelParameters> models;
@@ -110,6 +112,22 @@ public class DataseerConfiguration {
 
     public void setUseBinaryContextClassifiers(Boolean binary) {
         this.useBinaryContextClassifiers = binary;
+    }
+
+    public String getEntityFishingHost() {
+        return entityFishingHost;
+    }
+
+    public void setEntityFishingHost(String entityFishingHost) {
+        this.entityFishingHost = entityFishingHost;
+    }
+
+    public String getEntityFishingPort() {
+        return entityFishingPort;
+    }
+
+    public void setEntityFishingPort(String entityFishingPort) {
+        this.entityFishingPort = entityFishingPort;
     }
 }
  

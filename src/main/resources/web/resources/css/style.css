@@ -24,7 +24,7 @@
     background-color: #3366cc;
 }
 .label.data-device {
-    background-color: #0066ff;
+    background-color: #029d55;
 }
 .label.url {
     background-color: #ff3399;
@@ -148,7 +148,7 @@ span.section-active { color: #BC0E0E; }
 
 a.dataset-implicit { border-color: #800080 !important; } 
 a.dataset-name { border-color: #3366cc !important; } 
-a.data-device { border-color: #0066ff !important; } 
+a.data-device { border-color: #029d55 !important; } 
 a.url { border-color: #ff3399 !important; } 
 a.creator { border-color: #993300 !important; } 
 a.reference { border-color: #009933 !important; } 
@@ -208,7 +208,7 @@ span {word-break:normal;}
     background-color: #3366cc; color: white;
 }
 [rel=popover][data-color=data-device] + .popover .popover-title {
-    background-color: #0066ff; color: white;
+    background-color: #029d55; color: white;
 }
 [rel=popover][data-color=url] + .popover .popover-title {
     background-color: #ff3399; color: white;
@@ -233,7 +233,7 @@ span {word-break:normal;}
     background-color: #3366cc;
 }
 .info-sense-box.data-device {
-    background-color: #0066ff;
+    background-color: #029d55;
 }
 .info-sense-box.url {
     background-color: #ff3399;

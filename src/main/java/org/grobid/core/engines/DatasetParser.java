@@ -79,6 +79,7 @@ public class DatasetParser extends AbstractParser {
     private EngineParsers parsers;
     private DataseerConfiguration dataseerConfiguration;
     private DataseerClassifier dataseerClassifier;
+    private DatasetDisambiguator disambiguator;
 
     public static DatasetParser getInstance(DataseerConfiguration configuration) {
         if (instance == null) {
@@ -102,6 +103,7 @@ public class DatasetParser extends AbstractParser {
         dataseerLexicon = DataseerLexicon.getInstance();
         parsers = new EngineParsers();
         dataseerConfiguration = configuration;
+        disambiguator = DatasetDisambiguator.getInstance(configuration);
     }
 
     /**
@@ -112,8 +114,8 @@ public class DatasetParser extends AbstractParser {
      * 
      * @return list of identified Dataset objects. 
      */
-    public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList) {
-        return processing(tokensList, null);
+    public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList, boolean disambiguate) {
+        return processing(tokensList, null, disambiguate);
     }
 
     /**
@@ -126,7 +128,7 @@ public class DatasetParser extends AbstractParser {
      * 
      * @return list of identified Dataset objects. 
      */
-    public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList, List<PDFAnnotation> pdfAnnotations) {
+    public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList, List<PDFAnnotation> pdfAnnotations, boolean disambiguate) {
 
         List<List<Dataset>> results = new ArrayList<>();
         if (tokensList == null || tokensList.size() == 0) {
@@ -181,8 +183,7 @@ public class DatasetParser extends AbstractParser {
             return results;
 
         String[] resBlocks = allRes.split("\n\n");
-
-        System.out.println("resBlocks: " + resBlocks.length);
+        //System.out.println("resBlocks: " + resBlocks.length);
 
         int i = 0;
         for (List<LayoutToken> tokens : tokensList) {
@@ -213,6 +214,28 @@ for(DatasetComponent localDatasetcomponent : localDatasetcomponents) {
 System.out.println(localDatasetcomponent.toJson());
 }*/
                 List<Dataset> localDatasets = groupByEntities(localDatasetcomponents, tokens, text);
+
+                // disambiguation
+                if (disambiguate) {
+                    localDatasets = disambiguator.disambiguate(localDatasets, tokens);
+
+                    // apply existing filtering
+                    List<Integer> indexToBeFiltered = new ArrayList<>();
+                    int k = 0;
+                    for(Dataset entity : localDatasets) {
+                        if (entity.isFiltered()) {
+                            indexToBeFiltered.add(new Integer(k));
+                        }
+                        k++;
+                    }
+
+                    if (indexToBeFiltered.size() > 0) {
+                        for(int j=indexToBeFiltered.size()-1; j>= 0; j--) {
+                            localDatasets.remove(indexToBeFiltered.get(j).intValue());
+                        }
+                    }
+                }
+
                 results.add(localDatasets);
             }
             i++;
@@ -338,8 +361,12 @@ System.out.println(localDatasetcomponent.toJson());
                 localDataset = new Dataset(localComponent.getType(), localComponent.getRawForm());
                 localDataset.setDataset(localComponent);
             } else if (localComponent.getType() == DatasetType.DATA_DEVICE) {
-                if (localDataset != null && localDataset.getDataset() != null) 
-                    localDataset.setDataDevice(localComponent);
+                if (localDataset != null && localDataset.getDataset() != null) {
+                    if (localDataset.getDataDevice() == null)
+                        localDataset.setDataDevice(localComponent);
+                    else if (localDataset.getDataDevice().getRawForm().length() < localComponent.getRawForm().length()) 
+                        localDataset.setDataDevice(localComponent);
+                }
             } else if (localComponent.getType() == DatasetType.URL) {
                 if (localDataset != null)
                     localDataset.setUrl(localComponent);
@@ -449,24 +476,24 @@ System.out.println(localDatasetcomponent.toJson());
      * 
      * @return list of identified Dataset objects. 
      */
-    public List<Dataset> processingString(String input) {
+    public List<Dataset> processingString(String input, boolean disambiguate) {
         List<List<LayoutToken>> tokensList = new ArrayList<>();
         input = UnicodeUtil.normaliseText(input);
         tokensList.add(analyzer.tokenizeWithLayoutToken(input));
-        List<List<Dataset>> result = processing(tokensList);
+        List<List<Dataset>> result = processing(tokensList, disambiguate);
         if (result != null && result.size()>0)
             return result.get(0);
         else 
             return new ArrayList<Dataset>();
     }
 
-    public List<List<Dataset>> processingStrings(List<String> inputs) {
+    public List<List<Dataset>> processingStrings(List<String> inputs, boolean disambiguate) {
         List<List<LayoutToken>> tokensList = new ArrayList<>();
         for(String input : inputs) {
             input = UnicodeUtil.normaliseText(input);
             tokensList.add(analyzer.tokenizeWithLayoutToken(input));
         }
-        return processing(tokensList);
+        return processing(tokensList, disambiguate);
     }
 
     public Pair<List<List<Dataset>>,Document> processPDF(File file, 
@@ -627,7 +654,8 @@ System.out.println(localDatasetcomponent.toJson());
             // we don't process references (although reference titles could be relevant)
             // acknowledgement? 
 
-            // we can process annexes, except those referring to author information
+            // we can process annexes, except those referring to author information, author contribution
+            // and abbreviations (abbreviations might seem relevant, but it is not from the papers we have seen)
             documentParts = doc.getDocumentPart(SegmentationLabels.ANNEX);
             if (documentParts != null) {
                 // similar full text processing
@@ -685,14 +713,15 @@ System.out.println(localDatasetcomponent.toJson());
                             }
                             if (curParagraphTokens == null)
                                 curParagraphTokens = new ArrayList<>();
-                            curParagraphTokens.addAll(localTokenization);
+                            if (currentSection == null || currentSection.equals("das"))
+                                curParagraphTokens.addAll(localTokenization);
                         } else if (clusterLabel.equals(TaggingLabels.SECTION)) {
-                            // section are important to catch possible data availability statement section or author 
-                            // contribution section
+                            // section are important to catch possible data/code availability statement section (when misclassified as 
+                            // annex) or author contribution and abbreviation section
                             previousSection = currentSection;
                             if (this.checkDASAnnex(localTokenization)) {
                                 currentSection = "das";
-                            } else if (this.checkAuthorAnnex(localTokenization)) {
+                            } else if (this.checkAuthorAnnex(localTokenization) || this.checkAbbreviationAnnex(localTokenization)) {
                                 currentSection = "author";
                             } else {
                                 currentSection = null;
@@ -725,7 +754,7 @@ System.out.println(localDatasetcomponent.toJson());
                 }
             }
 
-            // explicit availability statements 
+            // explicit availability statements, all types of data mentions
             documentParts = doc.getDocumentPart(SegmentationLabels.AVAILABILITY);
             if (documentParts != null) {
                 List<LayoutToken> availabilityTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
@@ -1154,7 +1183,7 @@ for(String sentence : allSentences) {
                                                   List<Integer> sentenceOffsetStarts,
                                                   List<PDFAnnotation> pdfAnnotations,
                                                   boolean disambiguate) {
-        List<List<Dataset>> results = processing(layoutTokenList, pdfAnnotations);
+        List<List<Dataset>> results = processing(layoutTokenList, pdfAnnotations, disambiguate);
         entities.addAll(results);
 
         int i = 0;
@@ -1188,6 +1217,16 @@ for(String sentence : allSentences) {
         return false;
     }
 
+    public static boolean checkAbbreviationAnnex(List<LayoutToken> annexTokens) {
+        for(int i=0; i<annexTokens.size() && i<10; i++) {
+            String localText = annexTokens.get(i).getText();
+            if (localText != null && localText.toLowerCase().startsWith("abbreviation")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean checkDASAnnex(List<LayoutToken> annexTokens) {
         boolean dataFound = false;
         boolean availabilityFound = false;
@@ -1195,7 +1234,7 @@ for(String sentence : allSentences) {
             String localText = annexTokens.get(i).getText();
             if (localText != null) {
                 localText = localText.toLowerCase();
-                if (localText.startsWith("data")) 
+                if (localText.startsWith("data") || localText.startsWith("code")) 
                     dataFound = true;
                 if (localText.contains("availab") || localText.contains("sharing"))
                     availabilityFound = true;

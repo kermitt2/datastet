@@ -1860,9 +1860,9 @@ var grobid = (function ($) {
         }
     }
 
-    var examples = ["The electrochemiluminescence immunoassay was used to measure serum concentration of 25-hydroxyvitamin D using Roche Modular E170 Analyzer (Roche Diagnostics, Basel, Switzerland).",
+    var examples = ["Insulin levels of all samples were measured by ELISA kit (Mercodia).", 
+        "The electrochemiluminescence immunoassay was used to measure serum concentration of 25-hydroxyvitamin D using Roche Modular E170 Analyzer (Roche Diagnostics, Basel, Switzerland).",
         "We found that this technique works very well in practice, for the MNIST and NORB datasets (see below).",
-//    "Insulin levels of all samples were measured by ELISA toolkit (Mercodia).", 
         "We also compare ShanghaiTechRGBD with other RGB-D crowd counting datasets in , and we can see that ShanghaiTechRGBD is the most challenging RGB-D crowd counting dataset in terms of the number of images and heads.",    
         "The sequences were analysed using the ION PGM system with ion 316 chip kit V2 (Life Technologies, CA, USA) following the manufacturer's recommended protocols."    
     ]
