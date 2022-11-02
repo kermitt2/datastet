@@ -420,7 +420,7 @@ public class DatasetDisambiguator {
                             // keyterms (.edu, .org ?)
                             if (p856Value.indexOf("datacite") != -1 || p856Value.indexOf("zenodo") != -1 || p856Value.indexOf("dryad") != -1 || 
                                 p856Value.indexOf("figshare") != -1 || p856Value.indexOf("pangaea") != -1 || 
-                                p856Value.indexOf("osf") != -1 || 
+                                p856Value.indexOf("osf") != -1 || p856Value.indexOf(" kaggle") != -1 ||
                                 p856Value.indexOf("Mendeley") != -1 || p856Value.indexOf("github") != -1) {
                                 toBeFiltered = false;
                                 break;

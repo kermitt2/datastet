@@ -215,13 +215,35 @@ System.out.println(localDatasetcomponent.toJson());
 }*/
                 List<Dataset> localDatasets = groupByEntities(localDatasetcomponents, tokens, text);
 
+                // filter out dataset names that are stopwords
+                List<Integer> indexToBeFiltered = new ArrayList<>();
+                int k = 0;
+                for(Dataset entity : localDatasets) {
+                    if (entity.getDatasetName() != null) {
+                        String term = entity.getDatasetName().getNormalizedForm();
+                        if (term == null || term.length() == 0) {
+                            indexToBeFiltered.add(new Integer(k));
+                        } else if (DataseerLexicon.getInstance().isEnglishStopword(term)) {
+                            indexToBeFiltered.add(new Integer(k));
+                        } else if (DataseerLexicon.getInstance().isBlackListedNamedDataset(term.toLowerCase())) {
+                            indexToBeFiltered.add(new Integer(k));
+                        }
+                    }
+                    k++;
+                }
+                if (indexToBeFiltered.size() > 0) {
+                    for(int j=indexToBeFiltered.size()-1; j>= 0; j--) {
+                        localDatasets.remove(indexToBeFiltered.get(j).intValue());
+                    }
+                }
+
                 // disambiguation
                 if (disambiguate) {
                     localDatasets = disambiguator.disambiguate(localDatasets, tokens);
 
                     // apply existing filtering
-                    List<Integer> indexToBeFiltered = new ArrayList<>();
-                    int k = 0;
+                    indexToBeFiltered = new ArrayList<>();
+                    k = 0;
                     for(Dataset entity : localDatasets) {
                         if (entity.isFiltered()) {
                             indexToBeFiltered.add(new Integer(k));
@@ -311,6 +333,7 @@ System.out.println(localDatasetcomponent.toJson());
 
             if (clusterLabel.equals(DatasetTaggingLabels.DATASET_NAME)) {
                 dataset = new DatasetComponent(DatasetType.DATASET_NAME, text.substring(pos, endPos));
+//System.out.println(result);
             } else if (clusterLabel.equals(DatasetTaggingLabels.DATASET)) {
                 dataset = new DatasetComponent(DatasetType.DATASET, text.substring(pos, endPos));
             } else if (clusterLabel.equals(DatasetTaggingLabels.DATA_DEVICE)) {
@@ -330,7 +353,8 @@ System.out.println(localDatasetcomponent.toJson());
                 // if we just have junk/number, this is not a valid dataset name
                 if (dataset.getNormalizedForm() != null && 
                     dataset.getNormalizedForm().length() > 0 &&
-                    !dataset.getNormalizedForm().matches("[0-9]+")) {
+                    !dataset.getNormalizedForm().matches("[0-9\\(\\)/\\[\\]\\,\\.\\:\\-\\+\\; ]+") &&
+                    !(DataseerLexicon.getInstance().isEnglishStopword(dataset.getNormalizedForm()))) {
                     datasetComponents.add(dataset);
                 }
                 dataset = null;
@@ -618,7 +642,7 @@ System.out.println(localDatasetcomponent.toJson());
                         if (TEIFormatter.MARKER_LABELS.contains(clusterLabel)) {
                             if (curParagraphTokens == null)
                                 curParagraphTokens = new ArrayList<>();
-                            curParagraphTokens.addAll(localTokenization);
+                            //curParagraphTokens.addAll(localTokenization);
                         } else if (clusterLabel.equals(TaggingLabels.PARAGRAPH) || clusterLabel.equals(TaggingLabels.ITEM)) {
                             //|| clusterLabel.equals(TaggingLabels.SECTION) {
                             if (lastClusterLabel == null || curParagraphTokens == null  || isNewParagraph(lastClusterLabel)) { 
@@ -892,7 +916,7 @@ System.out.println(localDatasetcomponent.toJson());
                             bestScores.add(bestScore);
                             hasDatasetScores.add(hasDatasetScore);
 
-                            totalClassificationNodes++;                            
+                            totalClassificationNodes++; 
                         }
                     }
                 } catch(JsonProcessingException e) {
@@ -905,11 +929,10 @@ System.out.println(localDatasetcomponent.toJson());
                 e.printStackTrace();
             }
 
-            System.out.println("total data sentence classifications: " + totalClassificationNodes);
-
-            System.out.println("bestTypes size: " + bestTypes.size());
-            System.out.println("bestScores size: " + bestScores.size());
-            System.out.println("hasDatasetScores size: " + hasDatasetScores.size());
+            //System.out.println("total data sentence classifications: " + totalClassificationNodes);
+            //System.out.println("bestTypes size: " + bestTypes.size());
+            //System.out.println("bestScores size: " + bestScores.size());
+            //System.out.println("hasDatasetScores size: " + hasDatasetScores.size());
 
             int i = 0;
             for(List<Dataset> localDatasets : entities) {
@@ -1427,10 +1450,12 @@ for(String sentence : allSentences) {
                     added.add(term);
                 }
 
-                // add lower case version
-                if (!term.equals(term.toLowerCase()) && !added.contains(term.toLowerCase())) {
-                    termPattern.loadTerm(term.toLowerCase(), DataseerAnalyzer.getInstance(), false);
-                    added.add(term.toLowerCase());
+                // add lower case version, except if the term is originally all upper-case
+                if (!TextUtilities.isAllUpperCase(term)) {
+                    if (!term.equals(term.toLowerCase()) && !added.contains(term.toLowerCase())) {
+                        termPattern.loadTerm(term.toLowerCase(), DataseerAnalyzer.getInstance(), false);
+                        added.add(term.toLowerCase());
+                    }
                 }
 
                 // add version without trivial punctuations

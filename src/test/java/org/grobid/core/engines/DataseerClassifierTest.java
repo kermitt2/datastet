@@ -11,6 +11,7 @@ import org.grobid.core.main.LibraryLoader;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -30,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Patrice
  */
+@Ignore
 public class DataseerClassifierTest {
     private static DataseerConfiguration configuration;
 

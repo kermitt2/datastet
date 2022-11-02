@@ -12,6 +12,7 @@ import org.grobid.core.main.LibraryLoader;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -31,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Patrice
  */
+@Ignore
 public class DatasetParserTest {
     private static DataseerConfiguration configuration;
 
@@ -81,7 +83,7 @@ public class DatasetParserTest {
             texts.add(text);
         }
 
-        List<List<Dataset>> results = DatasetParser.getInstance(configuration).processingStrings(texts);
+        List<List<Dataset>> results = DatasetParser.getInstance(configuration).processingStrings(texts, false);
         StringBuilder json = new StringBuilder();
 
         int i = 0;
