@@ -547,6 +547,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         String result = raw.replace("\n", " ");
         result = result.replaceAll("( )+", " ");
         result = TextUtilities.cleanField(result, false);
+        result = DataseerLexicon.getInstance().removeLeadingEnglishStopwords(result);
         return result;
     }
     

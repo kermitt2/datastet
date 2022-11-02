@@ -6,3 +6,6 @@ github.com
 osf.io
 themusiclab.org
 kaggle.com
+zenodo.org
+figshare.com
+datadryad.org

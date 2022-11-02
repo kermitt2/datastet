@@ -125,4 +125,31 @@ public class DatasetLexiconTest {
         assertThat(thirdCheck, is(false));
     }
 
+    @Test
+    public void testLeadingStopwords() throws Exception {
+        String testStringFirst = "and the dataset TOTO";
+        String testStringSecond = "and the dataset TOTO of";
+
+        String firstCheck = DataseerLexicon.getInstance().removeLeadingEnglishStopwords(testStringFirst);
+        String secondCheck = DataseerLexicon.getInstance().removeLeadingEnglishStopwords(testStringSecond);
+
+        assertThat(firstCheck, is("dataset TOTO"));
+        assertThat(secondCheck, is("dataset TOTO of"));
+    }
+
+    @Test
+    public void testFilterMatches() throws Exception {
+        String testStringFirst = " 1/2";
+        String testStringSecond = "(";
+        String testStringThird = "https://stackoverflow.com";
+
+        boolean firstCheck = testStringFirst.matches("[0-9\\(\\)/\\[\\]\\,\\.\\:\\-\\+\\; ]+");
+        boolean secondCheck = testStringSecond.matches("[0-9\\(\\)/\\[\\]\\,\\.\\:\\-\\+\\; ]+");
+        boolean thirdCheck = testStringThird.matches("[0-9\\(\\)/\\[\\]\\,\\.\\:\\-\\+\\; ]+");
+
+        assertThat(firstCheck, is(true));
+        assertThat(secondCheck, is(true));
+        assertThat(thirdCheck, is(false));
+    }
+
 }

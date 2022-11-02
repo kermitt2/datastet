@@ -188,6 +188,47 @@ public class DataseerLexicon {
             }
         }
 
+        // a list of stopwords for English for conservative checks with software names
+        englishStopwords = new ArrayList<>();
+        file = new File("resources/lexicon/stopwords_en.txt");
+        file = new File(file.getAbsolutePath());
+        if (!file.exists()) {
+            throw new GrobidResourceException("Cannot initialize English stopwords, because file '" + 
+                file.getAbsolutePath() + "' does not exists.");
+        }
+        if (!file.exists()) {
+            throw new GrobidResourceException("Cannot initialize English stopwords, because file '" + 
+                file.getAbsolutePath() + "' does not exists.");
+        }
+        if (!file.canRead()) {
+            throw new GrobidResourceException("Cannot initialize English stopwords, because cannot read file '" + 
+                file.getAbsolutePath() + "'.");
+        }
+        if (!file.canRead()) {
+            throw new GrobidResourceException("Cannot initialize English stopwords, because cannot read file '" + 
+                file.getAbsolutePath() + "'.");
+        }
+        // read the file
+        try {
+            dis = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            String l = null;
+            while ((l = dis.readLine()) != null) {
+                if (l.length() == 0) continue;
+                englishStopwords.add(l.trim());
+            }
+        } catch (FileNotFoundException e) {
+            throw new GrobidException("English stopwords file not found.", e);
+        } catch (IOException e) {
+            throw new GrobidException("Cannot read English stopwords file.", e);
+        } finally {
+            try {
+                if (dis != null)
+                    dis.close();
+            } catch(Exception e) {
+                throw new GrobidResourceException("Cannot close IO stream.", e);
+            }
+        }
+
     }
 
     // to use the same method in grobid-core Utilities.java after merging branch update_header
@@ -285,6 +326,29 @@ public class DataseerLexicon {
         return this.englishStopwords.contains(value);
     }
 
+    public String removeLeadingEnglishStopwords(String string) {
+        if (string == null || string.trim().length() == 0) {
+            return string;
+        }
+
+        string = string.trim();
+        while(string.length()>0) {
+            int startSize = string.length();
+            // note: create a fast matcher...
+            for(String stopword : this.englishStopwords) {
+                if (string.startsWith(stopword+" ")) {
+                    string = string.substring(stopword.length(), string.length());
+                    string = string.trim();
+                    break;
+                }
+            }
+            if (startSize - string.length() == 0) 
+                break;
+        }
+
+        return string;
+    }
+
     /**
      * Return a boolean value indicating if an URL or DOI is data DOI (referenced by datacite)
      * or a known dataset URL.
@@ -347,4 +411,20 @@ public class DataseerLexicon {
             return true;
         return false;
     }
+
+    // basic black list (it should be built semi-automatically in future version and to be put in a file)
+    private List<String> blaclListNamedDataset = 
+        Arrays.asList("data", "dataset", "datasets", "data set", "data sets", "cell", "cells", "file", "files");
+
+    public boolean isBlackListedNamedDataset(String term) {
+        if (term == null || term.length() == 0)
+            return false;
+
+        if (blaclListNamedDataset.contains(term)) 
+            return true;
+         
+        return false;
+    }
+
+
 }
