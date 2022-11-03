@@ -275,25 +275,25 @@ task installModels(type: Copy) {
         ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
         
         download {
-            src "https://grobid.s3.amazonaws.com/context_used_bert-0.3.2.zip"
+            src "https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip"
             dest "${rootDir}/../grobid-home/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/context_used_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert_used-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
         
         download {
-            src "https://grobid.s3.amazonaws.com/context_creation_bert-0.3.2.zip"
+            src "https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip"
             dest "${rootDir}/../grobid-home/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/context_creation_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert_creation-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
         
         download {
-            src "https://grobid.s3.amazonaws.com/context_shared_bert-0.3.2.zip"
+            src "https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip"
             dest "${rootDir}/../grobid-home/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/context_shared_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert_shared-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
     }
 }
 
