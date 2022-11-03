@@ -111,7 +111,9 @@ downwards
 during
 e
 each
+eight
 either
+eleven
 else
 elsewhere
 enough
@@ -139,6 +141,7 @@ followed
 following
 follows
 for
+four
 from
 further
 furthermore
@@ -265,6 +268,7 @@ needs
 neither
 never
 nevertheless
+nine
 no-one
 nobody
 non
@@ -336,6 +340,7 @@ seen
 self
 selves
 seriously
+seven
 several
 shall
 shalt
@@ -348,6 +353,7 @@ short
 should
 shouldn't
 since
+six
 so
 some
 somebody
@@ -364,6 +370,7 @@ such
 sure
 t
 t's
+ten
 tends
 than
 that
@@ -418,6 +425,8 @@ too
 toward
 towards
 truly
+twelve
+two
 u
 under
 underneath

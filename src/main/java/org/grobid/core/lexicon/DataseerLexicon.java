@@ -39,6 +39,7 @@ public class DataseerLexicon {
     private List<String> propertyValues = null;
 
     private List<String> englishStopwords = null;
+    private List<String> blackListBioMed = null;
 
     private Set<String> doiPrefixes = null;
     private Set<String> urlDomains = null;
@@ -188,7 +189,7 @@ public class DataseerLexicon {
             }
         }
 
-        // a list of stopwords for English for conservative checks with software names
+        // a list of stopwords for English for conservative checks with dataset names
         englishStopwords = new ArrayList<>();
         file = new File("resources/lexicon/stopwords_en.txt");
         file = new File(file.getAbsolutePath());
@@ -229,6 +230,48 @@ public class DataseerLexicon {
             }
         }
 
+         // a black list of for English in biomed domain
+        blackListBioMed = new ArrayList<>();
+        file = new File("resources/lexicon/covid_blacklist.txt");
+        file = new File(file.getAbsolutePath());
+        if (!file.exists()) {
+            throw new GrobidResourceException("Cannot initialize covid blacklist, because file '" + 
+                file.getAbsolutePath() + "' does not exists.");
+        }
+        if (!file.exists()) {
+            throw new GrobidResourceException("Cannot initialize covid blacklist, because file '" + 
+                file.getAbsolutePath() + "' does not exists.");
+        }
+        if (!file.canRead()) {
+            throw new GrobidResourceException("Cannot initialize covid blacklist, because cannot read file '" + 
+                file.getAbsolutePath() + "'.");
+        }
+        if (!file.canRead()) {
+            throw new GrobidResourceException("Cannot initialize covid blacklist, because cannot read file '" + 
+                file.getAbsolutePath() + "'.");
+        }
+        // read the file
+        try {
+            dis = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            String l = null;
+            while ((l = dis.readLine()) != null) {
+                if (l.length() == 0) continue;
+                if (l.startsWith("#")) continue;
+                if (l.trim().length() == 0) continue;
+                blackListBioMed.add(l.trim().toLowerCase());
+            }
+        } catch (FileNotFoundException e) {
+            throw new GrobidException("covid blacklist file not found.", e);
+        } catch (IOException e) {
+            throw new GrobidException("Cannot read covid blacklist file.", e);
+        } finally {
+            try {
+                if (dis != null)
+                    dis.close();
+            } catch(Exception e) {
+                throw new GrobidResourceException("Cannot close IO stream.", e);
+            }
+        }
     }
 
     // to use the same method in grobid-core Utilities.java after merging branch update_header
@@ -412,15 +455,26 @@ public class DataseerLexicon {
         return false;
     }
 
-    // basic black list (it should be built semi-automatically in future version and to be put in a file)
-    private List<String> blaclListNamedDataset = 
-        Arrays.asList("data", "dataset", "datasets", "data set", "data sets", "cell", "cells", "file", "files");
+    // basic black list (it should be built semi-automatically in future version and to be put in a file), not enough content
+    // for a full named dataset
+    private List<String> blackListNamedDataset = 
+        Arrays.asList("data", "dataset", "datasets", "data set", "data sets", "cell", "cells", "file", "files", "model", "models",
+            "record", "records", "column", "columns", "line", "lines", "tnbc", "pam", "patient", "patients", "uhrf", "normal",
+            "discovery", "manuscript", "draft", "database", "data base", "databases", "data bases", "base", "bases", "square",
+            "mission", "missions", "subject", "subjects");
 
     public boolean isBlackListedNamedDataset(String term) {
         if (term == null || term.length() == 0)
             return false;
 
-        if (blaclListNamedDataset.contains(term)) 
+        if (blackListNamedDataset.contains(term.toLowerCase())) 
+            return true;
+
+        if (blackListBioMed.contains(term.toLowerCase())) 
+            return true;
+
+        // temporary force filtering all the models, waiting for more training data and negative examples 
+        if (term.toLowerCase().endsWith("model") || term.toLowerCase().endsWith("models") )
             return true;
          
         return false;
