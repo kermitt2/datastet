@@ -563,7 +563,7 @@ System.out.println(localDatasetcomponent.toJson());
             if (documentParts != null) {
                 Pair<String,List<LayoutToken>> headerFeatured = parsers.getHeaderParser().getSectionHeaderFeatured(doc, documentParts);
                 String header = headerFeatured.getLeft();
-                List<LayoutToken> tokenizationHeader = doc.getTokenizationParts(documentParts, doc.getTokenizations());
+                List<LayoutToken> tokenizationHeader = headerFeatured.getRight();
                 String labeledResult = null;
                 if ((header != null) && (header.trim().length() > 0)) {
                     labeledResult = parsers.getHeaderParser().label(header);
