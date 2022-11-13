@@ -165,8 +165,8 @@ public class DatasetParser extends AbstractParser {
             total++;
         }
 
-        System.out.println("total size: " + total);
-        System.out.println("max token sequence: " + maxTokens);
+        //System.out.println("total size: " + total);
+        //System.out.println("max token sequence: " + maxTokens);
 
         tokensList = newTokensList;
 
@@ -974,7 +974,7 @@ for(String sentence : allSentences) {
             Map<String, Double> termProfiles = prepareTermProfiles(entities);
             List<List<OffsetPosition>> placeTaken = preparePlaceTaken(entities);
 
-            System.out.println("entities size: " + entities.size());
+            //System.out.println("entities size: " + entities.size());
 
             int index = 0;
             List<List<Dataset>> newEntities = new ArrayList<>();
