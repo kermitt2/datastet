@@ -476,6 +476,9 @@ public class DataseerLexicon {
         // temporary force filtering all the models, waiting for more training data and negative examples 
         if (term.toLowerCase().endsWith("model") || term.toLowerCase().endsWith("models") )
             return true;
+
+        if (term.startsWith("ð")) 
+            return true;
          
         return false;
     }
