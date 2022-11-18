@@ -85,8 +85,8 @@ A dataset mention is a JSON element using the following general structure, which
 
 The `type` here is the general type of entity and will always be `dataset` for DataStet. 
 
-__NOTE__: fields `data-repo` and `accession-number` are not produced by current version `0.7.3-SNAPSHOT` yet, because the annotation of these fields in the trainnig data is still going on. It is expected that these fields will be support in the next version/iteration of the tool. 
-In addition, the field `data-device` is currently present but trained with incompletely labeled training data, leading to very low recall. It is also expected that the next version will complete the training data annotation for this field. 
+__NOTE__: fields `data-repo` and `accession-number` are not produced by current version `0.7.3-SNAPSHOT` yet, because the annotation of these fields in the trainnig data is still ongoing. It is expected that these fields will be support in the next version/iteration of the tool. 
+In addition, the field `data-device` is currently present but trained with still incompletely labeled training data, leading to very low recall. It is also expected that the next version will complete the training data annotation for this field. 
 
 Only certain co-occurence of the fields can take place, summarized in __Table 1.__:
 
@@ -96,7 +96,7 @@ Only certain co-occurence of the fields can take place, summarized in __Table 1.
 | dataset-implicit | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:| :heavy_check_mark: |
 | accession-number | :heavy_check_mark: |                    |                   | :heavy_check_mark: |
 
-__Table 1. Possible field co-occurence compatibility__
+__Table 1. Possible field co-occurence compatibility__ - On the left the main fields, on top the auxiliary fields
 
 __Main field description:__ A dataset mention can either be an explicitly named dataset given by the field `dataset-name`, an implicit dataset without name (`dataset-implicit`) or an `accession-number`, which is an identifier for a data entry hosted in a larger database or repository portal. __One and only one main field must present in a dataset mention.__
 
@@ -105,9 +105,22 @@ __Auxilairy field description:__ The field `data-repo` gives the name of the dat
 These fields `dataset-name`, `dataset-implicit`, `accession-number`, `data-repo`, `data-device` ad `url` and correspond to extracted chunks of information identified in the mention context. They all follow the same substructure, encoding offset information relative to the context string (`offsetStart` and `offsetEnd`) and bounding box coordinates relative to the PDF (`boundingBoxes`):
 
 ```json
-    "dataset-name": {
-        
-    }
+    {
+        "rawForm": "METABRIC dataset",
+        "type": "dataset-name",
+        "dataset-name": {
+            "rawForm": "METABRIC dataset",
+            "normalizedForm": "METABRIC dataset",
+            "offsetStart": 30,
+            "offsetEnd": 46,
+            "boundingBoxes": [{
+                "p": 12,
+                "x": 415.562,
+                "y": 405.854,
+                "w": 98.30399999999997,
+                "h": 10.800000000000011
+            }]
+        }
 ```
 
 In case of a response to an XML document or a text fragment, coordinates in general are not present. 
@@ -159,10 +172,195 @@ For each of these attributes, a confidence scores in `[0,1]` and a binary class 
 
 ### Full mention example 
 
-Here is an example of a full JSON mention object following the described scheme, with a dataset name associated to a URL and a bibliographical reference marker, for a dataset used in the described research work:
+Here is an example of a full JSON mention object following the described scheme, with a dataset name associated to a URL, for a dataset used in the described research work and shared publicly:
 
 ```json
+{
+    "rawForm": "METABRIC dataset",
+    "type": "dataset-name",
+    "dataset-name": {
+        "rawForm": "METABRIC dataset",
+        "normalizedForm": "METABRIC dataset",
+        "offsetStart": 30,
+        "offsetEnd": 46,
+        "boundingBoxes": [{
+            "p": 12,
+            "x": 415.562,
+            "y": 405.854,
+            "w": 98.30399999999997,
+            "h": 10.800000000000011
+        }]
+    },
+    "url": {
+        "rawForm": "https://www.cbioportal.org",
+        "normalizedForm": "https://www.cbioportal.org",
+        "offsetStart": 65,
+        "offsetEnd": 91,
+        "boundingBoxes": [{
+            "p": 12,
+            "x": 129.86,
+            "y": 433.474,
+            "w": 128.18,
+            "h": 10.800000000000011
+        }]
+    },
+    "normalizedForm": "METABRIC dataset",
+    "context": "Copy number alteration of the METABRIC dataset is  available at https://www.cbioportal.org.",
+    "mentionContextAttributes": {
+        "used": {
+            "value": false,
+            "score": 0.004896826110780239
+        },
+        "created": {
+            "value": false,
+            "score": 0.007723864633589983
+        },
+        "shared": {
+            "value": true,
+            "score": 0.9873793125152588
+        }
+    },
+    "documentContextAttributes": {
+        "used": {
+            "value": true,
+            "score": 0.9980948567390442
+        },
+        "created": {
+            "value": false,
+            "score": 0.007723864633589983
+        },
+        "shared": {
+            "value": true,
+            "score": 0.9873793125152588
+        }
+    }
+}
+```
 
+In the following example, the name of the dataset (Cancer Cell Line Encyclopedia) is mentioned together with the bibliographical reference of a paper describing this dataset via a numerical superscript reference callout.
+
+```json
+{
+        "rawForm": "Cancer Cell Line Encyclopedia",
+        "type": "dataset-name",
+        "dataset-name": {
+            "rawForm": "Cancer Cell Line Encyclopedia",
+            "normalizedForm": "Cancer Cell Line Encyclopedia",
+            "offsetStart": 81,
+            "offsetEnd": 110,
+            "boundingBoxes": [{
+                "p": 7,
+                "x": 276.577,
+                "y": 351.472,
+                "w": 149.5004,
+                "h": 10.211999999999989
+            }]
+        },
+        "normalizedForm": "Cancer Cell Line Encyclopedia",
+        "context": "Of note, we were unable to identify  any ER+ breast cancer cell line within the Cancer Cell Line Encyclopedia 19 with both genomic  loss/inactivating mutations in MAP3K1 coincident with a PIK3CA mutation (Supplemental  Figure 2).",
+        "mentionContextAttributes": {
+            "used": {
+                "value": true,
+                "score": 0.9953461289405823
+            },
+            "created": {
+                "value": false,
+                "score": 0.004430525936186314
+            },
+            "shared": {
+                "value": false,
+                "score": 2.2327215992845595E-4
+            }
+        },
+        "documentContextAttributes": {
+            "used": {
+                "value": true,
+                "score": 0.9961262345314026
+            },
+            "created": {
+                "value": false,
+                "score": 0.004430525936186314
+            },
+            "shared": {
+                "value": false,
+                "score": 0.0016136489575728774
+            }
+        },
+        "references": [{
+            "label": "19",
+            "normalizedForm": "19",
+            "refKey": 18,
+            "offsetStart": 111,
+            "offsetEnd": 113,
+            "boundingBoxes": [{
+                "p": 7,
+                "x": 426.24,
+                "y": 350.442,
+                "w": 7.7117,
+                "h": 6.438
+            }]
+        }]
+    }
+```
+
+Finally here is the example of an implicit dataset (Monolayer staining intensities), represented by a data phrase, associated to a data acquisition device (LICOR Odyssey infra-red plate reader, which has produced these data) and a predicted data type (tabular data). 
+
+```json
+{
+    "rawForm": "Monolayer staining intensities",
+    "type": "dataset-implicit",
+    "dataset-implicit": {
+        "rawForm": "Monolayer staining intensities",
+        "normalizedForm": "Monolayer staining intensities",
+        "offsetStart": 0,
+        "offsetEnd": 30,
+        "bestDataType": "tabular data",
+        "bestTypeScore": 1,
+        "hasDataset": 1.0,
+        "boundingBoxes": [{
+            "p": 15,
+            "x": 72.011,
+            "y": 327.445,
+            "w": 144.3467,
+            "h": 10.211999999999989
+        }]
+    },
+    "data-device": {
+        "rawForm": "LICOR Odyssey infra-red plate \n\nreader",
+        "normalizedForm": "LICOR Odyssey infra-red plate reader",
+        "offsetStart": 60,
+        "offsetEnd": 98,
+        "boundingBoxes": [{
+            "p": 15,
+            "x": 360.223,
+            "y": 327.445,
+            "w": 150.3906,
+            "h": 10.211999999999989
+        }, {
+            "p": 15,
+            "x": 72.0,
+            "y": 352.759,
+            "w": 29.875199999999996,
+            "h": 10.212
+        }]
+    },
+    "normalizedForm": "Monolayer staining intensities",
+    "context": "Monolayer staining intensities were then quantified using a LICOR Odyssey infra-red plate  reader.",
+    "mentionContextAttributes": {
+        "used": {
+            "value": true,
+            "score": 0.999990701675415
+        },
+        "created": {
+            "value": false,
+            "score": 6.456963092205115E-6
+        },
+        "shared": {
+            "value": false,
+            "score": 2.911058572863112E-6
+        }
+    }
+}
 ```
 
 ## List of references 

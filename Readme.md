@@ -105,6 +105,10 @@ Javascript demo/console web app is then accessible at ```http://localhost:8060``
 
 Legacy Dataseer services are available with the `Dataseer services` tab. 
 
+## JSON format for the extracted software mention
+
+The resulting dataset mention extractions include various attributes and information. These extractions follow the [JSON format documented on this page](https://github.com/kermitt2/datastet/blob/master/doc/annotation_schema.md). 
+
 ## Web API
 
 ### /service/annotateDatasetSentence
