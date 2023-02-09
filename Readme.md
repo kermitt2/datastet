@@ -1,6 +1,7 @@
 # DataStet
 
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Docker Hub](https://img.shields.io/docker/pulls/grobid/datastet.svg)](https://hub.docker.com/r/grobid/datastet "Docker Pulls")
 
 <!--
 [![Docker Hub](https://img.shields.io/docker/pulls/grobid/dataseer.svg)](https://hub.docker.com/r/grobid/dataseer/ "Docker Pulls")
