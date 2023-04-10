@@ -130,8 +130,8 @@ public class DataseerAnalyzer implements org.grobid.core.analyzers.Analyzer {
     }
 
     public List<LayoutToken> retokenizeSubdigitsWithLayoutToken(List<String> tokens) {
-        // already done by this analyzer
-        return null;
+        String fullString = String.join("", tokens);
+        return tokenizeWithLayoutToken(fullString);
     }
 
     public List<String> retokenizeSubdigits(List<java.lang.String> tokens) {
