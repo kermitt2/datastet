@@ -114,9 +114,9 @@ public class DataseerParser extends AbstractParser {
                     values = line.split(" ");
                 String label = values[values.length-1];
                 if (label.endsWith("no_dataset")) 
-                    result.add(new Boolean(false));
+                    result.add(Boolean.valueOf(false));
                 else 
-                    result.add(new Boolean(true));
+                    result.add(Boolean.valueOf(true));
 
                 if (indexMatMetSection == -1 && values[values.length-2].equals("1")) {
                     indexMatMetSection = i;
@@ -145,7 +145,7 @@ public class DataseerParser extends AbstractParser {
                 for(int j=indexMatMetSection; j < lines.length; j++) {
                     // set the section to true
                     String line = lines[j].toLowerCase();
-                    result.set(j, new Boolean(true));
+                    result.set(j, Boolean.valueOf(true));
                     if (j == indexMatMetSection)
                         continue;
 
@@ -163,7 +163,7 @@ public class DataseerParser extends AbstractParser {
                         break;
 
                     if (line.indexOf("acknowledgement") != -1 || line.indexOf("funding") != -1 || line.indexOf("conclusion") != -1)  {
-                        result.set(j, new Boolean(false));
+                        result.set(j, Boolean.valueOf(false));
                         break;
                     }
                 }
@@ -191,7 +191,7 @@ public class DataseerParser extends AbstractParser {
                     if (nbDataset > 2) {
                         for(int j=0; j<result.size(); j++) {
                             if (j<indexMatMetSection || j>indexMatMetSection+10)
-                                result.set(j, new Boolean(false));
+                                result.set(j, Boolean.valueOf(false));
                         }
                     }
                 }

@@ -294,11 +294,11 @@ public class DatasetDisambiguator {
             DatasetComponent dataDevice = entity.getDataDevice();
 
             if (datasetName != null)
-                entityPositions.put(new Integer(datasetName.getOffsetStart()), datasetName);
+                entityPositions.put(Integer.valueOf(datasetName.getOffsetStart()), datasetName);
             if (dataset != null)
-                entityPositions.put(new Integer(dataset.getOffsetStart()), dataset);
+                entityPositions.put(Integer.valueOf(dataset.getOffsetStart()), dataset);
             if (dataDevice != null)
-                entityPositions.put(new Integer(dataDevice.getOffsetStart()), dataDevice);
+                entityPositions.put(Integer.valueOf(dataDevice.getOffsetStart()), dataDevice);
         }
 
         // merge entity disambiguation with actual extracted mentions

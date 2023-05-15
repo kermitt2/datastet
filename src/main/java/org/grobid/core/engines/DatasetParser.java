@@ -222,11 +222,11 @@ System.out.println(localDatasetcomponent.toJson());
                     if (entity.getDatasetName() != null) {
                         String term = entity.getDatasetName().getNormalizedForm();
                         if (term == null || term.length() == 0) {
-                            indexToBeFiltered.add(new Integer(k));
+                            indexToBeFiltered.add(Integer.valueOf(k));
                         } else if (DataseerLexicon.getInstance().isEnglishStopword(term)) {
-                            indexToBeFiltered.add(new Integer(k));
+                            indexToBeFiltered.add(Integer.valueOf(k));
                         } else if (DataseerLexicon.getInstance().isBlackListedNamedDataset(term.toLowerCase())) {
-                            indexToBeFiltered.add(new Integer(k));
+                            indexToBeFiltered.add(Integer.valueOf(k));
                         }
                     }
                     k++;
@@ -246,7 +246,7 @@ System.out.println(localDatasetcomponent.toJson());
                     k = 0;
                     for(Dataset entity : localDatasets) {
                         if (entity.isFiltered()) {
-                            indexToBeFiltered.add(new Integer(k));
+                            indexToBeFiltered.add(Integer.valueOf(k));
                         }
                         k++;
                     }
@@ -1135,7 +1135,7 @@ for(String sentence : allSentences) {
                         if (entity.getBibRefs() != null && entity.getBibRefs().size() > 0) {
                             List<BiblioComponent> bibRefs = entity.getBibRefs();
                             for(BiblioComponent bibRef: bibRefs) {
-                                Integer refKeyVal = new Integer(bibRef.getRefKey());
+                                Integer refKeyVal = Integer.valueOf(bibRef.getRefKey());
                                 if (!consolidated.contains(refKeyVal)) {
                                     citationsToConsolidate.add(resCitations.get(refKeyVal));
                                     consolidated.add(refKeyVal);
@@ -1508,7 +1508,7 @@ for(String sentence : allSentences) {
                     if (results != null) {  
                         freq = results.size();
                     }
-                    frequencies.put(term, new Integer(freq));
+                    frequencies.put(term, Integer.valueOf(freq));
                 }
             }
         }
