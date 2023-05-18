@@ -15,11 +15,11 @@ plugins {
     id "de.undercouch.download" version "4.1.1"
 }
 
-/*apply plugin: 'jacoco'
+apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = '0.8.5'
-}*/
+    toolVersion = '0.8.8'
+}
 
 apply plugin: 'java-library'
 apply plugin: 'base'
@@ -42,7 +42,6 @@ tasks.withType(JavaCompile) {
 repositories {
     mavenLocal()
     mavenCentral()
-//    maven { url "https://jitpack.io" }
     maven { url "https://grobid.s3.eu-west-1.amazonaws.com/repo/" }
     maven {
         url new File(rootProject.rootDir, "lib")
@@ -128,15 +127,18 @@ dependencies {
     testImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
 }
 
-/*configurations {
-    implementation.exclude group: "org.slf4j", module: "slf4j-jdk14"
-}*/
-
-/*configurations.all {
+configurations.all { 
     resolutionStrategy {
         force 'xml-apis:xml-apis:1.4.01'
     }
-}*/
+    
+    exclude group: 'org.slf4j', module: "slf4j-log4j12"
+    exclude group: 'org.slf4j', module: "slf4j-jdk14"
+    exclude group: 'log4j', module: "log4j"
+
+    //if (project.gradle.startParameter.taskNames.contains('run'))
+    exclude group: 'org.slf4j', module: "log4j-over-slf4j"
+}
 
 def libraries = ""
 if (Os.isFamily(Os.FAMILY_MAC)) {
@@ -154,20 +156,15 @@ if (Os.isFamily(Os.FAMILY_MAC)) {
 
 configurations.implementation.setCanBeResolved(true)
 
-configurations.all { 
-    resolutionStrategy {
-        force 'xml-apis:xml-apis:1.4.01'
+test {
+    testLogging.showStandardStreams = true
+    exclude '**/**IntegrationTest**'
+
+    if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_8) > 0) {
+        jvmArgs "--add-opens", "java.base/java.util.stream=ALL-UNNAMED", 
+        "--add-opens", "java.base/java.io=ALL-UNNAMED"
     }
-    exclude group: 'org.slf4j', module: "slf4j-log4j12"
-    exclude group: 'log4j', module: "log4j"
-    exclude group: 'org.slf4j', module: "slf4j-jdk14"
-
-    //if (project.gradle.startParameter.taskNames.contains('run') ||
-    //   project.gradle.startParameter.taskNames.contains('post_process_corpus'))
-    //    exclude group: 'org.slf4j', module: "slf4j-jdk14"
-
-    if (project.gradle.startParameter.taskNames.contains('run'))
-        exclude group: 'org.slf4j', module: "slf4j-jdk14"
+    systemProperty "java.library.path","${System.getProperty('java.library.path')}:" + libraries
 }
 
 // return the default value if the property has not been specified in command line
@@ -175,10 +172,21 @@ ext.getArg = { propName, defaultVal ->
     return project.hasProperty(propName) ? project.getProperty(propName) : defaultVal;
 }
 
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
 
 task install(dependsOn: publishToMavenLocal)
 
@@ -294,24 +302,13 @@ task installModels(type: Copy) {
     }
 }
 
-test {
-    testLogging.showStandardStreams = true
-    exclude '**/**IntegrationTest**'
-
-    if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_8) > 0) {
-        jvmArgs "--add-opens", "java.base/java.util.stream=ALL-UNNAMED", 
-        "--add-opens", "java.base/java.io=ALL-UNNAMED"
-    }
-    systemProperty "java.library.path","${System.getProperty('java.library.path')}:" + libraries
-}
-
 //tasks.withType(JavaCompile) {
 //    options.compilerArgs << "-Xlint:deprecation"
 //    options.compilerArgs << "-Xlint:unchecked"
 //}
 
 wrapper {
-    gradleVersion "7.1.1"
+    gradleVersion "7.2"
 }
 
 // Custom Tasks
