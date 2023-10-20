@@ -2,15 +2,10 @@
 Convert annotated document from the DataSeer application in JSON+TEI into csv data 
 ready to be added to the standard dataseer classifier training data.  
 
-Usage:
+Usage: See https://github.com/DataSeer/dataseer-ml#training-data-from-the-dataseer-web-application
 
-> python3 app_document_converter.py --document documents.json --output ~/tmp/
-
-documents.json is obtained directly from the mongodb application database via mongoexport:
-
-> mongoexport --collection=documents --db=app --out=documents.json
-
-The script works with gzipped json too (e.g. documents.json.gz in the example above).
+Be sure to configure the local config.json file to include a token to access the dataseer web API 
+and a list of valid curators for training case selection.
 
 Training data in csv are produced in 3 files:
 - binary.csv for binary classifier (dataset/no_dataset) with negative sampling
@@ -34,7 +29,8 @@ import requests
 # valid curators for the set of documents annotated by modelcular connections and reviewed by Tim 
 # this might need to be adapted in the future
 
-# the following should preferably be moved to the config file, so that email of the curators are not on github
+# the following should be configured in the config file, it lists the curator identifiers valid for selecting
+# the training data:
 '''
 annotator_identifiers = ['Curator1@molecularconnections.com', 
     'Curator2@molecularconnections.com', 
@@ -60,11 +56,11 @@ all_datatypes = []
 documents_route = '/api/documents'
 metadata_route = '/api/metadata'
 tei_route = '/api/documents/:id/tei/content'
-datasets_route = '/api/documents/:id/datasets'
+datasets_route = '/api/documents/:id?datasets=true'
 accounts_route = '/api/accounts/'
 
 # modify this parameter to modify the rate of negative sampling 
-MAX_NEGATIVE_EXAMPLES_FROM_SAME_DOCUMENT = 12
+MAX_NEGATIVE_EXAMPLES_FROM_SAME_DOCUMENT = 24
 
 
 def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summary_csv_file, dataset_section_tei_path):
@@ -83,7 +79,7 @@ def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summar
 
     url_documents = url + documents_route
     print(url_documents)
-    params = { "limit": 3000, "token": config["token"], "logs": True, "metadata": True }
+    params = { "limit": 100000, "token": config["token"], "logs": True, "metadata": True }
     response = requests.get(url=url_documents, params=params)
     json_data = response.json()
 
@@ -100,25 +96,27 @@ def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summar
         annotators = []
         #print("nb of logs:", str(len(document["logs"])))
 
-        if len(document["logs"]) == 1:
+        if "logs" in document and len(document["logs"]) == 1:
             nb_log_at_1 += 1
 
         valid_annotator = False
 
-        for log in document["logs"]:
-            #print(log["user"])
-            user = log["user"]["username"]
-            if user in annotator_identifiers:
-                valid_annotator = True
-                break
+        if "logs" in document:
+            for log in document["logs"]:
+                #print(log["user"])
+                user = log["user"]["username"]
+                if user in annotator_identifiers:
+                    valid_annotator = True
+                    break
 
         # look at owner too
         if not valid_annotator and "owner" in document:
             owner = document['owner']
-            if owner in annotator_ids:
+            if owner["_id"] in annotator_ids or owner["username"] in annotator_identifiers:
                 valid_annotator = True
 
         # look at uploaded_by too
+        '''
         if not valid_annotator and "uploaded_by" in document:
             uploader = document['uploaded_by']
             if uploader in annotator_ids:
@@ -131,6 +129,7 @@ def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summar
                 if watcher in annotator_ids:
                     valid_annotator = True
                     break
+        '''
 
         if not valid_annotator:
             continue
@@ -174,22 +173,32 @@ def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summar
                 root = etree.fromstring(document_tei.encode('utf-8'))
             except:
                 print("the parsing of the XML document failed... moving to the next entry...")
-                return
+                continue
 
         # retrive the datasets
         url_datasets = url + datasets_route.replace(":id", document_id)
         print(url_datasets)
         params = { "token": config["token"] }
         response = requests.get(url=url_datasets, params=params)
+
+        if response.status_code != 200:
+            continue
+
         datasets_json_data = response.json()
-       
-        datasets_list = datasets_json_data["res"]
+
+        if "datasets" not in datasets_json_data["res"]:
+            continue
+
+        datasets_list = datasets_json_data["res"]["datasets"]
 
         if "current" in datasets_list:
             actual_datasets = datasets_list["current"]
             for dataset in actual_datasets:
                 #dataset = actual_datasets[key]
-                text = dataset['text']
+                texts = []
+                for sentence in dataset['sentences']: 
+                    if sentence['text'] not in texts:
+                        texts.append(sentence['text'])
                 dataset_doi = dataset['DOI']
                 dataset_name = dataset['name']
                 dataset_comment = dataset['comments']
@@ -198,14 +207,20 @@ def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summar
 
                 # binary classifier data (datatype/no_datatype)
                 # doi,text,datatype
-                binary_csv_file.writerow({'doi': doi, 'text': text, 'datatype': datatype_class})
-                nb_positive_examples += 1
+                for text in texts:
+                    if len(text) > 100:
+                        binary_csv_file.writerow({'doi': doi, 'text': text, 'datatype': datatype_class})
+                nb_positive_examples += len(texts)
 
                 # the reuse information is currently not available
 
                 # reuse classifier (true/false)
                 # doi,text,reuse
-                #reuse_csv_file.writerow({'doi': doi, 'text': text, 'reuse': reuse_class})
+                
+                if "reuse" in dataset:
+                    for text in texts:
+                        if len(text) > 100:
+                            reuse_csv_file.writerow({'doi': doi, 'text': text, 'reuse': dataset["reuse"]})
 
                 datatype_class = dataset['dataType']
 
@@ -234,8 +249,10 @@ def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summar
                 
                 # multilevel classifier data (datatype, data subtype and leaf datatype)
                 #multilevel_csv_file.writerow({'doi': doi, 'text': text, 'datatype': datatype_class, 'dataSubtype': datasub_type_class, 'leafDatatype': leaf_datatype_class})
-                multilevel_csv_file.writerow({'doi': doi, 'text': text, 'datatype': datatype_class, 'dataSubtype': datasub_type_class, 'leafDatatype': leaf_datatype_class})
-                summary_csv_file.writerow({'document_doi': doi, 'text': text, 'dataset_name': dataset_name, 'dataset_doi': dataset_doi, 'datatype': datatype_class, 'dataSubtype': datasub_type_class, 'reuse': '', 'comment': dataset_comment})
+                for text in texts:
+                    if len(text) > 100:
+                        multilevel_csv_file.writerow({'doi': doi, 'text': text, 'datatype': datatype_class, 'dataSubtype': datasub_type_class, 'leafDatatype': leaf_datatype_class})
+                        summary_csv_file.writerow({'document_doi': doi, 'text': text, 'dataset_name': dataset_name, 'dataset_doi': dataset_doi, 'datatype': datatype_class, 'dataSubtype': datasub_type_class, 'reuse': '', 'comment': dataset_comment})
         else:
             print("no current dataset associated to the document", document_id)
 
@@ -244,14 +261,19 @@ def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summar
             deleted_datasets = datasets_list["deleted"]
             for dataset in deleted_datasets:
                 #dataset = actual_datasets[deleted_dataset]
-                text = dataset['text']
+                texts = []
+                for sentence in dataset['sentences']: 
+                    if sentence['text'] not in texts:
+                        texts.append(sentence['text'])
 
                 datatype_class = 'no_dataset'
 
                 # binary classifier data (datatype/no_datatype)
                 # doi,text,datatype
-                binary_csv_file.writerow({'doi': doi, 'text': text, 'datatype': datatype_class})
-                nb_negative_examples += 1
+                for text in texts: 
+                    if len(text) > 100:
+                        binary_csv_file.writerow({'doi': doi, 'text': text, 'datatype': datatype_class})
+                nb_negative_examples += len(texts)
 
         # in addition we can add random sentences to increase the ratio of no_dataset in the binary classifier
         # we can select these negative examples from the actual dataset sections, although reliable negative
@@ -262,7 +284,7 @@ def process(config, binary_csv_file, reuse_csv_file, multilevel_csv_file, summar
             ns = {"tei": "http://www.tei-c.org/ns/1.0"}
             sentences = root.xpath('//tei:s[not(@type)]//text()', namespaces=ns)
 
-            if nb_negative_examples < nb_positive_examples:
+            if nb_negative_examples < nb_positive_examples*2:
                 local_addition = 0
                 i = 0
                 while local_addition < MAX_NEGATIVE_EXAMPLES_FROM_SAME_DOCUMENT and i < len(sentences):
@@ -292,7 +314,7 @@ def get_account_ids(config, account_names):
     response = requests.get(url=url_accounts, params=params)
     json_data = response.json()
 
-    print(json_data)
+    #print(json_data)
 
     account_ids = []
 
