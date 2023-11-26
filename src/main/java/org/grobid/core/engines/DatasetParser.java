@@ -569,7 +569,7 @@ System.out.println(localDatasetcomponent.toJson());
                     labeledResult = parsers.getHeaderParser().label(header);
                     resHeader = new BiblioItem();
                     try {
-                        resHeader.generalResultMapping(labeledResult, tokenizationHeader);
+                        resHeader.generalResultMappingHeader(labeledResult, tokenizationHeader);
                     } catch(Exception e) {
                         LOGGER.error("Problem decoding header labeling, header will be skipped", e);
                         resHeader = null;

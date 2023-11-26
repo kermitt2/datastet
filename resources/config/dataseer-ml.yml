@@ -1,4 +1,4 @@
-version: "0.7.3-SNAPSHOT"
+version: "0.8.0"
 
 corpusPath: "./resources/dataset/dataseer/corpus"
 templatePath: "./resources/dataset/dataseer/crfpp-templates/dataseer.template"
