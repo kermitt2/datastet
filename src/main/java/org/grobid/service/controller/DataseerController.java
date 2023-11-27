@@ -1,10 +1,10 @@
 package org.grobid.service.controller;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.grobid.core.lexicon.DataseerLexicon;
+import org.grobid.core.lexicon.DatastetLexicon;
 import org.grobid.core.main.GrobidHomeFinder;
 import org.grobid.core.main.LibraryLoader;
-import org.grobid.core.utilities.DataseerConfiguration;
+import org.grobid.core.utilities.DatastetConfiguration;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.core.utilities.GrobidConfig.ModelParameters;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import org.grobid.service.configuration.DataseerServiceConfiguration;
+import org.grobid.service.configuration.DatastetServiceConfiguration;
 
 /**
  * RESTful service for GROBID dataseer extension.
@@ -42,11 +42,11 @@ public class DataseerController implements DataseerPaths {
     private static final String INPUT = "input";
     private static final String JSON = "json";
 
-    private DataseerConfiguration configuration;
+    private DatastetConfiguration configuration;
 
     @Inject
-    public DataseerController(DataseerServiceConfiguration serviceConfiguration) {
-        this.configuration = serviceConfiguration.getDataseerConfiguration();
+    public DataseerController(DatastetServiceConfiguration serviceConfiguration) {
+        this.configuration = serviceConfiguration.getDatastetConfiguration();
     }
 
     @GET

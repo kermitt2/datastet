@@ -90,7 +90,7 @@ public class DataseerProcessString {
         Response response = null;
         StringBuilder retVal = new StringBuilder();
         DataseerClassifier classifier = DataseerClassifier.getInstance();
-        DatasetParser parser = DatasetParser.getInstance(classifier.getDataseerConfiguration());
+        DatasetParser parser = DatasetParser.getInstance(classifier.getDatastetConfiguration());
         JsonStringEncoder encoder = JsonStringEncoder.getInstance();
         boolean disambiguate = true;
         try {
@@ -103,7 +103,7 @@ public class DataseerProcessString {
             // building JSON response
             StringBuilder json = new StringBuilder();
             json.append("{");
-            json.append(DataseerUtilities.applicationDetails(classifier.getDataseerConfiguration().getVersion()));
+            json.append(DataseerUtilities.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
 
             byte[] encoded = encoder.quoteAsUTF8(text);
             String output = new String(encoded);

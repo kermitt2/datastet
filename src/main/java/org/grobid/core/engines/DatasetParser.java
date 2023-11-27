@@ -2,7 +2,7 @@ package org.grobid.core.engines;
 
 import org.apache.commons.io.FileUtils;
 import org.grobid.core.GrobidModels;
-import org.grobid.core.analyzers.DataseerAnalyzer;
+import org.grobid.core.analyzers.DatastetAnalyzer;
 import org.grobid.core.data.BiblioItem;
 import org.grobid.core.data.BibDataSet;
 import org.grobid.core.data.Dataset;
@@ -30,7 +30,7 @@ import org.grobid.core.layout.LayoutToken;
 import org.grobid.core.layout.LayoutTokenization;
 import org.grobid.core.layout.PDFAnnotation;
 import org.grobid.core.layout.PDFAnnotation.Type;
-import org.grobid.core.lexicon.DataseerLexicon;
+import org.grobid.core.lexicon.DatastetLexicon;
 import org.grobid.core.lexicon.Lexicon;
 import org.grobid.core.tokenization.TaggingTokenCluster;
 import org.grobid.core.tokenization.TaggingTokenClusteror;
@@ -75,13 +75,13 @@ public class DatasetParser extends AbstractParser {
 
     private static volatile DatasetParser instance;
 
-    private DataseerLexicon dataseerLexicon = null;
+    private DatastetLexicon datastetLexicon = null;
     private EngineParsers parsers;
-    private DataseerConfiguration dataseerConfiguration;
+    private DatastetConfiguration datastetConfiguration;
     private DataseerClassifier dataseerClassifier;
     private DatasetDisambiguator disambiguator;
 
-    public static DatasetParser getInstance(DataseerConfiguration configuration) {
+    public static DatasetParser getInstance(DatastetConfiguration configuration) {
         if (instance == null) {
             getNewInstance(configuration);
         }
@@ -91,18 +91,18 @@ public class DatasetParser extends AbstractParser {
     /**
      * Create a new instance.
      */
-    private static synchronized void getNewInstance(DataseerConfiguration configuration) {
+    private static synchronized void getNewInstance(DatastetConfiguration configuration) {
         instance = new DatasetParser(configuration);
     }
 
-    private DatasetParser(DataseerConfiguration configuration) {
+    private DatasetParser(DatastetConfiguration configuration) {
         super(DatasetModels.DATASET, CntManagerFactory.getCntManager(), 
             GrobidCRFEngine.valueOf(configuration.getModel("datasets").engine.toUpperCase()),
             configuration.getModel("datasets").delft.architecture);
 
-        dataseerLexicon = DataseerLexicon.getInstance();
+        datastetLexicon = DatastetLexicon.getInstance();
         parsers = new EngineParsers();
-        dataseerConfiguration = configuration;
+        datastetConfiguration = configuration;
         disambiguator = DatasetDisambiguator.getInstance(configuration);
     }
 
@@ -141,8 +141,8 @@ public class DatasetParser extends AbstractParser {
         int total = 0;
         int maxTokens = 0;
         for (List<LayoutToken> tokens : tokensList) {
-            // to be sure it's done, retokenize according to the DataseerAnalyzer
-            tokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(tokens);
+            // to be sure it's done, retokenize according to the DatastetAnalyzer
+            tokens = DatastetAnalyzer.getInstance().retokenizeLayoutTokens(tokens);
             newTokensList.add(tokens);
 
             // create basic input without features
@@ -223,9 +223,9 @@ System.out.println(localDatasetcomponent.toJson());
                         String term = entity.getDatasetName().getNormalizedForm();
                         if (term == null || term.length() == 0) {
                             indexToBeFiltered.add(Integer.valueOf(k));
-                        } else if (DataseerLexicon.getInstance().isEnglishStopword(term)) {
+                        } else if (DatastetLexicon.getInstance().isEnglishStopword(term)) {
                             indexToBeFiltered.add(Integer.valueOf(k));
-                        } else if (DataseerLexicon.getInstance().isBlackListedNamedDataset(term.toLowerCase())) {
+                        } else if (DatastetLexicon.getInstance().isBlackListedNamedDataset(term.toLowerCase())) {
                             indexToBeFiltered.add(Integer.valueOf(k));
                         }
                     }
@@ -354,7 +354,7 @@ System.out.println(localDatasetcomponent.toJson());
                 if (dataset.getNormalizedForm() != null && 
                     dataset.getNormalizedForm().length() > 0 &&
                     !dataset.getNormalizedForm().matches("[0-9\\(\\)/\\[\\]\\,\\.\\:\\-\\+\\; ]+") &&
-                    !(DataseerLexicon.getInstance().isEnglishStopword(dataset.getNormalizedForm()))) {
+                    !(DatastetLexicon.getInstance().isEnglishStopword(dataset.getNormalizedForm()))) {
                     datasetComponents.add(dataset);
                 }
                 dataset = null;
@@ -797,7 +797,7 @@ System.out.println(localDatasetcomponent.toJson());
             int accumulatedOffset = 0;
             Map<Integer,Integer> mapSentencesToZones = new HashMap<>();
             for(List<LayoutToken> layoutTokens : selectedLayoutTokenSequences) {
-                layoutTokens = DataseerAnalyzer.getInstance().retokenizeLayoutTokens(layoutTokens);
+                layoutTokens = DatastetAnalyzer.getInstance().retokenizeLayoutTokens(layoutTokens);
 
                 if ( (layoutTokens == null) || (layoutTokens.size() == 0) ) {
                     //allLayoutTokens.add(null);
@@ -1028,7 +1028,7 @@ for(String sentence : allSentences) {
                 for (Dataset localDataset : localDatasets) {
                     boolean referenceDataSource = false;
                     if (localDataset.getUrl() != null && 
-                        DataseerLexicon.getInstance().isDatasetURLorDOI(localDataset.getUrl().getNormalizedForm())) {
+                        DatastetLexicon.getInstance().isDatasetURLorDOI(localDataset.getUrl().getNormalizedForm())) {
                         referenceDataSource = true;
                     }
 
@@ -1188,7 +1188,7 @@ for(String sentence : allSentences) {
             }
 
             // finally classify the context for predicting the role of the dataset mention
-            entities = DatasetContextClassifier.getInstance(dataseerConfiguration).classifyDocumentContexts(entities);    
+            entities = DatasetContextClassifier.getInstance(datastetConfiguration).classifyDocumentContexts(entities);    
 
         } catch (Exception e) {
             //e.printStackTrace();
@@ -1373,14 +1373,14 @@ for(String sentence : allSentences) {
 
                 Double profile = result.get(term);
                 if (profile == null) {
-                    profile = DataseerLexicon.getInstance().getTermIDF(term);
+                    profile = DatastetLexicon.getInstance().getTermIDF(term);
                     result.put(term, profile);
                 }
 
                 if (!term.equals(term.toLowerCase())) {
                     profile = result.get(term.toLowerCase());
                     if (profile == null) {
-                        profile = DataseerLexicon.getInstance().getTermIDF(term.toLowerCase());
+                        profile = DatastetLexicon.getInstance().getTermIDF(term.toLowerCase());
                         result.put(term.toLowerCase(), profile);
                     }
                 }
@@ -1389,7 +1389,7 @@ for(String sentence : allSentences) {
                 if (!term.equals(termCleaned)) {
                     profile = result.get(termCleaned);
                     if (profile == null) {
-                        profile = DataseerLexicon.getInstance().getTermIDF(termCleaned);
+                        profile = DatastetLexicon.getInstance().getTermIDF(termCleaned);
                         result.put(termCleaned, profile);
                     }
                 }
@@ -1398,14 +1398,14 @@ for(String sentence : allSentences) {
                     String termAlt = term+"s";
                     profile = result.get(termAlt);
                     if (profile == null) {
-                        profile = DataseerLexicon.getInstance().getTermIDF(termAlt);
+                        profile = DatastetLexicon.getInstance().getTermIDF(termAlt);
                         result.put(termAlt, profile);
                     }
                 } else if (term.endsWith("datasets") || term.endsWith("Datasets")) {
                     String termAlt = term.substring(0,term.length()-1);
                     profile = result.get(termAlt);
                     if (profile == null) {
-                        profile = DataseerLexicon.getInstance().getTermIDF(termAlt);
+                        profile = DatastetLexicon.getInstance().getTermIDF(termAlt);
                         result.put(termAlt, profile);
                     }
                 }
@@ -1413,7 +1413,7 @@ for(String sentence : allSentences) {
                 if (!term.equals(nameComponent.getNormalizedForm())) {
                     profile = result.get(nameComponent.getNormalizedForm());
                     if (profile == null) {
-                        profile = DataseerLexicon.getInstance().getTermIDF(nameComponent.getNormalizedForm());
+                        profile = DatastetLexicon.getInstance().getTermIDF(nameComponent.getNormalizedForm());
                         result.put(nameComponent.getNormalizedForm(), profile);
                     }
                 }
@@ -1441,19 +1441,19 @@ for(String sentence : allSentences) {
                 // for safety, we don't propagate something that looks like a stopword with simply an Uppercase first letter
                 if (FeatureFactory.getInstance().test_first_capital(term) && 
                     !FeatureFactory.getInstance().test_all_capital(term) &&
-                    DataseerLexicon.getInstance().isEnglishStopword(term.toLowerCase()) ) {
+                    DatastetLexicon.getInstance().isEnglishStopword(term.toLowerCase()) ) {
                     continue;
                 }
 
                 if (!added.contains(term)) {
-                    termPattern.loadTerm(term, DataseerAnalyzer.getInstance(), false);
+                    termPattern.loadTerm(term, DatastetAnalyzer.getInstance(), false);
                     added.add(term);
                 }
 
                 // add lower case version, except if the term is originally all upper-case
                 if (!TextUtilities.isAllUpperCase(term)) {
                     if (!term.equals(term.toLowerCase()) && !added.contains(term.toLowerCase())) {
-                        termPattern.loadTerm(term.toLowerCase(), DataseerAnalyzer.getInstance(), false);
+                        termPattern.loadTerm(term.toLowerCase(), DatastetAnalyzer.getInstance(), false);
                         added.add(term.toLowerCase());
                     }
                 }
@@ -1461,7 +1461,7 @@ for(String sentence : allSentences) {
                 // add version without trivial punctuations
                 String termCleaned = term.replaceAll("[(),;]", "");
                 if (!term.equals(termCleaned) && !added.contains(termCleaned)) {
-                    termPattern.loadTerm(termCleaned, DataseerAnalyzer.getInstance(), false);
+                    termPattern.loadTerm(termCleaned, DatastetAnalyzer.getInstance(), false);
                     added.add(termCleaned);
                 }
                 
@@ -1469,20 +1469,20 @@ for(String sentence : allSentences) {
                 if (term.endsWith("dataset") || term.endsWith("Dataset")) {
                     String termAlt = term+"s";
                     if (!added.contains(termAlt)) {
-                        termPattern.loadTerm(termAlt, DataseerAnalyzer.getInstance(), false);
+                        termPattern.loadTerm(termAlt, DatastetAnalyzer.getInstance(), false);
                         added.add(termAlt);
                     }
                 } else if (term.endsWith("datasets") || term.endsWith("Datasets")) {
                     String termAlt = term.substring(0,term.length()-1);
                     if (!added.contains(termAlt)) {
-                        termPattern.loadTerm(termAlt, DataseerAnalyzer.getInstance(), false);
+                        termPattern.loadTerm(termAlt, DatastetAnalyzer.getInstance(), false);
                         added.add(termAlt);
                     }
                 }
                 
                 if (!term.equals(nameComponent.getNormalizedForm())) {
                     if (!added.contains(nameComponent.getNormalizedForm())) {
-                        termPattern.loadTerm(nameComponent.getNormalizedForm(), DataseerAnalyzer.getInstance(), false);
+                        termPattern.loadTerm(nameComponent.getNormalizedForm(), DatastetAnalyzer.getInstance(), false);
                         added.add(nameComponent.getNormalizedForm());
                     }
                 }
@@ -1501,7 +1501,7 @@ for(String sentence : allSentences) {
                 String term = nameComponent.getRawForm();
                 if (frequencies.get(term) == null) {
                     FastMatcher localTermPattern = new FastMatcher();
-                    localTermPattern.loadTerm(term, DataseerAnalyzer.getInstance());
+                    localTermPattern.loadTerm(term, DatastetAnalyzer.getInstance());
                     List<OffsetPosition> results = localTermPattern.matchLayoutToken(tokens, true, true);
                     // ignore delimiters, but case sensitive matching
                     int freq = 0;
@@ -1591,7 +1591,7 @@ for(String sentence : allSentences) {
                 Dataset entity = new Dataset(DatasetType.DATASET_NAME, name.getRawForm());
                 entity.setDatasetName(name);
                 entity.setContext(localText);
-                //entity.setType(DataseerLexicon.Dataset_Type.DATASET);
+                //entity.setType(DatastetLexicon.Dataset_Type.DATASET);
                 entity.setPropagated(true);
                 entity.setGlobalContextOffset(sentenceOffsetStart);
                 if (entities == null) 

@@ -39,7 +39,7 @@ public class ArticleUtilities {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleUtilities.class);
 
-    private DataseerConfiguration dataseerConfiguration;
+    private DatastetConfiguration datastetConfiguration;
 
     private static String halURL = "https://hal.archives-ouvertes.fr";
     private static String pmcURL = "http://www.ncbi.nlm.nih.gov/pmc/articles";
@@ -112,9 +112,9 @@ public class ArticleUtilities {
                 return null;
             }
 
-            DataseerConfiguration dataseerConfiguration = DataseerClassifier.getInstance().getDataseerConfiguration();
+            DatastetConfiguration datastetConfiguration = DataseerClassifier.getInstance().getDatastetConfiguration();
             File file = uploadFile(urll, 
-                dataseerConfiguration.getTmpPath(), 
+                datastetConfiguration.getTmpPath(), 
                 KeyGen.getKey()+".pdf");
             return file;
         }
@@ -196,9 +196,9 @@ public class ArticleUtilities {
     }
 
     private static String getGluttonOAUrl(String doi)  throws Exception {
-        DataseerConfiguration dataseerConfiguration = DataseerClassifier.getInstance().getDataseerConfiguration();
-        String host = dataseerConfiguration.getGluttonHost();
-        String port = dataseerConfiguration.getGluttonPort();
+        DatastetConfiguration datastetConfiguration = DataseerClassifier.getInstance().getDatastetConfiguration();
+        String host = datastetConfiguration.getGluttonHost();
+        String port = datastetConfiguration.getGluttonPort();
         String queryUrl = "http://" + host;
         if (port != null)
             queryUrl += ":" + port;

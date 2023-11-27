@@ -212,7 +212,7 @@ public class DataseerProcessFile {
         Response response = null;
         File originFile = null;
         DataseerClassifier classifier = DataseerClassifier.getInstance();
-        DatasetParser parser = DatasetParser.getInstance(classifier.getDataseerConfiguration());
+        DatasetParser parser = DatasetParser.getInstance(classifier.getDatastetConfiguration());
         JsonStringEncoder encoder = JsonStringEncoder.getInstance();
 
         boolean disambiguate = false;
@@ -238,7 +238,7 @@ public class DataseerProcessFile {
             
             StringBuilder json = new StringBuilder();
             json.append("{ ");
-            json.append(DataseerUtilities.applicationDetails(classifier.getDataseerConfiguration().getVersion()));
+            json.append(DataseerUtilities.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
             
             String md5Str = DatatypeConverter.printHexBinary(digest).toUpperCase();
             json.append(", \"md5\": \"" + md5Str + "\"");

@@ -4,7 +4,6 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 import org.apache.commons.io.FileUtils;
 import org.grobid.core.GrobidModels;
-import org.grobid.core.analyzers.DataseerAnalyzer;
 import org.grobid.core.data.DatasetComponent;
 import org.grobid.core.data.Dataset;
 import org.grobid.core.data.BiblioItem;
@@ -23,8 +22,8 @@ import org.grobid.core.features.FeaturesVectorDataseer;
 import org.grobid.core.layout.BoundingBox;
 import org.grobid.core.layout.LayoutToken;
 import org.grobid.core.layout.LayoutTokenization;
-import org.grobid.core.lexicon.DataseerLexicon;
-import org.grobid.core.utilities.DataseerConfiguration;
+import org.grobid.core.lexicon.DatastetLexicon;
+import org.grobid.core.utilities.DatastetConfiguration;
 import org.grobid.core.utilities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +85,7 @@ public class DatasetDisambiguator {
 
     private static boolean serverStatus = false;
 
-    public static DatasetDisambiguator getInstance(DataseerConfiguration configuration) {
+    public static DatasetDisambiguator getInstance(DatastetConfiguration configuration) {
         if (instance == null) {
             getNewInstance(configuration);
         }
@@ -96,11 +95,11 @@ public class DatasetDisambiguator {
     /**
      * Create a new instance.
      */
-    private static synchronized void getNewInstance(DataseerConfiguration configuration) {
+    private static synchronized void getNewInstance(DatastetConfiguration configuration) {
         instance = new DatasetDisambiguator(configuration);
     }
 
-    private DatasetDisambiguator(DataseerConfiguration configuration) {
+    private DatasetDisambiguator(DatastetConfiguration configuration) {
         try {
             nerd_host = configuration.getEntityFishingHost();
             nerd_port = configuration.getEntityFishingPort();
@@ -387,7 +386,7 @@ public class DatasetDisambiguator {
                     /*if ( (statements != null) && (statements.get("P31") != null) ) {
                         List<String> p31 = statements.get("P31");
                         for(String p31Value : p31) {
-                            if (DataseerLexicon.getInstance().inDatasetPropertyValues(p31Value)) {
+                            if (DatastetLexicon.getInstance().inDatasetPropertyValues(p31Value)) {
                                 toBeFiltered = false;
                                 break;
                             }

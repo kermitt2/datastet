@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Binder;
 import com.google.inject.Provides;
 import com.hubspot.dropwizard.guicier.DropwizardAwareModule;
-import org.grobid.service.configuration.DataseerServiceConfiguration;
+import org.grobid.service.configuration.DatastetServiceConfiguration;
 import org.grobid.service.controller.DataseerController;
 import org.grobid.service.controller.HealthCheck;
 import org.grobid.service.controller.DataseerProcessFile;
@@ -15,7 +15,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
 
-public class DataseerServiceModule extends DropwizardAwareModule<DataseerServiceConfiguration> {
+public class DataseerServiceModule extends DropwizardAwareModule<DatastetServiceConfiguration> {
 
     @Override
     public void configure(Binder binder) {

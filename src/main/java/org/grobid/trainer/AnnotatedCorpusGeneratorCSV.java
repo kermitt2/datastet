@@ -1,6 +1,5 @@
 package org.grobid.trainer;
 
-import org.grobid.core.analyzers.DataseerAnalyzer;
 import org.grobid.core.engines.DataseerClassifier;
 import org.grobid.core.exceptions.GrobidException;
 import org.grobid.core.utilities.ArticleUtilities;
@@ -379,7 +378,7 @@ public class AnnotatedCorpusGeneratorCSV {
                     File f = new File(plosPath);
                     if (f.exists()) {
                         // transform the XML NLM file into TEI with Pub2TEI command line
-                        String pub2teiPath = dataseer.getDataseerConfiguration().getPub2TEIPath();
+                        String pub2teiPath = dataseer.getDatastetConfiguration().getPub2TEIPath();
                         System.out.println(pub2teiPath);
                         File pub2teiDir = new File(pub2teiPath);
 

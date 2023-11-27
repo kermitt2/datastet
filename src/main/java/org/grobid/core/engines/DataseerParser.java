@@ -2,7 +2,7 @@ package org.grobid.core.engines;
 
 import org.apache.commons.io.FileUtils;
 import org.grobid.core.GrobidModels;
-import org.grobid.core.analyzers.DataseerAnalyzer;
+import org.grobid.core.analyzers.DatastetAnalyzer;
 import org.grobid.core.data.BiblioItem;
 import org.grobid.core.data.BibDataSet;
 import org.grobid.core.document.Document;
@@ -22,7 +22,7 @@ import org.grobid.core.features.FeatureFactory;
 import org.grobid.core.layout.BoundingBox;
 import org.grobid.core.layout.LayoutToken;
 import org.grobid.core.layout.LayoutTokenization;
-import org.grobid.core.lexicon.DataseerLexicon;
+import org.grobid.core.lexicon.DatastetLexicon;
 import org.grobid.core.tokenization.TaggingTokenCluster;
 import org.grobid.core.tokenization.TaggingTokenClusteror;
 import org.grobid.core.utilities.*;
@@ -76,14 +76,12 @@ public class DataseerParser extends AbstractParser {
         instance = new DataseerParser();
     }
 
-    //private DataseerLexicon dataseerLexicon = null;
     private EngineParsers parsers;
 
     private DataseerParser() {
         super(GrobidModels.DATASEER, CntManagerFactory.getCntManager(), 
             GrobidCRFEngine.valueOf("WAPITI"));
 
-        //dataseerLexicon = DataseerLexicon.getInstance();
         parsers = new EngineParsers();
     }
 
@@ -204,7 +202,7 @@ public class DataseerParser extends AbstractParser {
     public List<Boolean> processingText(List<String> segments, List<String> sectionTypes, List<Integer> nbDatasets, List<String> datasetTypes) {
         List<List<LayoutToken>> layoutTokenSegments = new ArrayList<List<LayoutToken>>();
         for(String segment : segments) {
-            List<LayoutToken> tokens = DataseerAnalyzer.getInstance().tokenizeWithLayoutToken(segment);
+            List<LayoutToken> tokens = DatastetAnalyzer.getInstance().tokenizeWithLayoutToken(segment);
             layoutTokenSegments.add(tokens);
         }
         return processing(layoutTokenSegments, sectionTypes, nbDatasets, datasetTypes);
@@ -243,7 +241,7 @@ public class DataseerParser extends AbstractParser {
             }
             int n = 0;
             LayoutToken token = segment.get(n); 
-            while(DataseerAnalyzer.DELIMITERS.indexOf(token.getText()) != -1 && n < segment.size()) {
+            while(DatastetAnalyzer.DELIMITERS.indexOf(token.getText()) != -1 && n < segment.size()) {
                 token = segment.get(n); 
                 n++;
             }
@@ -260,7 +258,7 @@ public class DataseerParser extends AbstractParser {
             n++;
             if (n < segment.size())
                 token = segment.get(n); 
-            while(DataseerAnalyzer.DELIMITERS.indexOf(token.getText()) != -1 && n < segment.size()) {
+            while(DatastetAnalyzer.DELIMITERS.indexOf(token.getText()) != -1 && n < segment.size()) {
                 token = segment.get(n); 
                 n++;
             }
@@ -274,7 +272,7 @@ public class DataseerParser extends AbstractParser {
             n++;
             if (n < segment.size())
                 token = segment.get(n); 
-            while(DataseerAnalyzer.DELIMITERS.indexOf(token.getText()) != -1 && n < segment.size()) {
+            while(DatastetAnalyzer.DELIMITERS.indexOf(token.getText()) != -1 && n < segment.size()) {
                 token = segment.get(n); 
                 n++;
             }

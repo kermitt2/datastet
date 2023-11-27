@@ -3,7 +3,7 @@ package org.grobid.core.data;
 import org.grobid.core.engines.label.TaggingLabel;
 import org.grobid.core.utilities.TextUtilities;
 import org.grobid.core.utilities.OffsetPosition;
-import org.grobid.core.lexicon.DataseerLexicon;
+import org.grobid.core.lexicon.DatastetLexicon;
 import org.grobid.core.layout.BoundingBox;
 import org.grobid.core.layout.LayoutToken;
 
@@ -547,7 +547,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         String result = raw.replace("\n", " ");
         result = result.replaceAll("( )+", " ");
         result = TextUtilities.cleanField(result, false);
-        result = DataseerLexicon.getInstance().removeLeadingEnglishStopwords(result);
+        result = DatastetLexicon.getInstance().removeLeadingEnglishStopwords(result);
         return result;
     }
     

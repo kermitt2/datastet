@@ -1,12 +1,13 @@
 package org.grobid.service.configuration;
 
 import io.dropwizard.Configuration;
-import org.grobid.core.utilities.DataseerConfiguration;
+import org.grobid.core.utilities.DatastetConfiguration;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DataseerServiceConfiguration extends Configuration {
+public class DatastetServiceConfiguration extends Configuration {
 
     private String grobidHome;
-    private DataseerConfiguration dataseerConfiguration;
+    private DatastetConfiguration datastetConfiguration;
     private int maxParallelRequests;
 
     @JsonProperty
@@ -24,12 +25,12 @@ public class DataseerServiceConfiguration extends Configuration {
         this.grobidHome = grobidHome;
     }
 
-    public DataseerConfiguration getDataseerConfiguration() {
-        return this.dataseerConfiguration;
+    public DatastetConfiguration getDatastetConfiguration() {
+        return this.datastetConfiguration;
     }
 
-    public void setDataseerConfiguration(DataseerConfiguration conf) {
-        this.dataseerConfiguration = conf;
+    public void setDatastetConfiguration(DatastetConfiguration conf) {
+        this.datastetConfiguration = conf;
     }
 
     public int getMaxParallelRequests() {

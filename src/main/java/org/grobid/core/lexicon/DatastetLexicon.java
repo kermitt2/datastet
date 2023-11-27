@@ -1,6 +1,5 @@
 package org.grobid.core.lexicon;
 
-import org.grobid.core.analyzers.DataseerAnalyzer;
 import org.grobid.core.exceptions.GrobidException;
 import org.grobid.core.exceptions.GrobidResourceException;
 import org.grobid.core.utilities.GrobidProperties;
@@ -22,13 +21,13 @@ import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class for managing the lexical resources for dataseer
+ * Class for managing the lexical resources for datastet
  *
  * @author Patrice
  */
-public class DataseerLexicon {
+public class DatastetLexicon {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(DataseerLexicon.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(DatastetLexicon.class);
 
     private Set<String> Datasetocabulary = null;
     private FastMatcher DatasetPattern = null;
@@ -44,23 +43,23 @@ public class DataseerLexicon {
     private Set<String> doiPrefixes = null;
     private Set<String> urlDomains = null;
 
-    private static volatile DataseerLexicon instance;
+    private static volatile DatastetLexicon instance;
 
     // to use the url pattern in grobid-core after merging branch update_header
     static public final Pattern urlPattern = Pattern
         .compile("(?i)(https?|ftp)\\s?:\\s?//\\s?[-A-Z0-9+&@#/%=~_:.]*[-A-Z0-9+&@#/%=~_]");
 
-    public static synchronized DataseerLexicon getInstance() {
+    public static synchronized DatastetLexicon getInstance() {
         if (instance == null)
-            instance = new DataseerLexicon();
+            instance = new DatastetLexicon();
 
         return instance;
     }
 
-    private DataseerLexicon() {
+    private DatastetLexicon() {
         Lexicon.getInstance();
         // init the lexicon
-        LOGGER.info("Init dataseer lexicon");
+        LOGGER.info("Init Datastet lexicon");
 
         // term idf
         File file = new File("resources/lexicon/idf.label.en.txt.gz").getAbsoluteFile();

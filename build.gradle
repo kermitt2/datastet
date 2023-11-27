@@ -393,7 +393,7 @@ task(annotated_corpus_generator_csv, dependsOn: 'classes', type: JavaExec, group
 // service
 apply plugin: 'application'
 application {
-    mainClassName = 'org.grobid.service.DataseerApplication'
+    mainClassName = 'org.grobid.service.DatastetApplication'
 
     run {
         if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_8) > 0) {

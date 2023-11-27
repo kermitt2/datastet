@@ -9,7 +9,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.eclipse.jetty.servlets.QoSFilter;
-import org.grobid.service.configuration.DataseerServiceConfiguration;
+import org.grobid.service.configuration.DatastetServiceConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,14 +18,14 @@ import javax.servlet.FilterRegistration;
 import java.util.Arrays;
 import java.util.EnumSet;
 
-public class DataseerApplication extends Application<DataseerServiceConfiguration> {
+public class DatastetApplication extends Application<DatastetServiceConfiguration> {
     private static final String RESOURCES = "/service";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataseerApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatastetApplication.class);
 
     @Override
     public String getName() {
-        return "dataseer-ml";
+        return "datastet";
     }
 
     private Iterable<? extends Module> getGuiceModules() {
@@ -33,8 +33,8 @@ public class DataseerApplication extends Application<DataseerServiceConfiguratio
     }
 
     @Override
-    public void initialize(Bootstrap<DataseerServiceConfiguration> bootstrap) {
-        GuiceBundle<DataseerServiceConfiguration> guiceBundle = GuiceBundle.defaultBuilder(DataseerServiceConfiguration.class)
+    public void initialize(Bootstrap<DatastetServiceConfiguration> bootstrap) {
+        GuiceBundle<DatastetServiceConfiguration> guiceBundle = GuiceBundle.defaultBuilder(DatastetServiceConfiguration.class)
                 .modules(getGuiceModules())
                 .build();
         bootstrap.addBundle(guiceBundle);
@@ -44,7 +44,7 @@ public class DataseerApplication extends Application<DataseerServiceConfiguratio
     }
 
     @Override
-    public void run(DataseerServiceConfiguration configuration, Environment environment) {
+    public void run(DatastetServiceConfiguration configuration, Environment environment) {
 
         environment.jersey().setUrlPattern(RESOURCES + "/*");
 
@@ -71,6 +71,6 @@ public class DataseerApplication extends Application<DataseerServiceConfiguratio
     }
 
     public static void main(String[] args) throws Exception {
-        new DataseerApplication().run(args);
+        new DatastetApplication().run(args);
     }
 }

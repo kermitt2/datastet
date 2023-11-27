@@ -3,7 +3,7 @@ package org.grobid.core.utilities;
 import org.grobid.core.utilities.GrobidConfig.ModelParameters;
 import java.util.*;
 
-public class DataseerConfiguration {
+public class DatastetConfiguration {
 
     public String corpusPath;
     public String templatePath;

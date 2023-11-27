@@ -13,11 +13,11 @@ import java.util.StringTokenizer;
  * @author Patrice
  */
 
-public class DataseerAnalyzer implements org.grobid.core.analyzers.Analyzer {
+public class DatastetAnalyzer implements org.grobid.core.analyzers.Analyzer {
 
-    private static volatile DataseerAnalyzer instance;
+    private static volatile DatastetAnalyzer instance;
 
-    public static DataseerAnalyzer getInstance() {
+    public static DatastetAnalyzer getInstance() {
         if (instance == null) {
             //double check idiom
             // synchronized (instanceController) {
@@ -32,20 +32,20 @@ public class DataseerAnalyzer implements org.grobid.core.analyzers.Analyzer {
      * Creates a new instance.
      */
     private static synchronized void getNewInstance() {
-        instance = new DataseerAnalyzer();
+        instance = new DatastetAnalyzer();
     }
 
     /**
      * Hidden constructor
      */
-    private DataseerAnalyzer() {
+    private DatastetAnalyzer() {
     }
 
     public static final String DELIMITERS = " \n\r\t([^%‰°,:;?.!/)-–−=≈<>+\"“”‘’'`$®]*\u2666\u2665\u2663\u2660\u00A0";
     private static final String REGEX = "(?<=[a-zA-Z])(?=\\d)|(?<=\\d)(?=\\D)";
 
     public String getName() {
-        return "DataseerAnalyzer";
+        return "DatastetAnalyzer";
     }
 
     public List<String> tokenize(String text) {

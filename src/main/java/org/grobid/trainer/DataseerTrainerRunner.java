@@ -1,7 +1,7 @@
 package org.grobid.trainer;
 
 import org.grobid.core.main.GrobidHomeFinder;
-import org.grobid.core.utilities.DataseerConfiguration;
+import org.grobid.core.utilities.DatastetConfiguration;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.core.engines.DataseerClassifier;
 
@@ -73,15 +73,15 @@ public class DataseerTrainerRunner {
             throw new IllegalStateException(USAGE);
         }
 
-        DataseerConfiguration dataseerConfiguration = null;
+        DatastetConfiguration datastetConfiguration = null;
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml"), DataseerConfiguration.class);
+            datastetConfiguration = mapper.readValue(new File("resources/config/config.yml"), DatastetConfiguration.class);
         } catch(Exception e) {
-            System.err.println("The config file does not appear valid, see resources/config/dataseer-ml.yml");
+            System.err.println("The config file does not appear valid, see resources/config/config.yml");
         }
 
-        String path2GbdHome = dataseerConfiguration.getGrobidHome();
+        String path2GbdHome = datastetConfiguration.getGrobidHome();
         String grobidHome = args[2];
         if (grobidHome != null) {
             path2GbdHome = grobidHome;

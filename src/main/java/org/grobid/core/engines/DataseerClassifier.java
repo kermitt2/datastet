@@ -2,7 +2,7 @@ package org.grobid.core.engines;
 
 import org.apache.commons.io.FileUtils;
 import org.grobid.core.GrobidModels;
-import org.grobid.core.analyzers.DataseerAnalyzer;
+import org.grobid.core.analyzers.DatastetAnalyzer;
 import org.grobid.core.data.BiblioItem;
 import org.grobid.core.document.Document;
 import org.grobid.core.document.DocumentPiece;
@@ -15,7 +15,7 @@ import org.grobid.core.layout.BoundingBox;
 import org.grobid.core.layout.LayoutToken;
 import org.grobid.core.layout.LayoutTokenization;
 import org.grobid.core.utilities.*;
-import org.grobid.core.lexicon.DataseerLexicon;
+import org.grobid.core.lexicon.DatastetLexicon;
 import org.grobid.core.main.GrobidHomeFinder;
 import org.grobid.core.main.LibraryLoader;
 import org.grobid.core.engines.tagging.GrobidCRFEngine;
@@ -97,7 +97,7 @@ public class DataseerClassifier {
     private DeLFTClassifierModel classifierFirstLevel = null;
     private DeLFTClassifierModel classifierReuse = null;
 
-    private DataseerConfiguration dataseerConfiguration = null;
+    private DatastetConfiguration datastetConfiguration = null;
 
     public static DataseerClassifier getInstance() {
         if (instance == null) {
@@ -113,26 +113,23 @@ public class DataseerClassifier {
         instance = new DataseerClassifier();
     }
 
-    //private DataseerLexicon dataseerLexicon = null;
-
     private DataseerClassifier() {
-        //dataseerLexicon = DataseerLexicon.getInstance();
         try {
-            this.dataseerConfiguration = null;
+            this.datastetConfiguration = null;
             try {
                 ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
-                File configFile = new File("resources/config/dataseer-ml.yml").getAbsoluteFile();
-                dataseerConfiguration = mapper.readValue(configFile, DataseerConfiguration.class);
+                File configFile = new File("resources/config/config.yml").getAbsoluteFile();
+                datastetConfiguration = mapper.readValue(configFile, DatastetConfiguration.class);
             } catch(Exception e) {
-                logger.error("The config file does not appear valid, see resources/config/dataseer-ml.yml", e);
+                logger.error("The config file does not appear valid, see resources/config/config.yml", e);
             }
 
             // grobid
             engine = GrobidFactory.getInstance().createEngine();
 
             // Datatype classifier via DeLFT
-            for(ModelParameters parameter : dataseerConfiguration.getModels()) {
+            for(ModelParameters parameter : datastetConfiguration.getModels()) {
                 if (parameter.name.equals("dataseer-binary")) {
                     this.classifierBinary = new DeLFTClassifierModel("dataseer-binary", parameter.delft.architecture);
                 } else if (parameter.name.equals("dataseer-first")) {
@@ -147,8 +144,8 @@ public class DataseerClassifier {
         }
     }
 
-    public DataseerConfiguration getDataseerConfiguration() {
-        return this.dataseerConfiguration;
+    public DatastetConfiguration getDatastetConfiguration() {
+        return this.datastetConfiguration;
     }
 
     /**
@@ -512,7 +509,7 @@ public class DataseerClassifier {
             File tmpFile = GrobidProperties.getInstance().getTempPath();
             newFilePath = ArticleUtilities.applyPub2TEI(filePath, 
                 tmpFile.getPath() + "/" + fileName.replace(".xml", ".tei.xml"), 
-                this.dataseerConfiguration.getPub2TEIPath());
+                this.datastetConfiguration.getPub2TEIPath());
             //System.out.println(newFilePath);
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

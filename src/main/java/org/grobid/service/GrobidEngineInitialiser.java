@@ -5,9 +5,9 @@ import org.grobid.core.main.GrobidHomeFinder;
 import org.grobid.core.main.LibraryLoader;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.core.engines.tagging.GrobidCRFEngine;
-import org.grobid.core.lexicon.DataseerLexicon;
-import org.grobid.service.configuration.DataseerServiceConfiguration;
-import org.grobid.core.utilities.DataseerConfiguration;
+import org.grobid.core.lexicon.DatastetLexicon;
+import org.grobid.service.configuration.DatastetServiceConfiguration;
+import org.grobid.core.utilities.DatastetConfiguration;
 import org.grobid.core.utilities.GrobidConfig.ModelParameters;
 
 import java.io.*;
@@ -26,25 +26,25 @@ public class GrobidEngineInitialiser {
     private static final Logger LOGGER = LoggerFactory.getLogger(org.grobid.service.GrobidEngineInitialiser.class);
 
     @Inject
-    public GrobidEngineInitialiser(DataseerServiceConfiguration configuration) {
+    public GrobidEngineInitialiser(DatastetServiceConfiguration configuration) {
         LOGGER.info("Initialising Grobid");
         GrobidHomeFinder grobidHomeFinder = new GrobidHomeFinder(ImmutableList.of(configuration.getGrobidHome()));
         GrobidProperties.getInstance(grobidHomeFinder);
-        DataseerLexicon.getInstance();
+        DatastetLexicon.getInstance();
 
-        DataseerConfiguration dataseerConfiguration = null;
+        DatastetConfiguration datastetConfiguration = null;
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml").getAbsoluteFile(), DataseerConfiguration.class);
+            datastetConfiguration = mapper.readValue(new File("resources/config/config.yml").getAbsoluteFile(), DatastetConfiguration.class);
         } catch(Exception e) {
-            LOGGER.error("The config file does not appear valid, see resources/config/dataseer-ml.yml", e);
-            dataseerConfiguration = null;
+            LOGGER.error("The config file does not appear valid, see resources/config/config.yml", e);
+            datastetConfiguration = null;
         }
 
-        configuration.setDataseerConfiguration(dataseerConfiguration);
+        configuration.setDatastetConfiguration(datastetConfiguration);
 
-        if (dataseerConfiguration != null && dataseerConfiguration.getModels() != null) {
-            for (ModelParameters model : dataseerConfiguration.getModels())
+        if (datastetConfiguration != null && datastetConfiguration.getModels() != null) {
+            for (ModelParameters model : datastetConfiguration.getModels())
                 GrobidProperties.getInstance().addModel(model);
         }
         LibraryLoader.load();
