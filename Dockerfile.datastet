@@ -6,6 +6,8 @@ FROM openjdk:17-jdk-slim as builder
 
 USER root
 
+ARG GROBID_VERSION
+
 RUN apt-get update && \
     apt-get -y --no-install-recommends install unzip
 
@@ -146,13 +148,11 @@ RUN ./gradlew installModels && rm -rf resources/models && rm ../grobid-home/mode
 
 # this will build and load embeddings on the image forever (only if required by the config) :)
 WORKDIR /opt/grobid/datastet
-RUN ./gradlew clean build test
+#RUN ./gradlew clean build test
+RUN ./gradlew clean assemble --no-daemon --stacktrace --info -x test
 
-CMD ["./gradlew", "run"]
-
-CMD ["sh", "-c", "java --add-opens java.base/java.lang=ALL-UNNAMED -jar build/libs/datastet-0.8.0-SNAPSHOT-onejar.jar server resources/config/config.yml"]
-
-ARG GROBID_VERSION
+#CMD ["./gradlew", "run"]
+CMD ["sh", "-c", "java --add-opens java.base/java.lang=ALL-UNNAMED -jar build/libs/datastet-${GROBID_VERSION}-onejar.jar server resources/config/config.yml"]
 
 LABEL \
     authors="The contributors" \

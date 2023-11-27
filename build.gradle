@@ -403,6 +403,6 @@ application {
         def javaLibraryPath = "${System.getProperty('java.library.path')}:" + libraries
         systemProperty "java.library.path", javaLibraryPath
 
-        args = ['server', 'resources/config/server.yml']
+        args = ['server', 'resources/config/config.yml']
     }
 }

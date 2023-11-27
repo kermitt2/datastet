@@ -221,7 +221,9 @@ public class DatasetDisambiguator {
                 LOGGER.debug("Calling: " + url.toString());
 //System.out.println("Calling: " + url.toString());
                 // load the dataset customisation
-                File cutomisationFile = new File("resources/config/customisation-dataset.json").getAbsoluteFile();
+                File cutomisationFile = new File("resources/config/customisation-software.json");
+                cutomisationFile = new File(cutomisationFile.getAbsolutePath());
+
                 String json = FileUtils.readFileToString(cutomisationFile, "UTF-8");
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();

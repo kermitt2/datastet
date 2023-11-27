@@ -22,15 +22,17 @@ var grobid = (function ($) {
     function defineBaseURL(ext) {
         var baseUrl = null;
         var localBase = $(location).attr('href');
-        ext = "service/" + ext;
         if (localBase.indexOf("index.html") != -1) {
-            baseUrl = localBase.replace("index.html", ext);
-        } else if (localBase.endsWith("#")) {
-            baseUrl = localBase.substring(0,localBase.length-1) + ext;
-        }
-        else
-            baseUrl = $(location).attr('href') + ext;
-        return baseUrl;
+            localBase = localBase.replace("index.html", "");
+        } 
+        if (localBase.endsWith("#")) {
+            localBase = localBase.substring(0,localBase.endsWith("#"));
+        } 
+        if (localBase.indexOf("?") != -1) {
+            // remove possible uri parameters
+            localBase = localBase.substring(0,localBase.indexOf("?"));
+        } 
+        return localBase + "service/" + ext;
     }
 
     function setBaseUrl(ext) {
