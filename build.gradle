@@ -208,7 +208,7 @@ shadowJar {
     mergeServiceFiles()
     zip64 true
     manifest {
-        attributes 'Main-Class': 'org.grobid.core.main.batch.DataseerMain'
+        attributes 'Main-Class': 'org.grobid.core.main.batch.DatastetMain'
     }
 
     configurations = [project.configurations.runtimeClasspath]

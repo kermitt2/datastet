@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  *
  * @author Patrice Lopez
  */
-public class DataseerUtilities {
+public class DatastetUtilities {
 
     // a regular expression for identifying "materials and method" pattern in text
     static public final Pattern matAndMetPattern = Pattern
@@ -35,7 +35,7 @@ public class DataseerUtilities {
         String localText = LayoutTokensUtil.toText(tokens);
         if (localText.trim().length() < 15)
             return false;
-        Matcher matAndMetMatcher = DataseerUtilities.matAndMetPattern.matcher(localText);
+        Matcher matAndMetMatcher = DatastetUtilities.matAndMetPattern.matcher(localText);
         return matAndMetMatcher.find();
     }
 

@@ -14,9 +14,9 @@ import org.grobid.core.factory.GrobidFactory;
 import org.grobid.core.layout.Page;
 import org.grobid.core.utilities.IOUtilities;
 import org.grobid.core.utilities.ArticleUtilities;
-import org.grobid.core.utilities.DataseerUtilities;
+import org.grobid.core.utilities.DatastetUtilities;
 import org.grobid.core.utilities.GrobidProperties;
-import org.grobid.service.exceptions.DataseerServiceException;
+import org.grobid.service.exceptions.DatastetServiceException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -52,15 +52,15 @@ import org.slf4j.LoggerFactory;
  * @author Patrice
  */
 @Singleton
-public class DataseerProcessFile {
+public class DatastetProcessFile {
 
     /**
      * The class Logger.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataseerProcessFile.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatastetProcessFile.class);
 
     @Inject
-    public DataseerProcessFile() {
+    public DatastetProcessFile() {
     }
 
     /**
@@ -79,7 +79,7 @@ public class DataseerProcessFile {
             originFile = ArticleUtilities.writeInputFile(inputStream, ".tei.xml");
             if (originFile == null) {
                 LOGGER.error("The input file cannot be written.");
-                throw new DataseerServiceException(
+                throw new DatastetServiceException(
                     "The input file cannot be written. ", Status.INTERNAL_SERVER_ERROR);
             } 
 
@@ -124,7 +124,7 @@ public class DataseerProcessFile {
             originFile = ArticleUtilities.writeInputFile(inputStream, ".xml");
             if (originFile == null) {
                 LOGGER.error("The input file cannot be written.");
-                throw new DataseerServiceException(
+                throw new DatastetServiceException(
                     "The input file cannot be written. ", Status.INTERNAL_SERVER_ERROR);
             } 
 
@@ -170,7 +170,7 @@ public class DataseerProcessFile {
             originFile = IOUtilities.writeInputFile(inputStream);
             if (originFile == null) {
                 LOGGER.error("The input file cannot be written.");
-                throw new DataseerServiceException(
+                throw new DatastetServiceException(
                     "The input file cannot be written. ", Status.INTERNAL_SERVER_ERROR);
             } 
 
@@ -227,7 +227,7 @@ public class DataseerProcessFile {
 
             if (originFile == null) {
                 LOGGER.error("The input file cannot be written.");
-                throw new DataseerServiceException(
+                throw new DatastetServiceException(
                     "The input file cannot be written. ", Status.INTERNAL_SERVER_ERROR);
             } 
 
@@ -238,7 +238,7 @@ public class DataseerProcessFile {
             
             StringBuilder json = new StringBuilder();
             json.append("{ ");
-            json.append(DataseerUtilities.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
+            json.append(DatastetUtilities.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
             
             String md5Str = DatatypeConverter.printHexBinary(digest).toUpperCase();
             json.append(", \"md5\": \"" + md5Str + "\"");
@@ -306,11 +306,11 @@ public class DataseerProcessFile {
     }
 
     public static String methodLogIn() {
-        return ">> " + DataseerProcessFile.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
+        return ">> " + DatastetProcessFile.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
     }
 
     public static String methodLogOut() {
-        return "<< " + DataseerProcessFile.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
+        return "<< " + DatastetProcessFile.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
     }
 
     /**

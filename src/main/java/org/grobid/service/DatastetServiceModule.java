@@ -6,16 +6,16 @@ import com.google.inject.Binder;
 import com.google.inject.Provides;
 import com.hubspot.dropwizard.guicier.DropwizardAwareModule;
 import org.grobid.service.configuration.DatastetServiceConfiguration;
-import org.grobid.service.controller.DataseerController;
+import org.grobid.service.controller.DatastetController;
 import org.grobid.service.controller.HealthCheck;
-import org.grobid.service.controller.DataseerProcessFile;
-import org.grobid.service.controller.DataseerProcessString;
+import org.grobid.service.controller.DatastetProcessFile;
+import org.grobid.service.controller.DatastetProcessString;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
 
-public class DataseerServiceModule extends DropwizardAwareModule<DatastetServiceConfiguration> {
+public class DatastetServiceModule extends DropwizardAwareModule<DatastetServiceConfiguration> {
 
     @Override
     public void configure(Binder binder) {
@@ -24,11 +24,11 @@ public class DataseerServiceModule extends DropwizardAwareModule<DatastetService
         binder.bind(HealthCheck.class);
 
         // Core components
-        binder.bind(DataseerProcessFile.class);
-        binder.bind(DataseerProcessString.class);
+        binder.bind(DatastetProcessFile.class);
+        binder.bind(DatastetProcessString.class);
 
         // REST
-        binder.bind(DataseerController.class);
+        binder.bind(DatastetController.class);
     }
 
     @Provides

@@ -6,7 +6,7 @@ package org.grobid.service.controller;
  * @author Patrice
  *
  */
-public interface DataseerPaths {
+public interface DatastetPaths {
     /**
      * path extension for dataseer service.
      */

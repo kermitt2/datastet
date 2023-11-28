@@ -302,7 +302,7 @@ public class DataseerParser extends AbstractParser {
             //if (features.digit == null)
             //    features.digit = "NODIGIT";
 
-            if (DataseerUtilities.detectMaterialsAndMethod(segment))
+            if (DatastetUtilities.detectMaterialsAndMethod(segment))
                 features.materialsAndMethodPattern = true;
 
             features.relativeDocumentPosition = FeatureFactory.getInstance()

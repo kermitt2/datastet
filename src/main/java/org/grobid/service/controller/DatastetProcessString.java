@@ -9,7 +9,7 @@ import org.grobid.core.engines.DatasetParser;
 import org.grobid.core.data.Dataset;
 import org.grobid.core.data.Dataset.DatasetType;
 import org.grobid.core.utilities.GrobidProperties;
-import org.grobid.core.utilities.DataseerUtilities;
+import org.grobid.core.utilities.DatastetUtilities;
 import org.grobid.core.utilities.TextUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +31,12 @@ import com.fasterxml.jackson.core.io.*;
  * 
  */
 @Singleton
-public class DataseerProcessString {
+public class DatastetProcessString {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataseerProcessString.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatastetProcessString.class);
 
     @Inject
-    public DataseerProcessString() {
+    public DatastetProcessString() {
     }
 
     /**
@@ -103,7 +103,7 @@ public class DataseerProcessString {
             // building JSON response
             StringBuilder json = new StringBuilder();
             json.append("{");
-            json.append(DataseerUtilities.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
+            json.append(DatastetUtilities.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
 
             byte[] encoded = encoder.quoteAsUTF8(text);
             String output = new String(encoded);
@@ -201,14 +201,14 @@ public class DataseerProcessString {
      * @return
      */
     public static String methodLogIn() {
-        return ">> " + DataseerProcessString.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
+        return ">> " + DatastetProcessString.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
     }
 
     /**
      * @return
      */
     public static String methodLogOut() {
-        return "<< " + DataseerProcessString.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
+        return "<< " + DatastetProcessString.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
     }
 
     /**

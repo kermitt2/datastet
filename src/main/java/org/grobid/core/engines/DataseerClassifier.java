@@ -250,7 +250,7 @@ public class DataseerClassifier {
 
         StringBuilder builder = new StringBuilder();
         builder.append("{\n\t\"model\": \"dataseer\",\n\t\"software\": \"DeLFT\",\n\t\"date\": \"" + 
-            DataseerUtilities.getISO8601Date() + "\",\n\t\"classifications\": [");
+            DatastetUtilities.getISO8601Date() + "\",\n\t\"classifications\": [");
 
         boolean first = true;
         // second pass to inject additional results

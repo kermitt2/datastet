@@ -29,7 +29,7 @@ public class DatastetApplication extends Application<DatastetServiceConfiguratio
     }
 
     private Iterable<? extends Module> getGuiceModules() {
-        return Arrays.asList(new DataseerServiceModule());
+        return Arrays.asList(new DatastetServiceModule());
     }
 
     @Override

@@ -30,10 +30,10 @@ import org.grobid.service.configuration.DatastetServiceConfiguration;
  * @author Patrice
  */
 @Singleton
-@Path(DataseerPaths.PATH_DATASEER)
-public class DataseerController implements DataseerPaths {
+@Path(DatastetPaths.PATH_DATASEER)
+public class DatastetController implements DatastetPaths {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataseerController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatastetController.class);
 
     private static final String TEXT = "text";
     private static final String XML = "xml";
@@ -45,7 +45,7 @@ public class DataseerController implements DataseerPaths {
     private DatastetConfiguration configuration;
 
     @Inject
-    public DataseerController(DatastetServiceConfiguration serviceConfiguration) {
+    public DatastetController(DatastetServiceConfiguration serviceConfiguration) {
         this.configuration = serviceConfiguration.getDatastetConfiguration();
     }
 
@@ -53,7 +53,7 @@ public class DataseerController implements DataseerPaths {
     @Path(PATH_IS_ALIVE)
     @Produces(MediaType.TEXT_PLAIN)
     public Response isAlive() {
-        return DataseerRestProcessGeneric.isAlive();
+        return DatastetRestProcessGeneric.isAlive();
     }
 
     @Path(PATH_DATASEER_SENTENCE)
@@ -61,7 +61,7 @@ public class DataseerController implements DataseerPaths {
     @POST
     public Response processText_post(@FormParam(TEXT) String text) {
         LOGGER.info(text);
-        return DataseerProcessString.processSentence(text);
+        return DatastetProcessString.processSentence(text);
     }
 
     @Path(PATH_DATASEER_SENTENCE)
@@ -69,7 +69,7 @@ public class DataseerController implements DataseerPaths {
     @GET
     public Response processText_get(@QueryParam(TEXT) String text) {
         LOGGER.info(text);
-        return DataseerProcessString.processSentence(text);
+        return DatastetProcessString.processSentence(text);
     }
 
     @Path(PATH_DATASET_SENTENCE)
@@ -77,7 +77,7 @@ public class DataseerController implements DataseerPaths {
     @POST
     public Response processDatasetText_post(@FormParam(TEXT) String text) {
         LOGGER.info(text);
-        return DataseerProcessString.processDatsetSentence(text);
+        return DatastetProcessString.processDatsetSentence(text);
     }
     
     @Path(PATH_DATASET_SENTENCE)
@@ -85,7 +85,7 @@ public class DataseerController implements DataseerPaths {
     @GET
     public Response processDatasetText_get(@QueryParam(TEXT) String text) {
         LOGGER.info(text);
-        return DataseerProcessString.processDatsetSentence(text);
+        return DatastetProcessString.processDatsetSentence(text);
     }
 
     @Path(PATH_DATASEER_PDF)
@@ -93,7 +93,7 @@ public class DataseerController implements DataseerPaths {
     @Produces(MediaType.APPLICATION_XML)
     @POST
     public Response processPDF(@FormDataParam(INPUT) InputStream inputStream) {
-        return DataseerProcessFile.processPDF(inputStream);
+        return DatastetProcessFile.processPDF(inputStream);
     }
 
     @Path(PATH_DATASET_PDF)
@@ -101,7 +101,7 @@ public class DataseerController implements DataseerPaths {
     @Produces(MediaType.APPLICATION_XML)
     @POST
     public Response processDatasetPDF(@FormDataParam(INPUT) InputStream inputStream) {
-        return DataseerProcessFile.processDatasetPDF(inputStream);
+        return DatastetProcessFile.processDatasetPDF(inputStream);
     }
 
     @Path(PATH_DATASEER_TEI)
@@ -109,7 +109,7 @@ public class DataseerController implements DataseerPaths {
     @Produces(MediaType.APPLICATION_XML)
     @POST
     public Response processTEI(@FormDataParam(INPUT) InputStream inputStream) {
-        return DataseerProcessFile.processTEI(inputStream);
+        return DatastetProcessFile.processTEI(inputStream);
     }
 
     @Path(PATH_DATASEER_JATS)
@@ -117,20 +117,20 @@ public class DataseerController implements DataseerPaths {
     @Produces(MediaType.APPLICATION_XML)
     @POST
     public Response processJATS(@FormDataParam(INPUT) InputStream inputStream) {
-        return DataseerProcessFile.processJATS(inputStream);
+        return DatastetProcessFile.processJATS(inputStream);
     }
 
     @Path(PATH_DATATYPE_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @GET
     public Response getJsonDataTypes() {
-        return DataseerDataTypeService.getInstance().getJsonDataTypes();
+        return DatastetDataTypeService.getInstance().getJsonDataTypes();
     }
 
     @Path(PATH_RESYNC_DATATYPE_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @GET
     public Response getResyncJsonDataTypes() {
-        return DataseerDataTypeService.getInstance().getResyncJsonDataTypes();
+        return DatastetDataTypeService.getInstance().getResyncJsonDataTypes();
     }
 }

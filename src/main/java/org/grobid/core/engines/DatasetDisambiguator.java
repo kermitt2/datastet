@@ -140,7 +140,7 @@ public class DatasetDisambiguator {
 //System.out.println(response.getStatusLine());
                 int code = response.getStatusLine().getStatusCode();
                 if (code != 200) {
-                    LOGGER.error("Failed isalive service: HTTP error code : " + code);
+                    LOGGER.error("Failed isalive service for disambiguation service entity-fishing, HTTP error code : " + code);
                     return false;
                 } else {
                     result = true;
