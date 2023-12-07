@@ -103,7 +103,7 @@ public class DatastetProcessString {
             // building JSON response
             StringBuilder json = new StringBuilder();
             json.append("{");
-            json.append(DatastetUtilities.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
+            json.append(DatastetServiceUtils.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
 
             byte[] encoded = encoder.quoteAsUTF8(text);
             String output = new String(encoded);

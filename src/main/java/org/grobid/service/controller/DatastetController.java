@@ -41,6 +41,7 @@ public class DatastetController implements DatastetPaths {
     private static final String PDF = "pdf";
     private static final String INPUT = "input";
     private static final String JSON = "json";
+    private static final String ADD_PARAGRAPH_CONTEXT = "addParagraphContext";
 
     private DatastetConfiguration configuration;
 
@@ -100,8 +101,10 @@ public class DatastetController implements DatastetPaths {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_XML)
     @POST
-    public Response processDatasetPDF(@FormDataParam(INPUT) InputStream inputStream) {
-        return DatastetProcessFile.processDatasetPDF(inputStream);
+    public Response processDatasetPDF(@FormDataParam(INPUT) InputStream inputStream,
+                                      @DefaultValue("0") @FormDataParam(ADD_PARAGRAPH_CONTEXT) String addParagraphContext) {
+        boolean addParagraphContextBoolean = DatastetServiceUtils.validateBooleanRawParam(addParagraphContext);
+        return DatastetProcessFile.processDatasetPDF(inputStream, addParagraphContextBoolean);
     }
 
     @Path(PATH_DATASEER_TEI)

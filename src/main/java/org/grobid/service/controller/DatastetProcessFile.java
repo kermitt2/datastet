@@ -206,7 +206,8 @@ public class DatastetProcessFile {
      * @param inputStream the data of origin PDF document
      * @return a response object which contains JSON annotation enrichments
      */
-    public static Response processDatasetPDF(final InputStream inputStream) {
+    public static Response processDatasetPDF(final InputStream inputStream,
+                                        boolean addParagraphContext) {
         LOGGER.debug(methodLogIn());
         String retVal = null;
         Response response = null;
@@ -238,7 +239,7 @@ public class DatastetProcessFile {
             
             StringBuilder json = new StringBuilder();
             json.append("{ ");
-            json.append(DatastetUtilities.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
+            json.append(DatastetServiceUtils.applicationDetails(classifier.getDatastetConfiguration().getVersion()));
             
             String md5Str = DatatypeConverter.printHexBinary(digest).toUpperCase();
             json.append(", \"md5\": \"" + md5Str + "\"");
@@ -273,7 +274,7 @@ public class DatastetProcessFile {
 
             List<BibDataSet> bibDataSet = doc.getBibDataSets();
             if (bibDataSet != null && bibDataSet.size()>0) {
-                serializeReferences(json, bibDataSet, extractedResults.getLeft());
+                DatastetServiceUtils.serializeReferences(json, bibDataSet, extractedResults.getLeft());
             }
             json.append("]");
 
@@ -305,6 +306,208 @@ public class DatastetProcessFile {
         return response;
     }
 
+    /**
+     * Uploads the origin XML, process it and return the extracted dataset mention objects in JSON.
+     *
+     * @param inputStream the data of origin XML
+     * @param addParagraphContext if true, the full paragraph where an annotation takes place is added
+     * @return a response object containing the JSON annotations
+     */
+    public static Response extractXML(final InputStream inputStream, 
+                                        boolean addParagraphContext) {
+        LOGGER.debug(methodLogIn()); 
+        Response response = null;
+        File originFile = null;
+        DataseerClassifier classifier = DataseerClassifier.getInstance();
+        DatasetParser parser = DatasetParser.getInstance(classifier.getDatastetConfiguration());
+        JsonStringEncoder encoder = JsonStringEncoder.getInstance();
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            DigestInputStream dis = new DigestInputStream(inputStream, md); 
+
+            originFile = IOUtilities.writeInputFile(dis);
+            byte[] digest = md.digest();
+
+            if (originFile == null) {
+                response = Response.status(Status.INTERNAL_SERVER_ERROR).build();
+            } else {
+                long start = System.currentTimeMillis();
+
+                Pair<List<List<Dataset>>, List<BibDataSet>> extractionResult = parser.processXML(originFile, false, addParagraphContext);
+                long end = System.currentTimeMillis();
+
+                List<List<Dataset>> extractedEntities = null;
+                if (extractionResult != null) {
+                    extractedEntities = extractionResult.getLeft();
+                }
+
+                StringBuilder json = new StringBuilder();
+                json.append("{ ");
+                json.append(DatastetServiceUtils.applicationDetails(GrobidProperties.getVersion()));
+                
+                String md5Str = DatatypeConverter.printHexBinary(digest).toUpperCase();
+                json.append(", \"md5\": \"" + md5Str + "\"");
+                json.append(", \"mentions\":[");
+
+                if (extractedEntities != null && extractedEntities.size()>0) {
+                    boolean startList = true;
+                    for(List<Dataset> results : extractedEntities) {
+                        for(Dataset dataset : results) {
+                            if (startList)
+                                startList = false;
+                            else 
+                                json.append(", ");
+                            json.append(dataset.toJson());
+                        }
+                    }
+                }
+
+                json.append("], \"references\":[");
+
+                if (extractionResult != null) {
+                    List<BibDataSet> bibDataSet = extractionResult.getRight();
+                    if (bibDataSet != null && bibDataSet.size()>0) {
+                        DatastetServiceUtils.serializeReferences(json, bibDataSet, extractedEntities);
+                    }
+                }
+
+                json.append("]");
+
+                float runtime = ((float)(end-start)/1000);
+                json.append(", \"runtime\": "+ runtime);
+
+                json.append("}");
+
+                Object finalJsonObject = mapper.readValue(json.toString(), Object.class);
+                String retValString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(finalJsonObject);
+
+                if (!isResultOK(retValString)) {
+                    response = Response.status(Status.NO_CONTENT).build();
+                } else {
+                    response = Response.status(Status.OK).entity(retValString).type(MediaType.TEXT_PLAIN).build();
+                    /*response = Response
+                            .ok()
+                            .type("application/json")
+                            .entity(retValString)
+                            .build();*/
+                }
+            }
+
+        } catch (NoSuchElementException nseExp) {
+            LOGGER.error("Could not get an instance of DatastetParser. Sending service unavailable.");
+            response = Response.status(Status.SERVICE_UNAVAILABLE).build();
+        } catch (Exception exp) {
+            LOGGER.error("An unexpected exception occurs. ", exp);
+            response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(exp.getMessage()).build();
+        } finally {
+            IOUtilities.removeTempFile(originFile);
+        }
+        LOGGER.debug(methodLogOut());
+        return response;
+    }
+
+    /**
+     * Uploads the origin TEI XML, process it and return the extracted dataset mention objects in JSON.
+     *
+     * @param inputStream the data of origin TEI
+     * @param addParagraphContext if true, the full paragraph where an annotation takes place is added
+     * @return a response object containing the JSON annotations
+     */
+    public static Response extractTEI(final InputStream inputStream, 
+                                        boolean disambiguate, 
+                                        boolean addParagraphContext) {
+        LOGGER.debug(methodLogIn()); 
+        Response response = null;
+        File originFile = null;
+        DataseerClassifier classifier = DataseerClassifier.getInstance();
+        DatasetParser parser = DatasetParser.getInstance(classifier.getDatastetConfiguration());
+        JsonStringEncoder encoder = JsonStringEncoder.getInstance();
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            DigestInputStream dis = new DigestInputStream(inputStream, md); 
+
+            originFile = IOUtilities.writeInputFile(dis);
+            byte[] digest = md.digest();
+
+            if (originFile == null) {
+                response = Response.status(Status.INTERNAL_SERVER_ERROR).build();
+            } else {
+                long start = System.currentTimeMillis();
+                Pair<List<List<Dataset>>, List<BibDataSet>> extractionResult = parser.processTEI(originFile, disambiguate, addParagraphContext);
+                long end = System.currentTimeMillis();
+
+                List<List<Dataset>> extractedEntities = null;
+                if (extractionResult != null) {
+                    extractedEntities = extractionResult.getLeft();
+                }
+
+                StringBuilder json = new StringBuilder();
+                json.append("{ ");
+                json.append(DatastetServiceUtils.applicationDetails(GrobidProperties.getVersion()));
+                
+                String md5Str = DatatypeConverter.printHexBinary(digest).toUpperCase();
+                json.append(", \"md5\": \"" + md5Str + "\"");
+                json.append(", \"mentions\":[");
+                if (extractedEntities != null && extractedEntities.size()>0) {
+                    boolean startList = true;
+                    for(List<Dataset> results : extractedEntities) {
+                        for(Dataset dataset : results) {
+                            if (startList)
+                                startList = false;
+                            else 
+                                json.append(", ");
+                            json.append(dataset.toJson());
+                        }
+                    }
+                }
+                json.append("], \"references\":[");
+
+                if (extractionResult != null) {
+                    List<BibDataSet> bibDataSet = extractionResult.getRight();
+                    if (bibDataSet != null && bibDataSet.size()>0) {
+                        DatastetServiceUtils.serializeReferences(json, bibDataSet, extractedEntities);
+                    }
+                }
+                
+                float runtime = ((float)(end-start)/1000);
+                json.append(", \"runtime\": "+ runtime);
+
+                json.append("}");
+
+                Object finalJsonObject = mapper.readValue(json.toString(), Object.class);
+                String retValString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(finalJsonObject);
+
+                if (!isResultOK(retValString)) {
+                    response = Response.status(Status.NO_CONTENT).build();
+                } else {
+                    response = Response.status(Status.OK).entity(retValString).type(MediaType.TEXT_PLAIN).build();
+                    /*response = Response
+                            .ok()
+                            .type("application/json")
+                            .entity(retValString)
+                            .build();*/
+                }
+            }
+
+        } catch (NoSuchElementException nseExp) {
+            LOGGER.error("Could not get an instance of DatastetParser. Sending service unavailable.");
+            response = Response.status(Status.SERVICE_UNAVAILABLE).build();
+        } catch (Exception exp) {
+            LOGGER.error("An unexpected exception occurs. ", exp);
+            response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(exp.getMessage()).build();
+        } finally {
+            IOUtilities.removeTempFile(originFile);
+        }
+        LOGGER.debug(methodLogOut());
+        return response;
+    }
+
     public static String methodLogIn() {
         return ">> " + DatastetProcessFile.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
     }
@@ -318,40 +521,6 @@ public class DatastetProcessFile {
      */
     public static boolean isResultOK(String result) {
         return StringUtils.isBlank(result) ? false : true;
-    }
-
-    /**
-     * Serialize the bibliographical references present in a list of entities
-     */ 
-    public static void serializeReferences(StringBuilder json, 
-                                           List<BibDataSet> bibDataSet, 
-                                           List<List<Dataset>> entities) {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Integer> serializedKeys = new ArrayList<Integer>();
-        for(List<Dataset> datasets : entities) {
-            for(Dataset entity : datasets) {
-                List<BiblioComponent> bibRefs = entity.getBibRefs();
-                if (bibRefs != null) {
-                    for(BiblioComponent bibComponent : bibRefs) {
-                        int refKey = bibComponent.getRefKey();
-                        if (!serializedKeys.contains(refKey)) {
-                            if (serializedKeys.size()>0)
-                                json.append(", ");
-                            if (bibComponent.getBiblio() != null) {
-                                json.append("{ \"refKey\": " + refKey);
-                                try {
-                                    json.append(", \"tei\": " + mapper.writeValueAsString(bibComponent.getBiblio().toTEI(refKey)));
-                                } catch (JsonProcessingException e) {
-                                    LOGGER.warn("tei for biblio cannot be encoded", e);
-                                }
-                                json.append("}");
-                            }
-                            serializedKeys.add(Integer.valueOf(refKey));
-                        }
-                    }
-                }
-            }
-        }
     }
 
 }
