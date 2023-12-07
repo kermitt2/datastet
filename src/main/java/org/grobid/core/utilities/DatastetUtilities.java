@@ -48,23 +48,4 @@ public class DatastetUtilities {
         return sdf.format(date);
     }
 
-    /**
-     * Give application information to be added in a JSON result
-     */
-    public static String applicationDetails(String version) {
-        StringBuilder sb = new StringBuilder();
-
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
-        df.setTimeZone(tz);
-        String dateISOString = df.format(new java.util.Date());
-
-        sb.append("\"application\": \"datastet\", ");
-        if (version !=null)
-            sb.append("\"version\": \"" + version + "\", ");
-        sb.append("\"date\": \"" + dateISOString + "\"");
-
-        return sb.toString();
-    }
-
 }
