@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
  * @author Patrice
  * 
  */
-public class DataseerDataTypeService {
+public class DatastetDataTypeService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataseerDataTypeService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatastetDataTypeService.class);
 
-    private static volatile DataseerDataTypeService instance;
+    private static volatile DatastetDataTypeService instance;
 
     // we keep the datatype json in memory and instance-based for the application 
     // for faster serving the resource
@@ -35,7 +35,7 @@ public class DataseerDataTypeService {
 
     private String defaultPath = null;
 
-    public static DataseerDataTypeService getInstance() {
+    public static DatastetDataTypeService getInstance() {
         if (instance == null) {
             getNewInstance();
         }
@@ -46,10 +46,10 @@ public class DataseerDataTypeService {
      * Create a new instance.
      */
     private static synchronized void getNewInstance() {
-        instance = new DataseerDataTypeService();
+        instance = new DatastetDataTypeService();
     }
 
-    private DataseerDataTypeService() {
+    private DatastetDataTypeService() {
         File jsonFile = new File("resources/DataTypes.json");
         if (!jsonFile.exists())
             jsonDataTypeResource = null;

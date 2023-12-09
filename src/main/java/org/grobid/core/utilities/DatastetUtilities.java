@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  *
  * @author Patrice Lopez
  */
-public class DataseerUtilities {
+public class DatastetUtilities {
 
     // a regular expression for identifying "materials and method" pattern in text
     static public final Pattern matAndMetPattern = Pattern
@@ -35,7 +35,7 @@ public class DataseerUtilities {
         String localText = LayoutTokensUtil.toText(tokens);
         if (localText.trim().length() < 15)
             return false;
-        Matcher matAndMetMatcher = DataseerUtilities.matAndMetPattern.matcher(localText);
+        Matcher matAndMetMatcher = DatastetUtilities.matAndMetPattern.matcher(localText);
         return matAndMetMatcher.find();
     }
 
@@ -46,25 +46,6 @@ public class DataseerUtilities {
 
         sdf.setTimeZone(TimeZone.getTimeZone("UTC")); 
         return sdf.format(date);
-    }
-
-    /**
-     * Give application information to be added in a JSON result
-     */
-    public static String applicationDetails(String version) {
-        StringBuilder sb = new StringBuilder();
-
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
-        df.setTimeZone(tz);
-        String dateISOString = df.format(new java.util.Date());
-
-        sb.append("\"application\": \"datastet\", ");
-        if (version !=null)
-            sb.append("\"version\": \"" + version + "\", ");
-        sb.append("\"date\": \"" + dateISOString + "\"");
-
-        return sb.toString();
     }
 
 }

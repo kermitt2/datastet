@@ -3,7 +3,7 @@ package org.grobid.core.data;
 import org.grobid.core.engines.label.TaggingLabel;
 import org.grobid.core.utilities.TextUtilities;
 import org.grobid.core.utilities.OffsetPosition;
-import org.grobid.core.lexicon.DataseerLexicon;
+import org.grobid.core.lexicon.DatastetLexicon;
 import org.grobid.core.layout.BoundingBox;
 import org.grobid.core.layout.LayoutToken;
 import org.grobid.core.data.Dataset.DatasetType;

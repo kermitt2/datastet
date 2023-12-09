@@ -3,7 +3,7 @@ package org.grobid.core.data;
 import org.grobid.core.engines.label.TaggingLabel;
 import org.grobid.core.utilities.TextUtilities;
 import org.grobid.core.utilities.OffsetPosition;
-import org.grobid.core.lexicon.DataseerLexicon;
+import org.grobid.core.lexicon.DatastetLexicon;
 import org.grobid.core.layout.BoundingBox;
 import org.grobid.core.layout.LayoutToken;
 
@@ -107,7 +107,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     // offset of the context with respect of the paragraph 
     private int paragraphContextOffset = -1;
 
-    // offset of the context with rspect to the complete content
+    // offset of the context with respect to the complete content
     private int globalContextOffset = -1;
 
     // full paragraph context where the entity takes place, this is an optional field
@@ -116,6 +116,9 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
     // propagated means entity is coming from the document level propagation step 
     private boolean propagated = false;
+
+    // a flag to indicate if the entity is located in the Data Availability section
+    private boolean inDataAvailabilitySection = false;
 
     public Dataset(DatasetType type) {
         this.type = type;
@@ -331,6 +334,14 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         this.propagated = propagated;
     }
 
+    public boolean isInDataAvailabilitySection() {
+        return this.inDataAvailabilitySection;
+    }
+
+    public void setInDataAvailabilitySection(boolean inDAS) {
+        this.inDataAvailabilitySection = inDAS;
+    }
+
     @Override
     public boolean equals(Object object) {
         boolean result = false;
@@ -412,7 +423,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
                 logger.warn("could not serialize in JSON the normalized form: " + type.getName());
             }
         }
-
+        
         // knowledge information
         if (wikidataId != null) {
             buffer.append(", \"wikidataId\": \"" + wikidataId + "\"");
@@ -432,6 +443,10 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             buffer.append(", \"offsetStart\" : " + offsets.start);
             buffer.append(", \"offsetEnd\" : " + offsets.end);  
         }*/
+
+        if (inDataAvailabilitySection) {
+            buffer.append(", \"inDataAvailabilitySection\" : true");
+        }
 
         if (context != null && context.length()>0) {
             encoded = encoder.quoteAsUTF8(context.replace("\n", " ").replace("  ", " "));
@@ -547,7 +562,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         String result = raw.replace("\n", " ");
         result = result.replaceAll("( )+", " ");
         result = TextUtilities.cleanField(result, false);
-        result = DataseerLexicon.getInstance().removeLeadingEnglishStopwords(result);
+        result = DatastetLexicon.getInstance().removeLeadingEnglishStopwords(result);
         return result;
     }
     

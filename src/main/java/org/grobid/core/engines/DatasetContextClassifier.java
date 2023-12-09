@@ -58,12 +58,12 @@ public class DatasetContextClassifier {
 
     private Boolean useBinary; 
 
-    private DataseerConfiguration dataseerConfiguration;
+    private DatastetConfiguration datastetConfiguration;
     private JsonParser parser;
 
     private static volatile DatasetContextClassifier instance;
 
-    public static DatasetContextClassifier getInstance(DataseerConfiguration configuration) {
+    public static DatasetContextClassifier getInstance(DatastetConfiguration configuration) {
         if (instance == null) {
             getNewInstance(configuration);
         }
@@ -91,11 +91,11 @@ public class DatasetContextClassifier {
     /**
      * Create a new instance.
      */
-    private static synchronized void getNewInstance(DataseerConfiguration configuration) {
+    private static synchronized void getNewInstance(DatastetConfiguration configuration) {
         instance = new DatasetContextClassifier(configuration);
     }
 
-    private DatasetContextClassifier(DataseerConfiguration configuration) {
+    private DatasetContextClassifier(DatastetConfiguration configuration) {
         ModelParameters parameter = configuration.getModel("context");
 
         ModelParameters parameterUsed = configuration.getModel("context_used");

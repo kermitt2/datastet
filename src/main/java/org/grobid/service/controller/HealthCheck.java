@@ -1,6 +1,6 @@
 package org.grobid.service.controller;
 
-import org.grobid.service.configuration.DataseerServiceConfiguration;
+import org.grobid.service.configuration.DatastetServiceConfiguration;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,7 +17,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public class HealthCheck extends com.codahale.metrics.health.HealthCheck {
 
     @Inject
-    private DataseerServiceConfiguration configuration;
+    private DatastetServiceConfiguration configuration;
 
     @Inject
     public HealthCheck() {

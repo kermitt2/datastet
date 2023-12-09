@@ -2,19 +2,15 @@
 
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Docker Hub](https://img.shields.io/docker/pulls/grobid/datastet.svg)](https://hub.docker.com/r/grobid/datastet "Docker Pulls")
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/kermitt2/datastet/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/kermitt2/datastet)
 
-<!--
-[![Docker Hub](https://img.shields.io/docker/pulls/grobid/dataseer.svg)](https://hub.docker.com/r/grobid/dataseer/ "Docker Pulls")
-[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/kermitt2/dataseer-ml/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/kermitt2/dataseer-ml)
--->
-
-This is originally a fork from [dataseer-ml](https://github.com/dataseer/dataseer-ml). This extended version aims at identifying every mention of datasets in scientific documents, including implicit mentions of datasets (introduction of data created/used in the research work, but not named) and explicitly named dataset. 
+DataStet is originally a fork from [dataseer-ml](https://github.com/dataseer/dataseer-ml). This extended version aims at identifying every mention of datasets in scientific documents, including implicit mentions of datasets (introduction of data created/used in the research work, but not named) and explicitly named dataset. In addition, this version includes an automatic characterization of the mention context. 
 
 Most of the datasets discussed in scientific articles are actually not named, but these data are part of the disclosed scientific work and should be shared properly to meet the [FAIR](https://en.wikipedia.org/wiki/FAIR_data) requirements. Named dataset are particularly useful to evaluate the impact of a datasets in other research works and to credit researchers developing datasets as valuable scientific contributions (beyond just scholar publications).
 
 Mentions of dataset are characterized automatically as _used_ or not in the research work described in the scientific document, _created_ and _shared_. 
-The identified datasets are further classified in a hierarchy of dataset types, these data types being directly derived from MeSH.
 
+The identified datasets are further classified in a hierarchy of dataset types, these data types being directly derived from MeSH.
 
 ![GROBID Dataset mentions Demo](doc/images/screen03.png)
 
@@ -55,7 +51,7 @@ The `datastet` service is available at the default host/port `localhost:8060`, b
 By default, BidLSTM-CFR with ELMo model if used for the dataset mention recognition (it performs better than SciBERT with 3 points F1-score). Every classification models are fine-tuned SciBERT models. To modify the configuration without rebuilding the image - for instance rather use the SciBERT model, it is possible to mount a modified config file at launch as follow: 
 
 ```bash
-> docker run --rm --gpus all -p 8060:8060 -v /home/lopez/grobid/datastet/resources/config/dataseer-ml.yml:/opt/grobid/datastet/resources/config/dataseer-ml.yml:ro  grobid/datastet:0.7.3-SNAPSHOT
+> docker run --rm --gpus all -p 8060:8060 -v /home/lopez/grobid/datastet/resources/config/config.yml:/opt/grobid/datastet/resources/config/config.yml:ro  grobid/datastet:0.7.3-SNAPSHOT
 ```
 
 As an alterntive, a docker image for the `datastet` service can be built with the project Dockerfile to match the current master version. The complete process is as follow: 
@@ -217,8 +213,7 @@ If you contribute to this project, you agree to share your contribution followin
 
 ## Acknowledgements
 
-The development is supported by the BSO3 project, "France Relance" grant. 
+This development is supported by the BSO3 project ("French Open Science monitor"), a "France Relance" grant from the European NextGenerationEU fundings. 
 
 The development of *dataseer-ml* was supported by a [Sloan Foundation](https://sloan.org/) grant, see [here](https://coko.foundation/coko-receives-sloan-foundation-grant-to-build-dataseer-a-missing-piece-in-the-data-sharing-puzzle/)
-
 

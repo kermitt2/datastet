@@ -1,6 +1,6 @@
 package org.grobid.trainer;
 
-import org.grobid.core.analyzers.DataseerAnalyzer;
+import org.grobid.core.analyzers.DatastetAnalyzer;
 import org.grobid.core.exceptions.GrobidException;
 import org.grobid.core.utilities.Pair;
 import org.grobid.core.engines.DataseerClassifier;
@@ -189,7 +189,7 @@ public class DataseerAnnotationSaxHandler extends DefaultHandler {
                 return;
 
             // we segment the text
-            List<LayoutToken> tokenization = DataseerAnalyzer.getInstance().tokenizeWithLayoutToken(text);
+            List<LayoutToken> tokenization = DatastetAnalyzer.getInstance().tokenizeWithLayoutToken(text);
             segments.add(tokenization);
             labels.add(currentTag);
             sectionTypes.add(qName);

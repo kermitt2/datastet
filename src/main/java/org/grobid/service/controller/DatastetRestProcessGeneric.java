@@ -7,9 +7,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-public class DataseerRestProcessGeneric {
+public class DatastetRestProcessGeneric {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataseerRestProcessGeneric.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatastetRestProcessGeneric.class);
 
     /**
      * Returns a string containing true, if the service is alive.
