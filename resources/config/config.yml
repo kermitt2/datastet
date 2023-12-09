@@ -159,10 +159,10 @@ logging:
       #layout:
       #  type: json
     - type: file
-      currentLogFilename: logs/software-service.log
+      currentLogFilename: logs/datastet-service.log
       threshold: INFO
       archive: true
-      archivedLogFilenamePattern: logs/software-service-%d.log
+      archivedLogFilenamePattern: logs/datastet-service-%d.log
       archivedFileCount: 7
       timeZone: UTC
       # uncomment to have the logs in json format
