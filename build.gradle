@@ -26,7 +26,7 @@ apply plugin: 'base'
 apply plugin: 'com.github.kt3k.coveralls'
 
 group = "org.grobid.datastet"
-version = '0.8.0-SNAPSHOT'
+version = '0.8.0'
 
 description = """datastet"""
 
