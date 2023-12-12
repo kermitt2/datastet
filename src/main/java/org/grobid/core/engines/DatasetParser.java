@@ -342,6 +342,9 @@ System.out.println(localDatasetcomponent.toJson());
             if ((endPos > 0) && (text.length() >= endPos) && (text.charAt(endPos-1) == ' '))
                 endPos--;
 
+            if (endPos > text.length())
+                endPos = text.length();
+
             if (clusterLabel.equals(DatasetTaggingLabels.DATASET_NAME)) {
                 dataset = new DatasetComponent(DatasetType.DATASET_NAME, text.substring(pos, endPos));
 //System.out.println(result);
