@@ -33,7 +33,7 @@ public class DatastetServiceUtils {
         df.setTimeZone(tz);
         String dateISOString = df.format(new java.util.Date());
 
-        sb.append("\"application\": \"software-mentions\", ");
+        sb.append("\"application\": \"datastet\", ");
         if (version !=null)
             sb.append("\"version\": \"" + version + "\", ");
         sb.append("\"date\": \"" + dateISOString + "\"");
