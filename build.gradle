@@ -7,6 +7,7 @@ buildscript {
     dependencies {
         classpath 'gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.12.0'
         classpath "gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0"
+        classpath group: 'org.yaml', name: 'snakeyaml', version: '1.19'
     }
 }
 
@@ -30,8 +31,8 @@ version = '0.8.0'
 
 description = """datastet"""
 
-sourceCompatibility = 1.11
-targetCompatibility = 1.11
+sourceCompatibility = 1.17
+targetCompatibility = 1.17
 
 import org.apache.tools.ant.taskdefs.condition.Os
 
@@ -67,12 +68,12 @@ dependencies {
 
     //Apache commons
     implementation group: 'commons-pool', name: 'commons-pool', version: '1.6'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.5'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.9.0'
     //implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
-    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
     implementation group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.3'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
-    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
     implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.5'
 
     implementation group: 'com.google.guava', name: 'guava', version: '28.2-jre'
@@ -127,11 +128,11 @@ dependencies {
     testImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
 }
 
-configurations.all { 
+configurations.all {
     resolutionStrategy {
         force 'xml-apis:xml-apis:1.4.01'
     }
-    
+
     exclude group: 'org.slf4j', module: "slf4j-log4j12"
     exclude group: 'org.slf4j', module: "slf4j-jdk14"
     exclude group: 'log4j', module: "log4j"
@@ -143,14 +144,14 @@ configurations.all {
 def libraries = ""
 if (Os.isFamily(Os.FAMILY_MAC)) {
     if (Os.OS_ARCH.equals("aarch64")) {
-        libraries = "${file("../grobid-home/lib/mac_arm-64").absolutePath}"    
+        libraries = "${file("../grobid-home/lib/mac_arm-64").absolutePath}"
     } else {
         libraries = "${file("../grobid-home/lib/mac-64").absolutePath}"
     }
 } else if (Os.isFamily(Os.FAMILY_UNIX)) {
     libraries = "${file("../grobid-home/lib/lin-64/jep").absolutePath}:" +
-        "${file("../grobid-home/lib/lin-64").absolutePath}:"
-} else  {
+            "${file("../grobid-home/lib/lin-64").absolutePath}:"
+} else {
     throw new RuntimeException("Unsupported platform!")
 }
 
@@ -161,10 +162,10 @@ test {
     exclude '**/**IntegrationTest**'
 
     if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_8) > 0) {
-        jvmArgs "--add-opens", "java.base/java.util.stream=ALL-UNNAMED", 
-        "--add-opens", "java.base/java.io=ALL-UNNAMED"
+        jvmArgs "--add-opens", "java.base/java.util.stream=ALL-UNNAMED",
+                "--add-opens", "java.base/java.io=ALL-UNNAMED"
     }
-    systemProperty "java.library.path","${System.getProperty('java.library.path')}:" + libraries
+    systemProperty "java.library.path", "${System.getProperty('java.library.path')}:" + libraries
 }
 
 // return the default value if the property has not been specified in command line
@@ -225,11 +226,11 @@ jar {
     enabled true
 }
 
-tasks.withType(Tar){
+tasks.withType(Tar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-tasks.withType(Zip){
+tasks.withType(Zip) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
@@ -238,67 +239,74 @@ artifacts {
     archives shadowJar
 }
 
+def conf = new org.yaml.snakeyaml.Yaml().load(new File("resources/config/config.yml").newInputStream())
+def grobidHome = conf.grobidHome.replace("\$", "").replace('{', "").replace("GROBID_HOME:- ", "").replace("}", "")
+if (grobidHome.startsWith("../")) {
+    grobidHome = "${rootProject.rootDir}/${grobidHome}"
+}
+
 task installModels(type: Copy) {
     from "${rootDir}/resources/models/"
     include "**"
-    into "${rootDir}/../grobid-home/models/"
+    into "${grobidHome}/models/"
 
     doLast {
+        print "Copy models under grobid-home: ${grobidHome}"
         download {
             src "https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip"
-            dest "${rootDir}/../grobid-home/models/"
+            dest "${grobidHome}/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-binary_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
-        
+        ant.unzip(src: "${grobidHome}/models/dataseer-binary_bert-0.3.1.zip", dest: "${grobidHome}/models/")
+
         download {
             src "https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip"
-            dest "${rootDir}/../grobid-home/models/"
+            dest "${grobidHome}/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-first_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
-        
+        ant.unzip(src: "${grobidHome}/models/dataseer-first_bert-0.3.1.zip", dest: "${grobidHome}/models/")
+
         download {
             src "https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip"
-            dest "${rootDir}/../grobid-home/models/"
+            dest "${grobidHome}/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/dataseer-reuse_bert-0.3.1.zip", dest: "${rootDir}/../grobid-home/models/")
+        ant.unzip(src: "${grobidHome}/models/dataseer-reuse_bert-0.3.1.zip", dest: "${grobidHome}/models/")
 
         download {
             src "https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip"
-            dest "${rootDir}/../grobid-home/models/"
+            dest "${grobidHome}/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/datasets-BERT_CRF-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        ant.unzip(src: "${grobidHome}/models/datasets-BERT_CRF-0.3.2.zip", dest: "${grobidHome}/models/")
 
         download {
             src "https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip"
-            dest "${rootDir}/../grobid-home/models/"
+            dest "${grobidHome}/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
-        
+        ant.unzip(src: "${grobidHome}/models/context_bert-0.3.2.zip", dest: "${grobidHome}/models/")
+
         download {
             src "https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip"
-            dest "${rootDir}/../grobid-home/models/"
+            dest "${grobidHome}/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert_used-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
-        
+        ant.unzip(src: "${grobidHome}/models/context_bert_used-0.3.2.zip", dest: "${grobidHome}/models/")
+
         download {
             src "https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip"
-            dest "${rootDir}/../grobid-home/models/"
+            dest "${grobidHome}/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert_creation-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
-        
+        ant.unzip(src: "${grobidHome}/models/context_bert_creation-0.3.2.zip", dest: "${grobidHome}/models/")
+
         download {
             src "https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip"
-            dest "${rootDir}/../grobid-home/models/"
+            dest "${grobidHome}/models/"
             overwrite false
         }
-        ant.unzip(src: "${rootDir}/../grobid-home/models/context_bert_shared-0.3.2.zip", dest: "${rootDir}/../grobid-home/models/")
+        ant.unzip(src: "${grobidHome}/models/context_bert_shared-0.3.2.zip", dest: "${grobidHome}/models/")
     }
 }
 
@@ -323,7 +331,7 @@ task(train_dataseer, dependsOn: 'classes', type: JavaExec, group: 'training') {
     } else {
         jvmArgs '-Xmx3072m'
     }
-    systemProperty "java.library.path","${System.getProperty('java.library.path')}:" + libraries
+    systemProperty "java.library.path", "${System.getProperty('java.library.path')}:" + libraries
 //    jvmArgs '-Xms2g', '-Xmx8g'
 }
 
@@ -345,7 +353,7 @@ task(eval_dataseer, dependsOn: 'classes', type: JavaExec, group: 'evaluation') {
     } else {
         jvmArgs '-Xmx3072m'
     }
-    systemProperty "java.library.path","${System.getProperty('java.library.path')}:" + libraries
+    systemProperty "java.library.path", "${System.getProperty('java.library.path')}:" + libraries
 //    jvmArgs '-Xms2g', '-Xmx8g'
 }
 
@@ -360,7 +368,7 @@ task(eval_dataseer_split, dependsOn: 'classes', type: JavaExec, group: 'evaluati
     } else {
         jvmArgs '-Xms2g', '-Xmx8g'
     }
-    systemProperty "java.library.path","${System.getProperty('java.library.path')}:" + libraries
+    systemProperty "java.library.path", "${System.getProperty('java.library.path')}:" + libraries
 }
 
 // Run like this: ./gradlew eval_dataseer_nfold -PgH=/path/grobid/home -Pt=10
@@ -373,7 +381,7 @@ task(eval_dataseer_nfold, dependsOn: 'classes', type: JavaExec, group: 'evaluati
     } else {
         jvmArgs '-Xms2g', '-Xmx8g'
     }
-    systemProperty "java.library.path","${System.getProperty('java.library.path')}:" + libraries
+    systemProperty "java.library.path", "${System.getProperty('java.library.path')}:" + libraries
 }
 
 // Run like this: ./gradlew annotated_corpus_generator_csv -Pfull=/path/input/fulltext -Ppdf=/path/input/pdf -Pcsv=/path/csv -Pxml=/output/directory
@@ -386,7 +394,7 @@ task(annotated_corpus_generator_csv, dependsOn: 'classes', type: JavaExec, group
     } else {
         jvmArgs '-Xms2g', '-Xmx8g'
     }
-    systemProperty "java.library.path","${System.getProperty('java.library.path')}:" + libraries
+    systemProperty "java.library.path", "${System.getProperty('java.library.path')}:" + libraries
 }
 
 //////////
