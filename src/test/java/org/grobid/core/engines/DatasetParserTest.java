@@ -1,50 +1,42 @@
 package org.grobid.core.engines;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.io.IOUtils;
-import org.grobid.core.document.Document;
 import org.grobid.core.data.Dataset;
-import org.grobid.core.factory.GrobidFactory;
-import org.grobid.core.utilities.GrobidProperties;
-import org.grobid.core.utilities.DataseerConfiguration;
 import org.grobid.core.main.GrobidHomeFinder;
-import org.grobid.core.utilities.GrobidConfig.ModelParameters;
 import org.grobid.core.main.LibraryLoader;
+import org.grobid.core.utilities.DatastetConfiguration;
+import org.grobid.core.utilities.GrobidConfig.ModelParameters;
+import org.grobid.core.utilities.GrobidProperties;
+import org.grobid.service.configuration.DatastetServiceConfiguration;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
-
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertNotNull;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Patrice
  */
 @Ignore
 public class DatasetParserTest {
-    private static DataseerConfiguration configuration;
+    private static DatastetConfiguration configuration;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        DataseerConfiguration dataseerConfiguration = null;
+        DatastetConfiguration dataseerConfiguration = null;
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
             File yamlFile = new File("resources/config/dataseer-ml.yml").getAbsoluteFile();
             yamlFile = new File(yamlFile.getAbsolutePath());
-            dataseerConfiguration = mapper.readValue(yamlFile, DataseerConfiguration.class);
+            dataseerConfiguration = mapper.readValue(yamlFile, DatastetConfiguration.class);
 
             String pGrobidHome = dataseerConfiguration.getGrobidHome();
 
