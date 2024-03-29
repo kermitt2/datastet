@@ -14,13 +14,9 @@ buildscript {
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
     id "de.undercouch.download" version "4.1.1"
+    id "jacoco"
 }
 
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = '0.8.8'
-}
 
 apply plugin: 'java-library'
 apply plugin: 'base'
@@ -413,4 +409,16 @@ application {
 
         args = ['server', 'resources/config/config.yml']
     }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+    dependsOn test // tests are required to run before generating the report
+}
+
+coveralls {
+    jacocoReportPath 'build/reports/jacoco/test/jacocoTestReport.xml'
 }

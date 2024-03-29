@@ -3,6 +3,7 @@ package org.grobid.core.engines;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.io.IOUtils;
+import org.grobid.core.data.Dataset;
 import org.grobid.core.main.GrobidHomeFinder;
 import org.grobid.core.main.LibraryLoader;
 import org.grobid.core.utilities.DatastetConfiguration;
@@ -23,7 +24,7 @@ import java.util.List;
  * @author Patrice
  */
 @Ignore
-public class DataseerClassifierTest {
+public class DatasetParserIntegrationTest {
     private static DatastetConfiguration configuration;
 
     @BeforeClass
@@ -63,7 +64,7 @@ public class DataseerClassifierTest {
     }
 
     @Test
-    public void testDataseerBinaryClassifierText() throws Exception {
+    public void testDatasetParserText() throws Exception {
         String text = IOUtils.toString(this.getClass().getResourceAsStream("/texts.txt"), StandardCharsets.UTF_8.toString());
         String[] textPieces = text.split("\n");
         List<String> texts = new ArrayList<>();
@@ -72,7 +73,17 @@ public class DataseerClassifierTest {
             //System.out.println(text);
             texts.add(text);
         }
-        String json = DataseerClassifier.getInstance().classify(texts);
+
+        List<List<Dataset>> results = DatasetParser.getInstance(configuration).processingStrings(texts, false);
+        StringBuilder json = new StringBuilder();
+
+        int i = 0;
+        for(List<Dataset> result : results) {
+            for(Dataset dataset : result) {
+                json.append(dataset.toJson());
+                json.append("\n");
+            }
+        }
         System.out.println(json);
     }
 
