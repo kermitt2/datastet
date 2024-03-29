@@ -25,7 +25,7 @@ COPY grobid-home/ ./grobid-home/
 COPY grobid-core/ ./grobid-core/
 #COPY grobid-service/ ./grobid-service/
 COPY grobid-trainer/ ./grobid-trainer/
-COPY datastet/ ./datastet/
+#COPY datastet/ ./datastet/
 
 # cleaning unused native libraries before packaging
 RUN rm -rf grobid-home/pdf2xml
