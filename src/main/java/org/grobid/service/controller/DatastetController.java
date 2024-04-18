@@ -80,7 +80,7 @@ public class DatastetController implements DatastetPaths {
         LOGGER.info(text);
         return DatastetProcessString.processDatsetSentence(text);
     }
-    
+
     @Path(PATH_DATASET_SENTENCE)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @GET
@@ -111,8 +111,10 @@ public class DatastetController implements DatastetPaths {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_XML)
     @POST
-    public Response processTEI(@FormDataParam(INPUT) InputStream inputStream) {
-        return DatastetProcessFile.processTEI(inputStream);
+    public Response processTEI(
+            @FormDataParam(INPUT) InputStream inputStream,
+            @FormDataParam("segmentSentences") String segmentSentences) {
+        return DatastetProcessFile.processTEI(inputStream, segmentSentences);
     }
 
     @Path(PATH_DATASEER_JATS)
