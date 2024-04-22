@@ -31,35 +31,35 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         format: jacoco
 
-#  docker-build:
-#    needs: [ build ]
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      # - name: Maximize build disk space
-#      #   uses: easimon/maximize-build-space@v10
-#      #   with:
-#      #     root-reserve-mb: 512
-#      #     swap-size-mb: 1024
-#      #     remove-dotnet: 'true'
-#      - name: Create more disk space
-#        run: |
-#          sudo rm -rf /usr/share/dotnet
-#          sudo rm -rf /opt/ghc
-#          sudo rm -rf "/usr/local/share/boost"
-#          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-#          sudo rm -rf /opt/hostedtoolcache
-#      - uses: actions/checkout@v4
-#      - name: Build and push
-#        id: docker_build
-#        uses: mr-smithers-excellent/docker-build-push@v6
-#        with:
-#          dockerfile: Dockerfile.datastet
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#          image: lfoppiano/datastet
-#          registry: docker.io
-#          pushImage: ${{ github.event_name != 'pull_request' }}
-#          tags: latest-develop
-#      - name: Image digest
-#        run: echo ${{ steps.docker_build.outputs.digest }}
+  docker-build:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+      # - name: Maximize build disk space
+      #   uses: easimon/maximize-build-space@v10
+      #   with:
+      #     root-reserve-mb: 512
+      #     swap-size-mb: 1024
+      #     remove-dotnet: 'true'
+      - name: Create more disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo rm -rf /opt/hostedtoolcache
+      - uses: actions/checkout@v4
+      - name: Build and push
+        id: docker_build
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          dockerfile: Dockerfile.datastet
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: lfoppiano/datastet
+          registry: docker.io
+          pushImage: ${{ github.event_name != 'pull_request' }}
+          tags: latest-develop
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}

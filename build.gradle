@@ -13,8 +13,10 @@ buildscript {
 
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
-    id "de.undercouch.download" version "4.1.1"
+    id "de.undercouch.download" version "5.6.0"
     id "jacoco"
+    id 'distribution'
+    id 'application'
 }
 
 
@@ -189,51 +191,41 @@ publishing {
 
 task install(dependsOn: publishToMavenLocal)
 
-task mainJar(type: ShadowJar) {
-    zip64 true
-    from sourceSets.main.output
-
-    configurations = [project.configurations.runtimeClasspath]
-
-    from {
-        project.configurations.implementation.collect {
-            it.isDirectory() ? [] : localLibs.contains(it.getName()) ? zipTree(it) : []
-        }
-    }
-}
+//task mainJar(type: ShadowJar) {
+//    zip64 true
+//    from sourceSets.main.output
+//
+//    configurations = [project.configurations.runtimeClasspath]
+//
+//    from {
+//        project.configurations.implementation.collect {
+//            it.isDirectory() ? [] : localLibs.contains(it.getName()) ? zipTree(it) : []
+//        }
+//    }
+//}
 
 shadowJar {
-    classifier = 'onejar'
+    archiveClassifier = 'onejar'
     mergeServiceFiles()
     zip64 true
     manifest {
         attributes 'Main-Class': 'org.grobid.core.main.batch.DatastetMain'
     }
-
+    from sourceSets.main.output
     configurations = [project.configurations.runtimeClasspath]
-
-    from {
-        project.configurations.implementation.collect {
-            it.isDirectory() ? [] : localLibs.contains(it.getName()) ? zipTree(it) : []
-        }
-    }
 }
 
 jar {
-    dependsOn mainJar
+//    dependsOn mainJar
     enabled true
 }
 
-tasks.withType(Tar) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-tasks.withType(Zip) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
+distZip.enabled = true
+distTar.enabled = false
+shadowDistZip.enabled = false
+shadowDistTar.enabled = false
 
 artifacts {
-    archives jar
     archives shadowJar
 }
 
@@ -242,6 +234,25 @@ def grobidHome = conf.grobidHome.replace("\$", "").replace('{', "").replace("GRO
 if (grobidHome.startsWith("../")) {
     grobidHome = "${rootProject.rootDir}/${grobidHome}"
 }
+
+//task downloadZipFile(type: Download) {
+//    src([
+//            'https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip',
+//            'https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip',
+//            'https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip',
+//            'https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip',
+//            'https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip',
+//            'https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip',
+//            'https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip',
+//            'https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip'
+//    ])
+//    dest "${grobidHome}/models/"
+//}
+
+//task installModels(dependsOn: downloadZipFile, type: Copy) {
+//    from zipTree("${grobidHome}/models/")
+//    into "${grobidHome}/models/"
+//}
 
 task installModels(type: Copy) {
     from "${rootDir}/resources/models/"
@@ -306,6 +317,28 @@ task installModels(type: Copy) {
         }
         ant.unzip(src: "${grobidHome}/models/context_bert_shared-0.3.2.zip", dest: "${grobidHome}/models/")
     }
+//    doLast {
+//        print "Copy models under grobid-home: ${grobidHome}"
+//        download.run {
+//            src([
+//                    'https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip',
+//                    'https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip',
+//                    'https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip',
+//                    'https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip',
+//                    'https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip',
+//                    'https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip',
+//                    'https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip',
+//                    'https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip'
+//            ])
+//            dest "${grobidHome}/models/"
+//            overwrite true
+//
+//            fileTree(dir: "${grobidHome}/models/", includes: ['*.zip']).each { zipFile ->
+//                from zipTree(zipFile)
+//            }
+//            into "${grobidHome}/models/"
+//        }
+//    }
 }
 
 //tasks.withType(JavaCompile) {
