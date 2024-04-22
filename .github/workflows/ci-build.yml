@@ -42,6 +42,9 @@ jobs:
            root-reserve-mb: 512
            swap-size-mb: 1024
            remove-dotnet: 'true'
+           remove-haskell: 'true'
+           remove-codeql: 'true'
+           remove-android: 'true'
 #      - name: Create more disk space
 #        run: |
 #          sudo rm -rf /usr/share/dotnet
