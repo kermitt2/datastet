@@ -235,110 +235,34 @@ if (grobidHome.startsWith("../")) {
     grobidHome = "${rootProject.rootDir}/${grobidHome}"
 }
 
-//task downloadZipFile(type: Download) {
-//    src([
-//            'https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip',
-//            'https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip',
-//            'https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip',
-//            'https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip',
-//            'https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip',
-//            'https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip',
-//            'https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip',
-//            'https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip'
-//    ])
-//    dest "${grobidHome}/models/"
-//}
+def models = [
+        'https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip',
+        'https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip',
+        'https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip',
+        'https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip',
+        'https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip',
+        'https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip',
+        'https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip',
+        'https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip'
+]
 
-//task installModels(dependsOn: downloadZipFile, type: Copy) {
-//    from zipTree("${grobidHome}/models/")
-//    into "${grobidHome}/models/"
-//}
+def installModels = tasks.register("installModels")
 
-task installModels(type: Copy) {
-    from "${rootDir}/resources/models/"
-    include "**"
-    into "${grobidHome}/models/"
-
-    doLast {
-        print "Copy models under grobid-home: ${grobidHome}"
-        download.run {
-            src "https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip"
-            dest "${grobidHome}/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${grobidHome}/models/dataseer-binary_bert-0.3.1.zip", dest: "${grobidHome}/models/")
-
-        download.run {
-            src "https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip"
-            dest "${grobidHome}/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${grobidHome}/models/dataseer-first_bert-0.3.1.zip", dest: "${grobidHome}/models/")
-
-        download.run {
-            src "https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip"
-            dest "${grobidHome}/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${grobidHome}/models/dataseer-reuse_bert-0.3.1.zip", dest: "${grobidHome}/models/")
-
-        download.run {
-            src "https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip"
-            dest "${grobidHome}/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${grobidHome}/models/datasets-BERT_CRF-0.3.2.zip", dest: "${grobidHome}/models/")
-
-        download.run {
-            src "https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip"
-            dest "${grobidHome}/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${grobidHome}/models/context_bert-0.3.2.zip", dest: "${grobidHome}/models/")
-
-        download.run {
-            src "https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip"
-            dest "${grobidHome}/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${grobidHome}/models/context_bert_used-0.3.2.zip", dest: "${grobidHome}/models/")
-
-        download.run {
-            src "https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip"
-            dest "${grobidHome}/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${grobidHome}/models/context_bert_creation-0.3.2.zip", dest: "${grobidHome}/models/")
-
-        download.run {
-            src "https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip"
-            dest "${grobidHome}/models/"
-            overwrite false
-        }
-        ant.unzip(src: "${grobidHome}/models/context_bert_shared-0.3.2.zip", dest: "${grobidHome}/models/")
+models.eachWithIndex { model, index ->
+    def downloadTask = tasks.register("downloadModel_$index", Download) {
+        src(model)
+        dest "${grobidHome}/models/"
+        onlyIfNewer true
+        // overwrite true
     }
-//    doLast {
-//        print "Copy models under grobid-home: ${grobidHome}"
-//        download.run {
-//            src([
-//                    'https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip',
-//                    'https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip',
-//                    'https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip',
-//                    'https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip',
-//                    'https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip',
-//                    'https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip',
-//                    'https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip',
-//                    'https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip'
-//            ])
-//            dest "${grobidHome}/models/"
-//            overwrite true
-//
-//            fileTree(dir: "${grobidHome}/models/", includes: ['*.zip']).each { zipFile ->
-//                from zipTree(zipFile)
-//            }
-//            into "${grobidHome}/models/"
-//        }
-//    }
+
+    def unzipTask = tasks.register("unzipModel_$index", Copy) {
+        dependsOn downloadTask
+        from zipTree(downloadTask.get().outputs.files.first())
+        into "${grobidHome}/models/"
+    }
+
+    installModels.get().dependsOn(unzipTask)
 }
 
 //tasks.withType(JavaCompile) {
