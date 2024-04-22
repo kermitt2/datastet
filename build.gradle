@@ -13,7 +13,7 @@ buildscript {
 
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
-//    id "de.undercouch.download" version "5.6.0"
+    id "de.undercouch.download" version "5.6.0"
     id "jacoco"
     id 'distribution'
     id 'application'
@@ -261,56 +261,56 @@ task installModels(type: Copy) {
 
     doLast {
         print "Copy models under grobid-home: ${grobidHome}"
-        download {
+        download.run {
             src "https://grobid.s3.amazonaws.com/dataseer-binary_bert-0.3.1.zip"
             dest "${grobidHome}/models/"
             overwrite false
         }
         ant.unzip(src: "${grobidHome}/models/dataseer-binary_bert-0.3.1.zip", dest: "${grobidHome}/models/")
 
-        download {
+        download.run {
             src "https://grobid.s3.amazonaws.com/dataseer-first_bert-0.3.1.zip"
             dest "${grobidHome}/models/"
             overwrite false
         }
         ant.unzip(src: "${grobidHome}/models/dataseer-first_bert-0.3.1.zip", dest: "${grobidHome}/models/")
 
-        download {
+        download.run {
             src "https://grobid.s3.amazonaws.com/dataseer-reuse_bert-0.3.1.zip"
             dest "${grobidHome}/models/"
             overwrite false
         }
         ant.unzip(src: "${grobidHome}/models/dataseer-reuse_bert-0.3.1.zip", dest: "${grobidHome}/models/")
 
-        download {
+        download.run {
             src "https://grobid.s3.amazonaws.com/datasets-BERT_CRF-0.3.2.zip"
             dest "${grobidHome}/models/"
             overwrite false
         }
         ant.unzip(src: "${grobidHome}/models/datasets-BERT_CRF-0.3.2.zip", dest: "${grobidHome}/models/")
 
-        download {
+        download.run {
             src "https://grobid.s3.amazonaws.com/context_bert-0.3.2.zip"
             dest "${grobidHome}/models/"
             overwrite false
         }
         ant.unzip(src: "${grobidHome}/models/context_bert-0.3.2.zip", dest: "${grobidHome}/models/")
 
-        download {
+        download.run {
             src "https://grobid.s3.amazonaws.com/context_bert_used-0.3.2.zip"
             dest "${grobidHome}/models/"
             overwrite false
         }
         ant.unzip(src: "${grobidHome}/models/context_bert_used-0.3.2.zip", dest: "${grobidHome}/models/")
 
-        download {
+        download.run {
             src "https://grobid.s3.amazonaws.com/context_bert_creation-0.3.2.zip"
             dest "${grobidHome}/models/"
             overwrite false
         }
         ant.unzip(src: "${grobidHome}/models/context_bert_creation-0.3.2.zip", dest: "${grobidHome}/models/")
 
-        download {
+        download.run {
             src "https://grobid.s3.amazonaws.com/context_bert_shared-0.3.2.zip"
             dest "${grobidHome}/models/"
             overwrite false
