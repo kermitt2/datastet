@@ -3,7 +3,7 @@ version: "0.8.0"
 corpusPath: "./resources/dataset/dataseer/corpus"
 templatePath: "./resources/dataset/dataseer/crfpp-templates/dataseer.template"
 grobidHome: "/opt/grobid/grobid-home"
-tmpPath: "tmp/"
+tmpPath: "/opt/grobid/grobid-home/tmp/"
 
 # path to Pub2TEI repository as available at https://github.com/kermitt2/Pub2TEI
 pub2teiPath: "/opt/Pub2TEI/"

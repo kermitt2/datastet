@@ -16,6 +16,7 @@ COPY src datastet-source/src
 COPY settings.gradle datastet-source/
 COPY resources/config/config-docker.yml datastet-source/resources/config/config.yml
 COPY resources/models datastet-source/resources/models
+COPY resources/lexicon datastet-source/resources/lexicon
 COPY build.gradle datastet-source/
 COPY gradle.properties datastet-source/
 COPY gradle datastet-source/gradle/
@@ -57,7 +58,7 @@ RUN apt-get update && \
 WORKDIR /opt/grobid
 
 COPY --from=builder /opt/grobid/grobid-home/models ./grobid-home/models
-COPY --from=builder /opt/grobid/datastet ./grobid-quantities/
+COPY --from=builder /opt/grobid/datastet ./datastet/
 COPY --from=builder /opt/grobid/datastet-source/resources/config/config.yml ./datastet/resources/config/
 
 COPY --from=builder /opt/grobid/datastet /opt/grobid/datastet
@@ -88,9 +89,10 @@ ENV GROBID_VERSION=${GROBID_VERSION:-latest}
 ENV DATASTET_OPTS "-Djava.library.path=/opt/grobid/grobid-home/lib/lin-64:/usr/local/lib/python3.8/dist-packages/jep --add-opens java.base/java.lang=ALL-UNNAMED"
 
 
+WORKDIR /opt/grobid/datastet
 #CMD ["./gradlew", "run"]
 #CMD ["sh", "-c", "java --add-opens java.base/java.lang=ALL-UNNAMED -jar build/libs/datastet-0.8.0-onejar.jar server resources/config/config.yml"]
-CMD ["./datastet/bin/datastet", "server", "datastet/resources/config/config.yml"]
+CMD ["./bin/datastet", "server", "resources/config/config.yml"]
 
 LABEL \
     authors="The contributors" \
