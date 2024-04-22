@@ -117,6 +117,16 @@ public class DatastetController implements DatastetPaths {
         return DatastetProcessFile.processTEI(inputStream, segmentSentences);
     }
 
+    @Path(PATH_DATASEER_TEI)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response processTEIJsonOutput(
+            @FormDataParam(INPUT) InputStream inputStream,
+            @FormDataParam("segmentSentences") String segmentSentences) {
+        return DatastetProcessFile.extractTEI(inputStream, false, true);
+    }
+
     @Path(PATH_DATASEER_JATS)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_XML)
