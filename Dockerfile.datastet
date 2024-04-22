@@ -34,14 +34,9 @@ RUN ./gradlew installModels  --no-daemon --info --stacktrace \
 # Preparing distribution
 WORKDIR /opt/grobid
 RUN unzip -o /opt/grobid/datastet-source/build/distributions/datastet-*.zip -d datastet_distribution \
-  && mv datastet_distribution/datastet-* datastet
+  && mv datastet_distribution/datastet-* datastet \
+  && rm -rf /opt/grobid/datastet-source/build
 
-# Cleanup
-RUN rm -rf datastet-source/.git \
-    && rm -rf /opt/grobid/datastet-source/build/distributions/datastet-*.zip \
-    && rm -rf datastet-source/build
-
-WORKDIR /opt
 
 # -------------------
 # build runtime image
@@ -82,7 +77,7 @@ WORKDIR /opt/grobid
 #RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5 /opt/elmo/
 
 # this will build and load embeddings on the image forever (only if required by the config) :)
-RUN #python3 preload_embeddings.py --registry ./resources-registry.json --embedding word2vec
+RUN python3 preload_embeddings.py --registry ./resources-registry.json --embedding word2vec
 
 ARG GROBID_VERSION
 ENV GROBID_VERSION=${GROBID_VERSION:-latest}
