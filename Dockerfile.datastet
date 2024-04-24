@@ -63,7 +63,7 @@ COPY --from=builder /opt/grobid/datastet-source/resources/config/config.yml ./da
 COPY --from=builder /opt/grobid/datastet-source/resources/lexicon/ ./datastet/resources/lexicon/
 
 COPY --from=builder /opt/grobid/datastet /opt/grobid/datastet
-#COPY --from=builder /root/.m2/repository/org /opt/grobid/datastet/lib/org
+COPY --from=builder /opt/Pub2TEI /opt/Pub2TEI
 
 VOLUME ["/opt/grobid/grobid-home/tmp"]
 
