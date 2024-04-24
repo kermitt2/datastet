@@ -7,7 +7,7 @@ FROM openjdk:17-jdk-slim as builder
 USER root
 
 RUN apt-get update && \
-    apt-get -y --no-install-recommends install apt-utils libxml2 git unzip
+    apt-get -y --no-install-recommends install apt-utils libxml2 git unzip wget
 
 WORKDIR /opt/grobid
 
@@ -37,6 +37,13 @@ RUN unzip -o /opt/grobid/datastet-source/build/distributions/datastet-*.zip -d d
   && mv datastet_distribution/datastet-* datastet \
   && rm -rf /opt/grobid/datastet-source/build
 
+# install Pub2TEI
+WORKDIR /opt/
+RUN wget https://github.com/kermitt2/Pub2TEI/archive/refs/heads/master.zip && \
+    unzip master.zip &&  \
+    mv Pub2TEI-master Pub2TEI && \
+    rm master.zip
+
 
 # -------------------
 # build runtime image
@@ -47,27 +54,20 @@ FROM lfoppiano/grobid:0.8.0-full-slim as runtime
 # setting locale is likely useless but to be sure
 ENV LANG C.UTF-8
 
-RUN apt-get update && \
-    apt-get -y --no-install-recommends install git wget
-
 WORKDIR /opt/grobid
+RUN rm -rf /opt/grobid/grobid-home/models/*-with_ELMo
 
 COPY --from=builder /opt/grobid/grobid-home/models ./grobid-home/models
 COPY --from=builder /opt/grobid/datastet ./datastet/
 COPY --from=builder /opt/grobid/datastet-source/resources/config/config.yml ./datastet/resources/config/
+COPY --from=builder /opt/grobid/datastet-source/resources/lexicon/ ./datastet/resources/lexicon/
 
 COPY --from=builder /opt/grobid/datastet /opt/grobid/datastet
 #COPY --from=builder /root/.m2/repository/org /opt/grobid/datastet/lib/org
 
 VOLUME ["/opt/grobid/grobid-home/tmp"]
 
-# install Pub2TEI
-WORKDIR /opt/
-RUN wget https://github.com/kermitt2/Pub2TEI/archive/refs/heads/master.zip && \
-    unzip master.zip &&  \
-    mv Pub2TEI-master Pub2TEI
-
-WORKDIR /opt/grobid
+#WORKDIR /opt/grobid
 
 # install ELMo
 #RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json
@@ -77,7 +77,7 @@ WORKDIR /opt/grobid
 #RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5 /opt/elmo/
 
 # this will build and load embeddings on the image forever (only if required by the config) :)
-RUN python3 preload_embeddings.py --registry ./resources-registry.json --embedding word2vec
+# RUN python3 preload_embeddings.py --registry ./resources-registry.json --embedding word2vec
 
 ARG GROBID_VERSION
 ENV GROBID_VERSION=${GROBID_VERSION:-latest}
