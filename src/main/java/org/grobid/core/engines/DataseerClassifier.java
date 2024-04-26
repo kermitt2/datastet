@@ -1,75 +1,44 @@
 package org.grobid.core.engines;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.io.FileUtils;
-import org.grobid.core.GrobidModels;
-import org.grobid.core.analyzers.DatastetAnalyzer;
-import org.grobid.core.data.BiblioItem;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.grobid.core.document.Document;
-import org.grobid.core.document.DocumentPiece;
-import org.grobid.core.document.DocumentSource;
-import org.grobid.core.document.xml.XmlBuilderUtils;
 import org.grobid.core.engines.config.GrobidAnalysisConfig;
 import org.grobid.core.exceptions.GrobidException;
 import org.grobid.core.factory.GrobidFactory;
-import org.grobid.core.layout.BoundingBox;
-import org.grobid.core.layout.LayoutToken;
-import org.grobid.core.layout.LayoutTokenization;
-import org.grobid.core.utilities.*;
-import org.grobid.core.lexicon.DatastetLexicon;
-import org.grobid.core.main.GrobidHomeFinder;
-import org.grobid.core.main.LibraryLoader;
-import org.grobid.core.engines.tagging.GrobidCRFEngine;
-import org.grobid.core.engines.tagging.*;
-import org.grobid.core.jni.PythonEnvironmentConfig;
 import org.grobid.core.jni.DeLFTClassifierModel;
+import org.grobid.core.utilities.*;
 import org.grobid.core.utilities.GrobidConfig.ModelParameters;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import java.io.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import org.w3c.dom.traversal.DocumentTraversal;
-import org.w3c.dom.traversal.NodeFilter;
-import org.w3c.dom.traversal.TreeWalker;
 
-import org.w3c.dom.ls.*;
-
-import java.io.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.lang3.tuple.Pair;
-
-import static org.grobid.core.document.xml.XmlBuilderUtils.teiElement;
-
-//import opennlp.tools.sentdetect.SentenceDetectorME; 
-//import opennlp.tools.sentdetect.SentenceModel;
-
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.*;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.core.io.*;
-
-import java.lang.reflect.Field;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
-import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
  * Dataset identification.

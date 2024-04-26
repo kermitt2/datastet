@@ -4,6 +4,7 @@ corpusPath: "./resources/dataset/dataseer/corpus"
 templatePath: "./resources/dataset/dataseer/crfpp-templates/dataseer.template"
 grobidHome: "../../grobid/grobid-home"
 tmpPath: "tmp/"
+#resourcesPath: "./resources"
 
 # path to Pub2TEI repository as available at https://github.com/kermitt2/Pub2TEI
 pub2teiPath: "../../Pub2TEI/"
@@ -19,7 +20,7 @@ entityFishingPort: 443
 #entityFishingPort: 8090
 
 # if true we use binary classifiers for the contexts, otherwise use a single multi-label classifier
-# binary classifiers perform better, but havier to use
+# binary classifiers perform better, but heavier to use
 useBinaryContextClassifiers: false
 
 # sequence labeling model (identify data-related sections)

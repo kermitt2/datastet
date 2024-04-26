@@ -27,6 +27,8 @@ public interface DatastetPaths {
      */
     public static final String PATH_DATASET_PDF = "annotateDatasetPDF";
 
+
+    public static final String PATH_DATASET_TEI = "processDatasetTEI";
     /**
      * path extension for classifying a textual sentence input.
      */
