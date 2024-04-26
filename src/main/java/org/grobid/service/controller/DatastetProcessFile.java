@@ -452,7 +452,7 @@ public class DatastetProcessFile {
                         }
                     }
                 }
-                json.append("], \"references\":[");
+                json.append("], \"references\":[]");
 
 //                if (extractionResult != null) {
 //                    List<BibDataSet> bibDataSet = extractionResult.getRight();

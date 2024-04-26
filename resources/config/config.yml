@@ -154,18 +154,18 @@ logging:
     com.squarespace.jersey2.guice.JerseyGuiceUtils: "OFF"
   appenders:
     - type: console
-      threshold: WARN
+      threshold: INFO
       timeZone: UTC
       # uncomment to have the logs in json format
       #layout:
       #  type: json
-    - type: file
-      currentLogFilename: logs/datastet-service.log
-      threshold: INFO
-      archive: true
-      archivedLogFilenamePattern: logs/datastet-service-%d.log
-      archivedFileCount: 7
-      timeZone: UTC
+#    - type: file
+#      currentLogFilename: logs/datastet-service.log
+#      threshold: INFO
+#      archive: true
+#      archivedLogFilenamePattern: logs/datastet-service-%d.log
+#      archivedFileCount: 7
+#      timeZone: UTC
       # uncomment to have the logs in json format
       #layout:
       #  type: json
