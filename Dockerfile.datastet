@@ -55,7 +55,8 @@ FROM lfoppiano/grobid:0.8.0-full-slim as runtime
 ENV LANG C.UTF-8
 
 WORKDIR /opt/grobid
-RUN rm -rf /opt/grobid/grobid-home/models/*-with_ELMo
+RUN rm -rf /opt/grobid/grobid-home/models/*-with_ELMo \
+    && rm -rf /opt/grobid/grobid-service
 
 COPY --from=builder /opt/grobid/grobid-home/models ./grobid-home/models
 COPY --from=builder /opt/grobid/datastet ./datastet/
@@ -84,10 +85,7 @@ ENV GROBID_VERSION=${GROBID_VERSION:-latest}
 ENV DATASTET_OPTS "-Djava.library.path=/opt/grobid/grobid-home/lib/lin-64:/usr/local/lib/python3.8/dist-packages/jep --add-opens java.base/java.lang=ALL-UNNAMED"
 
 
-WORKDIR /opt/grobid/datastet
-#CMD ["./gradlew", "run"]
-#CMD ["sh", "-c", "java --add-opens java.base/java.lang=ALL-UNNAMED -jar build/libs/datastet-0.8.0-onejar.jar server resources/config/config.yml"]
-CMD ["./bin/datastet", "server", "resources/config/config.yml"]
+CMD ["./datastet/bin/datastet", "server", "datastet/resources/config/config.yml"]
 
 LABEL \
     authors="The contributors" \
