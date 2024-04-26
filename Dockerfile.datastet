@@ -6,138 +6,72 @@ FROM openjdk:17-jdk-slim as builder
 
 USER root
 
-ARG GROBID_VERSION
-
 RUN apt-get update && \
-    apt-get -y --no-install-recommends install unzip
-
-WORKDIR /opt/grobid-source
-
-# gradle
-COPY gradle/ ./gradle/
-COPY gradlew ./
-COPY gradle.properties ./
-COPY build.gradle ./
-COPY settings.gradle ./
-
-# source
-COPY grobid-home/ ./grobid-home/
-COPY grobid-core/ ./grobid-core/
-#COPY grobid-service/ ./grobid-service/
-COPY grobid-trainer/ ./grobid-trainer/
-#COPY datastet/ ./datastet/
-
-# cleaning unused native libraries before packaging
-RUN rm -rf grobid-home/pdf2xml
-RUN rm -rf grobid-home/pdfalto/lin-32
-RUN rm -rf grobid-home/pdfalto/mac-64
-RUN rm -rf grobid-home/pdfalto/win-*
-RUN rm -rf grobid-home/lib/lin-32
-RUN rm -rf grobid-home/lib/win-*
-RUN rm -rf grobid-home/lib/mac-64
-
-RUN ./gradlew clean assemble install --no-daemon  --info --stacktrace
-
-WORKDIR ./datastet/
-RUN ./gradlew clean install --no-daemon  --info --stacktrace
+    apt-get -y --no-install-recommends install apt-utils libxml2 git unzip wget
 
 WORKDIR /opt/grobid
-#RUN unzip -o /opt/grobid-source/grobid-service/build/distributions/grobid-service-*.zip && \
-#    mv grobid-service* grobid-service
-RUN unzip -o /opt/grobid-source/grobid-home/build/distributions/grobid-home-*.zip && \
-    chmod -R 755 /opt/grobid/grobid-home/pdfalto
-RUN rm -rf grobid-source
+
+RUN mkdir -p datastet-source grobid-home/models
+COPY src datastet-source/src
+COPY settings.gradle datastet-source/
+COPY resources/config/config-docker.yml datastet-source/resources/config/config.yml
+COPY resources/models datastet-source/resources/models
+COPY resources/lexicon datastet-source/resources/lexicon
+COPY build.gradle datastet-source/
+COPY gradle.properties datastet-source/
+COPY gradle datastet-source/gradle/
+COPY gradlew datastet-source/
+#COPY .git datastet-source/.git
+#COPY localLibs datastet-source/localLibs
+
+# Preparing models
+WORKDIR /opt/grobid/datastet-source
+RUN rm -rf /opt/grobid/grobid-home/models/*
+RUN ./gradlew clean assemble -x shadowJar --no-daemon  --stacktrace --info
+RUN ./gradlew installModels  --no-daemon --info --stacktrace \
+    && rm -f /opt/grobid/grobid-home/models/*.zip
+
+# Preparing distribution
+WORKDIR /opt/grobid
+RUN unzip -o /opt/grobid/datastet-source/build/distributions/datastet-*.zip -d datastet_distribution \
+  && mv datastet_distribution/datastet-* datastet \
+  && rm -rf /opt/grobid/datastet-source/build
+
+# install Pub2TEI
+WORKDIR /opt/
+RUN wget https://github.com/kermitt2/Pub2TEI/archive/refs/heads/master.zip && \
+    unzip master.zip &&  \
+    mv Pub2TEI-master Pub2TEI && \
+    rm master.zip
+
 
 # -------------------
 # build runtime image
 # -------------------
 
-# use NVIDIA Container Toolkit to automatically recognize possible GPU drivers on the host machine
-FROM tensorflow/tensorflow:2.7.0-gpu
-CMD nvidia-smi
+FROM lfoppiano/grobid:0.8.0-full-slim as runtime
 
 # setting locale is likely useless but to be sure
 ENV LANG C.UTF-8
 
-# update NVIDIA Cuda key (following a key rotation in April 2022)
-RUN apt-get install -y wget
-RUN apt-key del 7fa2af80
-RUN rm /etc/apt/sources.list.d/cuda.list
-RUN rm /etc/apt/sources.list.d/nvidia-ml.list
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
-RUN dpkg -i cuda-keyring_1.0-1_all.deb
-
-# install JRE, python and other dependencies
-RUN apt-get update && \
-    apt-get -y --no-install-recommends install apt-utils build-essential gcc libxml2 libfontconfig unzip curl \
-    openjdk-17-jre-headless openjdk-17-jdk ca-certificates-java \
-    musl gfortran \
-    python3 python3-pip python3-setuptools python3-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /opt/grobid
+RUN rm -rf /opt/grobid/grobid-home/models/*-with_ELMo \
+    && rm -rf /opt/grobid/grobid-service \
+    && ln -sf datastet/resources/ resources
 
-COPY --from=builder /opt/grobid .
+# the last command above is just a hack to make the lexicon loader working
 
-RUN python3 -m pip install pip --upgrade
+COPY --from=builder /opt/grobid/grobid-home/models ./grobid-home/models
+COPY --from=builder /opt/grobid/datastet ./datastet/
+COPY --from=builder /opt/grobid/datastet-source/resources/config/config.yml ./datastet/resources/config/
+COPY --from=builder /opt/grobid/datastet-source/resources/lexicon/ ./datastet/resources/lexicon/
 
-# install DeLFT via pypi
-RUN pip3 install requests delft==0.3.3
-# link the data directory to /data
-# the current working directory will most likely be /opt/grobid
-RUN mkdir -p /data \
-    && ln -s /data /opt/grobid/data \
-    && ln -s /data ./data
+COPY --from=builder /opt/grobid/datastet /opt/grobid/datastet
+COPY --from=builder /opt/Pub2TEI /opt/Pub2TEI
 
-# disable python warnings (and fix logging)
-ENV PYTHONWARNINGS="ignore"
+VOLUME ["/opt/grobid/grobid-home/tmp"]
 
-WORKDIR /opt/grobid
-
-ENV JAVA_OPTS=-Xmx4g
-
-# install jep (and temporarily the matching JDK)
-ENV JDK_URL=https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-17.0.2_linux-x64_bin.tar.gz
-RUN curl --fail --show-error --location -q ${JDK_URL} -o /tmp/openjdk.tar.gz 
-RUN mkdir /tmp/jdk-17 
-RUN tar xvfz /tmp/openjdk.tar.gz --directory /tmp/jdk-17 --strip-components 1 --no-same-owner 
-RUN /tmp/jdk-17/bin/javac -version
-RUN JAVA_HOME=/tmp/jdk-17 pip3 install jep==4.0.2 
-RUN rm -f /tmp/openjdk.tar.gz 
-RUN rm -rf /tmp/jdk-17
-ENV LD_LIBRARY_PATH=/usr/local/lib/python3.8/dist-packages/jep:grobid-home/lib/lin-64:grobid-home/lib/lin-64/jep:${LD_LIBRARY_PATH}
-# remove libjep.so because we are providing our own version in the virtual env above
-RUN rm /opt/grobid/grobid-home/lib/lin-64/jep/libjep.so
-
-# preload embeddings, for GROBID all the RNN models use glove-840B (default for the script), ELMo is currently not loaded 
-# download GROBID fine-tuned models based on SciBERT if selected
-
-COPY --from=builder /opt/grobid-source/grobid-home/scripts/preload_embeddings.py .
-# embeddings will be loaded when building and running tests
-
-RUN ln -s /opt/grobid /opt/delft
-
-COPY --from=builder /opt/grobid-source/datastet /opt/grobid/datastet
-COPY --from=builder /root/.m2/repository/org /opt/grobid/datastet/lib/org
-
-# install Pub2TEI
-WORKDIR /opt/
-RUN wget https://github.com/kermitt2/Pub2TEI/archive/refs/heads/master.zip
-RUN unzip master.zip
-RUN mv Pub2TEI-master Pub2TEI
-
-WORKDIR /opt/grobid/datastet
-
-RUN mkdir /opt/grobid/delft
-RUN mkdir /opt/grobid/delft/delft
-COPY --from=builder /opt/grobid-source/grobid-home/config/resources-registry.json /opt/grobid/delft/delft/resources-registry.json
-
-WORKDIR /opt/grobid/datastet
-
-# trigger gradle wrapper install
-RUN ./gradlew --version
-RUN ./gradlew installModels && rm -rf resources/models && rm ../grobid-home/models/dataseer*.zip && rm ../grobid-home/models/context_*.zip
+#WORKDIR /opt/grobid
 
 # install ELMo
 #RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json
@@ -147,16 +81,20 @@ RUN ./gradlew installModels && rm -rf resources/models && rm ../grobid-home/mode
 #RUN mv elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5 /opt/elmo/
 
 # this will build and load embeddings on the image forever (only if required by the config) :)
-WORKDIR /opt/grobid/datastet
-#RUN ./gradlew clean build test
-RUN ./gradlew clean assemble --no-daemon --stacktrace --info -x test
+# LF: AFAIK this is not needed at the moment as all the models are running with bert, but might
+# be a solution if we want to support the GRU version
+# RUN python3 preload_embeddings.py --registry ./resources-registry.json --embedding word2vec
 
-#CMD ["./gradlew", "run"]
-CMD ["sh", "-c", "java --add-opens java.base/java.lang=ALL-UNNAMED -jar build/libs/datastet-0.8.0-onejar.jar server resources/config/config.yml"]
+ARG GROBID_VERSION
+ENV GROBID_VERSION=${GROBID_VERSION:-latest}
+ENV DATASTET_OPTS "-Djava.library.path=/opt/grobid/grobid-home/lib/lin-64:/usr/local/lib/python3.8/dist-packages/jep --add-opens java.base/java.lang=ALL-UNNAMED"
+
+
+CMD ["./datastet/bin/datastet", "server", "datastet/resources/config/config.yml"]
 
 LABEL \
     authors="The contributors" \
     org.label-schema.name="datastet" \
     org.label-schema.description="Image with DataStet service" \
-    org.label-schema.url="https://github.com/kermitt2/datastet" \
+    org.label-schema.url="https://github.com/DataSeer/datastet" \
     org.label-schema.version=${GROBID_VERSION}

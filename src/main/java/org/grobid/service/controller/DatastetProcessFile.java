@@ -69,8 +69,9 @@ public class DatastetProcessFile {
      * @param inputStream the data of origin TEI document
      * @return a response object which contains an enriched TEI representation of the document
      */
-    public static Response processTEI(final InputStream inputStream) {
+    public static Response processTEI(final InputStream inputStream, String segmentSentences) {
         LOGGER.debug(methodLogIn());
+        boolean segmentSentencesBool = validateTrueFalseParam(segmentSentences);
         String retVal = null;
         Response response = null;
         File originFile = null;
@@ -84,7 +85,7 @@ public class DatastetProcessFile {
             } 
 
             // starts conversion process
-            retVal = classifier.processTEI(originFile.getAbsolutePath(), true, false);
+            retVal = classifier.processTEI(originFile.getAbsolutePath(), segmentSentencesBool, false);
 
             if (!isResultOK(retVal)) {
                 response = Response.status(Response.Status.NO_CONTENT).build();
@@ -514,6 +515,14 @@ public class DatastetProcessFile {
 
     public static String methodLogOut() {
         return "<< " + DatastetProcessFile.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
+    }
+
+    private static boolean validateTrueFalseParam(String param) {
+        boolean booleanOutput = false;
+        if ((param != null) && (param.equals("1") || param.equalsIgnoreCase("true"))) {
+            booleanOutput = true;
+        }
+        return booleanOutput;
     }
 
     /**
