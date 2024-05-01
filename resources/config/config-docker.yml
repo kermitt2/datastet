@@ -2,12 +2,11 @@ version: "0.8.0"
 
 corpusPath: "./resources/dataset/dataseer/corpus"
 templatePath: "./resources/dataset/dataseer/crfpp-templates/dataseer.template"
-grobidHome: "../../grobid/grobid-home"
-tmpPath: "tmp/"
-#resourcesPath: "./resources"
+grobidHome: "/opt/grobid/grobid-home"
+tmpPath: "/opt/grobid/grobid-home/tmp/"
 
 # path to Pub2TEI repository as available at https://github.com/kermitt2/Pub2TEI
-pub2teiPath: "../../Pub2TEI/"
+pub2teiPath: "/opt/Pub2TEI/"
 
 gluttonHost: "https://cloud.science-miner.com/glutton"
 gluttonPort: 
@@ -20,7 +19,7 @@ entityFishingPort: 443
 #entityFishingPort: 8090
 
 # if true we use binary classifiers for the contexts, otherwise use a single multi-label classifier
-# binary classifiers perform better, but heavier to use
+# binary classifiers perform better, but havier to use
 useBinaryContextClassifiers: false
 
 # sequence labeling model (identify data-related sections)
