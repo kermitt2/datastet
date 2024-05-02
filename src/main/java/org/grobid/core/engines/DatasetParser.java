@@ -40,8 +40,6 @@ import org.grobid.core.utilities.*;
 import org.grobid.core.utilities.counters.impl.CntManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -271,7 +269,7 @@ System.out.println(localDatasetcomponent.toJson());
         TaggingTokenClusteror clusteror = new TaggingTokenClusteror(DatasetModels.DATASET, result, tokenizations);
         List<TaggingTokenCluster> clusters = clusteror.cluster();
 
-        int pos = 0; // position in term of characters for creating the offsets
+        int pos = 0; // position in terms of characters for creating the offsets
         DatasetComponent dataset = null;
 
         for (TaggingTokenCluster cluster : clusters) {
@@ -1371,7 +1369,8 @@ for(String sentence : allSentences) {
             org.w3c.dom.Document document = builder.parse(new InputSource(new StringReader(tei)));
             //document.getDocumentElement().normalize();
 
-            resultExtraction = processTEIDocument(document, segmentSentences, disambiguate, addParagraphContext);
+            // It's likely that JATS don't have sentences
+            resultExtraction = processTEIDocument(document, true, disambiguate, addParagraphContext);
         } catch (final Exception exp) {
             LOGGER.error("An error occured while processing the following XML file: "
                     + file.getPath(), exp);
@@ -1750,6 +1749,8 @@ for(String sentence : allSentences) {
 
         //Dataset Recognition
         List<List<Dataset>> entities = new ArrayList<>();
+
+        //TODO: Add sentence segmentation. if sentenceSegmentation is false, we need to perform it now
 
         List<List<LayoutToken>> selectedSequencesLayoutTokens = new ArrayList<>();
         List<LayoutToken> allDocumentTokens = new ArrayList<>();

@@ -297,7 +297,7 @@ public class DatastetProcessFile {
      * @param addParagraphContext if true, the full paragraph where an annotation takes place is added
      * @return a response object containing the JSON annotations
      */
-    public static Response extractXML(final InputStream inputStream, 
+    public static Response processDatasetJATS(final InputStream inputStream,
                                         boolean addParagraphContext) {
         LOGGER.debug(methodLogIn()); 
         Response response = null;
@@ -401,10 +401,10 @@ public class DatastetProcessFile {
      * @param addParagraphContext if true, the full paragraph where an annotation takes place is added
      * @return a response object containing the JSON annotations
      */
-    public static Response extractTEI(final InputStream inputStream,
-                                        boolean segmentSentences,
-                                        boolean disambiguate, 
-                                        boolean addParagraphContext) {
+    public static Response processDatasetTEI(final InputStream inputStream,
+                                             boolean segmentSentences,
+                                             boolean disambiguate,
+                                             boolean addParagraphContext) {
         LOGGER.debug(methodLogIn()); 
         Response response = null;
         File originFile = null;
@@ -518,6 +518,6 @@ public class DatastetProcessFile {
     }
 
     public static Response processDatasetTEI(InputStream inputStream, boolean segmentSentences, boolean addParagraphContextBoolean) {
-        return extractTEI(inputStream, segmentSentences, false, addParagraphContextBoolean);
+        return processDatasetTEI(inputStream, segmentSentences, false, addParagraphContextBoolean);
     }
 }

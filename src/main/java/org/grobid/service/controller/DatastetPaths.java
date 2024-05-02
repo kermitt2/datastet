@@ -29,6 +29,9 @@ public interface DatastetPaths {
 
 
     public static final String PATH_DATASET_TEI = "processDatasetTEI";
+
+    public static final String PATH_DATASET_JATS = "processDatasetJATS";
+
     /**
      * path extension for classifying a textual sentence input.
      */

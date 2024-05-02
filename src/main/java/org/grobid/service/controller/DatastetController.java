@@ -122,6 +122,16 @@ public class DatastetController implements DatastetPaths {
         return DatastetProcessFile.processDatasetTEI(inputStream, segmentSentencesBoolean, addParagraphContextBoolean);
     }
 
+    @Path(PATH_DATASET_JATS)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response processJATS(@FormDataParam(INPUT) InputStream inputStream,
+                                @DefaultValue("0") @FormDataParam(ADD_PARAGRAPH_CONTEXT) String addParagraphContext) {
+        boolean addParagraphContextBoolean = DatastetServiceUtils.validateBooleanRawParam(addParagraphContext);
+        return DatastetProcessFile.processDatasetJATS(inputStream, addParagraphContextBoolean);
+    }
+
     @Path(PATH_DATASEER_TEI)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_XML)
