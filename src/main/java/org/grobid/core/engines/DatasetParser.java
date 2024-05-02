@@ -9,6 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.grobid.core.GrobidModel;
 import org.grobid.core.GrobidModels;
 import org.grobid.core.analyzers.DatastetAnalyzer;
 import org.grobid.core.data.*;
@@ -39,6 +40,8 @@ import org.grobid.core.utilities.*;
 import org.grobid.core.utilities.counters.impl.CntManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -85,6 +88,10 @@ public class DatasetParser extends AbstractParser {
      */
     private static synchronized void getNewInstance(DatastetConfiguration configuration) {
         instance = new DatasetParser(configuration);
+    }
+
+    protected DatasetParser(GrobidModel model) {
+        super(model);
     }
 
     private DatasetParser(DatastetConfiguration configuration) {
@@ -782,6 +789,7 @@ System.out.println(localDatasetcomponent.toJson());
                             if (previousSection == null || previousSection.equals("das")) {
                                 if (curParagraphTokens == null)
                                     curParagraphTokens = new ArrayList<>();
+                                //TODO: LF: why this is taken but not the body?
                                 curParagraphTokens.addAll(localTokenization);
                             }
                         } else if (clusterLabel.equals(TaggingLabels.PARAGRAPH) || clusterLabel.equals(TaggingLabels.ITEM)) {
@@ -1187,6 +1195,7 @@ for(String sentence : allSentences) {
             // we attach and match bibliographical reference callout
             TEIFormatter formatter = new TEIFormatter(doc, parsers.getFullTextParser());
             // second pass, body
+            //TODO: LF: why only the body?
             if ((bodyClusters != null) && (resCitations != null) && (resCitations.size() > 0)) {
                 List<BiblioComponent> bibRefComponents = new ArrayList<BiblioComponent>();
                 for (TaggingTokenCluster cluster : bodyClusters) {
@@ -1390,7 +1399,7 @@ for(String sentence : allSentences) {
     }
 
     /**
-     * Tranform an XML document (for example JATS) to a TEI document.
+     * Transform an XML document (for example JATS) to a TEI document.
      * Transformation of the XML/JATS/NLM/etc. document is realised thanks to Pub2TEI
      * (https://github.com/kermitt2/pub2tei)
      *
@@ -1462,6 +1471,9 @@ for(String sentence : allSentences) {
                                                                           boolean addParagraphContext) {
 
         List<String> selectedSequences = new ArrayList<>();
+        //The references callout are loaded here, so that we can recover the position in the text
+        // we need target, text value, and position (character related)
+        List<Map<String, Pair<OffsetPosition, String>>> selectedSequencesReferences = new ArrayList<>();
         List<Boolean> relevantSectionsNamedDatasets = new ArrayList<>();
         List<Boolean> relevantSectionsImplicitDatasets = new ArrayList<>();
 
@@ -1475,7 +1487,7 @@ for(String sentence : allSentences) {
                     doc,
                     XPathConstants.NODE);
             if (titleNode == null) {
-                LOGGER.warn("Title was not founded, skipping.");
+                LOGGER.warn("Title was not found, skipping.");
             } else {
                 String textTitle = titleNode.getTextContent();
                 selectedSequences.add(textTitle);
@@ -1485,7 +1497,7 @@ for(String sentence : allSentences) {
 
         } catch (XPathExpressionException e) {
             // Ignore exception
-            LOGGER.warn("Title was not founded, skipping.");
+            LOGGER.warn("Title was not found, skipping.");
         }
 
         try {
@@ -1496,8 +1508,8 @@ for(String sentence : allSentences) {
                     XPathConstants.NODESET);
             for (int i = 0; i < abstractNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = abstractNodeList.item(i);
-                String abstractSentence = item.getTextContent();
-                selectedSequences.add(abstractSentence);
+                String text = item.getTextContent();
+                selectedSequences.add(text);
                 //LF Not clear why true, just copied from around ProcessPDF:578
                 relevantSectionsNamedDatasets.add(true);
                 relevantSectionsImplicitDatasets.add(false);
@@ -1505,7 +1517,7 @@ for(String sentence : allSentences) {
 
         } catch (XPathExpressionException e) {
             // Ignore exception
-            LOGGER.warn("Abstract was not founded, skipping.");
+            LOGGER.warn("Abstract was not found, skipping.");
         }
 
         try {
@@ -1524,7 +1536,13 @@ for(String sentence : allSentences) {
 
         } catch (XPathExpressionException e) {
             // Ignore exception
-            LOGGER.warn("Keywords was not founded, skipping.");
+            LOGGER.warn("Keywords was not found, skipping.");
+        }
+
+        // Fill up the references to match the current sentence/paragraphs
+
+        for (String seq : selectedSequences) {
+            selectedSequencesReferences.add(new HashMap<>());
         }
 
         // Extraction from Body
@@ -1536,19 +1554,23 @@ for(String sentence : allSentences) {
                     XPathConstants.NODESET);
             for (int i = 0; i < bodyNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = bodyNodeList.item(i);
-                String abstractSentence = item.getTextContent();
-                selectedSequences.add(abstractSentence);
+                String text = item.getTextContent();
+                selectedSequences.add(text);
+
                 //LF Not clear why true, just copied from around ProcessPDF:635
                 relevantSectionsNamedDatasets.add(true);
                 relevantSectionsImplicitDatasets.add(true);
+
+                Map<String, Pair<OffsetPosition, String>> referencesInText = XMLUtilities.getTextNoRefMarkersAndMarkerPositions((org.w3c.dom.Element) item, 0).getRight();
+                selectedSequencesReferences.add(referencesInText);
             }
 
         } catch (XPathExpressionException e) {
             // Ignore exception
-            LOGGER.warn("Abstract was not founded, skipping.");
+            LOGGER.warn("Body was not found, skipping.");
         }
 
-        // Various statements (acknowledgement, funding, data availaiblity)
+        // Various statements (acknowledgement, funding, data availability)
 
         // funding and acknowledgement at the moment have only paragraphs (Grobid issue #
         List<String> sectionTypesOnlyParagraphs = Arrays.asList("acknowledgement", "funding");
@@ -1561,20 +1583,20 @@ for(String sentence : allSentences) {
                         XPathConstants.NODESET);
                 for (int i = 0; i < annexNodeList.getLength(); i++) {
                     org.w3c.dom.Node item = annexNodeList.item(i);
-                    String abstractSentence = item.getTextContent();
-                    selectedSequences.add(abstractSentence);
+                    String text = item.getTextContent();
+                    selectedSequences.add(text);
+                    selectedSequencesReferences.add(new HashMap<>());
                     relevantSectionsNamedDatasets.add(false);
                     relevantSectionsImplicitDatasets.add(false);
                 }
 
             } catch (XPathExpressionException e) {
                 // Ignore exception
-                LOGGER.warn("Abstract was not founded, skipping.");
+                LOGGER.warn("Abstract was not found, skipping.");
             }
         }
 
         // Annex might contain misclassified relevant sections
-
         try {
             String expression = "//*[local-name() = 'text']/*[local-name() = 'back']/*[local-name() = 'div'][@*[local-name()='type' and .='annex']]/*[local-name() = 'div']";
             org.w3c.dom.NodeList bodyNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expression,
@@ -1604,6 +1626,7 @@ for(String sentence : allSentences) {
                     String paragraph = paragraphAnnex.getTextContent();
 
                     selectedSequences.add(paragraph);
+                    selectedSequencesReferences.add(new HashMap<>());
 
                     if (StringUtils.equals(currentSection, "das")) {
                         relevantSectionsNamedDatasets.add(true);
@@ -1617,7 +1640,7 @@ for(String sentence : allSentences) {
 
         } catch (XPathExpressionException e) {
             // Ignore exception
-            LOGGER.warn("Annex was not founded, skipping.");
+            LOGGER.warn("Annex was not found, skipping.");
         }
 
         // availability statement have sentences
@@ -1635,9 +1658,10 @@ for(String sentence : allSentences) {
                         XPathConstants.NODESET);
                 for (int i = 0; i < annexNodeList.getLength(); i++) {
                     org.w3c.dom.Node item = annexNodeList.item(i);
-                    String abstractSentence = item.getTextContent();
-                    selectedSequences.add(abstractSentence);
-                    availabilityTokens.addAll(analyzer.tokenizeWithLayoutToken(abstractSentence));
+                    String text = item.getTextContent();
+                    selectedSequences.add(text);
+                    selectedSequencesReferences.add(new HashMap<>());
+                    availabilityTokens.addAll(analyzer.tokenizeWithLayoutToken(text));
                     relevantSectionsNamedDatasets.add(true);
                     relevantSectionsImplicitDatasets.add(true);
                 }
@@ -1657,8 +1681,9 @@ for(String sentence : allSentences) {
                     XPathConstants.NODESET);
             for (int i = 0; i < bodyNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = bodyNodeList.item(i);
-                String abstractSentence = item.getTextContent();
-                selectedSequences.add(abstractSentence);
+                String text = item.getTextContent();
+                selectedSequences.add(text);
+                selectedSequencesReferences.add(new HashMap<>());
                 //LF Not clear why true, just copied from around ProcessPDF:635
                 relevantSectionsNamedDatasets.add(true);
                 relevantSectionsImplicitDatasets.add(false);
@@ -1669,9 +1694,61 @@ for(String sentence : allSentences) {
             LOGGER.warn("Footnotes were not found or an error was thrown, skipping.");
         }
 
+        // Read and parse references
+        Map<String, Pair<String, org.w3c.dom.Node>> referenceMap = new HashMap<>();
+        try {
+            String expression = "//*[local-name() = 'div'][@*[local-name()='type' and .='references']]/*[local-name() = 'listBibl']/*[local-name() = 'biblStruct']";
+            org.w3c.dom.NodeList bodyNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expression,
+                    doc,
+                    XPathConstants.NODESET);
+
+            for (int i = 0; i < bodyNodeList.getLength(); i++) {
+                org.w3c.dom.Node item = bodyNodeList.item(i);
+                if (item.hasAttributes()) {
+                    for (int a = 0; a < item.getAttributes().getLength(); a++) {
+                        org.w3c.dom.Node attribute = item.getAttributes().item(a);
+                        if (attribute.getNodeName().equals("xml:id")) {
+                            String referenceText = item.getTextContent();
+                            String cleanedRawReferenceText = referenceText.replaceAll("\\s", " ").strip().replaceAll("[ ]{2,}", ", ");
+                            referenceMap.put(attribute.getNodeValue(), Pair.of(cleanedRawReferenceText, item));
+                        }
+                    }
+                }
+            }
+        } catch (XPathExpressionException e) {
+            // Ignore exception
+            LOGGER.warn("Something wrong when extracting references. Skipping them.");
+        }
+
+
+        // We need to link the references and their callout
+        List<BiblioComponent> bibRefComponents = new ArrayList<>();
+        Map<String, BiblioItem> biblioRefMap = new HashMap<>();
+
+        for(Map<String, Pair<OffsetPosition, String>> ref :selectedSequencesReferences) {
+            for (String refText : ref.keySet()) {
+                Pair<OffsetPosition, String> infos = ref.get(refText);
+
+                String target = infos.getRight();
+                OffsetPosition position = infos.getLeft();
+
+                Pair<String, org.w3c.dom.Node> referenceInformation = referenceMap.get(target);
+                if (referenceInformation != null) {
+                    BiblioItem biblioItem = XMLUtilities.parseTEIBiblioItem((org.w3c.dom.Element) referenceInformation.getRight());
+                    biblioRefMap.put(refText, biblioItem);
+                    BiblioComponent biblioComponent = new BiblioComponent(biblioItem, Integer.parseInt(target.replace("b", "")));
+                    biblioComponent.setRawForm(refText);
+                    biblioComponent.setOffsetStart(position.start);
+                    biblioComponent.setOffsetEnd(position.end);
+                    // TODO: fetch the coords if they are in the TEI
+//                    List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(refTokens);
+//                    biblioComponent.setBoundingBoxes(boundingBoxes);
+                    bibRefComponents.add(biblioComponent);
+                }
+            }
+        }
 
         //Dataset Recognition
-
         List<List<Dataset>> entities = new ArrayList<>();
 
         List<List<LayoutToken>> selectedSequencesLayoutTokens = new ArrayList<>();
@@ -1765,9 +1842,6 @@ for(String sentence : allSentences) {
         }
         entities = newEntities;
 
-        // selection of relevant data sections
-        //List<Boolean> relevantSections = DataseerParser.getInstance().processingText(segments, sectionTypes, nbDatasets, datasetTypes);
-
         // filter implicit datasets based on selected relevant data section
         List<List<Dataset>> filteredEntities = new ArrayList<>();
         for (int i = 0; i < entities.size(); i++) {
@@ -1804,137 +1878,75 @@ for(String sentence : allSentences) {
         }
         entities = filteredEntities;
 
-        // we attach and match bibliographical reference callout
-//        TEIFormatter formatter = new TEIFormatter(doc, parsers.getFullTextParser());
-        // second pass, body
 
-//        if ((bodyClusters != null) && (resCitations != null) && (resCitations.size() > 0)) {
-//            List<BiblioComponent> bibRefComponents = new ArrayList<BiblioComponent>();
-//            for (TaggingTokenCluster cluster : bodyClusters) {
-//                if (cluster == null) {
-//                    continue;
-//                }
-//
-//                TaggingLabel clusterLabel = cluster.getTaggingLabel();
-//
-//                List<LayoutToken> localTokenization = cluster.concatTokens();
-//                if ((localTokenization == null) || (localTokenization.size() == 0))
-//                    continue;
-//
-//                if (clusterLabel.equals(TaggingLabels.CITATION_MARKER)) {
-//                    List<LayoutToken> refTokens = TextUtilities.dehyphenize(localTokenization);
-//                    String chunkRefString = LayoutTokensUtil.toText(refTokens);
-//
-//                    List<Node> refNodes = formatter.markReferencesTEILuceneBased(refTokens,
-//                            doc.getReferenceMarkerMatcher(),
-//                            true, // generate coordinates
-//                            false); // do not mark unsolved callout as ref
-//
-//                    if (refNodes != null) {
-//                        for (Node refNode : refNodes) {
-//                            if (refNode instanceof Element) {
-//                                // get the bib ref key
-//                                String refKey = ((Element) refNode).getAttributeValue("target");
-//
-//                                if (refKey == null)
-//                                    continue;
-//
-//                                int refKeyVal = -1;
-//                                if (refKey.startsWith("#b")) {
-//                                    refKey = refKey.substring(2, refKey.length());
-//                                    try {
-//                                        refKeyVal = Integer.parseInt(refKey);
-//                                    } catch (Exception e) {
-//                                        LOGGER.warn("Invalid ref identifier: " + refKey);
-//                                    }
-//                                }
-//                                if (refKeyVal == -1)
-//                                    continue;
-//
-//                                // get the bibref object
-//                                BibDataSet resBib = resCitations.get(refKeyVal);
-//                                if (resBib != null) {
-//                                    BiblioComponent biblioComponent = new BiblioComponent(resBib.getResBib(), refKeyVal);
-//                                    biblioComponent.setRawForm(refNode.getValue());
-//                                    biblioComponent.setOffsetStart(refTokens.get(0).getOffset());
-//                                    biblioComponent.setOffsetEnd(refTokens.get(refTokens.size() - 1).getOffset() +
-//                                            refTokens.get(refTokens.size() - 1).getText().length());
-//                                    List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(refTokens);
-//                                    biblioComponent.setBoundingBoxes(boundingBoxes);
-//                                    bibRefComponents.add(biblioComponent);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//
-//            if (bibRefComponents.size() > 0) {
-//                // attach references to dataset entities
-//                entities = attachRefBib(entities, bibRefComponents);
-//            }
-//
-//            // consolidate the attached ref bib (we don't consolidate all bibliographical references
-//            // to avoid useless costly computation)
-//            List<BibDataSet> citationsToConsolidate = new ArrayList<BibDataSet>();
-//            List<Integer> consolidated = new ArrayList<Integer>();
-//            for (List<Dataset> datasets : entities) {
-//                for (Dataset entity : datasets) {
-//                    if (entity.getBibRefs() != null && entity.getBibRefs().size() > 0) {
-//                        List<BiblioComponent> bibRefs = entity.getBibRefs();
-//                        for (BiblioComponent bibRef : bibRefs) {
-//                            Integer refKeyVal = Integer.valueOf(bibRef.getRefKey());
-//                            if (!consolidated.contains(refKeyVal)) {
-//                                citationsToConsolidate.add(resCitations.get(refKeyVal));
-//                                consolidated.add(refKeyVal);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//            try {
-//                Consolidation consolidator = Consolidation.getInstance();
-//                Map<Integer, BiblioItem> resConsolidation = consolidator.consolidate(citationsToConsolidate);
-//                for (int j = 0; j < citationsToConsolidate.size(); j++) {
-//                    BiblioItem resCitation = citationsToConsolidate.get(j).getResBib();
-//                    BiblioItem bibo = resConsolidation.get(j);
-//                    if (bibo != null) {
-//                        BiblioItem.correct(resCitation, bibo);
-//                    }
-//                }
-//            } catch (Exception e) {
-//                throw new GrobidException(
-//                        "An exception occured while running consolidation on bibliographical references.", e);
-//            }
-//
-//            // propagate the bib. ref. to the entities corresponding to the same dataset name without bib. ref.
-//            for (List<Dataset> datasets1 : entities) {
-//                for (Dataset entity1 : datasets1) {
-//                    if (entity1.getBibRefs() != null && entity1.getBibRefs().size() > 0) {
-//                        for (List<Dataset> datasets2 : entities) {
-//                            for (Dataset entity2 : datasets2) {
-//                                if (entity2.getBibRefs() != null) {
-//                                    continue;
-//                                }
-//                                if ((entity2.getDatasetName() != null && entity2.getDatasetName().getRawForm() != null &&
-//                                        entity1.getDatasetName() != null && entity1.getDatasetName().getRawForm() != null) &&
-//                                        (entity2.getDatasetName().getNormalizedForm().equals(entity1.getDatasetName().getNormalizedForm()) ||
-//                                                entity2.getDatasetName().getRawForm().equals(entity1.getDatasetName().getRawForm()))
-//                                ) {
-//                                    List<BiblioComponent> newBibRefs = new ArrayList<>();
-//                                    for (BiblioComponent bibComponent : entity1.getBibRefs()) {
-//                                        newBibRefs.add(new BiblioComponent(bibComponent));
-//                                    }
-//                                    entity2.setBibRefs(newBibRefs);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        // Enhance information in dataset entities
+        if (CollectionUtils.isNotEmpty(bibRefComponents)) {
+            // attach references to dataset entities
+            entities = attachRefBib(entities, bibRefComponents);
+        }
+
+        // consolidate the attached ref bib (we don't consolidate all bibliographical references
+        // to avoid useless costly computation)
+        List<BibDataSet> citationsToConsolidate = new ArrayList<>();
+        List<Integer> consolidated = new ArrayList<>();
+        for (List<Dataset> datasets : entities) {
+            for (Dataset entity : datasets) {
+                if (CollectionUtils.isNotEmpty(entity.getBibRefs())) {
+                    List<BiblioComponent> bibRefs = entity.getBibRefs();
+                    for (BiblioComponent bibRef : bibRefs) {
+                        Integer refKeyVal = bibRef.getRefKey();
+                        if (!consolidated.contains(refKeyVal)) {
+                            BiblioItem biblioItem = biblioRefMap.get(refKeyVal);
+                            BibDataSet biblioDataSet = new BibDataSet();
+                            biblioDataSet.setResBib(biblioItem);
+                            citationsToConsolidate.add(biblioDataSet);
+                            consolidated.add(refKeyVal);
+                        }
+                    }
+                }
+            }
+        }
+
+        try {
+            Consolidation consolidator = Consolidation.getInstance();
+            Map<Integer, BiblioItem> resConsolidation = consolidator.consolidate(citationsToConsolidate);
+            for (int j = 0; j < citationsToConsolidate.size(); j++) {
+                BiblioItem resCitation = citationsToConsolidate.get(j).getResBib();
+                BiblioItem bibo = resConsolidation.get(j);
+                if (bibo != null) {
+                    BiblioItem.correct(resCitation, bibo);
+                }
+            }
+        } catch (Exception e) {
+            throw new GrobidException(
+                    "An exception occured while running consolidation on bibliographical references.", e);
+        }
+
+        // propagate the bib. ref. to the entities corresponding to the same dataset name without bib. ref.
+        for (List<Dataset> datasets1 : entities) {
+            for (Dataset entity1 : datasets1) {
+                if (CollectionUtils.isNotEmpty(entity1.getBibRefs())) {
+                    for (List<Dataset> datasets2 : entities) {
+                        for (Dataset entity2 : datasets2) {
+                            if (entity2.getBibRefs() != null) {
+                                continue;
+                            }
+                            if ((entity2.getDatasetName() != null && entity2.getDatasetName().getRawForm() != null &&
+                                    entity1.getDatasetName() != null && entity1.getDatasetName().getRawForm() != null) &&
+                                    (entity2.getDatasetName().getNormalizedForm().equals(entity1.getDatasetName().getNormalizedForm()) ||
+                                            entity2.getDatasetName().getRawForm().equals(entity1.getDatasetName().getRawForm()))
+                            ) {
+                                List<BiblioComponent> newBibRefs = new ArrayList<>();
+                                for (BiblioComponent bibComponent : entity1.getBibRefs()) {
+                                    newBibRefs.add(new BiblioComponent(bibComponent));
+                                }
+                                entity2.setBibRefs(newBibRefs);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         // mark datasets present in Data Availability section(s)
         if (CollectionUtils.isNotEmpty(availabilityTokens)) {

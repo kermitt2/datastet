@@ -173,6 +173,17 @@ ext.getArg = { propName, defaultVal ->
     return project.hasProperty(propName) ? project.getProperty(propName) : defaultVal;
 }
 
+task integration(type: Test) {
+    include '**'
+    maxHeapSize = "1024m"
+
+    if (JavaVersion.current().compareTo(JavaVersion.VERSION_1_8) > 0) {
+        jvmArgs "--add-opens", "java.base/java.util.stream=ALL-UNNAMED",
+                "--add-opens", "java.base/java.io=ALL-UNNAMED"
+    }
+    systemProperty "java.library.path", "${System.getProperty('java.library.path')}:" + libraries
+}
+
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 apply plugin: 'java'
