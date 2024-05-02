@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main" coords="1,127.92,45.60,407.40,14.93;1,97.10,173.24,385.43,17.91;1,97.10,194.24,356.44,17.91;1,97.10,215.24,81.54,17.91;2,59.98,104.63,472.55,12.94;2,59.98,120.62,113.99,12.94">Science and Technology of Advanced Materials: Methods</title>
+				<funder>
+					<orgName type="full">MEXT</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Utilization-Type Material Research and Development Project (Digital Transformation Initiative Center for Magnetic Materials)</orgName>
+				</funder>
+				<funder ref="#_VDG4Rv6">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2023-12-14">14 Dec 2023.</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName coords="1,97.10,261.96,80.85,11.94"><forename type="first">Luca</forename><surname>Foppiano</surname></persName>
+							<idno type="ORCID">0000-0002-6114-6164</idno>
+							<affiliation key="aff0" coords="2,62.65,173.48,446.85,8.32">
+								<orgName type="department">Materials Modelling Group</orgName>
+								<orgName type="laboratory">Centre for Basic Research on Materials</orgName>
+								<orgName type="institution" key="instit1">Data-driven Materials Research Field</orgName>
+								<orgName type="institution" key="instit2">NIMS</orgName>
+								<address>
+									<region>Tsukuba</region>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1" coords="2,63.04,183.46,378.71,8.32">
+								<orgName type="department" key="dep1">Knowledge and Data Engineering</orgName>
+								<orgName type="department" key="dep2">Centre for Computational Sciences</orgName>
+								<orgName type="institution">University of Tsukuba</orgName>
+								<address>
+									<settlement>Tsukuba</settlement>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,187.40,261.96,74.94,11.94"><forename type="first">Tomoya</forename><surname>Mato</surname></persName>
+							<idno type="ORCID">0000-0002-0918-6468</idno>
+							<affiliation key="aff0" coords="2,62.65,173.48,446.85,8.32">
+								<orgName type="department">Materials Modelling Group</orgName>
+								<orgName type="laboratory">Centre for Basic Research on Materials</orgName>
+								<orgName type="institution" key="instit1">Data-driven Materials Research Field</orgName>
+								<orgName type="institution" key="instit2">NIMS</orgName>
+								<address>
+									<region>Tsukuba</region>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,272.10,261.96,98.23,11.94"><forename type="first">Kensei</forename><surname>Terashima</surname></persName>
+							<idno type="ORCID">0000-0003-0375-3043</idno>
+							<affiliation key="aff2" coords="2,446.17,183.46,89.09,8.32;2,59.98,193.49,164.75,8.32">
+								<orgName type="department">Frontier Superconducting Materials Group</orgName>
+								<orgName type="institution" key="instit1">MANA</orgName>
+								<orgName type="institution" key="instit2">NIMS</orgName>
+								<address>
+									<region>Tsukuba</region>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,379.75,261.96,104.50,11.94"><forename type="first">Pedro</forename><surname>Ortiz Suarez</surname></persName>
+							<idno type="ORCID">0000-0003-0343-8852</idno>
+							<affiliation key="aff3" coords="2,230.29,193.49,78.72,8.32;2,59.98,724.70,82.86,7.39;10,306.65,429.95,57.56,8.78;10,379.56,429.95,145.48,8.78;10,306.65,440.95,54.90,8.78;10,376.84,440.95,145.48,8.78;10,306.65,451.95,228.65,8.78;10,306.65,462.95,78.57,8.78;10,403.82,462.95,131.48,8.78;10,306.65,473.95,18.24,8.78;10,306.65,484.95,68.05,8.78;10,389.82,484.95,145.48,8.78;10,306.65,495.94,79.21,8.78;10,404.39,495.94,130.89,8.78;10,306.65,506.94,18.24,8.78;10,306.65,517.94,75.65,8.78;10,403.60,517.94,131.66,8.78;10,306.65,528.94,18.24,8.78;10,306.65,539.94,50.96,8.78">
+								<orgName type="department">GmbH DFKI</orgName>
+								<orgName type="institution">CONTACT Luca Foppiano</orgName>
+								<address>
+									<addrLine>Luca Foppiano http://orcid.org/0000-0002-6114-6164 Tomoya Mato http://orcid.org/0000-0002-0918-6468 Kensei Terashima http://orcid.org 3043 Pedro Ortiz Suarez http://orcid.org/0000-0003-0343- 8852 Wei-Sheng Wang http://orcid.org/0009-0001-3572-5736 Toshiyuki Amagasa http://orcid.org/0000-0003-0595- 2230 Yoshihiko Takano http://orcid.org/0000-0002-1541- 6928 Masashi Ishii</addrLine>
+									<postCode>0000-0003-0375</postCode>
+									<settlement>Berlin</settlement>
+									<region>DE</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,493.33,261.96,27.24,11.94;1,97.10,275.96,18.06,11.94"><forename type="first">Taku</forename><surname>Tou</surname></persName>
+							<affiliation key="aff2" coords="2,446.17,183.46,89.09,8.32;2,59.98,193.49,164.75,8.32">
+								<orgName type="department">Frontier Superconducting Materials Group</orgName>
+								<orgName type="institution" key="instit1">MANA</orgName>
+								<orgName type="institution" key="instit2">NIMS</orgName>
+								<address>
+									<region>Tsukuba</region>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,124.29,275.96,77.64,11.94"><forename type="first">Chikako</forename><surname>Sakai</surname></persName>
+							<affiliation key="aff2" coords="2,446.17,183.46,89.09,8.32;2,59.98,193.49,164.75,8.32">
+								<orgName type="department">Frontier Superconducting Materials Group</orgName>
+								<orgName type="institution" key="instit1">MANA</orgName>
+								<orgName type="institution" key="instit2">NIMS</orgName>
+								<address>
+									<region>Tsukuba</region>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,210.69,275.96,92.13,11.94"><forename type="first">Wei-Sheng</forename><surname>Wang</surname></persName>
+							<idno type="ORCID">0009-0001-3572-5736</idno>
+							<affiliation key="aff2" coords="2,446.17,183.46,89.09,8.32;2,59.98,193.49,164.75,8.32">
+								<orgName type="department">Frontier Superconducting Materials Group</orgName>
+								<orgName type="institution" key="instit1">MANA</orgName>
+								<orgName type="institution" key="instit2">NIMS</orgName>
+								<address>
+									<region>Tsukuba</region>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,313.04,275.96,106.38,11.94"><forename type="first">Toshiyuki</forename><surname>Amagasa</surname></persName>
+							<idno type="ORCID">0000-0003-0595-2230</idno>
+							<affiliation key="aff1" coords="2,63.04,183.46,378.71,8.32">
+								<orgName type="department" key="dep1">Knowledge and Data Engineering</orgName>
+								<orgName type="department" key="dep2">Centre for Computational Sciences</orgName>
+								<orgName type="institution">University of Tsukuba</orgName>
+								<address>
+									<settlement>Tsukuba</settlement>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,429.52,275.96,100.10,11.94"><forename type="first">Yoshihiko</forename><surname>Takano</surname></persName>
+							<idno type="ORCID">0000-0002-1541-6928</idno>
+							<affiliation key="aff2" coords="2,446.17,183.46,89.09,8.32;2,59.98,193.49,164.75,8.32">
+								<orgName type="department">Frontier Superconducting Materials Group</orgName>
+								<orgName type="institution" key="instit1">MANA</orgName>
+								<orgName type="institution" key="instit2">NIMS</orgName>
+								<address>
+									<region>Tsukuba</region>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName coords="1,109.09,289.96,74.47,11.94"><forename type="first">Masashi</forename><surname>Ishii</surname></persName>
+							<email>ishii.masashi@nims.go.jp</email>
+							<idno type="ORCID">0000-0003-0357-2832</idno>
+							<affiliation key="aff0" coords="2,62.65,173.48,446.85,8.32">
+								<orgName type="department">Materials Modelling Group</orgName>
+								<orgName type="laboratory">Centre for Basic Research on Materials</orgName>
+								<orgName type="institution" key="instit1">Data-driven Materials Research Field</orgName>
+								<orgName type="institution" key="instit2">NIMS</orgName>
+								<address>
+									<region>Tsukuba</region>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,481.28,338.37,38.33,9.83"><surname>Masashi</surname></persName>
+						</author>
+						<title level="a" type="main" coords="1,127.92,45.60,407.40,14.93;1,97.10,173.24,385.43,17.91;1,97.10,194.24,356.44,17.91;1,97.10,215.24,81.54,17.91;2,59.98,104.63,472.55,12.94;2,59.98,120.62,113.99,12.94">Science and Technology of Advanced Materials: Methods</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">Print</idno>
+						<imprint>
+							<date type="published" when="2023-12-14">14 Dec 2023.</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">DCB0425EE18794E34CC3A3075E3E3975</idno>
+					<idno type="DOI">10.1080/27660400.2023.2286219</idno>
+					<note type="submission">Received 8 September 2023 Revised 9 November 2023 Accepted 16 November 2023</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="project.version" ident="GROBID" when="2024-05-02T07:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Materials informatics</term>
+					<term>superconductors</term>
+					<term>machine learning</term>
+					<term>database</term>
+					<term>TDM</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p coords="2,72.00,232.56,355.27,8.32;2,72.00,242.53,314.91,8.32;2,386.82,240.59,3.46,5.54;2,390.16,242.53,37.13,8.32;2,72.00,252.57,355.28,8.32;2,72.00,262.55,73.32,8.32;2,145.25,260.54,3.46,5.54;2,150.75,262.55,276.56,8.32;2,72.00,272.52,355.28,8.32;2,72.00,282.56,355.27,8.32;2,72.00,292.53,355.29,8.32;2,72.00,302.57,355.27,8.32;2,72.00,312.55,355.37,8.32;2,72.00,322.53,351.91,8.32;2,423.84,320.58,3.46,5.54;2,72.00,332.56,355.29,8.32;2,72.00,342.54,355.26,8.32;2,72.00,352.52,355.28,8.32;2,72.00,362.55,355.25,8.32;2,72.00,372.53,244.08,8.32">We propose a semi-automatic staging area for efficiently building an accurate database of experimental physical properties of superconductors from literature, called SuperCon 2 , to enrich the existing manually-built superconductor database SuperCon. Here we report our curation interface (SuperCon 2 Interface) and a workflow managing the state transitions of each examined record, to validate the dataset of superconductors from PDF documents collected using Grobidsuperconductors in a previous work. This curation workflow allows both automatic and manual operations, the former contains 'anomaly detection' that scans new data identifying outliers, and a 'training data collector' mechanism that collects training data examples based on manual corrections. Such training data collection policy is effective in improving the machine-learning models with a reduced number of examples. For manual operations, the interface (SuperCon 2 interface) is developed to increase efficiency during manual correction by providing a smart interface and an enhanced PDF document viewer. We show that our interface significantly improves the curation quality by boosting precision and recall as compared with the traditional 'manual correction'. Our semi-automatic approach would provide a solution for achieving a reliable database with text-data mining of scientific documents.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head coords="2,72.00,639.71,71.40,6.93">IMPACT STATEMENT</head><p coords="2,72.00,648.68,355.30,8.32;2,72.00,658.72,355.28,8.32;2,72.00,668.69,355.26,8.32;2,72.00,678.73,195.53,8.32">This work makes a contribution to the realms of materials informatics and superconductors research, achieved through the evolution and update of SuperCon. We provide results from experiments that support the utilisation of computational analysis and machine learning for collecting experimental data from scientific articles.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface n="1" ulx="0.0" uly="0.0" lrx="634.32" lry="833.04"/>
+		<surface n="2" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="3" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="4" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="5" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="6" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="7" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="8" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="9" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="10" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="11" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="12" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+		<surface n="13" ulx="0.0" uly="0.0" lrx="595.276" lry="841.89"/>
+	</facsimile>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1." coords="3,59.87,52.51,76.89,10.16">Introduction</head><p coords="3,59.98,72.59,228.63,9.70;3,59.98,85.57,228.66,9.70;3,59.98,98.56,228.67,9.70;3,59.98,111.60,19.89,9.70;3,102.12,111.60,186.52,9.70;3,59.98,124.58,228.65,9.70;3,59.98,137.56,228.67,9.70;3,59.98,150.60,228.67,9.70;3,59.98,163.58,228.65,9.70;3,59.98,176.56,228.68,9.70;3,59.98,189.60,228.66,9.70;3,59.98,202.59,228.63,9.70;3,59.98,215.57,228.62,9.70;3,70.75,228.55,217.90,9.70;3,59.98,241.59,97.86,9.70;3,171.10,241.59,117.53,9.70;3,59.98,254.57,44.91,9.70;3,119.68,254.57,168.97,9.70;3,59.98,267.56,228.64,9.70;3,59.98,280.60,228.63,9.70;3,59.98,293.58,228.64,9.70;3,59.98,306.56,228.66,9.70;3,59.98,319.60,228.64,9.70;3,59.98,332.58,228.64,9.70;3,59.98,345.57,228.64,9.70;3,59.98,358.55,228.64,9.70;3,59.98,371.59,228.65,9.70;3,59.98,384.57,228.68,9.70;3,59.98,397.55,228.68,9.70;3,59.98,410.59,228.63,9.70;3,59.98,423.57,228.66,9.70;3,59.98,436.56,228.63,9.70;3,59.98,449.60,228.64,9.70;3,59.98,462.58,144.53,9.70">The emergence of new methodologies using machine learning for materials exploration has given rise to a growing research area called materials informatics (MI) <ref type="bibr" coords="3,84.13,111.60,10.79,9.70" target="#b0">[1,</ref><ref type="bibr" coords="3,94.93,111.60,7.20,9.70" target="#b1">2]</ref>. This field leverages the knowledge of the materials data accumulated in the past to efficiently screen candidates of the materials with desired properties. As a matter of course, such an approach requires a larger amount of material-related data for training models. Researchers have been developing large aggregated databases of physical properties generated by first-principles calculations based on Density Functional Theory (DFT), such as Materials Project <ref type="bibr" coords="3,59.98,228.55,10.77,9.70" target="#b2">[3]</ref>, JARVIS (Joint Automated Repository for Various Integrated Simulations) <ref type="bibr" coords="3,160.33,241.59,10.77,9.70" target="#b3">[4]</ref>, NOMAD (Novel Materials Discovery) <ref type="bibr" coords="3,108.91,254.57,10.77,9.70" target="#b4">[5]</ref>, that played a role of a strong driving force for the development of materials informatics. Using DFT data for machine learning (ML) in materials science has become popular since, in principle, it allows researchers to simulate and obtain various types of physical properties of the target materials only by knowing the crystal structures of the subjects. Those DFT codes are designed to reproduce/simulate the physical properties that should be observed by experiments in reality. Nonetheless, caution must be exercised while utilising these computed figures for constructing ML models aimed at steering experiments. This caution arises due to the potential lack of validity in their predictions when dealing with specific simplifications of the interactions between atoms and electrons in solids, such as electron-electron Coulomb correlation, spinorbit coupling, and similar factors.</p><p coords="3,72.00,475.56,216.63,9.70;3,59.98,488.60,228.67,9.70;3,59.98,501.58,228.63,9.70;3,59.98,514.56,159.29,9.70;3,235.26,514.56,53.35,9.70;3,59.98,527.55,228.66,9.70;3,59.98,540.59,15.49,9.70;3,96.21,540.59,62.62,9.70;3,174.00,540.59,114.67,9.70;3,59.98,553.57,228.67,9.70;3,59.98,566.55,228.65,9.70;3,59.98,579.59,228.68,9.70;3,59.98,592.57,54.03,9.70">On the contrary, accumulated datasets of experimental data from scientific publications are still scarce, despite abundant publication availability, and exponential growth in materials science <ref type="bibr" coords="3,223.94,514.56,11.32,9.70" target="#b5">[6]</ref>. Currently, only a few limited resources exist, such as the Pauling File <ref type="bibr" coords="3,79.71,540.59,12.28,9.70" target="#b6">[7]</ref> and SuperCon <ref type="bibr" coords="3,162.99,540.59,11.01,9.70" target="#b7">[8]</ref>, necessitating reliance on manual extraction methods. This scarcity can be attributed to inadequate infrastructure and a shortage of expertise in computer science within the materials science field.</p><p coords="3,72.00,605.56,216.66,9.70;3,59.98,619.05,20.16,9.70;3,96.72,619.05,191.89,9.70;3,59.98,632.60,228.67,9.70;3,59.98,646.09,191.67,9.70;3,284.15,646.09,4.45,9.70;3,59.98,659.58,228.63,9.70;3,59.98,673.08,228.67,9.70;3,59.98,686.57,228.65,9.70;3,59.98,700.06,228.67,9.70;3,59.98,713.56,228.66,9.70;3,59.98,727.05,228.65,9.70;3,59.98,740.60,228.65,9.70;3,59.98,754.09,228.64,9.70;3,59.98,767.58,45.01,9.70;3,105.00,765.16,3.78,6.47;3,113.33,767.59,175.27,9.70;3,59.98,781.08,228.67,9.70;3,306.65,56.10,210.67,9.70;3,531.62,56.10,3.67,9.70;3,306.65,69.59,228.64,9.70;3,306.65,83.09,228.62,9.70;3,306.65,96.58,228.62,9.70;3,306.65,110.07,228.62,9.70;3,306.65,123.57,228.64,9.70;3,306.65,137.06,228.66,9.70;3,306.65,150.55,228.62,9.70;3,306.65,164.10,228.65,9.70;3,306.65,177.59,228.63,9.70;3,306.65,191.09,228.64,9.70;3,306.65,204.58,228.60,9.70;3,306.65,218.07,40.85,9.70;3,366.93,218.07,64.80,9.70;3,456.37,218.07,78.93,9.70;3,306.65,231.56,147.13,9.70">The SuperCon database was built manually from 1987 <ref type="bibr" coords="3,82.32,619.05,12.28,9.70" target="#b7">[8]</ref> by the National Institute for Materials Science (NIMS) in Japan and it is considered a reliable source of experimental data on superconductors <ref type="bibr" coords="3,257.44,646.09,8.90,9.70" target="#b8">[9]</ref><ref type="bibr" coords="3,266.34,646.09,4.45,9.70" target="#b9">[10]</ref><ref type="bibr" coords="3,266.34,646.09,4.45,9.70" target="#b10">[11]</ref><ref type="bibr" coords="3,270.80,646.09,13.36,9.70" target="#b11">[12]</ref>. However, the updates of SuperCon have become increasingly challenging due to the high publication rate. In response to the need for a more efficient approach to sustain productivity, we embarked on the development of an automated system for extracting material and property information from the text contained in relevant scientific publications. This automated process enabled the rapid creation of 'SuperCon 2 Database', a comprehensive database of superconductors containing around 40,000 entries, within an operational duration of just a few days <ref type="bibr" coords="3,520.61,56.10,11.01,9.70" target="#b0">[1]</ref>. Matching the level of quality seen in SuperCon while simultaneously automating the extraction of organised data can be achieved with a properly designed curation process. We use the term curation to describe the overall process of reviewing and validating database records, while correction refers to the specific action of altering the values of one or more properties within an individual record. At the moment of writing this article, we are not aware of any other curation tool focusing on structured databases of extracted information. There are several tools for data annotation, such as Inception <ref type="bibr" coords="3,351.15,218.07,15.78,9.70" target="#b12">[13]</ref>, and Doccano <ref type="bibr" coords="3,435.40,218.07,17.32,9.70" target="#b13">[14]</ref> which concentrate on text labelling and classification.</p><p coords="3,318.61,244.60,216.68,9.70;3,306.65,257.59,136.41,9.70;3,443.00,255.21,3.78,6.47;3,450.20,257.58,85.10,9.70;3,306.65,270.56,228.61,9.70;3,306.65,283.54,228.61,9.70;3,306.65,296.58,228.62,9.70;3,306.65,309.57,228.62,9.70;3,306.65,322.55,228.64,9.70;3,306.65,335.59,228.60,9.70;3,306.65,348.57,51.52,9.70">In this work, we designed and developed a workflow with a user interface, 'SuperCon 2 Interface', crafted to produce structured data of superior quality and efficiency to the one obtained by the 'traditional' manual approach consisting of reading documents and noting records, usually on an Excel file. We developed this framework around the specific use case of SuperCon, however, our goal is to be adapted to alternative data frameworks.</p><p coords="3,318.62,361.55,209.73,9.70">Our contributions can be summarised as follows:</p><p coords="3,317.76,387.58,217.53,9.70;3,327.63,400.56,207.63,9.70;3,327.63,413.54,207.66,9.70;3,327.63,426.58,207.65,9.70;3,327.63,439.56,136.02,9.70;3,306.65,556.58,228.62,9.70;3,306.65,569.56,228.64,9.70;3,306.65,582.54,228.61,9.70;3,306.65,595.58,102.11,9.70">• We developed a workflow and a user interface that allow the curation of a machine-collected database. We demonstrate that using it for data correction resulted in higher quality than the 'traditional' (manual) approach. The subsequent sections, Section 2 describes the curation workflow and Section 3 the user interface on top of it. Finally, we discuss our evaluation experiments and results in Section 4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5." coords="9,306.54,518.07,98.03,10.16">Code availability</head><p coords="9,306.65,538.15,228.65,9.70;9,306.65,551.14,228.61,9.70;9,306.65,564.17,42.49,9.70;9,349.12,561.75,3.78,6.47;9,356.71,564.18,178.59,9.70;9,59.98,52.79,21.02,8.78;9,306.65,538.15,99.94,9.70;9,348.37,551.14,186.89,9.70;9,306.65,564.17,42.49,9.70;9,349.12,561.75,3.78,6.47;9,356.71,564.18,178.59,9.70;9,59.98,52.79,21.02,8.78;9,86.80,52.79,201.83,8.78;9,59.98,63.78,228.68,8.78;9,59.98,74.78,178.02,8.78;9,253.72,74.78,34.91,8.78;9,59.98,85.78,228.67,8.78;9,59.98,96.78,213.98,8.78">This work is available at<ref type="url" coords="9,408.75,538.15,126.55,9.70;9,306.65,551.14,41.71,9.70" target="https://github.com/lfoppiano/supercon2">https://github.com/lfoppiano/ supercon2</ref>. The repository contains the code of the SuperCon 2 interface, the curation workflow, and the Table <ref type="table" coords="9,83.34,52.79,3.46,8.78">2</ref>. Data support, the number of entities for each label in each of the datasets used for evaluating the ML models. The base dataset is the original dataset described in <ref type="bibr" coords="9,240.77,74.78,12.94,8.78" target="#b17">[18]</ref>, and the curation dataset is automatically collected based on the database corrections by the interface and manually corrected. </p></div>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head coords="10,59.98,739.23,97.44,10.16">Acknowledgements</head><p coords="10,59.98,759.96,228.63,8.78;10,59.98,770.96,28.12,8.78;10,107.84,770.96,36.14,8.78;10,163.68,770.96,124.95,8.78;10,59.98,781.96,228.67,8.78;10,306.65,167.81,228.63,8.78;10,306.65,178.81,228.60,8.78;10,306.65,189.81,228.65,8.78;10,306.65,200.80,62.99,8.78">Our warmest thanks to <rs type="person">Patrice Lopez</rs>, the author of Grobid [22], DeLFT [20], and other open-source projects for his continuous support and inspiration with ideas, suggestions, and fruitful discussions. We thank <rs type="person">Pedro Baptista de Castro</rs> for his support during this work. Special thanks to <rs type="person">Erina Fujita</rs> for useful tips on the manuscript.</p></div>
+			</div>
+			<div type="funding">
+<div><p coords="2,369.52,724.70,153.61,7.39;2,59.98,733.71,333.23,7.39">Materials Modelling Group, Data-driven <rs type="affiliation">Materials Research Field, Centre for Basic Research on Materials, NIMS, 1-1 Namiki, Tsukuba</rs>, Ibaraki <rs type="grantNumber">305-0044</rs>, Japan</p></div>
+			</div>
+			<div type="funding">
+<div><head coords="10,306.65,307.17,41.11,10.16">Funding</head><p coords="10,306.65,327.91,228.61,8.78;10,306.65,338.91,228.63,8.78;10,306.65,349.90,228.63,8.78;10,306.65,360.90,228.63,8.78;10,306.65,371.90,82.82,8.78">This work was partly supported by <rs type="funder">MEXT</rs> Program: Data Creation and <rs type="funder">Utilization-Type Material Research and Development Project (Digital Transformation Initiative Center for Magnetic Materials)</rs> Grant Number [JPMXP1122715503].</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_VDG4Rv6">
+					<idno type="grant-number">305-0044</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct coords="10,331.03,737.97,204.27,8.78;10,331.03,748.97,204.24,8.78;10,331.03,759.96,204.26,8.78;10,331.03,770.96,204.22,8.78;10,331.03,781.96,52.33,8.78" xml:id="b0">
+	<analytic>
+		<title level="a" type="main" coords="10,494.53,737.97,40.76,8.78;10,331.03,748.97,204.24,8.78;10,331.03,759.96,125.19,8.78">Automatic extraction of materials and properties from superconductors scientific literature</title>
+		<author>
+			<persName coords=""><forename type="first">L</forename><surname>Foppiano</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">P</forename><forename type="middle">B</forename><surname>Castro</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">P</forename><forename type="middle">O</forename><surname>Suarez</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/27660400.2022.2153633</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="10,464.94,759.96,70.35,8.78;10,331.03,770.96,21.64,8.78">Sci Technol Adv Mater</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">2153633</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,53.46,204.22,8.78;11,84.42,65.13,204.21,8.78;11,84.42,76.87,197.20,8.78" xml:id="b1">
+	<analytic>
+		<title level="a" type="main" coords="11,191.73,53.46,96.90,8.78;11,84.42,65.13,174.21,8.78">Materials discovery with machine learning and knowledge discovery</title>
+		<author>
+			<persName coords=""><forename type="first">O</forename><forename type="middle">N</forename><surname>Oliveira</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">M</forename><forename type="middle">J</forename><surname>Oliveira</surname></persName>
+		</author>
+		<idno type="DOI">10.3389/fchem.2022.930369</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,266.80,65.13,21.83,8.78;11,84.42,76.87,25.37,8.78">Front Chem</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page">10</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,87.87,204.20,8.78;11,84.42,99.60,204.24,8.78;11,84.42,111.34,204.21,8.78;11,84.42,123.07,158.96,8.78" xml:id="b2">
+	<analytic>
+		<title level="a" type="main" coords="11,219.97,87.87,68.64,8.78;11,84.42,99.60,204.24,8.78;11,84.42,111.34,140.62,8.78">Commentary: the materials project: a materials genome approach to accelerating materials innovation</title>
+		<author>
+			<persName coords=""><forename type="first">A</forename><surname>Jain</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">S</forename><forename type="middle">P</forename><surname>Ong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">G</forename><surname>Hautier</surname></persName>
+		</author>
+		<idno type="DOI">10.1063/1.4812323</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,237.26,111.34,47.04,8.78">APL Mater</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">11002</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,134.07,204.22,8.78;11,84.42,145.07,204.24,8.78;11,84.42,156.07,204.19,8.78;11,84.42,167.12,191.25,8.78;11,84.42,178.18,77.46,8.78" xml:id="b3">
+	<analytic>
+		<title level="a" type="main" coords="11,250.58,134.07,38.05,8.78;11,84.42,145.07,204.24,8.78;11,84.42,156.07,35.71,8.78">Aflow: an automatic framework for high-throughput materials discovery</title>
+		<author>
+			<persName coords=""><forename type="first">S</forename><surname>Curtarolo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">W</forename><surname>Setyawan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">G</forename><forename type="middle">L</forename><surname>Hart</surname></persName>
+		</author>
+		<ptr target="https://www.sciencedirect.com/science/article/pii/S0927025612000717"/>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,130.68,156.07,83.05,8.78">Comput Mater Sci</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="218" to="226"/>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,189.18,204.23,8.78;11,84.42,200.97,204.24,8.78;11,84.42,212.82,191.09,8.78" xml:id="b4">
+	<analytic>
+		<title level="a" type="main" coords="11,174.10,189.18,114.55,8.78;11,84.42,200.97,142.23,8.78">The nomad laboratory: from data sharing to artificial intelligence</title>
+		<author>
+			<persName coords=""><forename type="first">C</forename><surname>Draxl</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">M</forename><surname>Scheffler</surname></persName>
+		</author>
+		<idno type="DOI">10.1088/2515-7639/ab13bb</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,234.08,200.97,50.36,8.78">J Phys Mater</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">36001</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,223.82,204.21,8.78;11,84.42,235.27,204.22,8.78;11,84.42,246.83,204.22,8.78;11,84.42,258.34,200.47,8.78" xml:id="b5">
+	<analytic>
+		<title level="a" type="main" coords="11,146.78,223.82,141.85,8.78;11,84.42,235.27,200.66,8.78">Global publication productivity in materials science research: a scientometric analysis</title>
+		<author>
+			<persName coords=""><forename type="first">T</forename><surname>Pratheepan</surname></persName>
+		</author>
+		<ptr target="https://ojs.trp.org.in/index.php/ijiss/article/view/583"/>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,84.42,246.83,106.89,8.78">Indian J Inf Sources Serv</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="111" to="116"/>
+			<date type="published" when="2019-02">2019 Feb</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,269.34,204.25,8.78;11,84.42,280.34,204.22,8.78;11,84.42,291.40,204.23,8.78;11,84.42,302.45,204.21,8.78;11,84.42,313.45,116.00,8.78" xml:id="b6">
+	<monogr>
+		<title level="m" type="main" coords="11,163.84,269.34,124.82,8.78;11,84.42,280.34,204.22,8.78;11,84.42,291.40,116.02,8.78">The PAULING FILE project and materials platform for data science: from big data toward materials genome</title>
+		<author>
+			<persName coords=""><forename type="first">E</forename><surname>Blokhin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">P</forename><surname>Villars</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-319-42913-7_62-1</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<publisher>Springer International Publishing</publisher>
+			<biblScope unit="page" from="1" to="26"/>
+			<pubPlace>Cham</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,324.45,204.21,8.78;11,84.42,335.45,204.21,8.78;11,84.42,346.50,204.23,8.78;11,84.42,357.50,190.88,8.78" xml:id="b7">
+	<analytic>
+		<title level="a" type="main" coords="11,177.33,324.45,111.29,8.78;11,84.42,335.45,204.21,8.78;11,84.42,346.50,74.32,8.78">Structuring superconductor data with ontology: reproducing historical datasets as knowledge bases</title>
+		<author>
+			<persName coords=""><forename type="first">M</forename><surname>Ishii</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">K</forename><surname>Sakamoto</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/27660400.2023.2223051</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,165.94,346.50,90.05,8.78">Sci Technol Adv Mater</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">2223051</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,368.50,204.22,8.78;11,84.42,379.55,204.21,8.78;11,84.42,390.55,204.22,8.78;11,84.42,401.61,76.41,8.78" xml:id="b8">
+	<analytic>
+		<title level="a" type="main" coords="11,164.69,368.50,123.94,8.78;11,84.42,379.55,204.21,8.78;11,84.42,390.55,30.11,8.78">Predicting new superconductors and their critical temperatures using machine learning</title>
+		<author>
+			<persName coords=""><forename type="first">B</forename><surname>Roter</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">S</forename><surname>Dordevic</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.physc.2020.1353689</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,122.40,390.55,26.76,8.78">Phys C</title>
+		<imprint>
+			<biblScope unit="volume">575</biblScope>
+			<biblScope unit="page">1353689</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,412.60,204.21,8.78;11,84.42,423.60,204.21,8.78;11,84.42,434.60,204.20,8.78;11,84.42,445.66,72.91,8.78" xml:id="b9">
+	<analytic>
+		<title level="a" type="main" coords="11,220.25,412.60,68.37,8.78;11,84.42,423.60,200.03,8.78">Machine learning modeling of superconducting critical temperature</title>
+		<author>
+			<persName coords=""><forename type="first">V</forename><surname>Stanev</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">C</forename><surname>Oses</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">A</forename><surname>Kusne</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/s41524-018-0085-8</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,84.42,434.60,83.21,8.78">Npj Comput Mater</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">4</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,84.42,456.65,204.24,8.78;11,84.42,467.65,204.20,8.78;11,84.42,478.71,111.06,8.78" xml:id="b10">
+	<monogr>
+		<title level="m" type="main" coords="11,150.52,456.65,138.13,8.78;11,84.42,467.65,155.82,8.78">Machine-learning approach for discovery of conventional superconductors</title>
+		<author>
+			<persName coords=""><forename type="first">H</forename><surname>Tran</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">T</forename><forename type="middle">N</forename><surname>Vu</surname></persName>
+		</author>
+		<idno>arXiv:221103265. 2022</idno>
+		<imprint/>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct coords="11,84.42,489.71,204.21,8.78;11,84.42,500.71,204.22,8.78;11,84.42,511.70,204.20,8.78;11,84.42,522.76,83.56,8.78" xml:id="b11">
+	<analytic>
+		<title level="a" type="main" coords="11,268.44,489.71,20.19,8.78;11,84.42,500.71,199.95,8.78">Deep learning model for finding new superconductors</title>
+		<author>
+			<persName coords=""><forename type="first">T</forename><surname>Konno</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">H</forename><surname>Kurokawa</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">F</forename><surname>Nabeshima</surname></persName>
+		</author>
+		<idno type="DOI">10.1103/PhysRevB.103.014509</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,84.42,511.70,51.17,8.78">Phys Rev B</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">14509</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,53.46,204.27,8.78;11,331.03,64.45,204.26,8.78;11,331.03,75.74,204.26,8.78;11,331.03,87.08,204.26,8.78;11,331.03,98.36,204.26,8.78;11,331.03,109.64,178.07,8.78" xml:id="b12">
+	<analytic>
+		<title level="a" type="main" coords="11,469.70,53.46,65.60,8.78;11,331.03,64.45,204.26,8.78;11,331.03,75.74,82.93,8.78">The INCEpTION platform: machine-assisted and knowledge-oriented interactive annotation</title>
+		<author>
+			<persName coords=""><forename type="first">J</forename><forename type="middle">C</forename><surname>Klie</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">M</forename><surname>Bugert</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">B</forename><surname>Boullosa</surname></persName>
+		</author>
+		<ptr target="https://www.aclweb.org/anthology/C18-2002"/>
+	</analytic>
+	<monogr>
+		<title level="m" coords="11,438.57,75.74,96.71,8.78;11,331.03,87.08,204.26,8.78;11,331.03,98.36,84.01,8.78">Proceedings of the 27th International Conference on Computational Linguistics: System Demonstrations</title>
+		<meeting>the 27th International Conference on Computational Linguistics: System Demonstrations<address><addrLine>Santa Fe, New Mexico</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="5" to="9"/>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,120.64,204.24,8.78;11,331.03,131.63,204.27,8.78;11,331.03,142.97,114.15,8.78" xml:id="b13">
+	<analytic>
+		<title level="a" type="main" coords="11,482.23,120.64,53.04,8.78;11,331.03,131.63,104.18,8.78">Doccano: text annotation tool for human</title>
+		<author>
+			<persName coords=""><forename type="first">H</forename><surname>Nakayama</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">T</forename><surname>Kubo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">J</forename><surname>Kamura</surname></persName>
+		</author>
+		<ptr target="https://github.com/doccano/doccano"/>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,468.17,131.63,31.52,8.78">Software</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,153.97,204.22,8.78;11,331.03,164.97,204.24,8.78;11,331.03,176.25,204.25,8.78;11,331.03,187.53,194.25,8.78" xml:id="b14">
+	<analytic>
+		<title level="a" type="main" coords="11,471.06,153.97,64.19,8.78;11,331.03,164.97,204.24,8.78;11,331.03,176.25,105.48,8.78">Python materials genomics pymatgen: a robust open-source python library for materials analysis</title>
+		<author>
+			<persName coords=""><forename type="first">S</forename><forename type="middle">P</forename><surname>Ong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">W</forename><forename type="middle">D</forename><surname>Richards</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">A</forename><surname>Jain</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.commatsci.2012.10.028</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,442.54,176.25,72.19,8.78">Comput Mater Sci</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="314" to="319"/>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,198.53,204.24,8.78;11,331.03,209.59,204.25,8.78;11,331.03,220.87,204.25,8.78;11,331.03,232.15,72.91,8.78" xml:id="b15">
+	<monogr>
+		<title level="m" type="main" coords="11,460.97,198.53,74.30,8.78;11,331.03,209.59,200.08,8.78">Text-mined dataset of inorganic materials synthesis recipes. Sci Data</title>
+		<author>
+			<persName coords=""><forename type="first">O</forename><surname>Kononova</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">H</forename><surname>Huo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">T</forename><surname>He</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/s41597-019-0224-1</idno>
+		<idno>41597-019-0224-1</idno>
+		<ptr target="https://doi.org/10.1038/s"/>
+		<imprint>
+			<date type="published" when="2019-10">2019 Oct</date>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page">203</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,243.15,204.23,8.78;11,331.03,254.15,204.23,8.78;11,331.03,265.49,204.25,8.78;11,331.03,276.77,23.84,8.78" xml:id="b16">
+	<analytic>
+		<title level="a" type="main" coords="11,514.71,243.15,20.55,8.78;11,331.03,254.15,172.38,8.78">Label studio: data labeling software; 2020-2022</title>
+		<author>
+			<persName coords=""><forename type="first">M</forename><surname>Tkachenko</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">M</forename><surname>Malyuk</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">A</forename><surname>Holmanyuk</surname></persName>
+		</author>
+		<ptr target="https://github.com/heartexlabs/label-studio"/>
+	</analytic>
+	<monogr>
+		<title level="m" coords="11,513.52,254.15,21.74,8.78;11,331.03,265.49,59.72,8.78">Open source software</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,287.77,204.24,8.78;11,331.03,298.77,204.26,8.78;11,331.03,310.05,204.24,8.78;11,331.03,321.39,204.22,8.78;11,331.03,332.67,90.97,8.78" xml:id="b17">
+	<analytic>
+		<title level="a" type="main" coords="11,475.54,287.77,59.73,8.78;11,331.03,298.77,204.26,8.78;11,331.03,310.05,147.89,8.78">Supermat: construction of a linked annotated dataset from superconductors-related publications</title>
+		<author>
+			<persName coords=""><forename type="first">L</forename><surname>Foppiano</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">S</forename><surname>Dieb</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">A</forename><surname>Suzuki</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/27660400.2021.1918396</idno>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,487.22,310.05,48.05,8.78;11,331.03,321.39,83.72,8.78">Sci Technol Adv Mater: Methods</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="34" to="44"/>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,343.67,204.25,8.78;11,331.03,354.66,204.27,8.78;11,331.03,365.95,204.27,8.78;11,331.03,377.28,204.27,8.78;11,331.03,388.57,204.26,8.78;11,331.03,399.85,204.24,8.78;11,331.03,411.19,204.24,8.78;11,331.03,422.47,204.26,8.78;11,331.03,433.75,18.24,8.78" xml:id="b18">
+	<analytic>
+		<title level="a" type="main" coords="11,444.70,343.67,90.58,8.78;11,331.03,354.66,127.76,8.78">SciBERT: a pretrained language model for scientific text</title>
+		<author>
+			<persName coords=""><forename type="first">I</forename><surname>Beltagy</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">K</forename><surname>Lo</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">A</forename><surname>Cohan</surname></persName>
+		</author>
+		<ptr target="https://aclanthology.org/D19-1371"/>
+	</analytic>
+	<monogr>
+		<title level="m" coords="11,478.32,354.66,56.98,8.78;11,331.03,365.95,204.27,8.78;11,331.03,377.28,204.27,8.78;11,331.03,388.57,204.26,8.78;11,331.03,399.85,42.22,8.78">Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing</title>
+		<meeting>the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing<address><addrLine>Hong Kong; China</addrLine></address></meeting>
+		<imprint>
+			<publisher>Association for Computational Linguistics</publisher>
+			<date type="published" when="2019-11">Nov. 2019</date>
+			<biblScope unit="page" from="3615" to="3620"/>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,444.75,204.26,8.78;11,331.03,455.75,89.39,8.78" xml:id="b19">
+	<analytic>
+		<title/>
+		<ptr target="https://github.com/kermitt2/delft"/>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,331.03,444.75,110.24,8.78">DeLFT contributors. Delft</title>
+		<imprint>
+			<date type="published" when="2018">2018-2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,466.75,204.22,8.78;11,331.03,477.74,204.24,8.78;11,331.03,489.08,204.22,8.78;11,331.03,500.37,74.79,8.78" xml:id="b20">
+	<analytic>
+		<title level="a" type="main" coords="11,331.03,477.74,204.24,8.78;11,331.03,489.08,33.22,8.78">Overcoming catastrophic forgetting in neural networks</title>
+		<author>
+			<persName coords=""><forename type="first">J</forename><surname>Kirkpatrick</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">R</forename><surname>Pascanu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">N</forename><forename type="middle">C</forename><surname>Rabinowitz</surname></persName>
+		</author>
+		<idno>abs/1612.00796</idno>
+		<ptr target="http://arxiv.org/abs/1612.00796"/>
+	</analytic>
+	<monogr>
+		<title level="j" coords="11,376.95,489.08,16.67,8.78">CoRr</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="11,331.03,511.36,204.27,8.78;11,331.03,522.36,80.61,8.78" xml:id="b21">
+	<monogr>
+		<title/>
+		<author>
+			<persName coords=""><forename type="first">G</forename><surname>Contributors</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Grobid</surname></persName>
+		</author>
+		<ptr target="https://github.com/kermitt2/grobid"/>
+		<imprint>
+			<date type="published" when="2008">2008 -2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
