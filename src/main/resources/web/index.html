@@ -8,7 +8,7 @@
 
         <!--script type="text/javascript" src="resources/js/jquery-1.10.0.min.js"></script> 
         <script type="text/javascript" src="resources/js/jquery.form.js"></script>
-        <script type="text/javascript" src="resources/bootstrap/js/bootstrap.min.js"></script-->  
+        <script type="text/javascript" src="resources/bootstrap/js/bootstrap.min.js"></script-->
 
         <script src="resources/js/jquery-1.8.1.min.js"></script> 
         <script src="resources/js/jquery.form.js"></script>
@@ -102,8 +102,8 @@
                                 <select id="selectedService">
                                     <option value="annotateDatasetSentence" selected>Process text sentence</option>
                                     <option value="annotateDatasetPDF">Process PDF</option>
-                                    <!--option value="processDatasetTEI">Process TEI</option>
-                                    <option value="processDatasetJATS">Process JATS/NLM/...</option-->
+                                    <option value="processDatasetTEI">Process TEI</option>
+                                    <option value="processDatasetJATS">Process JATS/NLM/...</option>
                                 </select>
                             </td>
                         </tr>
@@ -112,7 +112,20 @@
                             <td><span id="label">&nbsp;</span></td>
                             <td>
                                 <div id="field">
-                                    
+                                    <div id="checkboxes">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <div id="segmentSentencesBlock" class="checkbox">
+                                                        <input type="checkbox" id="segmentSentences" name="segmentSentences" checked/>
+                                                        <label for="segmentSentences" value="1">
+                                                            Segmented into sentences
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                     <div class="fileupload fileupload-new" data-provides="fileupload" id="fileInputDiv">
                                       <div class="input-append">
                                         <div class="uneditable-input span4" style="white-space:normal;">

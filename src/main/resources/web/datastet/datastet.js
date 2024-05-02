@@ -1453,15 +1453,19 @@ var grobid = (function ($) {
 
         if (selected == 'annotateDatasetSentence') {
             createInputTextArea();
+            $('#segmentSentencesBlock').hide();
             setBaseUrl('annotateDatasetSentence');
         } else if (selected == 'annotateDatasetPDF') {
             createInputFile(selected);
+            $('#segmentSentencesBlock').hide();
             setBaseUrl('annotateDatasetPDF');
         } else if (selected == 'processDatasetTEI') {
             createInputFile(selected);
+            $('#segmentSentencesBlock').show();
             setBaseUrl('processDatasetTEI');
         } else if (selected == 'processDatasetJATS') {
             createInputFile(selected);
+            $('#segmentSentencesBlock').hide();
             setBaseUrl('processDatasetJATS');
         }
     };
