@@ -37,6 +37,8 @@ import org.grobid.core.lexicon.Lexicon;
 import org.grobid.core.tokenization.TaggingTokenCluster;
 import org.grobid.core.tokenization.TaggingTokenClusteror;
 import org.grobid.core.utilities.*;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.grobid.core.utilities.counters.impl.CntManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.grobid.core.utilities.XMLUtilities.BIBLIO_CALLOUT_TYPE;
+import static org.grobid.core.utilities.XMLUtilities.URL_TYPE;
 
 /**
  * Identification of the dataset names, implicit dataset expressions and data acquisition device names in text.
@@ -480,6 +484,49 @@ System.out.println(localDatasetcomponent.toJson());
 
             List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(urlTokens);
             urlComponent.setBoundingBoxes(boundingBoxes);
+
+            if (urlComponent.getNormalizedForm() != null)
+                urlComponent.setNormalizedForm(urlComponent.getNormalizedForm().replace(" ", ""));
+
+            existingComponents.add(urlComponent);
+        }
+
+        Collections.sort(existingComponents);
+        return existingComponents;
+    }
+
+    private List<DatasetComponent> addUrlComponentsAsReferences(List<LayoutToken> sentenceTokens,
+                                                    List<DatasetComponent> existingComponents,
+                                                    String text,
+                                                    Map<String, Triple<OffsetPosition, String, String>> references) {
+
+        // positions for lexical match
+        List<OffsetPosition> existingPositions = new ArrayList<>();
+        for (DatasetComponent existingComponent : existingComponents) {
+            existingPositions.add(existingComponent.getOffsets());
+        }
+
+        for (String keyRef : references.keySet()) {
+            Triple<OffsetPosition, String, String> urlInfos = references.get(keyRef);
+            OffsetPosition pos = urlInfos.getLeft();
+            String target = urlInfos.getMiddle();
+//            String type = urlInfos.getRight();
+
+            DatasetComponent urlComponent = new DatasetComponent(text.substring(pos.start, pos.end));
+            urlComponent.setOffsetStart(pos.start);
+            urlComponent.setOffsetEnd(pos.end);
+            if (target != null) {
+                urlComponent.setDestination(target);
+                urlComponent.setNormalizedForm(target);
+            }
+
+            urlComponent.setLabel(DatasetTaggingLabels.DATASET_URL);
+            urlComponent.setType(DatasetType.URL);
+
+//            urlComponent.setTokens(urlTokens);
+
+//            List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(urlTokens);
+//            urlComponent.setBoundingBoxes(boundingBoxes);
 
             if (urlComponent.getNormalizedForm() != null)
                 urlComponent.setNormalizedForm(urlComponent.getNormalizedForm().replace(" ", ""));
@@ -1472,7 +1519,7 @@ for(String sentence : allSentences) {
         List<String> selectedSequences = new ArrayList<>();
         //The references callout are loaded here, so that we can recover the position in the text
         // we need target, text value, and position (character related)
-        List<Map<String, Pair<OffsetPosition, String>>> selectedSequencesReferences = new ArrayList<>();
+        List<Map<String, Triple<OffsetPosition, String, String>>> selectedSequencesReferences = new ArrayList<>();
         List<Boolean> relevantSectionsNamedDatasets = new ArrayList<>();
         List<Boolean> relevantSectionsImplicitDatasets = new ArrayList<>();
 
@@ -1509,6 +1556,9 @@ for(String sentence : allSentences) {
                 org.w3c.dom.Node item = abstractNodeList.item(i);
                 String text = item.getTextContent();
                 selectedSequences.add(text);
+
+                // Capture URLs if available
+
                 //LF Not clear why true, just copied from around ProcessPDF:578
                 relevantSectionsNamedDatasets.add(true);
                 relevantSectionsImplicitDatasets.add(false);
@@ -1556,11 +1606,13 @@ for(String sentence : allSentences) {
                 String text = item.getTextContent();
                 selectedSequences.add(text);
 
+                // Capture URLs if available
+
                 //LF Not clear why true, just copied from around ProcessPDF:635
                 relevantSectionsNamedDatasets.add(true);
                 relevantSectionsImplicitDatasets.add(true);
 
-                Map<String, Pair<OffsetPosition, String>> referencesInText = XMLUtilities.getTextNoRefMarkersAndMarkerPositions((org.w3c.dom.Element) item, 0).getRight();
+                Map<String, Triple<OffsetPosition, String, String>> referencesInText = XMLUtilities.getTextNoRefMarkersAndMarkerPositions((org.w3c.dom.Element) item, 0).getRight();
                 selectedSequencesReferences.add(referencesInText);
             }
 
@@ -1724,9 +1776,14 @@ for(String sentence : allSentences) {
         List<BiblioComponent> bibRefComponents = new ArrayList<>();
         Map<String, BiblioItem> biblioRefMap = new HashMap<>();
 
-        for(Map<String, Pair<OffsetPosition, String>> ref :selectedSequencesReferences) {
+        List<Map<String, Triple<OffsetPosition, String, String>>> referencesList = selectedSequencesReferences.stream()
+                .filter(map -> map.values().stream()
+                        .anyMatch(triple -> triple.getRight().equals(BIBLIO_CALLOUT_TYPE)))
+                .toList();
+
+        for(Map<String, Triple<OffsetPosition, String, String>> ref :referencesList) {
             for (String refText : ref.keySet()) {
-                Pair<OffsetPosition, String> infos = ref.get(refText);
+                Triple<OffsetPosition, String, String> infos = ref.get(refText);
 
                 String target = infos.getRight();
                 OffsetPosition position = infos.getLeft();
@@ -1821,25 +1878,24 @@ for(String sentence : allSentences) {
         Map<String, Double> termProfiles = prepareTermProfiles(entities);
         List<List<OffsetPosition>> placeTaken = preparePlaceTaken(entities);
 
-        int index = 0;
         List<List<Dataset>> newEntities = new ArrayList<>();
-        for (List<LayoutToken> sentenceTokens : selectedSequencesLayoutTokens) {
+        for (int i = 0; i < selectedSequencesReferences.size(); i++) {
+            List<LayoutToken> sentenceTokens = selectedSequencesLayoutTokens.get(i);
             List<Dataset> localEntities = propagateLayoutTokenSequence(sentenceTokens,
-                    entities.get(index),
+                    entities.get(i),
                     termProfiles,
                     termPattern,
-                    placeTaken.get(index),
+                    placeTaken.get(i),
                     frequencies,
-                    sentenceOffsetStarts.get(index));
+                    sentenceOffsetStarts.get(i));
             if (localEntities != null) {
                 Collections.sort(localEntities);
 
                 // revisit and attach URL component
-                localEntities = attachUrlComponents(localEntities, sentenceTokens, selectedSequences.get(index), new ArrayList<>());
+                localEntities = attachUrlComponents(localEntities, sentenceTokens, selectedSequences.get(i), selectedSequencesReferences.get(i));
             }
 
             newEntities.add(localEntities);
-            index++;
         }
         entities = newEntities;
 
@@ -2572,6 +2628,101 @@ for(String sentence : allSentences) {
 
             if (previousComponent != null && urlComponent != null) {
                 ;
+                // URL attachment
+                for (Dataset dataset : datasets) {
+                    if (dataset.getDataset() != null && previousComponent.getType() == DatasetType.DATASET) {
+                        if (dataset.getDataset().getOffsetStart() == previousComponent.getOffsetStart() &&
+                                dataset.getDataset().getOffsetEnd() == previousComponent.getOffsetEnd()) {
+                            dataset.setUrl(urlComponent);
+                            break;
+                        }
+                    } else if (dataset.getDatasetName() != null && previousComponent.getType() == DatasetType.DATASET_NAME) {
+                        if (dataset.getDatasetName().getOffsetStart() == previousComponent.getOffsetStart() &&
+                                dataset.getDatasetName().getOffsetEnd() == previousComponent.getOffsetEnd()) {
+                            dataset.setUrl(urlComponent);
+                            break;
+                        }
+                    }
+                }
+
+                // remove attached URL from components
+                localDatasetcomponents.remove(urlComponent);
+            } else {
+                break;
+            }
+        }
+        return datasets;
+    }
+
+    public List<Dataset> attachUrlComponents(List<Dataset> datasets,
+                                             List<LayoutToken> tokens,
+                                             String sentenceString,
+                                             Map<String, Triple<OffsetPosition, String, String>> references) {
+        // revisit url including propagated dataset names
+        if (datasets == null || datasets.size() == 0) {
+            return datasets;
+        }
+
+        // Filter references only of type URLs
+        Map<String, Triple<OffsetPosition, String, String>> onlyURLs = references.entrySet().stream()
+                .filter(entry -> {
+                    Triple<OffsetPosition, String, String> triple = entry.getValue();
+                    return triple.getRight().equals(URL_TYPE);
+                })
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        if (CollectionUtils.sizeIsEmpty(onlyURLs)) {
+            return datasets;
+        }
+
+        for (Dataset dataset : datasets) {
+            if (dataset == null)
+                continue;
+
+            // reinit all URL
+            if (dataset.getUrl() != null) {
+                dataset.setUrl(null);
+            }
+        }
+
+        List<DatasetComponent> localDatasetcomponents = new ArrayList<>();
+        for (Dataset dataset : datasets) {
+            if (dataset.getDataset() != null)
+                localDatasetcomponents.add(dataset.getDataset());
+            if (dataset.getDatasetName() != null)
+                localDatasetcomponents.add(dataset.getDatasetName());
+            if (dataset.getDataDevice() != null)
+                localDatasetcomponents.add(dataset.getDataDevice());
+            if (dataset.getPublisher() != null)
+                localDatasetcomponents.add(dataset.getPublisher());
+            if (dataset.getBibRefs() != null) {
+                for (BiblioComponent biblio : dataset.getBibRefs()) {
+                    localDatasetcomponents.add(biblio);
+                }
+            }
+        }
+
+        Collections.sort(localDatasetcomponents);
+
+        int sizeBefore = localDatasetcomponents.size();
+        localDatasetcomponents = addUrlComponentsAsReferences(tokens, localDatasetcomponents, sentenceString, references);
+
+        // attach URL to the closest dataset
+        while (localDatasetcomponents.size() - sizeBefore > 0) {
+            DatasetComponent previousComponent = null;
+            DatasetComponent urlComponent = null;
+            for (DatasetComponent localDatasetcomponent : localDatasetcomponents) {
+                if (localDatasetcomponent.getType() == DatasetType.URL && previousComponent != null) {
+                    urlComponent = localDatasetcomponent;
+                    break;
+                }
+
+                if (localDatasetcomponent.getType() == DatasetType.DATASET_NAME || localDatasetcomponent.getType() == DatasetType.DATASET)
+                    previousComponent = localDatasetcomponent;
+            }
+
+            if (previousComponent != null && urlComponent != null) {
+
                 // URL attachment
                 for (Dataset dataset : datasets) {
                     if (dataset.getDataset() != null && previousComponent.getType() == DatasetType.DATASET) {

@@ -3,6 +3,7 @@ package org.grobid.core.utilities;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.grobid.core.data.BiblioItem;
 import org.grobid.core.sax.BiblStructSaxHandler;
 import org.slf4j.Logger;
@@ -38,6 +39,10 @@ import java.util.*;
 public class XMLUtilities {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XMLUtilities.class);
+
+    public static final String BIBLIO_CALLOUT_TYPE = "bibr";
+    public static final String URL_TYPE = "url";
+    private static final String URI_TYPE = "uri";
 
     public static String toPrettyString(String xml, int indent) {
         try {
@@ -142,44 +147,48 @@ public class XMLUtilities {
         return found ? buf.toString() : null;
     }
 
-    public static Pair<String,Map<String,Pair<OffsetPosition,String>>> getTextNoRefMarkersAndMarkerPositions(Element element, int globalPos) {
+    public static Pair<String, Map<String,Triple<OffsetPosition, String, String>>> getTextNoRefMarkersAndMarkerPositions(Element element, int globalPos) {
         StringBuffer buf = new StringBuffer();
-        NodeList list = element.getChildNodes();
+        NodeList nodeChildren = element.getChildNodes();
         boolean found = false;
         int indexPos = globalPos;
 
         // map a ref string with its position and the reference key as present in the XML
-        Map<String,Pair<OffsetPosition,String>> right = new TreeMap<>();
+        Map<String, Triple<OffsetPosition,String, String>> right = new TreeMap<>();
 
         // the key of the reference
-        String bibId = null;
+        String target = null;
 
-        for (int i = 0; i < list.getLength(); i++) {
-            Node node = list.item(i);
+        for (int i = 0; i < nodeChildren.getLength(); i++) {
+            Node node = nodeChildren.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 if ("ref".equals(node.getNodeName())) {
 
-                    if ("bibr".equals(((Element) node).getAttribute("type"))) {
-                        bibId = ((Element) node).getAttribute("target");
-                        if (bibId != null && bibId.startsWith("#")) {
-                            bibId = bibId.substring(1, bibId.length());
+                    if (BIBLIO_CALLOUT_TYPE.equals(((Element) node).getAttribute("type"))) {
+                        target = ((Element) node).getAttribute("target");
+                        if (target != null && target.startsWith("#")) {
+                            target = target.substring(1, target.length());
                         }
+                    } else if (URI_TYPE.equals(((Element) node).getAttribute("type")) || URL_TYPE.equals(((Element) node).getAttribute("type"))) {
+                        target = ((Element) node).getAttribute("target");
                     }
 
                     // get the ref marker text
                     NodeList list2 = node.getChildNodes();
                     for (int j = 0; j < list2.getLength(); j++) {
-                        Node node2 = list2.item(j);
-                        if (node2.getNodeType() == Node.TEXT_NODE) {
-                            String chunk = node2.getNodeValue();
+                        Node subChildNode = list2.item(j);
+                        if (subChildNode.getNodeType() == Node.TEXT_NODE) {
+                            String chunk = subChildNode.getNodeValue();
 
-                            if ("bibr".equals(((Element) node).getAttribute("type"))) {
-                                Pair<OffsetPosition, String> refInfo = Pair.of(new OffsetPosition(indexPos, indexPos+chunk.length()), bibId);
+                            if (BIBLIO_CALLOUT_TYPE.equals(((Element) node).getAttribute("type"))) {
+                                Triple<OffsetPosition, String, String> refInfo = Triple.of(new OffsetPosition(indexPos, indexPos+chunk.length()), target, BIBLIO_CALLOUT_TYPE);
                                 right.put(chunk, refInfo);
                                 String holder = StringUtils.repeat(" ", chunk.length());
                                 buf.append(holder);
-                            } else if ("uri".equals(((Element) node).getAttribute("type")) || "url".equals(((Element) node).getAttribute("type"))) {
-                                // added like normal text
+                            } else if (URI_TYPE.equals(((Element) node).getAttribute("type")) || URL_TYPE.equals(((Element) node).getAttribute("type"))) {
+                                org.apache.commons.lang3.tuple.Triple<OffsetPosition, String, String> urlInfo = org.apache.commons.lang3.tuple.Triple.of(new OffsetPosition(indexPos, indexPos+chunk.length()), target, URL_TYPE);
+                                right.put(chunk, urlInfo);
+                                // we still add added like normal text
                                 buf.append(chunk);
                                 found = true;
                             } else {
