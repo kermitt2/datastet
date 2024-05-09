@@ -186,8 +186,8 @@ public class DatasetParser extends AbstractParser {
 
         int i = 0;
         for (List<LayoutToken> tokens : tokensList) {
-            if (tokens == null || tokens.size() == 0) {
-                results.add(null);
+            if (CollectionUtils.isEmpty(tokens)) {
+                results.add(new ArrayList<>());
             } else {
                 String text = LayoutTokensUtil.toText(tokens);
                 List<DatasetComponent> localDatasetcomponents = new ArrayList<>();
@@ -2358,6 +2358,9 @@ for(String sentence : allSentences) {
     public Map<String, Integer> prepareFrequencies(List<List<Dataset>> entities, List<LayoutToken> tokens) {
         Map<String, Integer> frequencies = new TreeMap<String, Integer>();
         for (List<Dataset> datasets : entities) {
+            if (CollectionUtils.isEmpty(datasets)){
+                continue;
+            }
             for (Dataset entity : datasets) {
                 DatasetComponent nameComponent = entity.getDatasetName();
                 if (nameComponent == null)
