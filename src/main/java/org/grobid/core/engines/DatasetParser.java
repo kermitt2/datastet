@@ -2287,6 +2287,10 @@ for(String sentence : allSentences) {
         FastMatcher termPattern = new FastMatcher();
         List<String> added = new ArrayList<>();
         for (List<Dataset> datasets : entities) {
+            if (CollectionUtils.isEmpty(datasets)){
+                continue;
+            }
+
             for (Dataset entity : datasets) {
                 DatasetComponent nameComponent = entity.getDatasetName();
                 if (nameComponent == null)
