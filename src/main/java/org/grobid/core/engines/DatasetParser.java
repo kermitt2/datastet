@@ -1116,7 +1116,7 @@ System.out.println(localDatasetcomponent.toJson());
 
             int i = 0;
             for (List<Dataset> localDatasets : entities) {
-                if (CollectionUtils.isNotEmpty(localDatasets)) {
+                if (CollectionUtils.isEmpty(localDatasets)) {
                     i++;
                     continue;
                 }
@@ -1851,7 +1851,7 @@ for(String sentence : allSentences) {
 
         for (int i = 0; i < entities.size(); i++) {
             List<Dataset> localDatasets = entities.get(i);
-            if (CollectionUtils.isNotEmpty(localDatasets)) {
+            if (CollectionUtils.isEmpty(localDatasets)) {
                 continue;
             }
             for (Dataset localDataset : localDatasets) {
