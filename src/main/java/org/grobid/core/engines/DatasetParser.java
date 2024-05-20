@@ -59,8 +59,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.grobid.core.utilities.XMLUtilities.BIBLIO_CALLOUT_TYPE;
-import static org.grobid.core.utilities.XMLUtilities.URL_TYPE;
+import static org.grobid.core.utilities.XMLUtilities.*;
 
 /**
  * Identification of the dataset names, implicit dataset expressions and data acquisition device names in text.
@@ -1416,8 +1415,10 @@ for(String sentence : allSentences) {
             org.w3c.dom.Document document = builder.parse(new InputSource(new StringReader(tei)));
             //document.getDocumentElement().normalize();
 
+            // TODO: call pub2TEI with sentence segmentation
+
             // It's likely that JATS don't have sentences
-            resultExtraction = processTEIDocument(document, true, disambiguate, addParagraphContext);
+            resultExtraction = processTEIDocument(document, disambiguate, addParagraphContext);
         } catch (final Exception exp) {
             LOGGER.error("An error occured while processing the following XML file: "
                     + file.getPath(), exp);
@@ -1432,8 +1433,10 @@ for(String sentence : allSentences) {
             factory.setNamespaceAware(true);
             DocumentBuilder builder = factory.newDocumentBuilder();
             org.w3c.dom.Document document = builder.parse(file);
-            //document.getDocumentElement().normalize();
-            resultExtraction = processTEIDocument(document, segmentSentences, disambiguate, addParagraphContext);
+            org.w3c.dom.Element root = document.getDocumentElement();
+            if (segmentSentences)
+                segment(document, root);
+            resultExtraction = processTEIDocument(document, disambiguate, addParagraphContext);
             //tei = restoreDomParserAttributeBug(tei); 
 
         } catch (final Exception exp) {
@@ -1494,7 +1497,11 @@ for(String sentence : allSentences) {
             DocumentBuilder builder = factory.newDocumentBuilder();
             org.w3c.dom.Document document = builder.parse(new InputSource(new StringReader(documentAsString)));
             //document.getDocumentElement().normalize();
-            tei = processTEIDocument(document, segmentSentences, disambiguate, addParagraphContext);
+            org.w3c.dom.Element root = document.getDocumentElement();
+            if (segmentSentences)
+                segment(document, root);
+
+            tei = processTEIDocument(document, disambiguate, addParagraphContext);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -1512,7 +1519,6 @@ for(String sentence : allSentences) {
      * LF: This method attempt to reproduce the extraction from PDF in processPDF but with an already extracted TEI as input
      */
     public Pair<List<List<Dataset>>, List<BibDataSet>> processTEIDocument(org.w3c.dom.Document doc,
-                                                                          boolean segmentSentences,
                                                                           boolean disambiguate,
                                                                           boolean addParagraphContext) {
 
@@ -1525,6 +1531,9 @@ for(String sentence : allSentences) {
 
         //Extract relevant section from the TEI
         // Title, abstract, keywords
+
+        // If we process the TEI, at this point the document should be already segmented correctly.
+        boolean segmentSentences = true;
 
         XPath xPath = XPathFactory.newInstance().newXPath();
 
@@ -1658,7 +1667,7 @@ for(String sentence : allSentences) {
 
                 // Check the head?
                 String currentSection = null;
-                org.w3c.dom.Node head = (org.w3c.dom.Node) xPath.evaluate("//*[local-name() = 'head']", item, XPathConstants.NODE);
+                org.w3c.dom.Node head = (org.w3c.dom.Node) xPath.evaluate("./*[local-name() = 'head']", item, XPathConstants.NODE);
                 if (head != null) {
                     String headText = head.getTextContent();
 
