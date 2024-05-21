@@ -147,6 +147,9 @@ public class XMLUtilities {
         return found ? buf.toString() : null;
     }
 
+    /**
+     * @return Pair with text or null on the left and a Triple with (position, target and type)
+     */
     public static Pair<String, Map<String,Triple<OffsetPosition, String, String>>> getTextNoRefMarkersAndMarkerPositions(Element element, int globalPos) {
         StringBuffer buf = new StringBuffer();
         NodeList nodeChildren = element.getChildNodes();

@@ -37,7 +37,6 @@ import org.grobid.core.lexicon.Lexicon;
 import org.grobid.core.tokenization.TaggingTokenCluster;
 import org.grobid.core.tokenization.TaggingTokenClusteror;
 import org.grobid.core.utilities.*;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.grobid.core.utilities.counters.impl.CntManagerFactory;
 import org.slf4j.Logger;
@@ -45,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.xml.crypto.Data;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -71,7 +71,6 @@ public class DatasetParser extends AbstractParser {
 
     private static volatile DatasetParser instance;
 
-    private DatastetLexicon datastetLexicon = null;
     private EngineParsers parsers;
     private DatastetConfiguration datastetConfiguration;
     private DataseerClassifier dataseerClassifier;
@@ -100,10 +99,14 @@ public class DatasetParser extends AbstractParser {
                 GrobidCRFEngine.valueOf(configuration.getModel("datasets").engine.toUpperCase()),
                 configuration.getModel("datasets").delft.architecture);
 
-        datastetLexicon = DatastetLexicon.getInstance();
+        DatastetLexicon.getInstance();
         parsers = new EngineParsers();
         datastetConfiguration = configuration;
         disambiguator = DatasetDisambiguator.getInstance(configuration);
+    }
+
+    public List<List<Dataset>> processing(List<DatasetDocumentSequence> tokensList) {
+        return processing(tokensList, null, false);
     }
 
     /**
@@ -113,7 +116,7 @@ public class DatasetParser extends AbstractParser {
      * @param tokensList the list of LayoutTokens sequences to be labeled
      * @return list of identified Dataset objects.
      */
-    public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList, boolean disambiguate) {
+    public List<List<Dataset>> processing(List<DatasetDocumentSequence> tokensList, boolean disambiguate) {
         return processing(tokensList, null, disambiguate);
     }
 
@@ -121,32 +124,35 @@ public class DatasetParser extends AbstractParser {
      * Sequence labelling of a list of layout tokens for identifying dataset names.
      * Input corresponds to a list of sentences, each sentence being itself a list of Layout tokens.
      *
-     * @param tokensList     the list of LayoutTokens sequences to be labeled
-     * @param pdfAnnotations the list of PDF annotation objects (URI, GOTO, GOTOR) to better control
-     *                       the recognition
+     * @param datasetDocumentSequences the list of LayoutTokens sequences to be labeled
+     * @param pdfAnnotations           the list of PDF annotation objects (URI, GOTO, GOTOR) to better control
+     *                                 the recognition
      * @return list of identified Dataset objects.
      */
-    public List<List<Dataset>> processing(List<List<LayoutToken>> tokensList, List<PDFAnnotation> pdfAnnotations, boolean disambiguate) {
+    public List<List<Dataset>> processing(List<DatasetDocumentSequence> datasetDocumentSequences, List<PDFAnnotation> pdfAnnotations, boolean disambiguate) {
 
         List<List<Dataset>> results = new ArrayList<>();
-        if (tokensList == null || tokensList.size() == 0) {
+        if (CollectionUtils.isEmpty(datasetDocumentSequences)) {
             return results;
         }
 
         StringBuilder input = new StringBuilder();
         //List<String> inputs = new ArrayList<>();
-        List<List<LayoutToken>> newTokensList = new ArrayList<>();
+        List<DatasetDocumentSequence> newTokensList = new ArrayList<>();
         int total = 0;
         int maxTokens = 0;
-        for (List<LayoutToken> tokens : tokensList) {
+        for (DatasetDocumentSequence block : datasetDocumentSequences) {
+            List<LayoutToken> tokens = block.getTokens();
             // to be sure it's done, retokenize according to the DatastetAnalyzer
             tokens = DatastetAnalyzer.getInstance().retokenizeLayoutTokens(tokens);
-            newTokensList.add(tokens);
+            DatasetDocumentSequence newBlock = new DatasetDocumentSequence(block);
+            newBlock.setTokens(tokens);
+            newTokensList.add(newBlock);
 
             // create basic input without features
             int nbTokens = 0;
             for (LayoutToken token : tokens) {
-                if (token.getText().trim().length() == 0) {
+                if (StringUtils.isBlank(token.getText())) {
                     //System.out.println("skipped: " + token.getText());
                     continue;
                 }
@@ -166,7 +172,7 @@ public class DatasetParser extends AbstractParser {
         //System.out.println("total size: " + total);
         //System.out.println("max token sequence: " + maxTokens);
 
-        tokensList = newTokensList;
+        datasetDocumentSequences = newTokensList;
 
         String allRes = null;
         try {
@@ -177,25 +183,34 @@ public class DatasetParser extends AbstractParser {
                     "An exception occured while labeling a sequence.", e);
         }
 
-        if (allRes == null || allRes.length() == 0)
+        if (StringUtils.isBlank(allRes)) {
             return results;
+        }
 
         String[] resBlocks = allRes.split("\n\n");
         //System.out.println("resBlocks: " + resBlocks.length);
 
         int i = 0;
-        for (List<LayoutToken> tokens : tokensList) {
+        for (DatasetDocumentSequence datasetDocumentSequence : datasetDocumentSequences) {
+            List<LayoutToken> tokens = datasetDocumentSequence.getTokens();
             if (CollectionUtils.isEmpty(tokens)) {
                 results.add(new ArrayList<>());
             } else {
                 String text = LayoutTokensUtil.toText(tokens);
                 List<DatasetComponent> localDatasetcomponents = new ArrayList<>();
-                localDatasetcomponents = addUrlComponents(tokens, localDatasetcomponents, text, pdfAnnotations);
-/*System.out.println("\n" + text);
-for(DatasetComponent localDatasetcomponent : localDatasetcomponents) {
-System.out.println(localDatasetcomponent.toJson());
-}*/
+                if (pdfAnnotations != null) {
+                    localDatasetcomponents = addUrlComponents(tokens, localDatasetcomponents, text, pdfAnnotations);
+                }
+
+                /*System.out.println("\n" + text);
+                for(DatasetComponent localDatasetcomponent : localDatasetcomponents) {
+                System.out.println(localDatasetcomponent.toJson());
+                }*/
                 List<DatasetComponent> bufferLocalDatasetcomponents = resultExtractionLayoutTokens(resBlocks[i], tokens, text);
+                bufferLocalDatasetcomponents.stream().forEach(datasetComponent -> {
+                    datasetComponent.addSequenceId(datasetDocumentSequence.getId());
+                        }
+                );
                 List<OffsetPosition> localDatasetcomponentOffsets = new ArrayList<>();
                 for (DatasetComponent localDatasetcomponent : localDatasetcomponents) {
                     localDatasetcomponentOffsets.add(localDatasetcomponent.getOffsets());
@@ -376,14 +391,14 @@ System.out.println(localDatasetcomponent.toJson());
                     localDataset.setContext(text);
                     localDatasets.add(localDataset);
                 }
-                localDataset = new Dataset(localComponent.getType(), localComponent.getRawForm());
+                localDataset = new Dataset(localComponent.getType(), localComponent.getRawForm(), localComponent.getSequenceIdentifiers());
                 localDataset.setDatasetName(localComponent);
             } else if (localComponent.getType() == DatasetType.DATASET) {
                 if (localDataset != null) {
                     localDataset.setContext(text);
                     localDatasets.add(localDataset);
                 }
-                localDataset = new Dataset(localComponent.getType(), localComponent.getRawForm());
+                localDataset = new Dataset(localComponent.getType(), localComponent.getRawForm(), localComponent.getSequenceIdentifiers());
                 localDataset.setDataset(localComponent);
             } else if (localComponent.getType() == DatasetType.DATA_DEVICE) {
                 if (localDataset != null && localDataset.getDataset() != null) {
@@ -404,6 +419,31 @@ System.out.println(localDatasetcomponent.toJson());
         }
 
         return localDatasets;
+    }
+
+    private List<DatasetComponent> addUrlComponents(List<DatasetComponent> existingComponents,
+                                                    DatasetDocumentSequence sequence) {
+
+        Map<String, Triple<OffsetPosition, String, String>> urls =
+                sequence.getReferences().entrySet().stream()
+                        .filter(entry -> entry.getValue().getRight().equals(URL_TYPE))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        if (CollectionUtils.isEmpty(urls.keySet())) {
+            return existingComponents;
+        }
+
+        for (Map.Entry<String, Triple<OffsetPosition, String, String>> url : urls.entrySet()) {
+            String textValue = url.getKey();
+            Triple<OffsetPosition, String, String> annotation = url.getValue();
+
+            OffsetPosition position = annotation.getLeft();
+            String target = annotation.getMiddle();
+
+        }
+
+        return existingComponents;
+
     }
 
     private List<DatasetComponent> addUrlComponents(List<LayoutToken> sentenceTokens,
@@ -494,10 +534,9 @@ System.out.println(localDatasetcomponent.toJson());
         return existingComponents;
     }
 
-    private List<DatasetComponent> addUrlComponentsAsReferences(List<LayoutToken> sentenceTokens,
-                                                    List<DatasetComponent> existingComponents,
-                                                    String text,
-                                                    Map<String, Triple<OffsetPosition, String, String>> references) {
+    private List<DatasetComponent> addUrlComponentsAsReferences(DatasetDocumentSequence sequence,
+                                                                List<DatasetComponent> existingComponents,
+                                                                Map<String, Triple<OffsetPosition, String, String>> references) {
 
         // positions for lexical match
         List<OffsetPosition> existingPositions = new ArrayList<>();
@@ -511,7 +550,7 @@ System.out.println(localDatasetcomponent.toJson());
             String target = urlInfos.getMiddle();
 //            String type = urlInfos.getRight();
 
-            DatasetComponent urlComponent = new DatasetComponent(text.substring(pos.start, pos.end));
+            DatasetComponent urlComponent = new DatasetComponent(sequence.getText().substring(pos.start, pos.end));
             urlComponent.setOffsetStart(pos.start);
             urlComponent.setOffsetEnd(pos.end);
             if (target != null) {
@@ -541,14 +580,15 @@ System.out.println(localDatasetcomponent.toJson());
      * Sequence labelling of a string for identifying dataset names.
      */
     public List<Dataset> processingString(String input, boolean disambiguate) {
-        List<List<LayoutToken>> tokensList = new ArrayList<>();
+        List<DatasetDocumentSequence> tokensList = new ArrayList<>();
         input = UnicodeUtil.normaliseText(input);
-        tokensList.add(analyzer.tokenizeWithLayoutToken(input));
+        tokensList.add(new DatasetDocumentSequence(analyzer.tokenizeWithLayoutToken(input)));
         List<List<Dataset>> result = processing(tokensList, disambiguate);
-        if (result != null && result.size() > 0)
+        if (CollectionUtils.isNotEmpty(result)) {
             return result.get(0);
-        else
-            return new ArrayList<Dataset>();
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     private List<DataseerResults> classifyWithDataseerClassifier(List<String> allSentences) {
@@ -625,10 +665,12 @@ System.out.println(localDatasetcomponent.toJson());
     }
 
     public List<List<Dataset>> processingStrings(List<String> inputs, boolean disambiguate) {
-        List<List<LayoutToken>> tokensList = new ArrayList<>();
+        List<DatasetDocumentSequence> tokensList = new ArrayList<>();
         for (String input : inputs) {
             input = UnicodeUtil.normaliseText(input);
-            tokensList.add(analyzer.tokenizeWithLayoutToken(input));
+            List<LayoutToken> tokens = analyzer.tokenizeWithLayoutToken(input);
+            DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(input, tokens);
+            tokensList.add(datasetDocumentSequence);
         }
         return processing(tokensList, disambiguate);
     }
@@ -663,9 +705,7 @@ System.out.println(localDatasetcomponent.toJson());
             // segment of interest (e.g. header, body, annex) and possibly apply 
             // the corresponding model to further filter by structure types 
 
-            List<List<LayoutToken>> selectedLayoutTokenSequences = new ArrayList<>();
-            List<Boolean> relevantSectionsNamedDatasets = new ArrayList<>();
-            List<Boolean> relevantSectionsImplicitDatasets = new ArrayList<>();
+            List<DatasetDocumentSequence> selectedDatasetDocumentSequences = new ArrayList<>();
 
             // the following array stores the index of the sections identified as Data availability statement
             //List<Integer> sectionsDAS = new ArrayList<>();
@@ -692,25 +732,28 @@ System.out.println(localDatasetcomponent.toJson());
                         // title
                         List<LayoutToken> titleTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_TITLE);
                         if (titleTokens != null) {
-                            selectedLayoutTokenSequences.add(titleTokens);
-                            relevantSectionsNamedDatasets.add(false);
-                            relevantSectionsImplicitDatasets.add(false);
+                            DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(titleTokens);
+                            datasetDocumentSequence.setRelevantSectionsNamedDatasets(false);
+                            datasetDocumentSequence.setRelevantSectionsImplicitDatasets(false);
+                            selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                         }
 
                         // abstract
                         List<LayoutToken> abstractTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_ABSTRACT);
                         if (abstractTokens != null) {
-                            selectedLayoutTokenSequences.add(abstractTokens);
-                            relevantSectionsNamedDatasets.add(true);
-                            relevantSectionsImplicitDatasets.add(false);
+                            DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(abstractTokens);
+                            datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                            datasetDocumentSequence.setRelevantSectionsImplicitDatasets(false);
+                            selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                         }
 
                         // keywords
                         List<LayoutToken> keywordTokens = resHeader.getLayoutTokens(TaggingLabels.HEADER_KEYWORD);
                         if (keywordTokens != null) {
-                            selectedLayoutTokenSequences.add(keywordTokens);
-                            relevantSectionsNamedDatasets.add(false);
-                            relevantSectionsImplicitDatasets.add(false);
+                            DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(keywordTokens);
+                            datasetDocumentSequence.setRelevantSectionsNamedDatasets(false);
+                            datasetDocumentSequence.setRelevantSectionsImplicitDatasets(false);
+                            selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                         }
                     }
                 }
@@ -729,7 +772,7 @@ System.out.println(localDatasetcomponent.toJson());
 
                     LayoutTokenization tokenizationBody = featSeg.getRight();
                     String rese = null;
-                    if ((bodytext != null) && (bodytext.trim().length() > 0)) {
+                    if (StringUtils.isNotBlank(bodytext)) {
                         rese = parsers.getFullTextParser().label(bodytext);
                     } else {
                         LOGGER.debug("Fulltext model: The input to the sequence labelling processing is empty");
@@ -756,13 +799,16 @@ System.out.println(localDatasetcomponent.toJson());
                             if (curParagraphTokens == null)
                                 curParagraphTokens = new ArrayList<>();
                             //curParagraphTokens.addAll(localTokenization);
-                        } else if (clusterLabel.equals(TaggingLabels.PARAGRAPH) || clusterLabel.equals(TaggingLabels.ITEM)) {
+                        } else if (clusterLabel.equals(TaggingLabels.PARAGRAPH)
+                                || clusterLabel.equals(TaggingLabels.ITEM)) {
                             //|| clusterLabel.equals(TaggingLabels.SECTION) {
-                            if (lastClusterLabel == null || curParagraphTokens == null || isNewParagraph(lastClusterLabel)) {
+                            if (lastClusterLabel == null || curParagraphTokens == null
+                                    || isNewParagraph(lastClusterLabel)) {
                                 if (curParagraphTokens != null) {
-                                    selectedLayoutTokenSequences.add(curParagraphTokens);
-                                    relevantSectionsNamedDatasets.add(true);
-                                    relevantSectionsImplicitDatasets.add(true);
+                                    DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(curParagraphTokens);
+                                    datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                                    datasetDocumentSequence.setRelevantSectionsImplicitDatasets(true);
+                                    selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                                 }
                                 curParagraphTokens = new ArrayList<>();
                             }
@@ -781,9 +827,10 @@ System.out.println(localDatasetcomponent.toJson());
                     }
                     // last paragraph
                     if (curParagraphTokens != null) {
-                        selectedLayoutTokenSequences.add(curParagraphTokens);
-                        relevantSectionsNamedDatasets.add(true);
-                        relevantSectionsImplicitDatasets.add(true);
+                        DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(curParagraphTokens);
+                        datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                        datasetDocumentSequence.setRelevantSectionsImplicitDatasets(true);
+                        selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                     }
                 }
             }
@@ -804,7 +851,7 @@ System.out.println(localDatasetcomponent.toJson());
 
                     LayoutTokenization tokenizationBody = featSeg.getRight();
                     String rese = null;
-                    if ((bodytext != null) && (bodytext.trim().length() > 0)) {
+                    if (StringUtils.isNotBlank(bodytext)) {
                         rese = parsers.getFullTextParser().label(bodytext);
                     } else {
                         LOGGER.debug("Fulltext model applied to Annex: The input to the sequence labelling processing is empty");
@@ -826,7 +873,7 @@ System.out.println(localDatasetcomponent.toJson());
                         String clusterText = LayoutTokensUtil.toText(cluster.concatTokens());
 
                         List<LayoutToken> localTokenization = cluster.concatTokens();
-                        if ((localTokenization == null) || (localTokenization.size() == 0))
+                        if (CollectionUtils.isNotEmpty(localTokenization))
                             continue;
 
                         if (TEIFormatter.MARKER_LABELS.contains(clusterLabel)) {
@@ -839,13 +886,15 @@ System.out.println(localDatasetcomponent.toJson());
                         } else if (clusterLabel.equals(TaggingLabels.PARAGRAPH) || clusterLabel.equals(TaggingLabels.ITEM)) {
                             if (lastClusterLabel == null || curParagraphTokens == null || isNewParagraph(lastClusterLabel)) {
                                 if (curParagraphTokens != null && previousSection == null) {
-                                    selectedLayoutTokenSequences.add(curParagraphTokens);
-                                    relevantSectionsNamedDatasets.add(true);
-                                    relevantSectionsImplicitDatasets.add(false);
+                                    DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(curParagraphTokens);
+                                    datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                                    datasetDocumentSequence.setRelevantSectionsImplicitDatasets(false);
+                                    selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                                 } else if (curParagraphTokens != null && previousSection.equals("das")) {
-                                    selectedLayoutTokenSequences.add(curParagraphTokens);
-                                    relevantSectionsNamedDatasets.add(true);
-                                    relevantSectionsImplicitDatasets.add(true);
+                                    DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(curParagraphTokens);
+                                    datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                                    datasetDocumentSequence.setRelevantSectionsImplicitDatasets(true);
+                                    selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                                 }
                                 curParagraphTokens = new ArrayList<>();
                             }
@@ -870,13 +919,15 @@ System.out.println(localDatasetcomponent.toJson());
                     }
                     // last paragraph
                     if (curParagraphTokens != null && currentSection == null) {
-                        selectedLayoutTokenSequences.add(curParagraphTokens);
-                        relevantSectionsNamedDatasets.add(true);
-                        relevantSectionsImplicitDatasets.add(false);
+                        DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(curParagraphTokens);
+                        datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                        datasetDocumentSequence.setRelevantSectionsImplicitDatasets(false);
+                        selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                     } else if (curParagraphTokens != null && currentSection.equals("das")) {
-                        selectedLayoutTokenSequences.add(curParagraphTokens);
-                        relevantSectionsNamedDatasets.add(true);
-                        relevantSectionsImplicitDatasets.add(true);
+                        DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(curParagraphTokens);
+                        datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                        datasetDocumentSequence.setRelevantSectionsImplicitDatasets(true);
+                        selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                     }
                 }
             }
@@ -886,9 +937,10 @@ System.out.println(localDatasetcomponent.toJson());
             if (documentParts != null) {
                 List<LayoutToken> footnoteTokens = doc.getTokenizationParts(documentParts, doc.getTokenizations());
                 if (footnoteTokens != null) {
-                    selectedLayoutTokenSequences.add(footnoteTokens);
-                    relevantSectionsNamedDatasets.add(true);
-                    relevantSectionsImplicitDatasets.add(false);
+                    DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(footnoteTokens);
+                    datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                    datasetDocumentSequence.setRelevantSectionsImplicitDatasets(false);
+                    selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                 }
             }
 
@@ -969,8 +1021,8 @@ System.out.println(localDatasetcomponent.toJson());
 
                         // consolidate the attached ref bib (we don't consolidate all bibliographical references
                         // to avoid useless costly computation)
-                        List<BibDataSet> citationsToConsolidate = new ArrayList<BibDataSet>();
-                        List<Integer> consolidated = new ArrayList<Integer>();
+                        List<BibDataSet> citationsToConsolidate = new ArrayList<>();
+                        List<Integer> consolidated = new ArrayList<>();
                         for (List<Dataset> datasets : entities) {
                             for (Dataset entity : datasets) {
                                 if (entity.getBibRefs() != null && entity.getBibRefs().size() > 0) {
@@ -1032,28 +1084,36 @@ System.out.println(localDatasetcomponent.toJson());
                     if (CollectionUtils.isNotEmpty(availabilityTokens)) {
                         entities = markDAS(entities, availabilityTokens);
                     }
-                    selectedLayoutTokenSequences.add(availabilityTokens);
-                    relevantSectionsNamedDatasets.add(true);
-                    relevantSectionsImplicitDatasets.add(true);
+                    DatasetDocumentSequence datasetDocumentSequence = new DatasetDocumentSequence(availabilityTokens);
+                    datasetDocumentSequence.setRelevantSectionsNamedDatasets(true);
+                    datasetDocumentSequence.setRelevantSectionsImplicitDatasets(true);
+                    selectedDatasetDocumentSequences.add(datasetDocumentSequence);
                 }
             }
 
             // segment zone into sentences
-            List<List<LayoutToken>> allLayoutTokens = new ArrayList<>();
+            List<DatasetDocumentSequence> allDatasetDocumentSequences = new ArrayList<>();
             List<String> allSentences = new ArrayList<>();
             List<Integer> sentenceOffsetStarts = new ArrayList<>();
             int zoneIndex = 0;
             int accumulatedOffset = 0;
             Map<Integer, Integer> mapSentencesToZones = new HashMap<>();
-            for (List<LayoutToken> layoutTokens : selectedLayoutTokenSequences) {
+            for (DatasetDocumentSequence sequence : selectedDatasetDocumentSequences) {
+                List<LayoutToken> layoutTokens = sequence.getTokens();
+
+                // To be sure we should add the sequence identifiers
+
+                String sequenceId = "_" + KeyGen.getKey().substring(0, 7);
+                sequence.setId(sequenceId);
+
                 layoutTokens = DatastetAnalyzer.getInstance().retokenizeLayoutTokens(layoutTokens);
 
-                if ((layoutTokens == null) || (layoutTokens.size() == 0)) {
+                if (CollectionUtils.isEmpty(layoutTokens)) {
                     //allLayoutTokens.add(null);
                     //allSentences.add(null);
                     List<LayoutToken> dummyLayoutTokens = new ArrayList<>();
                     dummyLayoutTokens.add(new LayoutToken("dummy"));
-                    allLayoutTokens.add(dummyLayoutTokens);
+                    allDatasetDocumentSequences.add(new DatasetDocumentSequence(dummyLayoutTokens));
                     //System.out.println("dummy sentence at " + (allSentences.size()));
                     allSentences.add("dummy");
                     sentenceOffsetStarts.add(accumulatedOffset);
@@ -1087,7 +1147,9 @@ System.out.println(localDatasetcomponent.toJson());
                         pos += token.getText().length();
                     }
 
-                    allLayoutTokens.add(sentenceTokens);
+                    // We need to generate IDs for each sentence
+                    sequenceId = "_" + KeyGen.getKey().substring(0, 7);
+                    allDatasetDocumentSequences.add(new DatasetDocumentSequence(localText.substring(startPos, endPos), sentenceTokens, sequenceId));
                     allSentences.add(localText.substring(startPos, endPos));
                     mapSentencesToZones.put(allSentences.size() - 1, zoneIndex);
                     sentenceOffsetStarts.add(accumulatedOffset + startPos);
@@ -1100,7 +1162,7 @@ System.out.println(localDatasetcomponent.toJson());
             //System.out.println("sentenceOffsetStarts size: " + sentenceOffsetStarts.size());
 
             // pre-process labeling of every sentences in batch
-            processLayoutTokenSequences(allLayoutTokens, entities, sentenceOffsetStarts, pdfAnnotations, disambiguate);
+            processLayoutTokenSequences(allDatasetDocumentSequences, entities, sentenceOffsetStarts, pdfAnnotations, disambiguate);
 
             //System.out.println("entities size: " + entities.size());
             //System.out.println("mapSentencesToZones size: " + mapSentencesToZones.size());
@@ -1158,8 +1220,8 @@ for(String sentence : allSentences) {
 
             int index = 0;
             List<List<Dataset>> newEntities = new ArrayList<>();
-            for (List<LayoutToken> sentenceTokens : allLayoutTokens) {
-                List<Dataset> localEntities = propagateLayoutTokenSequence(sentenceTokens,
+            for (DatasetDocumentSequence sequence : allDatasetDocumentSequences) {
+                List<Dataset> localEntities = propagateLayoutTokenSequence(sequence,
                         entities.get(index),
                         termProfiles,
                         termPattern,
@@ -1170,7 +1232,7 @@ for(String sentence : allSentences) {
                     Collections.sort(localEntities);
 
                     // revisit and attach URL component
-                    localEntities = attachUrlComponents(localEntities, sentenceTokens, allSentences.get(index), pdfAnnotations);
+                    localEntities = attachUrlComponents(localEntities, sequence.getTokens(), allSentences.get(index), pdfAnnotations);
                 }
 
                 newEntities.add(localEntities);
@@ -1213,12 +1275,12 @@ for(String sentence : allSentences) {
                     }
 
                     if (localDataset.getType() == DatasetType.DATASET &&
-                            !relevantSectionsImplicitDatasets.get(currentZone) && !referenceDataSource) {
+                            !selectedDatasetDocumentSequences.get(currentZone).isRelevantSectionsImplicitDatasets() && !referenceDataSource) {
                         continue;
                     }
 
                     if (localDataset.getType() == DatasetType.DATASET_NAME &&
-                            !relevantSectionsNamedDatasets.get(currentZone)) {
+                            !selectedDatasetDocumentSequences.get(currentZone).isRelevantSectionsNamedDatasets()) {
                         continue;
                     }
 
@@ -1522,12 +1584,7 @@ for(String sentence : allSentences) {
                                                                           boolean disambiguate,
                                                                           boolean addParagraphContext) {
 
-        List<String> selectedSequences = new ArrayList<>();
-        //The references callout are loaded here, so that we can recover the position in the text
-        // we need target, text value, and position (character related)
-        List<Map<String, Triple<OffsetPosition, String, String>>> selectedSequencesReferences = new ArrayList<>();
-        List<Boolean> relevantSectionsNamedDatasets = new ArrayList<>();
-        List<Boolean> relevantSectionsImplicitDatasets = new ArrayList<>();
+        List<DatasetDocumentSequence> selectedSequences = new ArrayList<>();
 
         //Extract relevant section from the TEI
         // Title, abstract, keywords
@@ -1542,12 +1599,13 @@ for(String sentence : allSentences) {
                     doc,
                     XPathConstants.NODE);
             if (titleNode == null) {
-                LOGGER.warn("Title was not found, skipping.");
+                LOGGER.warn("The title was not found in the TEI, skipping.");
             } else {
                 String textTitle = titleNode.getTextContent();
-                selectedSequences.add(textTitle);
-                relevantSectionsNamedDatasets.add(false);
-                relevantSectionsImplicitDatasets.add(false);
+                String titleId = ((org.w3c.dom.Element) titleNode).getAttribute("xml:id");
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(textTitle, titleId);
+                localSequence.setRelevantSectionsNamedDatasets(false);
+                localSequence.setRelevantSectionsImplicitDatasets(false);
             }
 
         } catch (XPathExpressionException e) {
@@ -1564,13 +1622,17 @@ for(String sentence : allSentences) {
             for (int i = 0; i < abstractNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = abstractNodeList.item(i);
                 String text = item.getTextContent();
-                selectedSequences.add(text);
 
                 // Capture URLs if available
 
-                //LF Not clear why true, just copied from around ProcessPDF:578
-                relevantSectionsNamedDatasets.add(true);
-                relevantSectionsImplicitDatasets.add(false);
+                String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, itemId);
+
+                //LF: Not clear why true, just copied from around ProcessPDF:578
+                localSequence.setRelevantSectionsNamedDatasets(true);
+                localSequence.setRelevantSectionsImplicitDatasets(false);
+                selectedSequences.add(localSequence);
+
             }
 
         } catch (XPathExpressionException e) {
@@ -1586,10 +1648,16 @@ for(String sentence : allSentences) {
                     XPathConstants.NODESET);
             for (int i = 0; i < keywordsNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = keywordsNodeList.item(i);
+
                 String keyword = item.getTextContent();
-                selectedSequences.add(keyword);
-                relevantSectionsNamedDatasets.add(false);
-                relevantSectionsImplicitDatasets.add(false);
+                String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
+
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(keyword, itemId);
+
+                //LF: Not clear why true, just copied from around ProcessPDF:578
+                localSequence.setRelevantSectionsNamedDatasets(false);
+                localSequence.setRelevantSectionsImplicitDatasets(false);
+                selectedSequences.add(localSequence);
             }
 
         } catch (XPathExpressionException e) {
@@ -1598,10 +1666,6 @@ for(String sentence : allSentences) {
         }
 
         // Fill up the references to match the current sentence/paragraphs
-
-        for (String seq : selectedSequences) {
-            selectedSequencesReferences.add(new HashMap<>());
-        }
 
         // Extraction from Body
         try {
@@ -1613,16 +1677,19 @@ for(String sentence : allSentences) {
             for (int i = 0; i < bodyNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = bodyNodeList.item(i);
                 String text = item.getTextContent();
-                selectedSequences.add(text);
+
+                String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, itemId);
+
+                //LF Not clear why true, just copied from around ProcessPDF:635
+                localSequence.setRelevantSectionsNamedDatasets(true);
+                localSequence.setRelevantSectionsImplicitDatasets(true);
+                selectedSequences.add(localSequence);
 
                 // Capture URLs if available
 
-                //LF Not clear why true, just copied from around ProcessPDF:635
-                relevantSectionsNamedDatasets.add(true);
-                relevantSectionsImplicitDatasets.add(true);
-
                 Map<String, Triple<OffsetPosition, String, String>> referencesInText = XMLUtilities.getTextNoRefMarkersAndMarkerPositions((org.w3c.dom.Element) item, 0).getRight();
-                selectedSequencesReferences.add(referencesInText);
+                localSequence.setReferences(referencesInText);
             }
 
         } catch (XPathExpressionException e) {
@@ -1632,29 +1699,29 @@ for(String sentence : allSentences) {
 
         // Various statements (acknowledgement, funding, data availability)
 
-        // funding and acknowledgement at the moment have only paragraphs (Grobid issue #
-        List<String> sectionTypesOnlyParagraphs = Arrays.asList("acknowledgement", "funding");
-
-        for (String sectionType : sectionTypesOnlyParagraphs) {
-            try {
-                String expression = "//*[local-name() = 'text']/*[local-name() = 'back']/*[local-name() = 'div'][@*[local-name()='type' and .='" + sectionType + "']]/*[local-name() = 'div']/*[local-name() = 'p']";
-                org.w3c.dom.NodeList annexNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expression,
-                        doc,
-                        XPathConstants.NODESET);
-                for (int i = 0; i < annexNodeList.getLength(); i++) {
-                    org.w3c.dom.Node item = annexNodeList.item(i);
-                    String text = item.getTextContent();
-                    selectedSequences.add(text);
-                    selectedSequencesReferences.add(new HashMap<>());
-                    relevantSectionsNamedDatasets.add(false);
-                    relevantSectionsImplicitDatasets.add(false);
-                }
-
-            } catch (XPathExpressionException e) {
-                // Ignore exception
-                LOGGER.warn("Abstract was not found, skipping.");
-            }
-        }
+//        // funding and acknowledgement at the moment have only paragraphs (Grobid issue #
+//        List<String> sectionTypesOnlyParagraphs = Arrays.asList("acknowledgement", "funding");
+//
+//        for (String sectionType : sectionTypesOnlyParagraphs) {
+//            try {
+//                String expression = "//*[local-name() = 'text']/*[local-name() = 'back']/*[local-name() = 'div'][@*[local-name()='type' and .='" + sectionType + "']]/*[local-name() = 'div']/*[local-name() = 'p']";
+//                org.w3c.dom.NodeList annexNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expression,
+//                        doc,
+//                        XPathConstants.NODESET);
+//                for (int i = 0; i < annexNodeList.getLength(); i++) {
+//                    org.w3c.dom.Node item = annexNodeList.item(i);
+//                    String text = item.getTextContent();
+//                    selectedSequences.add(text);
+//                    selectedSequencesReferences.add(new HashMap<>());
+//                    relevantSectionsNamedDatasets.add(false);
+//                    relevantSectionsImplicitDatasets.add(false);
+//                }
+//
+//            } catch (XPathExpressionException e) {
+//                // Ignore exception
+//                LOGGER.warn("Abstract was not found, skipping.");
+//            }
+//        }
 
         // Annex might contain misclassified relevant sections
         try {
@@ -1683,17 +1750,19 @@ for(String sentence : allSentences) {
                 org.w3c.dom.NodeList textsAnnex = (org.w3c.dom.NodeList) xPath.evaluate("//*[local-name() = '" + granularity + "']", item, XPathConstants.NODESET);
                 for (int j = 0; j < textsAnnex.getLength(); j++) {
                     org.w3c.dom.Node paragraphAnnex = textsAnnex.item(j);
-                    String paragraph = paragraphAnnex.getTextContent();
 
-                    selectedSequences.add(paragraph);
-                    selectedSequencesReferences.add(new HashMap<>());
+                    String text = paragraphAnnex.getTextContent();
+                    String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
+                    DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, itemId);
+
+                    selectedSequences.add(localSequence);
 
                     if (StringUtils.equals(currentSection, "das")) {
-                        relevantSectionsNamedDatasets.add(true);
-                        relevantSectionsImplicitDatasets.add(true);
+                        localSequence.setRelevantSectionsNamedDatasets(true);
+                        localSequence.setRelevantSectionsImplicitDatasets(true);
                     } else {
-                        relevantSectionsNamedDatasets.add(true);
-                        relevantSectionsImplicitDatasets.add(false);
+                        localSequence.setRelevantSectionsNamedDatasets(true);
+                        localSequence.setRelevantSectionsImplicitDatasets(false);
                     }
                 }
             }
@@ -1703,13 +1772,13 @@ for(String sentence : allSentences) {
             LOGGER.warn("Annex was not found, skipping.");
         }
 
-        // availability statement have sentences
+        // specific section types statement
         DatastetAnalyzer datastetAnalyzer = DatastetAnalyzer.getInstance();
 
-        List<String> sectionTypesAlsoSentences = Arrays.asList("availability");
+        List<String> specificSectionTypesAnnex = Arrays.asList("availability", "acknowledgement", "funding");
 
-        List<LayoutToken> availabilityTokens = new ArrayList<>();
-        for (String sectionType : sectionTypesAlsoSentences) {
+        List<DatasetDocumentSequence> availabilitySequences = new ArrayList<>();
+        for (String sectionType : specificSectionTypesAnnex) {
             try {
                 String expression = "//*[local-name() = 'text']/*[local-name() = 'back']/*[local-name() = 'div'][@*[local-name()='type' and .='" + sectionType + "']]/*[local-name() = 'div']/*[local-name() = 'p']";
                 expression = segmentSentences ? expression + "/*[local-name() = 's']" : "";
@@ -1719,11 +1788,13 @@ for(String sentence : allSentences) {
                 for (int i = 0; i < annexNodeList.getLength(); i++) {
                     org.w3c.dom.Node item = annexNodeList.item(i);
                     String text = item.getTextContent();
-                    selectedSequences.add(text);
-                    selectedSequencesReferences.add(new HashMap<>());
-                    availabilityTokens.addAll(analyzer.tokenizeWithLayoutToken(text));
-                    relevantSectionsNamedDatasets.add(true);
-                    relevantSectionsImplicitDatasets.add(true);
+                    String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
+
+                    DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, analyzer.tokenizeWithLayoutToken(text), itemId);
+                    localSequence.setRelevantSectionsNamedDatasets(true);
+                    localSequence.setRelevantSectionsImplicitDatasets(true);
+                    selectedSequences.add(localSequence);
+                    availabilitySequences.add(localSequence);
                 }
 
             } catch (XPathExpressionException e) {
@@ -1741,12 +1812,17 @@ for(String sentence : allSentences) {
                     XPathConstants.NODESET);
             for (int i = 0; i < bodyNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = bodyNodeList.item(i);
+
                 String text = item.getTextContent();
-                selectedSequences.add(text);
-                selectedSequencesReferences.add(new HashMap<>());
+                String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
+
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, itemId);
+
                 //LF Not clear why true, just copied from around ProcessPDF:635
-                relevantSectionsNamedDatasets.add(true);
-                relevantSectionsImplicitDatasets.add(false);
+                localSequence.setRelevantSectionsNamedDatasets(true);
+                localSequence.setRelevantSectionsImplicitDatasets(false);
+                selectedSequences.add(localSequence);
+                availabilitySequences.add(localSequence);
             }
 
         } catch (XPathExpressionException e) {
@@ -1785,12 +1861,13 @@ for(String sentence : allSentences) {
         List<BiblioComponent> bibRefComponents = new ArrayList<>();
         Map<String, BiblioItem> biblioRefMap = new HashMap<>();
 
-        List<Map<String, Triple<OffsetPosition, String, String>>> referencesList = selectedSequencesReferences.stream()
+        List<Map<String, Triple<OffsetPosition, String, String>>> referencesList = selectedSequences.stream()
+                .map(DatasetDocumentSequence::getReferences)
                 .filter(map -> map.values().stream()
                         .anyMatch(triple -> triple.getRight().equals(BIBLIO_CALLOUT_TYPE)))
                 .toList();
 
-        for(Map<String, Triple<OffsetPosition, String, String>> ref :referencesList) {
+        for (Map<String, Triple<OffsetPosition, String, String>> ref : referencesList) {
             for (String refText : ref.keySet()) {
                 Triple<OffsetPosition, String, String> infos = ref.get(refText);
 
@@ -1813,19 +1890,16 @@ for(String sentence : allSentences) {
             }
         }
 
-        //Dataset Recognition
+        // Dataset Recognition
         List<List<Dataset>> entities = new ArrayList<>();
 
-        //TODO: Add sentence segmentation. if sentenceSegmentation is false, we need to perform it now
-
-        List<List<LayoutToken>> selectedSequencesLayoutTokens = new ArrayList<>();
         List<LayoutToken> allDocumentTokens = new ArrayList<>();
 
         int startingOffset = 0;
         List<Integer> sentenceOffsetStarts = new ArrayList<>();
-        for (String sequence : selectedSequences) {
-            List<LayoutToken> sentenceTokens = datastetAnalyzer.tokenizeWithLayoutToken(sequence);
-            selectedSequencesLayoutTokens.add(sentenceTokens);
+        for (DatasetDocumentSequence sequence : selectedSequences) {
+            List<LayoutToken> sentenceTokens = datastetAnalyzer.tokenizeWithLayoutToken(sequence.getText());
+            sequence.setTokens(sentenceTokens);
             int finalStartingOffset = startingOffset;
             List<LayoutToken> sentenceTokenAllTokens = sentenceTokens.stream()
                     .map(lt -> {
@@ -1836,10 +1910,10 @@ for(String sentence : allSentences) {
 
             allDocumentTokens.addAll(sentenceTokenAllTokens);
             sentenceOffsetStarts.add(startingOffset);
-            startingOffset += sequence.length();
+            startingOffset += sequence.getText().length();
         }
 
-        List<List<Dataset>> datasetLists = processing(selectedSequencesLayoutTokens, new ArrayList<>(), false);
+        List<List<Dataset>> datasetLists = processing(selectedSequences, false);
 
         entities.addAll(datasetLists);
 
@@ -1856,7 +1930,8 @@ for(String sentence : allSentences) {
         }
 
         // TODO make sure that selectedSequences == allSentences above in the processPDF?
-        List<DataseerResults> dataseerClassificationResults = classifyWithDataseerClassifier(selectedSequences);
+        List<String> allSentences = selectedSequences.stream().map(DatasetDocumentSequence::getText).toList();
+        List<DataseerResults> dataseerClassificationResults = classifyWithDataseerClassifier(allSentences);
 
         for (int i = 0; i < entities.size(); i++) {
             List<Dataset> localDatasets = entities.get(i);
@@ -1888,20 +1963,23 @@ for(String sentence : allSentences) {
         List<List<OffsetPosition>> placeTaken = preparePlaceTaken(entities);
 
         List<List<Dataset>> newEntities = new ArrayList<>();
-        for (int i = 0; i < selectedSequencesReferences.size(); i++) {
-            List<LayoutToken> sentenceTokens = selectedSequencesLayoutTokens.get(i);
-            List<Dataset> localEntities = propagateLayoutTokenSequence(sentenceTokens,
+        for (int i = 0; i < selectedSequences.size(); i++) {
+
+            DatasetDocumentSequence selectedSequence = selectedSequences.get(i);
+            List<Dataset> localEntities = propagateLayoutTokenSequence(
+                    selectedSequence,
                     entities.get(i),
                     termProfiles,
                     termPattern,
                     placeTaken.get(i),
                     frequencies,
-                    sentenceOffsetStarts.get(i));
+                    sentenceOffsetStarts.get(i)
+            );
             if (localEntities != null) {
                 Collections.sort(localEntities);
 
                 // revisit and attach URL component
-                localEntities = attachUrlComponents(localEntities, sentenceTokens, selectedSequences.get(i), selectedSequencesReferences.get(i));
+                localEntities = attachUrlComponents(localEntities, selectedSequence);
             }
 
             newEntities.add(localEntities);
@@ -1922,12 +2000,12 @@ for(String sentence : allSentences) {
                 }
 
                 if (localDataset.getType() == DatasetType.DATASET &&
-                        !relevantSectionsImplicitDatasets.get(i) && !referenceDataSource) {
+                        !selectedSequences.get(i).isRelevantSectionsImplicitDatasets() && !referenceDataSource) {
                     continue;
                 }
 
                 if (localDataset.getType() == DatasetType.DATASET_NAME &&
-                        !relevantSectionsNamedDatasets.get(i)) {
+                        !selectedSequences.get(i).isRelevantSectionsNamedDatasets()) {
                     continue;
                 }
 
@@ -2015,7 +2093,8 @@ for(String sentence : allSentences) {
         }
 
         // mark datasets present in Data Availability section(s)
-        if (CollectionUtils.isNotEmpty(availabilityTokens)) {
+        if (CollectionUtils.isNotEmpty(availabilitySequences)) {
+            List<LayoutToken> availabilityTokens = availabilitySequences.stream().flatMap(as -> as.getTokens().stream()).toList();
             entities = markDAS(entities, availabilityTokens);
         }
 
@@ -2044,7 +2123,7 @@ for(String sentence : allSentences) {
     /**
      * Process with the dataset model a set of arbitrary sequence of LayoutTokenization
      */
-    private List<List<Dataset>> processLayoutTokenSequences(List<List<LayoutToken>> layoutTokenList,
+    private List<List<Dataset>> processLayoutTokenSequences(List<DatasetDocumentSequence> layoutTokenList,
                                                             List<List<Dataset>> entities,
                                                             List<Integer> sentenceOffsetStarts,
                                                             List<PDFAnnotation> pdfAnnotations,
@@ -2296,7 +2375,7 @@ for(String sentence : allSentences) {
         FastMatcher termPattern = new FastMatcher();
         List<String> added = new ArrayList<>();
         for (List<Dataset> datasets : entities) {
-            if (CollectionUtils.isEmpty(datasets)){
+            if (CollectionUtils.isEmpty(datasets)) {
                 continue;
             }
 
@@ -2367,7 +2446,7 @@ for(String sentence : allSentences) {
     public Map<String, Integer> prepareFrequencies(List<List<Dataset>> entities, List<LayoutToken> tokens) {
         Map<String, Integer> frequencies = new TreeMap<String, Integer>();
         for (List<Dataset> datasets : entities) {
-            if (CollectionUtils.isEmpty(datasets)){
+            if (CollectionUtils.isEmpty(datasets)) {
                 continue;
             }
             for (Dataset entity : datasets) {
@@ -2391,7 +2470,7 @@ for(String sentence : allSentences) {
         return frequencies;
     }
 
-    public List<Dataset> propagateLayoutTokenSequence(List<LayoutToken> layoutTokens,
+    public List<Dataset> propagateLayoutTokenSequence(DatasetDocumentSequence sequence,
                                                       List<Dataset> entities,
                                                       Map<String, Double> termProfiles,
                                                       FastMatcher termPattern,
@@ -2399,6 +2478,7 @@ for(String sentence : allSentences) {
                                                       Map<String, Integer> frequencies,
                                                       int sentenceOffsetStart) {
 
+        List<LayoutToken> layoutTokens = sequence.getTokens();
         List<OffsetPosition> results = termPattern.matchLayoutToken(layoutTokens, true, true);
         // above: do not ignore delimiters and case sensitive matching
 
@@ -2460,6 +2540,7 @@ for(String sentence : allSentences) {
                 name.setLabel(DatasetTaggingLabels.DATASET_NAME);
                 name.setType(DatasetType.DATASET_NAME);
                 name.setTokens(matchedTokens);
+                name.addSequenceId(sequence.getId());
 
                 List<BoundingBox> boundingBoxes = BoundingBoxCalculator.calculate(matchedTokens);
                 name.setBoundingBoxes(boundingBoxes);
@@ -2467,6 +2548,7 @@ for(String sentence : allSentences) {
                 Dataset entity = new Dataset(DatasetType.DATASET_NAME, name.getRawForm());
                 entity.setDatasetName(name);
                 entity.setContext(localText);
+                entity.getSequenceIdentifiers().addAll(name.getSequenceIdentifiers());
                 //entity.setType(DatastetLexicon.Dataset_Type.DATASET);
                 entity.setPropagated(true);
                 entity.setGlobalContextOffset(sentenceOffsetStart);
@@ -2670,17 +2752,14 @@ for(String sentence : allSentences) {
         return datasets;
     }
 
-    public List<Dataset> attachUrlComponents(List<Dataset> datasets,
-                                             List<LayoutToken> tokens,
-                                             String sentenceString,
-                                             Map<String, Triple<OffsetPosition, String, String>> references) {
+    public List<Dataset> attachUrlComponents(List<Dataset> datasets, DatasetDocumentSequence sequence) {
         // revisit url including propagated dataset names
-        if (datasets == null || datasets.size() == 0) {
+        if (CollectionUtils.isEmpty(datasets)) {
             return datasets;
         }
 
         // Filter references only of type URLs
-        Map<String, Triple<OffsetPosition, String, String>> onlyURLs = references.entrySet().stream()
+        Map<String, Triple<OffsetPosition, String, String>> onlyURLs = sequence.getReferences().entrySet().stream()
                 .filter(entry -> {
                     Triple<OffsetPosition, String, String> triple = entry.getValue();
                     return triple.getRight().equals(URL_TYPE);
@@ -2721,7 +2800,7 @@ for(String sentence : allSentences) {
         Collections.sort(localDatasetcomponents);
 
         int sizeBefore = localDatasetcomponents.size();
-        localDatasetcomponents = addUrlComponentsAsReferences(tokens, localDatasetcomponents, sentenceString, references);
+        localDatasetcomponents = addUrlComponentsAsReferences(sequence, localDatasetcomponents, onlyURLs);
 
         // attach URL to the closest dataset
         while (localDatasetcomponents.size() - sizeBefore > 0) {
