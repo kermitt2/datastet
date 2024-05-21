@@ -1590,7 +1590,7 @@ for(String sentence : allSentences) {
         // Title, abstract, keywords
 
         // If we process the TEI, at this point the document should be already segmented correctly.
-        boolean segmentSentences = true;
+        boolean segmentSentences = false;
 
         XPath xPath = XPathFactory.newInstance().newXPath();
 
