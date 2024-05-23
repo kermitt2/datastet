@@ -1747,7 +1747,7 @@ for(String sentence : allSentences) {
                     }
                 }
                 String granularity = segmentSentences ? "p" : "s";
-                org.w3c.dom.NodeList textsAnnex = (org.w3c.dom.NodeList) xPath.evaluate("//*[local-name() = '" + granularity + "']", item, XPathConstants.NODESET);
+                org.w3c.dom.NodeList textsAnnex = (org.w3c.dom.NodeList) xPath.evaluate("./*[local-name() = '" + granularity + "']", item, XPathConstants.NODESET);
                 for (int j = 0; j < textsAnnex.getLength(); j++) {
                     org.w3c.dom.Node paragraphAnnex = textsAnnex.item(j);
 
