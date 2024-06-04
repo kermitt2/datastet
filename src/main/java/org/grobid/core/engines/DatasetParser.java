@@ -1752,7 +1752,7 @@ for(String sentence : allSentences) {
                     }
                 }
                 String granularity = extractParagraphs ? "p" : "s";
-                org.w3c.dom.NodeList textsAnnex = (org.w3c.dom.NodeList) xPath.evaluate("./*[local-name() = '" + granularity + "']", item, XPathConstants.NODESET);
+                org.w3c.dom.NodeList textsAnnex = (org.w3c.dom.NodeList) xPath.evaluate(".//*[local-name() = '" + granularity + "']", item, XPathConstants.NODESET);
                 for (int j = 0; j < textsAnnex.getLength(); j++) {
                     org.w3c.dom.Node paragraphAnnex = textsAnnex.item(j);
 
@@ -1812,6 +1812,56 @@ for(String sentence : allSentences) {
         }
 
         // Look into any div in the back that have no type, in case something is hidden there (e.g. availability statements)
+        try {
+            String expression = "//*[local-name() = 'text']/*[local-name() = 'back']/*[local-name() = 'div'][not(@type)]";
+            org.w3c.dom.NodeList nodeList = (org.w3c.dom.NodeList) xPath.evaluate(expression,
+                    doc,
+                    XPathConstants.NODESET);
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                org.w3c.dom.Node item = nodeList.item(i);
+
+                // Check the head?
+                String currentSection = null;
+                org.w3c.dom.Node head = (org.w3c.dom.Node) xPath.evaluate("./*[local-name() = 'head']", item, XPathConstants.NODE);
+                if (head != null) {
+                    String text = head.getTextContent();
+                    String normalizedText = normalize(text);
+
+                    if (checkDASAnnex(normalizedText)) {
+                        currentSection = "das";
+                    } else if (checkAuthorAnnex(normalizedText) || checkAbbreviationAnnex(normalizedText)) {
+                        currentSection = "author";
+                    } else {
+                        currentSection = null;
+                    }
+                }
+                String granularity = extractParagraphs ? "p" : "s";
+                org.w3c.dom.NodeList textGeneralSections = (org.w3c.dom.NodeList) xPath.evaluate(".//*[local-name() = '" + granularity + "']", item, XPathConstants.NODESET);
+                for (int j = 0; j < textGeneralSections.getLength(); j++) {
+                    org.w3c.dom.Node paragraphAnnex = textGeneralSections.item(j);
+
+                    String text = paragraphAnnex.getTextContent();
+                    String normalizedText = normalize(text);
+                    String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
+                    DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedText, itemId);
+
+                    selectedSequences.add(localSequence);
+
+                    if (StringUtils.equals(currentSection, "das")) {
+                        localSequence.setRelevantSectionsNamedDatasets(true);
+                        localSequence.setRelevantSectionsImplicitDatasets(true);
+                    } else {
+                        localSequence.setRelevantSectionsNamedDatasets(true);
+                        localSequence.setRelevantSectionsImplicitDatasets(false);
+                    }
+                }
+            }
+
+        } catch (XPathExpressionException e) {
+            // Ignore exception
+            LOGGER.warn("Generic sections in the <back> (without type) was not found, skipping.");
+        }
+
 
         try {
             String expression = "//*[local-name() = 'text']/*[local-name() = 'back']/*[local-name() = 'div'][not(@type) or not(contains('" + String.join("|", specificSectionTypesAnnex) + "', concat('|', @type, '|')))]/*[local-name()='div']/*[local-name() = 'p']";
