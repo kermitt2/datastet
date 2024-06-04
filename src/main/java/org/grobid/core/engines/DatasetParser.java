@@ -1601,9 +1601,11 @@ for(String sentence : allSentences) {
             if (titleNode == null) {
                 LOGGER.warn("The title was not found in the TEI, skipping.");
             } else {
-                String textTitle = titleNode.getTextContent();
+                String text = titleNode.getTextContent();
+                String normalizedText = normalize(text);
+
                 String titleId = ((org.w3c.dom.Element) titleNode).getAttribute("xml:id");
-                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(textTitle, titleId);
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedText, titleId);
                 localSequence.setRelevantSectionsNamedDatasets(false);
                 localSequence.setRelevantSectionsImplicitDatasets(false);
             }
@@ -1622,11 +1624,11 @@ for(String sentence : allSentences) {
             for (int i = 0; i < abstractNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = abstractNodeList.item(i);
                 String text = item.getTextContent();
+                String normalizedText = normalize(text);
 
                 // Capture URLs if available
-
                 String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
-                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, itemId);
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedText, itemId);
 
                 //LF: Not clear why true, just copied from around ProcessPDF:578
                 localSequence.setRelevantSectionsNamedDatasets(true);
@@ -1651,8 +1653,8 @@ for(String sentence : allSentences) {
 
                 String keyword = item.getTextContent();
                 String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
-
-                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(keyword, itemId);
+                String normalizedKeyword = normalize(keyword);
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedKeyword, itemId);
 
                 //LF: Not clear why true, just copied from around ProcessPDF:578
                 localSequence.setRelevantSectionsNamedDatasets(false);
@@ -1677,9 +1679,10 @@ for(String sentence : allSentences) {
             for (int i = 0; i < bodyNodeList.getLength(); i++) {
                 org.w3c.dom.Node item = bodyNodeList.item(i);
                 String text = item.getTextContent();
+                String normalizedText = normalize(text);
 
                 String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
-                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, itemId);
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedText, itemId);
 
                 //LF Not clear why true, just copied from around ProcessPDF:635
                 localSequence.setRelevantSectionsNamedDatasets(true);
@@ -1736,11 +1739,12 @@ for(String sentence : allSentences) {
                 String currentSection = null;
                 org.w3c.dom.Node head = (org.w3c.dom.Node) xPath.evaluate("./*[local-name() = 'head']", item, XPathConstants.NODE);
                 if (head != null) {
-                    String headText = head.getTextContent();
+                    String text = head.getTextContent();
+                    String normalizedText = normalize(text);
 
-                    if (checkDASAnnex(headText)) {
+                    if (checkDASAnnex(normalizedText)) {
                         currentSection = "das";
-                    } else if (checkAuthorAnnex(headText) || checkAbbreviationAnnex(headText)) {
+                    } else if (checkAuthorAnnex(normalizedText) || checkAbbreviationAnnex(normalizedText)) {
                         currentSection = "author";
                     } else {
                         currentSection = null;
@@ -1752,8 +1756,9 @@ for(String sentence : allSentences) {
                     org.w3c.dom.Node paragraphAnnex = textsAnnex.item(j);
 
                     String text = paragraphAnnex.getTextContent();
+                    String normalizedText = normalize(text);
                     String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
-                    DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, itemId);
+                    DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedText, itemId);
 
                     selectedSequences.add(localSequence);
 
@@ -1788,9 +1793,11 @@ for(String sentence : allSentences) {
                 for (int i = 0; i < annexNodeList.getLength(); i++) {
                     org.w3c.dom.Node item = annexNodeList.item(i);
                     String text = item.getTextContent();
+                    String normalizedText = normalize(text);
+
                     String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
 
-                    DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, analyzer.tokenizeWithLayoutToken(text), itemId);
+                    DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedText, analyzer.tokenizeWithLayoutToken(text), itemId);
                     localSequence.setRelevantSectionsNamedDatasets(true);
                     localSequence.setRelevantSectionsImplicitDatasets(true);
                     selectedSequences.add(localSequence);
@@ -1799,7 +1806,7 @@ for(String sentence : allSentences) {
 
             } catch (XPathExpressionException e) {
                 // Ignore exception
-                LOGGER.warn("Availability statement was not found, skipping.");
+                LOGGER.warn(sectionType + " statement was not found, skipping.");
             }
         }
 
@@ -1814,9 +1821,11 @@ for(String sentence : allSentences) {
                 org.w3c.dom.Node item = bodyNodeList.item(i);
 
                 String text = item.getTextContent();
+                String normalizedText = normalize(text);
+
                 String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
 
-                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(text, itemId);
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedText, itemId);
 
                 //LF Not clear why true, just copied from around ProcessPDF:635
                 localSequence.setRelevantSectionsNamedDatasets(true);
@@ -1845,7 +1854,8 @@ for(String sentence : allSentences) {
                         org.w3c.dom.Node attribute = item.getAttributes().item(a);
                         if (attribute.getNodeName().equals("xml:id")) {
                             String referenceText = item.getTextContent();
-                            String cleanedRawReferenceText = referenceText.replaceAll("\\s", " ").strip().replaceAll("[ ]{2,}", ", ");
+                            String normalizedReferenceText = normalize(referenceText);
+                            String cleanedRawReferenceText = normalizedReferenceText.replaceAll("\\p{Space}+", " ").strip().replaceAll("[ ]{2,}", ", ");
                             referenceMap.put(attribute.getNodeValue(), Pair.of(cleanedRawReferenceText, item));
                         }
                     }
@@ -1900,6 +1910,30 @@ for(String sentence : allSentences) {
         for (DatasetDocumentSequence sequence : selectedSequences) {
             List<LayoutToken> sentenceTokens = datastetAnalyzer.tokenizeWithLayoutToken(sequence.getText());
             sequence.setTokens(sentenceTokens);
+//
+//            // Normalization
+//            List<LayoutToken> sentenceTokensNormalized = sentenceTokens.stream()
+//                    .map(layoutToken -> {
+//                                layoutToken.setText(UnicodeUtil.normaliseText(layoutToken.getText()));
+//
+//                                return layoutToken;
+//                            }
+//                    ).toList();
+//            // Adjust offsets
+//
+//            // Correcting offsets after having removed certain tokens
+//            IntStream
+//                    .range(1, sentenceTokensNormalized.size())
+//                    .forEach(i -> {
+//                        int expectedFollowingOffset = sentenceTokensNormalized.get(i - 1).getOffset()
+//                                + StringUtils.length(sentenceTokensNormalized.get(i - 1).getText());
+//
+//                        if (expectedFollowingOffset != sentenceTokensNormalized.get(i).getOffset()) {
+//                            LOGGER.trace("Correcting offsets " + i + " from " + sentenceTokensNormalized.get(i).getOffset() + " to " + expectedFollowingOffset);
+//                            sentenceTokensNormalized.get(i).setOffset(expectedFollowingOffset);
+//                        }
+//                    });
+//
             int finalStartingOffset = startingOffset;
             List<LayoutToken> sentenceTokenAllTokens = sentenceTokens.stream()
                     .map(lt -> {
@@ -2106,6 +2140,17 @@ for(String sentence : allSentences) {
         return Pair.of(entities, resCitations);
     }
 
+    private static String normalize(String text) {
+        String normalizedText = UnicodeUtil.normaliseText(text);
+        normalizedText = normalizedText.replace("\n", " ");
+        normalizedText = normalizedText.replace("\t", " ");
+        normalizedText = normalizedText.replace(" ", " ");
+        // the last one is a special "large" space missed by the regex "\\p{Space}+" below
+        normalizedText = normalizedText.replaceAll("\\p{Space}+", " ");
+
+        return normalizedText;
+    }
+
     public static String getXPathWithoutNamespaces(String s) {
         StringBuilder sb = new StringBuilder();
         for (String item : s.split("/")) {
@@ -2123,12 +2168,12 @@ for(String sentence : allSentences) {
     /**
      * Process with the dataset model a set of arbitrary sequence of LayoutTokenization
      */
-    private List<List<Dataset>> processLayoutTokenSequences(List<DatasetDocumentSequence> layoutTokenList,
+    private List<List<Dataset>> processLayoutTokenSequences(List<DatasetDocumentSequence> documentSequenceList,
                                                             List<List<Dataset>> entities,
                                                             List<Integer> sentenceOffsetStarts,
                                                             List<PDFAnnotation> pdfAnnotations,
                                                             boolean disambiguate) {
-        List<List<Dataset>> results = processing(layoutTokenList, pdfAnnotations, disambiguate);
+        List<List<Dataset>> results = processing(documentSequenceList, pdfAnnotations, disambiguate);
         entities.addAll(results);
 
         int i = 0;
