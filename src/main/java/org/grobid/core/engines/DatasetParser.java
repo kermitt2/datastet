@@ -208,7 +208,7 @@ public class DatasetParser extends AbstractParser {
                 }*/
                 List<DatasetComponent> bufferLocalDatasetcomponents = resultExtractionLayoutTokens(resBlocks[i], tokens, text);
                 bufferLocalDatasetcomponents.stream().forEach(datasetComponent -> {
-                    datasetComponent.addSequenceId(datasetDocumentSequence.getId());
+                            datasetComponent.addSequenceId(datasetDocumentSequence.getId());
                         }
                 );
                 List<OffsetPosition> localDatasetcomponentOffsets = new ArrayList<>();
@@ -1546,6 +1546,7 @@ for(String sentence : allSentences) {
 
     /**
      * Process dataset mentions from a TEI XML string
+     * segmentSentences, indicate that it needs to segment sentences
      */
     public Pair<List<List<Dataset>>, List<BibDataSet>> processTEIDocument(String documentAsString,
                                                                           boolean segmentSentences,
@@ -1590,7 +1591,7 @@ for(String sentence : allSentences) {
         // Title, abstract, keywords
 
         // If we process the TEI, at this point the document should be already segmented correctly.
-        boolean segmentSentences = false;
+        boolean extractParagraphs = false;
 
         XPath xPath = XPathFactory.newInstance().newXPath();
 
@@ -1616,7 +1617,7 @@ for(String sentence : allSentences) {
         }
 
         try {
-            String expression = segmentSentences ? "//abstract/div/p" : "//abstract/div/p/s";
+            String expression = extractParagraphs ? "//abstract/div/p" : "//abstract/div/p/s";
             String expressionNoNamespaces = getXPathWithoutNamespaces(expression);
             org.w3c.dom.NodeList abstractNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expressionNoNamespaces,
                     doc,
@@ -1671,7 +1672,7 @@ for(String sentence : allSentences) {
 
         // Extraction from Body
         try {
-            String expression = segmentSentences ? "//text/body/div/p" : "//text/body/div/p/s";
+            String expression = extractParagraphs ? "//text/body/div/p" : "//text/body/div/p/s";
             String expressionNoNamespaces = getXPathWithoutNamespaces(expression);
             org.w3c.dom.NodeList bodyNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expressionNoNamespaces,
                     doc,
@@ -1750,7 +1751,7 @@ for(String sentence : allSentences) {
                         currentSection = null;
                     }
                 }
-                String granularity = segmentSentences ? "p" : "s";
+                String granularity = extractParagraphs ? "p" : "s";
                 org.w3c.dom.NodeList textsAnnex = (org.w3c.dom.NodeList) xPath.evaluate("./*[local-name() = '" + granularity + "']", item, XPathConstants.NODESET);
                 for (int j = 0; j < textsAnnex.getLength(); j++) {
                     org.w3c.dom.Node paragraphAnnex = textsAnnex.item(j);
@@ -1786,7 +1787,7 @@ for(String sentence : allSentences) {
         for (String sectionType : specificSectionTypesAnnex) {
             try {
                 String expression = "//*[local-name() = 'text']/*[local-name() = 'back']/*[local-name() = 'div'][@*[local-name()='type' and .='" + sectionType + "']]/*[local-name() = 'div']/*[local-name() = 'p']";
-                expression = segmentSentences ? expression + "/*[local-name() = 's']" : "";
+                expression = extractParagraphs ? expression : expression + "/*[local-name() = 's']";
                 org.w3c.dom.NodeList annexNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expression,
                         doc,
                         XPathConstants.NODESET);
@@ -1810,10 +1811,38 @@ for(String sentence : allSentences) {
             }
         }
 
+        // Look into any div in the back that have no type, in case something is hidden there (e.g. availability statements)
+
+        try {
+            String expression = "//*[local-name() = 'text']/*[local-name() = 'back']/*[local-name() = 'div'][not(@type) or not(contains('" + String.join("|", specificSectionTypesAnnex) + "', concat('|', @type, '|')))]/*[local-name()='div']/*[local-name() = 'p']";
+            expression = extractParagraphs ? expression : expression + "/*[local-name() = 's']";
+            org.w3c.dom.NodeList annexNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expression,
+                    doc,
+                    XPathConstants.NODESET);
+            for (int i = 0; i < annexNodeList.getLength(); i++) {
+                org.w3c.dom.Node item = annexNodeList.item(i);
+                String text = item.getTextContent();
+                String normalizedText = normalize(text);
+
+                String itemId = ((org.w3c.dom.Element) item).getAttribute("xml:id");
+
+                DatasetDocumentSequence localSequence = new DatasetDocumentSequence(normalizedText, analyzer.tokenizeWithLayoutToken(text), itemId);
+                localSequence.setRelevantSectionsNamedDatasets(true);
+                localSequence.setRelevantSectionsImplicitDatasets(true);
+                selectedSequences.add(localSequence);
+                availabilitySequences.add(localSequence);
+            }
+
+        } catch (XPathExpressionException e) {
+            // Ignore exception
+            LOGGER.warn("Generic statement in the back was not found, skipping.");
+        }
+
+
         //Footnotes
         try {
             String expression = "//*[local-name() = 'text']/*[local-name() = 'body']/*[local-name() = 'note'][@*[local-name()='place' and .='foot']]/*[local-name() = 'div']/*[local-name() = 'p']";
-            expression = segmentSentences ? expression + "/*[local-name() = 's']" : "";
+            expression = extractParagraphs ? expression : expression + "/*[local-name() = 's']";
             org.w3c.dom.NodeList bodyNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expression,
                     doc,
                     XPathConstants.NODESET);
