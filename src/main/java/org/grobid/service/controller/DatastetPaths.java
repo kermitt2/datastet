@@ -37,6 +37,8 @@ public interface DatastetPaths {
      */
     public static final String PATH_DATASEER_SENTENCE = "annotateDataseerSentence";
 
+    public static final String PATH_DATASEER_SENTENCES = "annotateDataseerSentences";
+
     /**
      * path extension for processing a TEI file 
      * (for instance produced by GROBID or Pub2TEI).

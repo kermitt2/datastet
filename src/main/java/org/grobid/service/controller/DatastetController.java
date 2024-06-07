@@ -1,12 +1,7 @@
 package org.grobid.service.controller;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.grobid.core.lexicon.DatastetLexicon;
-import org.grobid.core.main.GrobidHomeFinder;
-import org.grobid.core.main.LibraryLoader;
 import org.grobid.core.utilities.DatastetConfiguration;
-import org.grobid.core.utilities.GrobidProperties;
-import org.grobid.core.utilities.GrobidConfig.ModelParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,11 +11,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
-import java.io.File;
-import java.util.Arrays;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import org.grobid.service.configuration.DatastetServiceConfiguration;
 
@@ -36,6 +26,7 @@ public class DatastetController implements DatastetPaths {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatastetController.class);
 
     private static final String TEXT = "text";
+    private static final String TEXTS = "texts";
     private static final String XML = "xml";
     private static final String TEI = "tei";
     private static final String PDF = "pdf";
@@ -63,7 +54,7 @@ public class DatastetController implements DatastetPaths {
     @POST
     public Response processText_post(@FormParam(TEXT) String text) {
         LOGGER.info(text);
-        return DatastetProcessString.processSentence(text);
+        return DatastetProcessString.processDataseerSentence(text);
     }
 
     @Path(PATH_DATASEER_SENTENCE)
@@ -71,7 +62,16 @@ public class DatastetController implements DatastetPaths {
     @GET
     public Response processText_get(@QueryParam(TEXT) String text) {
         LOGGER.info(text);
-        return DatastetProcessString.processSentence(text);
+        return DatastetProcessString.processDataseerSentence(text);
+    }
+
+    @Path(PATH_DATASEER_SENTENCES)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @POST
+    public Response processTexts_post(@FormDataParam(TEXTS) String texts) {
+        LOGGER.info("Received multiple sentences as JSON list");
+        return DatastetProcessString.processDataseerSentences(texts);
     }
 
     @Path(PATH_DATASET_SENTENCE)
@@ -79,7 +79,7 @@ public class DatastetController implements DatastetPaths {
     @POST
     public Response processDatasetText_post(@FormParam(TEXT) String text) {
         LOGGER.info(text);
-        return DatastetProcessString.processDatsetSentence(text);
+        return DatastetProcessString.processDatasetSentence(text);
     }
 
     @Path(PATH_DATASET_SENTENCE)
@@ -87,7 +87,7 @@ public class DatastetController implements DatastetPaths {
     @GET
     public Response processDatasetText_get(@QueryParam(TEXT) String text) {
         LOGGER.info(text);
-        return DatastetProcessString.processDatsetSentence(text);
+        return DatastetProcessString.processDatasetSentence(text);
     }
 
     @Path(PATH_DATASEER_PDF)
