@@ -36,8 +36,10 @@ public interface DatastetPaths {
      * path extension for classifying a textual sentence input.
      */
     public static final String PATH_DATASEER_SENTENCE = "annotateDataseerSentence";
+    public static final String PATH_OLD_DATASEER_SENTENCE = "processDataseerSentence";
 
     public static final String PATH_DATASEER_SENTENCES = "annotateDataseerSentences";
+    public static final String PATH_OLD_DATASEER_SENTENCES = "processDataseerSentences";
 
     /**
      * path extension for processing a TEI file 
