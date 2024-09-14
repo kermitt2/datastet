@@ -118,8 +118,8 @@ dependencies {
     implementation 'org.apache.opennlp:opennlp-tools:1.9.1'
 
     //Grobid
-    implementation group: 'org.grobid', name: 'grobid-core', version: '0.8.0'
-    implementation group: 'org.grobid', name: 'grobid-trainer', version: '0.8.0'
+    implementation group: 'org.grobid', name: 'grobid-core', version: '0.8.1'
+    implementation group: 'org.grobid', name: 'grobid-trainer', version: '0.8.1'
 
     //Tests
     testImplementation group: 'junit', name: 'junit', version: '4.12'

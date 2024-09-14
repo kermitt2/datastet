@@ -1672,7 +1672,7 @@ for(String sentence : allSentences) {
 
         // Extraction from Body
         try {
-            String expression = extractParagraphs ? "//text/body/div/p" : "//text/body/div/p/s";
+            String expression = extractParagraphs ? "//text/body//div/p" : "//text/body//div/p/s";
             String expressionNoNamespaces = getXPathWithoutNamespaces(expression);
             org.w3c.dom.NodeList bodyNodeList = (org.w3c.dom.NodeList) xPath.evaluate(expressionNoNamespaces,
                     doc,

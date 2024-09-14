@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -124,7 +125,7 @@ public class DataseerClassifier {
     public String classify(String text) throws Exception {
         if (StringUtils.isEmpty(text))
             return null;
-        List<String> texts = new ArrayList<String>();
+        List<String> texts = new ArrayList<>();
         texts.add(text);
         return classify(texts);
     }
@@ -158,14 +159,15 @@ public class DataseerClassifier {
      * @return JSON string
      */
     public String classify(List<String> texts) throws Exception {
-        if (texts == null || texts.size() == 0)
+
+        if (CollectionUtils.isEmpty(texts))
             return null;
         logger.info("classify: " + texts.size() + " sentence(s)");
         ObjectMapper mapper = new ObjectMapper();
 
         String the_json = classifierBinary.classify(texts);
         // first pass to select texts to be cascaded to next level
-        List<String> cascaded_texts = new ArrayList<String>();
+        List<String> cascaded_texts = new ArrayList<>();
         JsonNode root = null;
         if (the_json != null && the_json.length() > 0) {
             root = mapper.readTree(the_json);
@@ -399,7 +401,7 @@ public class DataseerClassifier {
      * Enrich a TEI document with Dataseer information
      * @return enriched TEI string
      */
-    public String processTEIString(String xmlString) throws Exception {
+    public String processTEIString(String xmlString, boolean segmentSentences) throws Exception {
         String tei = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -407,10 +409,8 @@ public class DataseerClassifier {
             DocumentBuilder builder = factory.newDocumentBuilder();           
             org.w3c.dom.Document document = builder.parse(new InputSource(new StringReader(xmlString)));
             //document.getDocumentElement().normalize();
-            tei = processTEIDocument(document, false);
-        } catch(ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
+            tei = processTEIDocument(document, segmentSentences);
+        } catch(ParserConfigurationException | IOException e) {
             e.printStackTrace();
         } 
         return tei;
@@ -437,9 +437,7 @@ public class DataseerClassifier {
             if (avoidDomParserBug)
                 tei = restoreDomParserAttributeBug(tei); 
 
-        } catch(ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
+        } catch(ParserConfigurationException | IOException e) {
             e.printStackTrace();
         } 
         return tei;
@@ -494,9 +492,7 @@ public class DataseerClassifier {
             //if (avoidDomParserBug)
             //    tei = restoreDomParserAttributeBug(tei); 
 
-        } catch(ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
+        } catch(ParserConfigurationException | IOException e) {
             e.printStackTrace();
         } finally {
             if (newFilePath != null) {
@@ -1054,7 +1050,7 @@ public class DataseerClassifier {
      * @return enriched TEI string
      */
     public String processPDF(String filePath) throws Exception {
-        // convert PDF into structured TEI thanks to GROBID0
+        // convert PDF into structured TEI thanks to GROBID
 
         List<String> coordinates = new ArrayList<>();
         coordinates.add("s");
@@ -1067,7 +1063,7 @@ public class DataseerClassifier {
             .generateTeiCoordinates(coordinates)
             .build();
         String tei = engine.fullTextToTEI(new File(filePath), config);
-        return processTEIString(tei);
+        return processTEIString(tei, false);
     }
 
 }
