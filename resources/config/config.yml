@@ -2,8 +2,9 @@ version: "0.8.0"
 
 corpusPath: "./resources/dataset/dataseer/corpus"
 templatePath: "./resources/dataset/dataseer/crfpp-templates/dataseer.template"
-grobidHome: "../grobid-home"
+grobidHome: "../../grobid/grobid-home"
 tmpPath: "tmp/"
+#resourcesPath: "./resources"
 
 # path to Pub2TEI repository as available at https://github.com/kermitt2/Pub2TEI
 pub2teiPath: "../../Pub2TEI/"
@@ -19,7 +20,7 @@ entityFishingPort: 443
 #entityFishingPort: 8090
 
 # if true we use binary classifiers for the contexts, otherwise use a single multi-label classifier
-# binary classifiers perform better, but havier to use
+# binary classifiers perform better, but heavier to use
 useBinaryContextClassifiers: false
 
 # sequence labeling model (identify data-related sections)
@@ -153,18 +154,18 @@ logging:
     com.squarespace.jersey2.guice.JerseyGuiceUtils: "OFF"
   appenders:
     - type: console
-      threshold: WARN
+      threshold: INFO
       timeZone: UTC
       # uncomment to have the logs in json format
       #layout:
       #  type: json
-    - type: file
-      currentLogFilename: logs/datastet-service.log
-      threshold: INFO
-      archive: true
-      archivedLogFilenamePattern: logs/datastet-service-%d.log
-      archivedFileCount: 7
-      timeZone: UTC
+#    - type: file
+#      currentLogFilename: logs/datastet-service.log
+#      threshold: INFO
+#      archive: true
+#      archivedLogFilenamePattern: logs/datastet-service-%d.log
+#      archivedFileCount: 7
+#      timeZone: UTC
       # uncomment to have the logs in json format
       #layout:
       #  type: json

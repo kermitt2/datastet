@@ -169,7 +169,7 @@ public class DatasetContextClassifier {
 
         for(List<Dataset> datasets : entities) {
             for(Dataset entity : datasets) {
-                if (entity.getContext() != null && entity.getContext().length()>0) {
+                if (StringUtils.isNotBlank(entity.getContext())) {
                     String localContext = TextUtilities.dehyphenize(entity.getContext());
                     localContext = localContext.replace("\n", " ");
                     localContext = localContext.replaceAll("( )+", " ");

@@ -11,6 +11,7 @@ import org.grobid.core.data.Dataset.DatasetType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -60,6 +61,9 @@ public class DatasetComponent extends KnowledgeEntity implements Comparable<Data
     protected double bestDataTypeScore = 0.0;
     protected String bestDataType = null;
     protected double hasDatasetScore = 0.0;
+
+    // identifier of the sequence (paragraph, sentence) where the mention is occurring
+    private final List<String> sequenceIdentifiers = new ArrayList<>();
 
     public DatasetComponent() {
         this.offsets = new OffsetPosition();
@@ -352,5 +356,12 @@ public class DatasetComponent extends KnowledgeEntity implements Comparable<Data
         result = TextUtilities.cleanField(result, false);
         return result;
     }
-    
+
+    public void addSequenceId(String id) {
+        sequenceIdentifiers.add(id);
+    }
+
+    public List<String> getSequenceIdentifiers() {
+        return sequenceIdentifiers;
+    }
 }

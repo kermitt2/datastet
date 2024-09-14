@@ -42,6 +42,7 @@ public class DatastetController implements DatastetPaths {
     private static final String INPUT = "input";
     private static final String JSON = "json";
     private static final String ADD_PARAGRAPH_CONTEXT = "addParagraphContext";
+    private static final String SEGMENT_SENTENCES = "segmentSentences";
 
     private DatastetConfiguration configuration;
 
@@ -80,7 +81,7 @@ public class DatastetController implements DatastetPaths {
         LOGGER.info(text);
         return DatastetProcessString.processDatsetSentence(text);
     }
-    
+
     @Path(PATH_DATASET_SENTENCE)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @GET
@@ -107,12 +108,39 @@ public class DatastetController implements DatastetPaths {
         return DatastetProcessFile.processDatasetPDF(inputStream, addParagraphContextBoolean);
     }
 
+    @Path(PATH_DATASET_TEI)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response processDatasetTEI(
+            @FormDataParam(INPUT) InputStream inputStream,
+            @DefaultValue("0") @FormDataParam(SEGMENT_SENTENCES) String segmentSentences,
+            @DefaultValue("0") @FormDataParam(ADD_PARAGRAPH_CONTEXT) String addParagraphContext
+    ) {
+        boolean addParagraphContextBoolean = DatastetServiceUtils.validateBooleanRawParam(addParagraphContext);
+        boolean segmentSentencesBoolean = DatastetServiceUtils.validateBooleanRawParam(segmentSentences);
+        return DatastetProcessFile.processDatasetTEI(inputStream, segmentSentencesBoolean, addParagraphContextBoolean);
+    }
+
+    @Path(PATH_DATASET_JATS)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    public Response processJATS(@FormDataParam(INPUT) InputStream inputStream,
+                                @DefaultValue("0") @FormDataParam(ADD_PARAGRAPH_CONTEXT) String addParagraphContext) {
+        boolean addParagraphContextBoolean = DatastetServiceUtils.validateBooleanRawParam(addParagraphContext);
+        return DatastetProcessFile.processDatasetJATS(inputStream, addParagraphContextBoolean);
+    }
+
     @Path(PATH_DATASEER_TEI)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_XML)
     @POST
-    public Response processTEI(@FormDataParam(INPUT) InputStream inputStream) {
-        return DatastetProcessFile.processTEI(inputStream);
+    public Response processTEI(
+            @FormDataParam(INPUT) InputStream inputStream,
+            @FormDataParam("segmentSentences") String segmentSentences) {
+        boolean segmentSentencesBoolean = DatastetServiceUtils.validateBooleanRawParam(segmentSentences);
+        return DatastetProcessFile.processTEI(inputStream, segmentSentencesBoolean);
     }
 
     @Path(PATH_DATASEER_JATS)

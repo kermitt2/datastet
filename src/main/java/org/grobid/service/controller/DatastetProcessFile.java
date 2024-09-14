@@ -1,51 +1,37 @@
 package org.grobid.service.controller;
 
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import org.apache.commons.lang3.StringUtils;
-import org.grobid.core.document.Document;
-import org.grobid.core.data.Dataset;
-import org.grobid.core.engines.DataseerClassifier;
-import org.grobid.core.engines.Engine;
-import org.grobid.core.engines.config.GrobidAnalysisConfig;
-import org.grobid.core.engines.DatasetParser;
-import org.grobid.core.factory.GrobidFactory;
-import org.grobid.core.layout.Page;
-import org.grobid.core.utilities.IOUtilities;
-import org.grobid.core.utilities.ArticleUtilities;
-import org.grobid.core.utilities.DatastetUtilities;
-import org.grobid.core.utilities.GrobidProperties;
-import org.grobid.service.exceptions.DatastetServiceException;
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-
 import org.apache.commons.lang3.tuple.Pair;
-
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.*;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.core.io.*;
-
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import javax.xml.bind.DatatypeConverter;
-
 import org.grobid.core.data.BibDataSet;
-import org.grobid.core.data.BiblioComponent;
-
+import org.grobid.core.data.Dataset;
+import org.grobid.core.document.Document;
+import org.grobid.core.engines.DataseerClassifier;
+import org.grobid.core.engines.DatasetParser;
+import org.grobid.core.layout.Page;
+import org.grobid.core.utilities.ArticleUtilities;
+import org.grobid.core.utilities.GrobidProperties;
+import org.grobid.core.utilities.IOUtilities;
+import org.grobid.service.exceptions.DatastetServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.xml.bind.DatatypeConverter;
+import java.io.File;
+import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -69,7 +55,7 @@ public class DatastetProcessFile {
      * @param inputStream the data of origin TEI document
      * @return a response object which contains an enriched TEI representation of the document
      */
-    public static Response processTEI(final InputStream inputStream) {
+    public static Response processTEI(final InputStream inputStream, boolean segmentSentences) {
         LOGGER.debug(methodLogIn());
         String retVal = null;
         Response response = null;
@@ -84,7 +70,7 @@ public class DatastetProcessFile {
             } 
 
             // starts conversion process
-            retVal = classifier.processTEI(originFile.getAbsolutePath(), true, false);
+            retVal = classifier.processTEI(originFile.getAbsolutePath(), segmentSentences, false);
 
             if (!isResultOK(retVal)) {
                 response = Response.status(Response.Status.NO_CONTENT).build();
@@ -313,7 +299,7 @@ public class DatastetProcessFile {
      * @param addParagraphContext if true, the full paragraph where an annotation takes place is added
      * @return a response object containing the JSON annotations
      */
-    public static Response extractXML(final InputStream inputStream, 
+    public static Response processDatasetJATS(final InputStream inputStream,
                                         boolean addParagraphContext) {
         LOGGER.debug(methodLogIn()); 
         Response response = null;
@@ -336,7 +322,7 @@ public class DatastetProcessFile {
             } else {
                 long start = System.currentTimeMillis();
 
-                Pair<List<List<Dataset>>, List<BibDataSet>> extractionResult = parser.processXML(originFile, false, addParagraphContext);
+                Pair<List<List<Dataset>>, List<BibDataSet>> extractionResult = parser.processXML(originFile, false, false, addParagraphContext);
                 long end = System.currentTimeMillis();
 
                 List<List<Dataset>> extractedEntities = null;
@@ -367,12 +353,12 @@ public class DatastetProcessFile {
 
                 json.append("], \"references\":[");
 
-                if (extractionResult != null) {
-                    List<BibDataSet> bibDataSet = extractionResult.getRight();
-                    if (bibDataSet != null && bibDataSet.size()>0) {
-                        DatastetServiceUtils.serializeReferences(json, bibDataSet, extractedEntities);
-                    }
-                }
+//                if (extractionResult != null) {
+//                    List<BibDataSet> bibDataSet = extractionResult.getRight();
+//                    if (bibDataSet != null && bibDataSet.size()>0) {
+//                        DatastetServiceUtils.serializeReferences(json, bibDataSet, extractedEntities);
+//                    }
+//                }
 
                 json.append("]");
 
@@ -413,12 +399,14 @@ public class DatastetProcessFile {
      * Uploads the origin TEI XML, process it and return the extracted dataset mention objects in JSON.
      *
      * @param inputStream the data of origin TEI
+     * @param segmentSentences add sentence segmentation if the TEI was not already segmented
      * @param addParagraphContext if true, the full paragraph where an annotation takes place is added
      * @return a response object containing the JSON annotations
      */
-    public static Response extractTEI(final InputStream inputStream, 
-                                        boolean disambiguate, 
-                                        boolean addParagraphContext) {
+    public static Response processDatasetTEI(final InputStream inputStream,
+                                             boolean segmentSentences,
+                                             boolean disambiguate,
+                                             boolean addParagraphContext) {
         LOGGER.debug(methodLogIn()); 
         Response response = null;
         File originFile = null;
@@ -439,7 +427,7 @@ public class DatastetProcessFile {
                 response = Response.status(Status.INTERNAL_SERVER_ERROR).build();
             } else {
                 long start = System.currentTimeMillis();
-                Pair<List<List<Dataset>>, List<BibDataSet>> extractionResult = parser.processTEI(originFile, disambiguate, addParagraphContext);
+                Pair<List<List<Dataset>>, List<BibDataSet>> extractionResult = parser.processTEI(originFile, segmentSentences, disambiguate, addParagraphContext);
                 long end = System.currentTimeMillis();
 
                 List<List<Dataset>> extractedEntities = null;
@@ -466,14 +454,14 @@ public class DatastetProcessFile {
                         }
                     }
                 }
-                json.append("], \"references\":[");
+                json.append("], \"references\":[]");
 
-                if (extractionResult != null) {
-                    List<BibDataSet> bibDataSet = extractionResult.getRight();
-                    if (bibDataSet != null && bibDataSet.size()>0) {
-                        DatastetServiceUtils.serializeReferences(json, bibDataSet, extractedEntities);
-                    }
-                }
+//                if (extractionResult != null) {
+//                    List<BibDataSet> bibDataSet = extractionResult.getRight();
+//                    if (bibDataSet != null && bibDataSet.size()>0) {
+//                        DatastetServiceUtils.serializeReferences(json, bibDataSet, extractedEntities);
+//                    }
+//                }
                 
                 float runtime = ((float)(end-start)/1000);
                 json.append(", \"runtime\": "+ runtime);
@@ -516,6 +504,14 @@ public class DatastetProcessFile {
         return "<< " + DatastetProcessFile.class.getName() + "." + Thread.currentThread().getStackTrace()[1].getMethodName();
     }
 
+    private static boolean validateTrueFalseParam(String param) {
+        boolean booleanOutput = false;
+        if ((param != null) && (param.equals("1") || param.equalsIgnoreCase("true"))) {
+            booleanOutput = true;
+        }
+        return booleanOutput;
+    }
+
     /**
      * Check whether the result is null or empty.
      */
@@ -523,4 +519,7 @@ public class DatastetProcessFile {
         return StringUtils.isBlank(result) ? false : true;
     }
 
+    public static Response processDatasetTEI(InputStream inputStream, boolean segmentSentences, boolean addParagraphContextBoolean) {
+        return processDatasetTEI(inputStream, segmentSentences, false, addParagraphContextBoolean);
+    }
 }

@@ -1,5 +1,8 @@
 package org.grobid.core.data;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Strings;
 import org.grobid.core.engines.label.TaggingLabel;
 import org.grobid.core.utilities.TextUtilities;
 import org.grobid.core.utilities.OffsetPosition;
@@ -120,6 +123,8 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     // a flag to indicate if the entity is located in the Data Availability section
     private boolean inDataAvailabilitySection = false;
 
+    private final List<String> sequenceIdentifiers = new ArrayList<>();
+
     public Dataset(DatasetType type) {
         this.type = type;
     }
@@ -128,6 +133,11 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
         this.type = type;
         this.rawForm = rawForm;
         this.normalizedForm = normalizeRawForm(rawForm);
+    }
+
+    public Dataset(DatasetType type, String rawForm, List<String> sequenceIdentifiers) {
+        this(type, rawForm);
+        this.sequenceIdentifiers.addAll(sequenceIdentifiers);
     }
 
     public DatasetType getType() {
@@ -141,7 +151,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     public String getRawForm() {
         return rawForm;
     }
-    
+
     public void setRawForm(String raw) {
         this.rawForm = raw;
         this.normalizedForm = normalizeRawForm(raw);
@@ -150,7 +160,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     public String getNormalizedForm() {
         return normalizedForm;
     }
-    
+
     public void setNormalizedForm(String normalized) {
         this.normalizedForm = normalizeRawForm(normalized);
     }
@@ -162,7 +172,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             return dataset.getOffsets();
         return null;
     }
-    
+
     public int getOffsetStart() {
         if (datasetName != null)
             return datasetName.getOffsetStart();
@@ -178,15 +188,16 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             return dataset.getOffsetEnd();
         return -1;
     }
-    
+
     public double getConf() {
         return this.conf;
     }
-    
+
     public void setConf(double conf) {
         this.conf = conf;
     }
-    
+
+
     /*public List<BoundingBox> getBoundingBoxes() {
         return boundingBoxes;
     }
@@ -194,15 +205,15 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     public void setBoundingBoxes(List<BoundingBox> boundingBoxes) {
         this.boundingBoxes = boundingBoxes;
     }
-    
+
     public List<LayoutToken> getTokens() {
         return this.tokens;
     }
-    
+
     public void setTokens(List<LayoutToken> tokens) {
         this.tokens = tokens;
     }
-    
+
     public TaggingLabel getLabel() {
         return label;
     }
@@ -210,7 +221,6 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     public void setLabel(TaggingLabel label) {
         this.label = label;
     }*/
-
     public String getLang() {
         return this.lang;
     }
@@ -225,7 +235,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
     public void setFiltered(boolean filtered) {
         this.filtered = filtered;
-    } 
+    }
 
     public void setContext(String context) {
         this.context = context;
@@ -258,7 +268,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
     public String getParagraph() {
         return this.paragraph;
     }
-    
+
     public List<BiblioComponent> getBibRefs() {
         return this.bibRefs;
     }
@@ -288,6 +298,10 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
 
     public void setDataset(DatasetComponent dataset) {
         this.dataset = dataset;
+    }
+
+    public List<String> getSequenceIdentifiers() {
+        return sequenceIdentifiers;
     }
 
     public DatasetComponent getDataDevice() {
@@ -448,7 +462,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             buffer.append(", \"inDataAvailabilitySection\" : true");
         }
 
-        if (context != null && context.length()>0) {
+        if (StringUtils.isNotBlank(context)) {
             encoded = encoder.quoteAsUTF8(context.replace("\n", " ").replace("  ", " "));
             output = new String(encoded);
             try {
@@ -463,7 +477,7 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             }*/
         }
 
-        if (paragraph != null && paragraph.length()>0) {
+        if (StringUtils.isNotBlank(paragraph)) {
             if (paragraphContextOffset != -1) {
                 buffer.append(", \"contextOffset\": " + paragraphContextOffset);
             }
@@ -472,6 +486,22 @@ public class Dataset extends KnowledgeEntity implements Comparable<Dataset> {
             output = new String(encoded);
             try{
                 buffer.append(", \"paragraph\": \"" + mapper.writeValueAsString(output) + "\"");
+            } catch (JsonProcessingException e) {
+                logger.warn("could not serialize in JSON the normalized form: " + type.getName());
+            }
+            /*try {
+                buffer.append(", \"paragraph\": \"" + mapper.writeValueAsString(paragraph.replace("\n", " ").replace("  ", " ")) + "\"");
+            } catch (JsonProcessingException e) {
+                logger.warn("could not serialize in JSON the paragraph context: " + paragraph);
+            }*/
+        }
+
+        if (CollectionUtils.isNotEmpty(sequenceIdentifiers)) {
+            try{
+                String identifiers = Strings.join(sequenceIdentifiers).with(",");
+                encoded = encoder.quoteAsUTF8(identifiers);
+                output = new String(encoded);
+                buffer.append(", \"sequenceIds\": [ " + mapper.writeValueAsString(output) +" ]");
             } catch (JsonProcessingException e) {
                 logger.warn("could not serialize in JSON the normalized form: " + type.getName());
             }
