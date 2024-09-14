@@ -27,10 +27,19 @@ public interface DatastetPaths {
      */
     public static final String PATH_DATASET_PDF = "annotateDatasetPDF";
 
+
+    public static final String PATH_DATASET_TEI = "processDatasetTEI";
+
+    public static final String PATH_DATASET_JATS = "processDatasetJATS";
+
     /**
      * path extension for classifying a textual sentence input.
      */
     public static final String PATH_DATASEER_SENTENCE = "annotateDataseerSentence";
+    public static final String PATH_OLD_DATASEER_SENTENCE = "processDataseerSentence";
+
+    public static final String PATH_DATASEER_SENTENCES = "annotateDataseerSentences";
+    public static final String PATH_OLD_DATASEER_SENTENCES = "processDataseerSentences";
 
     /**
      * path extension for processing a TEI file 

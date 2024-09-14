@@ -1,99 +1,58 @@
 package org.grobid.core.engines;
 
+import junit.framework.TestCase;
 import org.apache.commons.io.IOUtils;
-import org.grobid.core.document.Document;
-import org.grobid.core.data.Dataset;
-import org.grobid.core.factory.GrobidFactory;
-import org.grobid.core.utilities.GrobidProperties;
-import org.grobid.core.utilities.DataseerConfiguration;
-import org.grobid.core.main.GrobidHomeFinder;
-import org.grobid.core.utilities.GrobidConfig.ModelParameters;
-import org.grobid.core.main.LibraryLoader;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.Ignore;
-
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Arrays;
-import java.util.ArrayList;
-
 import org.apache.commons.lang3.tuple.Pair;
+import org.grobid.core.GrobidModels;
+import org.grobid.core.data.BibDataSet;
+import org.grobid.core.data.Dataset;
+import org.grobid.core.main.GrobidHomeFinder;
+import org.grobid.core.utilities.GrobidConfig;
+import org.grobid.core.utilities.GrobidProperties;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertNotNull;
+import static com.google.common.base.Predicates.notNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-/**
- * @author Patrice
- */
-@Ignore
-public class DatasetParserTest {
-    private static DataseerConfiguration configuration;
+public class DatasetParserTest extends TestCase {
+//    private DatasetParser target;
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        DataseerConfiguration dataseerConfiguration = null;
-        try {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+//    @Before
+//    public void setUp() throws Exception {
+//        GrobidProperties.getInstance(new GrobidHomeFinder(Arrays.asList("../../grobid/grobid-home/")));
+//        GrobidConfig.ModelParameters modelParameters = new GrobidConfig.ModelParameters();
+//        modelParameters.name = "bao";
+//        GrobidProperties.addModel(modelParameters);
+//        target = new DatasetParser(GrobidModels.DUMMY);
+//    }
 
-            File yamlFile = new File("resources/config/dataseer-ml.yml").getAbsoluteFile();
-            yamlFile = new File(yamlFile.getAbsolutePath());
-            dataseerConfiguration = mapper.readValue(yamlFile, DataseerConfiguration.class);
-
-            String pGrobidHome = dataseerConfiguration.getGrobidHome();
-
-            GrobidHomeFinder grobidHomeFinder = new GrobidHomeFinder(Arrays.asList(pGrobidHome));
-            GrobidProperties.getInstance(grobidHomeFinder);
-    
-            System.out.println(">>>>>>>> GROBID_HOME="+GrobidProperties.get_GROBID_HOME_PATH());
-
-            if (dataseerConfiguration != null && dataseerConfiguration.getModels() != null) {
-                for (ModelParameters model : dataseerConfiguration.getModels())
-                    GrobidProperties.getInstance().addModel(model);
-            }
-            LibraryLoader.load();
-
-        } catch (final Exception exp) {
-            System.err.println("dataseer-ml initialisation failed: " + exp);
-            exp.printStackTrace();
-        }
-
-        configuration = dataseerConfiguration;
-    }
-
-    @Before
-    public void getTestResourcePath() {
-        GrobidProperties.getInstance();
-    }
 
     @Test
-    public void testDatasetParserText() throws Exception {
-        String text = IOUtils.toString(this.getClass().getResourceAsStream("/texts.txt"), StandardCharsets.UTF_8.toString());
-        String[] textPieces = text.split("\n");
-        List<String> texts = new ArrayList<>();
-        for (int i=0; i<textPieces.length; i++) {
-            text = textPieces[i].replace("\\t", " ").replaceAll("( )+", " ");
-            //System.out.println(text);
-            texts.add(text);
-        }
+    public void testGetXPathWithoutNamespaces() {
+        String output = DatasetParser.getXPathWithoutNamespaces("//abstract/p/s");
 
-        List<List<Dataset>> results = DatasetParser.getInstance(configuration).processingStrings(texts, false);
-        StringBuilder json = new StringBuilder();
-
-        int i = 0;
-        for(List<Dataset> result : results) {
-            for(Dataset dataset : result) {
-                json.append(dataset.toJson());
-                json.append("\n");
-            }
-        }
-        System.out.println(json);
+        assertThat(output, is("//*[local-name() = 'abstract']/*[local-name() = 'p']/*[local-name() = 's']"));
     }
 
+//    @Test
+//    @Ignore("Need to split the process")
+//    public void testProcessTEIDocument() throws Exception {
+//        String text = IOUtils.toString(Objects.requireNonNull(this.getClass().getResourceAsStream("erl_18_11_114012.tei.xml")), StandardCharsets.UTF_8);
+//
+//        Pair<List<List<Dataset>>, List<BibDataSet>> listListPair = target.processTEIDocument(text, true, false, false);
+//
+//        assertThat(listListPair, is(notNull()));
+//
+//    }
 }

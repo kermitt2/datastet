@@ -1,5 +1,6 @@
 package org.grobid.service.controller;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -8,21 +9,17 @@ import org.grobid.core.engines.DataseerClassifier;
 import org.grobid.core.engines.DatasetParser;
 import org.grobid.core.data.Dataset;
 import org.grobid.core.data.Dataset.DatasetType;
-import org.grobid.core.utilities.GrobidProperties;
-import org.grobid.core.utilities.DatastetUtilities;
-import org.grobid.core.utilities.TextUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.io.IOException;
 import java.util.*;
 
-import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
-import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.io.*;
 
 /**
@@ -46,7 +43,7 @@ public class DatastetProcessString {
      *            raw sentence string
      * @return a json response object containing the information related to possible dataset
      */
-    public static Response processSentence(String text) {
+    public static Response processDataseerSentence(String text) {
         LOGGER.debug(methodLogIn());
         Response response = null;
         StringBuilder retVal = new StringBuilder();
@@ -77,6 +74,58 @@ public class DatastetProcessString {
         return response;
     }
 
+    public static Response processDataseerSentences(String sentencesAsJson) {
+        LOGGER.debug(methodLogIn());
+        Response response = null;
+        StringBuilder retVal = new StringBuilder();
+        DataseerClassifier classifier = DataseerClassifier.getInstance();
+        try {
+            LOGGER.debug(">> set raw sentence text for stateless service'...");
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+            JsonNode jsonNodes = null;
+
+            try {
+                jsonNodes = mapper.readTree(sentencesAsJson);
+            } catch (IOException ex) {
+                throw new RuntimeException("Cannot parse input JSON. "+ Response.Status.BAD_REQUEST);
+            }
+            if (jsonNodes == null || jsonNodes.isMissingNode()) {
+                throw new RuntimeException("The request is invalid or malformed."+ Response.Status.BAD_REQUEST);
+            }
+
+            List<String> texts = new ArrayList<>();
+            for (JsonNode node : jsonNodes) {
+                String text = node.asText();
+                text = text.replaceAll("\\n", " ").replaceAll("\\t", " ");
+                texts.add(text);
+            }
+
+//            List<String> textsNormalized = texts.stream()
+//                    .map(text -> text.replaceAll("\\n", " ").replaceAll("\\t", " "))
+//                    .collect(Collectors.toList());
+
+            long start = System.currentTimeMillis();
+            String retValString = classifier.classify(texts);
+            long end = System.currentTimeMillis();
+
+            if (!isResultOK(retValString)) {
+                response = Response.status(Status.NO_CONTENT).build();
+            } else {
+                response = Response.status(Status.OK).entity(retValString).type(MediaType.TEXT_PLAIN).build();
+            }
+        } catch (NoSuchElementException nseExp) {
+            LOGGER.error("Could not get an instance of DataseerClassifier. Sending service unavailable.");
+            response = Response.status(Status.SERVICE_UNAVAILABLE).build();
+        } catch (Exception e) {
+            LOGGER.error("An unexpected exception occurs. ", e);
+            response = Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
+        LOGGER.debug(methodLogOut());
+        return response;
+    }
+
     /**
      * Label dataset names, implicit datasets and data acquisition devices in a sentence.
      * 
@@ -85,7 +134,7 @@ public class DatastetProcessString {
      * @return a json response object containing the labeling information related to possible 
      *          dataset mentions
      */
-    public static Response processDatsetSentence(String text) {
+    public static Response processDatasetSentence(String text) {
         LOGGER.debug(methodLogIn());
         Response response = null;
         StringBuilder retVal = new StringBuilder();

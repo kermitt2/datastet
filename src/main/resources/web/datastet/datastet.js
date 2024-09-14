@@ -213,11 +213,12 @@ var grobid = (function ($) {
             var url = urlLocal
             xhr.responseType = 'xml'; 
             xhr.open('POST', url, true);
+            xhr.setRequestHeader('Accept', 'application/json');
 
             xhr.onreadystatechange = function (e) {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var response = e.target.response;
-                    //console.log(response);
+                    console.log(response);
                     SubmitSuccesful(response, xhr.status);
                 } else if (xhr.status != 200) {
                     AjaxError("Response " + xhr.status + ": ");
@@ -423,14 +424,16 @@ var grobid = (function ($) {
     function SubmitSuccesful(responseText, statusText) {
         var selected = $('#selectedService option:selected').attr('value');
 
+        console.log(selected);
+
         if (selected == 'annotateDatasetSentence') {
             SubmitSuccesfulText(responseText, statusText);
         } else if (selected == 'annotateDatasetPDF') {
-            //SubmitSuccesfulXML(responseText, statusText);
+            SubmitSuccesfulXML(responseText, statusText);
         } else if (selected == 'processDatasetTEI') {
-            //SubmitSuccesfulXML(responseText, statusText);
+            submitSuccesfulJSON(responseText, statusText);
         } else if (selected == 'processDatasetJATS') {
-            //SubmitSuccesfulXML(responseText, statusText);
+            SubmitSuccesfulXML(responseText, statusText);
         } 
     }
 
@@ -696,6 +699,39 @@ var grobid = (function ($) {
         window.prettyPrint && prettyPrint();
 
         $('#requestResult2').show();
+    }
+
+    function submitSuccesfulJSON(responseText, statusText) {
+        if ((responseText == null) || (responseText.length == 0)) {
+            $('#infoResult')
+                .html("<font color='red'>Error encountered while receiving the server's answer: response is empty.</font>");
+            return;
+        } else {
+            $('#infoResult').html('');
+        }
+
+        var display = '<div class=\"note-tabs\"> \
+            <ul id=\"resultTab\" class=\"nav nav-tabs\"> \
+                <li class="active"><a href=\"#navbar-fixed-xml\" data-toggle=\"tab\">Response</a></li> \
+            </ul> \
+            <div class="tab-content"> \
+            <div class="tab-pane active" id="navbar-fixed-annotation">\n';
+
+
+        display += '<div class="tab-pane " id="navbar-fixed-xml">\n';
+        display += "<pre class='prettyprint' id='xmlCode'>";
+        display += "<pre class='prettyprint lang-xml' id='xmlCode'>";
+        var testStr = vkbeautify.json(responseText);
+
+        display += htmll(testStr);
+
+        display += "</pre>";
+        display += '</div></div></div>';
+
+        $('#requestResult').html(display);
+        window.prettyPrint && prettyPrint();
+
+        $('#requestResult').show();
     }
 
     function fetchConcept(identifier, lang, successFunction) {
@@ -1453,15 +1489,19 @@ var grobid = (function ($) {
 
         if (selected == 'annotateDatasetSentence') {
             createInputTextArea();
+            $('#segmentSentencesBlock').hide();
             setBaseUrl('annotateDatasetSentence');
         } else if (selected == 'annotateDatasetPDF') {
             createInputFile(selected);
+            $('#segmentSentencesBlock').hide();
             setBaseUrl('annotateDatasetPDF');
         } else if (selected == 'processDatasetTEI') {
             createInputFile(selected);
+            $('#segmentSentencesBlock').show();
             setBaseUrl('processDatasetTEI');
         } else if (selected == 'processDatasetJATS') {
             createInputFile(selected);
+            $('#segmentSentencesBlock').hide();
             setBaseUrl('processDatasetJATS');
         }
     };

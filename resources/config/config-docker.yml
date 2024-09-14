@@ -1,0 +1,170 @@
+version: "0.8.0"
+
+corpusPath: "./resources/dataset/dataseer/corpus"
+templatePath: "./resources/dataset/dataseer/crfpp-templates/dataseer.template"
+grobidHome: "/opt/grobid/grobid-home"
+tmpPath: "/opt/grobid/grobid-home/tmp/"
+
+# path to Pub2TEI repository as available at https://github.com/kermitt2/Pub2TEI
+pub2teiPath: "/opt/Pub2TEI/"
+
+gluttonHost: "https://cloud.science-miner.com/glutton"
+gluttonPort: 
+
+# entity-fishing server information for performing entity disambiguation
+# for https, indicate 443 as port
+entityFishingHost: cloud.science-miner.com/nerd
+entityFishingPort: 443
+#entityFishingHost: localhost
+#entityFishingPort: 8090
+
+# if true we use binary classifiers for the contexts, otherwise use a single multi-label classifier
+# binary classifiers perform better, but havier to use
+useBinaryContextClassifiers: false
+
+# sequence labeling model (identify data-related sections)
+models:
+
+  # model for zones
+  - name: "dataseer"
+    engine: "wapiti"
+    #engine: "delft"
+    wapiti:
+      # wapiti training parameters, they will be used at training time only
+      epsilon: 0.00001
+      window: 20
+      nbMaxIterations: 2000
+
+  # classifier model, dataset binary (datset or not dataset in the current sentence)
+  - name: "dataseer-binary"
+    engine: "delft"
+    delft:
+      # deep learning parameters
+      #architecture: "gru"
+      architecture: "bert"
+      #embeddings_name: "word2vec"
+      transformer: "allenai/scibert_scivocab_cased"
+
+  # identification of the data type (first level hierarchy) 
+  - name: "dataseer-first"
+    engine: "delft"
+    delft:
+      # deep learning parameters
+      #architecture: "gru"
+      architecture: "bert"
+      #embeddings_name: "word2vec"
+      transformer: "allenai/scibert_scivocab_cased"
+
+  # mention context classification (reuse binary for the moment)
+  - name: "dataseer-reuse"
+    engine: "delft"
+    delft:
+      # deep learning parameters
+      #architecture: "gru"
+      architecture: "bert"
+      #embeddings_name: "word2vec"
+      transformer: "allenai/scibert_scivocab_cased"
+
+  # model for dataset mention recognition
+  - name: "datasets"
+    #engine: "wapiti"
+    engine: "delft"
+    wapiti:
+      # wapiti training parameters, they will be used at training time only
+      epsilon: 0.00001
+      window: 20
+      nbMaxIterations: 2000
+    delft:
+      # deep learning parameters
+      #architecture: "BidLSTM_CRF"
+      architecture: "BERT_CRF"
+      #transformer: "allenai/scibert_scivocab_cased"
+      transformer: "michiyasunaga/LinkBERT-basecased"
+      #useELMo: true
+      #embeddings_name: "glove-840B"
+      runtime:
+        # parameters used at runtime/prediction
+        max_sequence_length: 200
+        #max_sequence_length: 300
+        batch_size: 20
+
+  - name: "context"
+    engine: "delft"
+    delft:
+      #architecture: "gru"
+      #embeddings_name: "glove-840B"
+      architecture: "bert"
+      transformer: "michiyasunaga/LinkBERT-basecased"
+
+  - name: "context_used"
+    engine: "delft"
+    delft:
+      #architecture: "gru"
+      #embeddings_name: "glove-840B"
+      architecture: "bert"
+      transformer: "michiyasunaga/LinkBERT-basecased"
+
+  - name: "context_creation"
+    engine: "delft"
+    delft:
+      #architecture: "gru"
+      #embeddings_name: "glove-840B"
+      architecture: "bert"
+      transformer: "michiyasunaga/LinkBERT-basecased"
+
+  - name: "context_shared"
+    engine: "delft"
+    delft:
+      #architecture: "gru"
+      #embeddings_name: "glove-840B"
+      architecture: "bert"
+      transformer: "michiyasunaga/LinkBERT-basecased"
+
+# Limit the maximum number of requests (0, no limit)
+maxParallelRequests: 0
+
+# CORS configuration for the web API service
+corsAllowedOrigins: "*"
+corsAllowedMethods: "OPTIONS,GET,PUT,POST,DELETE,HEAD"
+corsAllowedHeaders: "X-Requested-With,Content-Type,Accept,Origin"
+
+server:
+  type: custom
+  idleTimeout: 120 seconds
+  applicationConnectors:
+    - type: http
+      port: 8060
+  adminConnectors:
+    - type: http
+      port: 8061
+  registerDefaultExceptionMappers: false
+  maxThreads: 2048
+  maxQueuedRequests: 2048
+  acceptQueueSize: 2048
+  requestLog:
+    appenders: []
+
+# these logging settings apply to the service usage mode
+logging:
+  level: INFO
+  loggers:
+    org.apache.pdfbox.pdmodel.font.PDSimpleFont: "OFF"
+    org.glassfish.jersey.internal: "OFF"
+    com.squarespace.jersey2.guice.JerseyGuiceUtils: "OFF"
+  appenders:
+    - type: console
+      threshold: INFO
+      timeZone: UTC
+      # uncomment to have the logs in json format
+      #layout:
+      #  type: json
+#    - type: file
+#      currentLogFilename: logs/datastet-service.log
+#      threshold: INFO
+#      archive: true
+#      archivedLogFilenamePattern: logs/datastet-service-%d.log
+#      archivedFileCount: 7
+#      timeZone: UTC
+      # uncomment to have the logs in json format
+      #layout:
+      #  type: json

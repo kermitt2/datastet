@@ -1,53 +1,22 @@
 package org.grobid.core.engines;
 
-import org.apache.commons.io.FileUtils;
 import org.grobid.core.GrobidModels;
 import org.grobid.core.analyzers.DatastetAnalyzer;
-import org.grobid.core.data.BiblioItem;
-import org.grobid.core.data.BibDataSet;
-import org.grobid.core.document.Document;
-import org.grobid.core.document.DocumentPiece;
-import org.grobid.core.document.DocumentSource;
-import org.grobid.core.document.TEIFormatter;
-import org.grobid.core.document.xml.XmlBuilderUtils;
-import org.grobid.core.engines.config.GrobidAnalysisConfig;
-import org.grobid.core.engines.label.SegmentationLabels;
-import org.grobid.core.engines.label.TaggingLabel;
-import org.grobid.core.engines.label.TaggingLabels;
 import org.grobid.core.engines.tagging.GrobidCRFEngine;
-import org.grobid.core.exceptions.GrobidException;
-import org.grobid.core.factory.GrobidFactory;
-import org.grobid.core.features.FeaturesVectorDataseer;
 import org.grobid.core.features.FeatureFactory;
-import org.grobid.core.layout.BoundingBox;
+import org.grobid.core.features.FeaturesVectorDataseer;
 import org.grobid.core.layout.LayoutToken;
-import org.grobid.core.layout.LayoutTokenization;
-import org.grobid.core.lexicon.DatastetLexicon;
-import org.grobid.core.tokenization.TaggingTokenCluster;
-import org.grobid.core.tokenization.TaggingTokenClusteror;
-import org.grobid.core.utilities.*;
-import org.grobid.core.utilities.counters.CntManager;
+import org.grobid.core.utilities.DatastetUtilities;
+import org.grobid.core.utilities.TextUtilities;
 import org.grobid.core.utilities.counters.impl.CntManagerFactory;
-import org.grobid.core.lexicon.FastMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.xml.sax.InputSource;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Text;
-
-import static org.apache.commons.lang3.StringUtils.*;
-import static org.grobid.core.document.xml.XmlBuilderUtils.teiElement;
-import org.apache.commons.lang3.tuple.Pair;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.trim;
 
 /**
  * Identification of the article sections introducing datasets.

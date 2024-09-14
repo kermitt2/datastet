@@ -3,6 +3,8 @@ package org.grobid.core.engines;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.config.RequestConfig;
 import org.grobid.core.GrobidModels;
 import org.grobid.core.data.DatasetComponent;
 import org.grobid.core.data.Dataset;
@@ -104,7 +106,7 @@ public class DatasetDisambiguator {
             nerd_host = configuration.getEntityFishingHost();
             nerd_port = configuration.getEntityFishingPort();
             serverStatus = checkIfAlive();
-            if (serverStatus == true)
+            if (serverStatus)
                 ensureCustomizationReady();
         } catch(Exception e) {
             LOGGER.error("Cannot read properties for disambiguation service", e);
@@ -120,43 +122,45 @@ public class DatasetDisambiguator {
         boolean result = false;
         try {
             URL url = null;
-            if ( (nerd_port != null) && (nerd_port.length() > 0) )
-                if (nerd_port.equals("443"))
+            if (StringUtils.isNotBlank(nerd_port)) {
+                if (nerd_port.equals("443")) {
                     url = new URL("https://" + nerd_host + "/service/isalive");
-                else
+                } else {
                     url = new URL("http://" + nerd_host + ":" + nerd_port + "/service/isalive");
-            else
+                }
+            } else
                 url = new URL("http://" + nerd_host + "/service/isalive");
 
-            LOGGER.debug("Calling: " + url.toString());
-//System.out.println("Calling: " + url.toString());
-            CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet get = new HttpGet(url.toString());
+            LOGGER.debug("Calling: " + url);
 
-            CloseableHttpResponse response = null;
-            Scanner in = null;
-            try {
-                response = httpClient.execute(get);
-//System.out.println(response.getStatusLine());
-                int code = response.getStatusLine().getStatusCode();
-                if (code != 200) {
-                    LOGGER.error("Failed isalive service for disambiguation service entity-fishing, HTTP error code : " + code);
-                    return false;
-                } else {
-                    result = true;
+            int timeout = 5;
+            RequestConfig config = RequestConfig.custom()
+                    .setConnectTimeout(timeout * 100)
+                    .setConnectionRequestTimeout(timeout * 100)
+                    .setSocketTimeout(timeout * 100).build();
+
+            try (CloseableHttpClient httpClient = HttpClientBuilder.create()
+                    .setDefaultRequestConfig(config)
+                    .build();) {
+                HttpGet get = new HttpGet(url.toString());
+
+                try (CloseableHttpResponse response = httpClient.execute(get)) {
+                    int code = response.getStatusLine().getStatusCode();
+                    if (code != 200) {
+                        LOGGER.error("Failed isalive service for disambiguation service entity-fishing, HTTP error code : " + code);
+                        return false;
+                    } else {
+                        result = true;
+                    }
                 }
-            } finally {
-                if (in != null)
-                    in.close();
-                if (response != null)
-                    response.close();
             }
+
         } catch (MalformedURLException e) {
-            LOGGER.error("disambiguation service not available: MalformedURLException");
+            LOGGER.error("Disambiguation service not available: MalformedURLException");
         } catch (HttpHostConnectException e) {
-            LOGGER.error("cannot connect to the disambiguation service");
+            LOGGER.error("Cannot connect to the disambiguation service");
         } catch(Exception e) {
-            LOGGER.error("disambiguation service not available", e);
+            LOGGER.error("Disambiguation service not available: generic error", e);
         }
 
         return result;
