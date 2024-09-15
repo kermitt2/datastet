@@ -19,7 +19,7 @@ entityFishingPort: 443
 #entityFishingPort: 8090
 
 # if true we use binary classifiers for the contexts, otherwise use a single multi-label classifier
-# binary classifiers perform better, but havier to use
+# binary classifiers perform better, but heavier to use
 useBinaryContextClassifiers: false
 
 # sequence labeling model (identify data-related sections)
@@ -153,7 +153,7 @@ logging:
     com.squarespace.jersey2.guice.JerseyGuiceUtils: "OFF"
   appenders:
     - type: console
-      threshold: WARN
+      threshold: INFO
       timeZone: UTC
       # uncomment to have the logs in json format
       #layout:
