@@ -88,6 +88,11 @@ public class DatastetAnalyzer implements org.grobid.core.analyzers.Analyzer {
         return result;
     }
 
+    @Override
+    public List<LayoutToken> retokenizeFromLayoutToken(List<LayoutToken> tokens) {
+        throw new UnsupportedOperationException("Method retokenizeFromLayoutToken not yet implemented");
+    }
+
     public List<String> retokenize(List<String> chunks) {
         List<String> result = new ArrayList<>();
         for (String chunk : chunks) {

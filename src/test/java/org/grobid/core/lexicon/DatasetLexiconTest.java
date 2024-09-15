@@ -1,48 +1,32 @@
 package org.grobid.core.lexicon;
 
-import org.apache.commons.io.IOUtils;
-import org.grobid.core.analyzers.DataseerAnalyzer;
-import org.grobid.core.data.Dataset;
-import org.grobid.core.document.Document;
-import org.grobid.core.factory.GrobidFactory;
-import org.grobid.core.layout.LayoutToken;
-import org.grobid.core.utilities.GrobidProperties;
-import org.grobid.core.utilities.DataseerConfiguration;
-import org.grobid.core.utilities.OffsetPosition;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.grobid.core.main.GrobidHomeFinder;
+import org.grobid.core.utilities.DatastetConfiguration;
 import org.grobid.core.utilities.GrobidConfig.ModelParameters;
-import org.grobid.core.main.LibraryLoader;
-import org.grobid.core.utilities.Pair;
-import org.junit.Before;
+import org.grobid.core.utilities.GrobidProperties;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 /**
  * @author Patrice
  */
 public class DatasetLexiconTest {
-    private static DataseerLexicon dataseerLexicon;
+    private static DatastetLexicon dataseerLexicon;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        DataseerConfiguration dataseerConfiguration = null;
+        DatastetConfiguration dataseerConfiguration = null;
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml").getAbsoluteFile(), DataseerConfiguration.class);
+            dataseerConfiguration = mapper.readValue(new File("resources/config/dataseer-ml.yml").getAbsoluteFile(), DatastetConfiguration.class);
 
             String pGrobidHome = dataseerConfiguration.getGrobidHome();
 
@@ -57,7 +41,7 @@ public class DatasetLexiconTest {
             }
             //LibraryLoader.load();
 
-            dataseerLexicon = DataseerLexicon.getInstance();
+            dataseerLexicon = DatastetLexicon.getInstance();
 
         } catch (final Exception exp) {
             System.err.println("GROBID dataset initialisation failed: " + exp);
@@ -71,9 +55,9 @@ public class DatasetLexiconTest {
         String testStringDryad = "https://doi.org/10.5061/DRYAD.0SN63/7";
         String testStringFigshare = "https://doi.org/10.6084/m9.ﬁgshare.10275182";
         
-        boolean zenodoCheck = DataseerLexicon.getInstance().isDatasetDOI(testStringZenodo);
-        boolean dryadCheck = DataseerLexicon.getInstance().isDatasetDOI(testStringDryad);
-        boolean figshareCheck = DataseerLexicon.getInstance().isDatasetDOI(testStringFigshare);
+        boolean zenodoCheck = DatastetLexicon.getInstance().isDatasetDOI(testStringZenodo);
+        boolean dryadCheck = DatastetLexicon.getInstance().isDatasetDOI(testStringDryad);
+        boolean figshareCheck = DatastetLexicon.getInstance().isDatasetDOI(testStringFigshare);
 
         assertThat(zenodoCheck, is(true));
         assertThat(dryadCheck, is(true));
@@ -86,9 +70,9 @@ public class DatasetLexiconTest {
         String testStringSecond = "https://doi.org/10.1371/journal.pone.0263302";
         String testStringThird = "https://doi.org/10.1186/s13064-019-0127-z";
         
-        boolean firstCheck = DataseerLexicon.getInstance().isDatasetDOI(testStringFirst);
-        boolean secondCheck = DataseerLexicon.getInstance().isDatasetDOI(testStringSecond);
-        boolean thirdCheck = DataseerLexicon.getInstance().isDatasetDOI(testStringThird);
+        boolean firstCheck = DatastetLexicon.getInstance().isDatasetDOI(testStringFirst);
+        boolean secondCheck = DatastetLexicon.getInstance().isDatasetDOI(testStringSecond);
+        boolean thirdCheck = DatastetLexicon.getInstance().isDatasetDOI(testStringThird);
 
         assertThat(firstCheck, is(false));
         assertThat(secondCheck, is(false));
@@ -101,9 +85,9 @@ public class DatasetLexiconTest {
         String testStringGithub = "https://github.com/leonfodoulian/SARS_CoV_2_anosmia";
         String testStringOsf = "https://osf.io/5r72u";
 
-        boolean idCheck = DataseerLexicon.getInstance().isDatasetURL(testStringId);
-        boolean githubCheck = DataseerLexicon.getInstance().isDatasetURL(testStringGithub);
-        boolean osfCheck = DataseerLexicon.getInstance().isDatasetURL(testStringOsf);
+        boolean idCheck = DatastetLexicon.getInstance().isDatasetURL(testStringId);
+        boolean githubCheck = DatastetLexicon.getInstance().isDatasetURL(testStringGithub);
+        boolean osfCheck = DatastetLexicon.getInstance().isDatasetURL(testStringOsf);
 
         assertThat(idCheck, is(true));
         assertThat(githubCheck, is(true));
@@ -116,9 +100,9 @@ public class DatasetLexiconTest {
         String testStringSecond = "https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/LemmatizerModel.html";
         String testStringThird = "https://stackoverflow.com/questions/11976393/get-github-username-by-id";
 
-        boolean firstCheck = DataseerLexicon.getInstance().isDatasetURL(testStringFirst);
-        boolean secondCheck = DataseerLexicon.getInstance().isDatasetURL(testStringSecond);
-        boolean thirdCheck = DataseerLexicon.getInstance().isDatasetURL(testStringThird);
+        boolean firstCheck = DatastetLexicon.getInstance().isDatasetURL(testStringFirst);
+        boolean secondCheck = DatastetLexicon.getInstance().isDatasetURL(testStringSecond);
+        boolean thirdCheck = DatastetLexicon.getInstance().isDatasetURL(testStringThird);
 
         assertThat(firstCheck, is(false));
         assertThat(secondCheck, is(false));
@@ -130,8 +114,8 @@ public class DatasetLexiconTest {
         String testStringFirst = "and the dataset TOTO";
         String testStringSecond = "and the dataset TOTO of";
 
-        String firstCheck = DataseerLexicon.getInstance().removeLeadingEnglishStopwords(testStringFirst);
-        String secondCheck = DataseerLexicon.getInstance().removeLeadingEnglishStopwords(testStringSecond);
+        String firstCheck = DatastetLexicon.getInstance().removeLeadingEnglishStopwords(testStringFirst);
+        String secondCheck = DatastetLexicon.getInstance().removeLeadingEnglishStopwords(testStringSecond);
 
         assertThat(firstCheck, is("dataset TOTO"));
         assertThat(secondCheck, is("dataset TOTO of"));
