@@ -152,7 +152,7 @@ WORKDIR /opt/grobid/datastet
 RUN ./gradlew clean assemble --no-daemon --stacktrace --info -x test
 
 #CMD ["./gradlew", "run"]
-CMD ["sh", "-c", "java --add-opens java.base/java.lang=ALL-UNNAMED -jar build/libs/datastet-0.8.0-onejar.jar server resources/config/config.yml"]
+CMD ["sh", "-c", "java --add-opens java.base/java.lang=ALL-UNNAMED -jar build/libs/datastet-0.8.1-onejar.jar server resources/config/config.yml"]
 
 LABEL \
     authors="The contributors" \
