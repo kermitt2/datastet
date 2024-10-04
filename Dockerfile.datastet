@@ -23,7 +23,6 @@ COPY settings.gradle ./
 # source
 COPY grobid-home/ ./grobid-home/
 COPY grobid-core/ ./grobid-core/
-#COPY grobid-service/ ./grobid-service/
 COPY grobid-trainer/ ./grobid-trainer/
 COPY datastet/ ./datastet/
 
@@ -42,8 +41,6 @@ WORKDIR ./datastet/
 RUN ./gradlew clean install --no-daemon  --info --stacktrace
 
 WORKDIR /opt/grobid
-#RUN unzip -o /opt/grobid-source/grobid-service/build/distributions/grobid-service-*.zip && \
-#    mv grobid-service* grobid-service
 RUN unzip -o /opt/grobid-source/grobid-home/build/distributions/grobid-home-*.zip && \
     chmod -R 755 /opt/grobid/grobid-home/pdfalto
 RUN rm -rf grobid-source
@@ -66,6 +63,12 @@ RUN rm /etc/apt/sources.list.d/cuda.list
 RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
 RUN dpkg -i cuda-keyring_1.0-1_all.deb
+
+# Add Tini
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "-s", "--"]
 
 # install JRE, python and other dependencies
 RUN apt-get update && \
@@ -110,11 +113,11 @@ ENV LD_LIBRARY_PATH=/usr/local/lib/python3.8/dist-packages/jep:grobid-home/lib/l
 # remove libjep.so because we are providing our own version in the virtual env above
 RUN rm /opt/grobid/grobid-home/lib/lin-64/jep/libjep.so
 
-# preload embeddings, for GROBID all the RNN models use glove-840B (default for the script), ELMo is currently not loaded 
+# preload embeddings if needed, for GROBID all the RNN models use glove-840B (default for the script), ELMo is currently not loaded 
 # download GROBID fine-tuned models based on SciBERT if selected
 
 COPY --from=builder /opt/grobid-source/grobid-home/scripts/preload_embeddings.py .
-# embeddings will be loaded when building and running tests
+# embeddings if needed will be loaded when building and running tests
 
 RUN ln -s /opt/grobid /opt/delft
 
@@ -139,7 +142,7 @@ WORKDIR /opt/grobid/datastet
 RUN ./gradlew --version
 RUN ./gradlew installModels && rm -rf resources/models && rm ../grobid-home/models/dataseer*.zip && rm ../grobid-home/models/context_*.zip
 
-# install ELMo
+# install ELMo, if needed (do not delete)
 #RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json
 #RUN wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5
 #RUN mkdir /opt/elmo
