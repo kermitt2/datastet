@@ -258,6 +258,14 @@ which should return this:
 
 Runtimes are expressed in milliseconds. 
 
+## Training data
+
+See https://github.com/kermitt2/dataset_recognition_resources
+
+Binary models for characterization of mention contexts are the same as for Softcite, trained with https://zenodo.org/records/8033868
+
+Data Availability Sections are recognized via GROBID. 
+
 ## Contact and License
 
 Main author and contact: Patrice Lopez (<patrice.lopez@science-miner.com>)
