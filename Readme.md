@@ -37,9 +37,9 @@ The processing of an article follows 7 steps:
 
 1. __Structuring__: Given an article to be processed by DataStet:
 
-  1.1.  if the format is PDF, the document is first parsed and structured automatically by [Grobid](https://github.com/kermitt2/grobid). This includes metadata extraction, structuring the text body and bibliographical references. 
+__1.1. if the format is __PDF__, the document is first parsed and structured automatically by [Grobid](https://github.com/kermitt2/grobid). This includes metadata extraction, structuring the text body and bibliographical references. 
 
-  1.2. if the format is a publisher XML format (see [Pub2TEI](https://github.com/kermitt2/Pub2TEI) for the list of supported XML formats, e.g. TEI, JATS/NLM, ScholarOne, BMJ, Elsevier staging format, OUP, PNAS, RSC, Sage, Wiley, etc.), [Pub2TEI](https://github.com/kermitt2/Pub2TEI) converts the XML to the same customised structured TEI representation as GROBID. 
+__1.2. if the format is a __publisher XML__ format (see [Pub2TEI](https://github.com/kermitt2/Pub2TEI) for the list of supported XML formats, e.g. TEI, JATS/NLM, ScholarOne, BMJ, Elsevier staging format, OUP, PNAS, RSC, Sage, Wiley, etc.), [Pub2TEI](https://github.com/kermitt2/Pub2TEI) converts the XML to the same customised structured TEI representation as GROBID. 
 
 2. __Selection of data relevant zones__: Based on the structured document, some sections are flagged to be processed for dataset mention identification and some will be skipped (title, keyword, bibliographical references, section header, figure and table content). The structures to be processed are further flagged as relevant for impicit dataset mentions (normal paragraphs, Data availability Sections) or not (annexes, footnotes). The objective is to ignore some structures when identifying named dataset mentions, and ignore some additional structures when identifying implicit dataset mentions, to avoid obvious spurious extractions. 
 
@@ -47,15 +47,15 @@ The processing of an article follows 7 steps:
 
 4. __Sentence processing__: 
 
-  4.1. __Sentence labeling__: Each sentence from the dataset relevant zones is then processed by a sequence labeling model to label dataset names (explicit dataset), dataset implicitely mentioned (unamed datasets), and data acquisition devices (name of a device used to produce data). Labeling model is a LinkBERT-base fine-tune model integrated via [DeLFT](https://github.com/kermitt2/delft). 
+__4.1. __Sentence labeling__: Each sentence from the dataset relevant zones is then processed by a sequence labeling model to label dataset names (explicit dataset), dataset implicitely mentioned (unamed datasets), and data acquisition devices (name of a device used to produce data). Labeling model is a LinkBERT-base fine-tune model integrated via [DeLFT](https://github.com/kermitt2/delft). 
 
-  4.2 __Attribute attachment__: Recognized URL (based on pattern matching and PDF URL annotations) in the sentence are possibly attached to dataset mention. 
+__4.2 __Attribute attachment__: Recognized URL (based on pattern matching and PDF URL annotations) in the sentence are possibly attached to dataset mention. 
 
-  4.3. __Mention disambiguation and filtering__: An entity disambiguation is realized for all recognized dataset mention using the full sentence as disambiguation context with [entity-fishing](https://github.com/kermitt2/entity-fishing).  If the mention is explicitely recognized as an entity not related to datasets with high confidence, the mention will be filtered out. 
+__4.3. __Mention disambiguation and filtering__: An entity disambiguation is realized for all recognized dataset mention using the full sentence as disambiguation context with [entity-fishing](https://github.com/kermitt2/entity-fishing).  If the mention is explicitely recognized as an entity not related to datasets with high confidence, the mention will be filtered out. 
 
-  4.4. __Sentence classification__: Each sentence is going through a cascade of text classifiers, all based on a fine-tuned [SciBERT](https://github.com/allenai/scibert) deep learning architecture integrated in Java via [DeLFT](https://github.com/kermitt2/delft) and [JEP](https://github.com/ninia/jep), to predict if the sentence introduce a dataset ("dataset sentence"), and if yes, which dataset type and sub type is introduced based on a hierarchy of dataset types derived from the MeSH taxonomy. 
+__4.4. __Sentence classification__: Each sentence is going through a cascade of text classifiers, all based on a fine-tuned [SciBERT](https://github.com/allenai/scibert) deep learning architecture integrated in Java via [DeLFT](https://github.com/kermitt2/delft) and [JEP](https://github.com/ninia/jep), to predict if the sentence introduce a dataset ("dataset sentence"), and if yes, which dataset type and sub type is introduced based on a hierarchy of dataset types derived from the MeSH taxonomy. 
 
-  4.5 __Mention propagations__: A document-level propagation of mentions of named mentions (not implicit datasets) is realized controled by a tf-idf measure. For each named dataset identified in step 4.1, if the same named dataset string appears elsewhere the document and above a given tf/idf threshold (to keep only unfrequent strings), it is also labeled as software mention.
+__4.5 __Mention propagations__: A document-level propagation of mentions of named mentions (not implicit datasets) is realized controled by a tf-idf measure. For each named dataset identified in step 4.1, if the same named dataset string appears elsewhere the document and above a given tf/idf threshold (to keep only unfrequent strings), it is also labeled as software mention.
 
 5. __Mention filtering__: Recognized implicit datasets not having URL attachement corresponding to known dataset locations and DOI pattern are filtered out if they appear in a sentence with a dataset sentence classification score below 0.5, as produced in step 4.3. 
 
