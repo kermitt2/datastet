@@ -40,44 +40,6 @@ public class DatastetProcessString {
     }
 
     /**
-     * Determine if a provided sentence introduces a dataset and classify the type of the dataset.
-     * 
-     * @param text
-     *            raw sentence string
-     * @return a json response object containing the information related to possible dataset
-     */
-    public static Response processSentence(String text) {
-        LOGGER.debug(methodLogIn());
-        Response response = null;
-        StringBuilder retVal = new StringBuilder();
-        DataseerClassifier classifier = DataseerClassifier.getInstance();
-        try {
-            LOGGER.debug(">> set raw sentence text for stateless service'...");
-            
-            text = text.replaceAll("\\n", " ").replaceAll("\\t", " ");
-            long start = System.currentTimeMillis();
-            String retValString = classifier.classify(text);
-            long end = System.currentTimeMillis();
-
-            // TBD: update json with runtime and software/version 
-
-            if (!isResultOK(retValString)) {
-                response = Response.status(Status.NO_CONTENT).build();
-            } else {
-                response = Response.status(Status.OK).entity(retValString).type(MediaType.TEXT_PLAIN).build();
-            }
-        } catch (NoSuchElementException nseExp) {
-            LOGGER.error("Could not get an instance of DataseerClassifier. Sending service unavailable.");
-            response = Response.status(Status.SERVICE_UNAVAILABLE).build();
-        } catch (Exception e) {
-            LOGGER.error("An unexpected exception occurs. ", e);
-            response = Response.status(Status.INTERNAL_SERVER_ERROR).build();
-        } 
-        LOGGER.debug(methodLogOut());
-        return response;
-    }
-
-    /**
      * Label dataset names, implicit datasets and data acquisition devices in a sentence.
      * 
      * @param text 
@@ -196,6 +158,45 @@ public class DatastetProcessString {
         return response;
     }
 
+    /**
+     * This is only for compatibility with DataSeer and should be considered DEPRECATED
+     * 
+     * Determine if a provided sentence introduces a dataset and classify the type of the dataset.
+     * 
+     * @param text
+     *            raw sentence string
+     * @return a json response object containing the information related to possible dataset
+     */
+    public static Response processSentence(String text) {
+        LOGGER.debug(methodLogIn());
+        Response response = null;
+        StringBuilder retVal = new StringBuilder();
+        DataseerClassifier classifier = DataseerClassifier.getInstance();
+        try {
+            LOGGER.debug(">> set raw sentence text for stateless service'...");
+            
+            text = text.replaceAll("\\n", " ").replaceAll("\\t", " ");
+            long start = System.currentTimeMillis();
+            String retValString = classifier.classify(text);
+            long end = System.currentTimeMillis();
+
+            // TBD: update json with runtime and software/version 
+
+            if (!isResultOK(retValString)) {
+                response = Response.status(Status.NO_CONTENT).build();
+            } else {
+                response = Response.status(Status.OK).entity(retValString).type(MediaType.TEXT_PLAIN).build();
+            }
+        } catch (NoSuchElementException nseExp) {
+            LOGGER.error("Could not get an instance of DataseerClassifier. Sending service unavailable.");
+            response = Response.status(Status.SERVICE_UNAVAILABLE).build();
+        } catch (Exception e) {
+            LOGGER.error("An unexpected exception occurs. ", e);
+            response = Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        } 
+        LOGGER.debug(methodLogOut());
+        return response;
+    }
 
     /**
      * @return

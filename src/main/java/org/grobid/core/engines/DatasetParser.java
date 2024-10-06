@@ -1311,7 +1311,9 @@ for(String sentence : allSentences) {
     }
 
     /**
-     * Extract all software mentions from a publisher XML file
+     * To Be Done !
+     * 
+     * Extract all mentions from a publisher XML file
      */
     public Pair<List<List<Dataset>>, List<BibDataSet>> processTEIDocument(org.w3c.dom.Document doc, 
                                                                         boolean disambiguate, 

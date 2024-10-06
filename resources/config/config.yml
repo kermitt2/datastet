@@ -25,7 +25,7 @@ useBinaryContextClassifiers: false
 # sequence labeling model (identify data-related sections)
 models:
 
-  # model for zones
+  # deprecated - model for zones - only used by dataseer legacy API
   - name: "dataseer"
     engine: "wapiti"
     #engine: "delft"
@@ -55,7 +55,7 @@ models:
       #embeddings_name: "word2vec"
       transformer: "allenai/scibert_scivocab_cased"
 
-  # mention context classification (reuse binary for the moment)
+  # deprecated - mention context classification (only reuse) - only used by dataseer legacy API
   - name: "dataseer-reuse"
     engine: "delft"
     delft:
