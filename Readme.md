@@ -98,7 +98,7 @@ The `datastet` service is available at the default host/port `localhost:8060`, b
 By default, BidLSTM-CFR with ELMo model if used for the dataset mention recognition (it performs better than SciBERT with 3 points F1-score). Every classification models are fine-tuned SciBERT models. To modify the configuration without rebuilding the image - for instance rather use the SciBERT model, it is possible to mount a modified config file at launch as follow: 
 
 ```bash
-> docker run --rm --gpus all -it --init --ulimit core=0 -p 8060:8060 -v /home/lopez/grobid/datastet/resources/config/config.yml:/opt/grobid/datastet/resources/config/config.yml:ro  grobid/datastet:0.8.0
+> docker run --rm --gpus all -it --init --ulimit core=0 -p 8060:8060 -v /home/lopez/grobid/datastet/resources/config/config.yml:/opt/grobid/datastet/resources/config/config.yml:ro  grobid/datastet:0.8.1
 ```
 
 As an alterntive, a docker image for the `datastet` service can be built with the project Dockerfile to match the current master version. The complete process is as follow: 
@@ -112,7 +112,7 @@ As an alterntive, a docker image for the `datastet` service can be built with th
 - from the GROBID root installation (`grobid/`), launch the docker build:
 
 ```bash
-> docker build -t grobid/datastet:0.8.0 --build-arg GROBID_VERSION=0.8.0 --file Dockerfile.datastet .
+> docker build -t grobid/datastet:0.8.1 --build-arg GROBID_VERSION=0.8.1 --file Dockerfile.datastet .
 ```
 
 The Docker image build take several minutes, installing GROBID, datastet, a complete Python Deep Learning environment based on [DeLFT](https://github.com/kermitt2/delft) and deep learning models downloaded from the internet (one fine-tuned model with a BERT layer has a size of around 400 MB). The resulting image is thus very large, more than 10GB, due to the deep learning resources and models. 

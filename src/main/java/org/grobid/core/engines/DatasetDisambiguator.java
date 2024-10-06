@@ -188,7 +188,7 @@ public class DatasetDisambiguator {
 //System.out.println(response.getStatusLine());
                 int code = response.getStatusLine().getStatusCode();
                 if (code != 200) {
-                    LOGGER.error("Failed customization lookup service: HTTP error code : " + code);
+                    LOGGER.info("Failed customization lookup service: HTTP error code : " + code + " - the customization will be loaded");
                 } else {
                     result = true;
                 }
@@ -220,7 +220,7 @@ public class DatasetDisambiguator {
                 LOGGER.debug("Calling: " + url.toString());
 //System.out.println("Calling: " + url.toString());
                 // load the dataset customisation
-                File cutomisationFile = new File("resources/config/customisation-software.json");
+                File cutomisationFile = new File("resources/config/customisation-dataset.json");
                 cutomisationFile = new File(cutomisationFile.getAbsolutePath());
 
                 String json = FileUtils.readFileToString(cutomisationFile, "UTF-8");
