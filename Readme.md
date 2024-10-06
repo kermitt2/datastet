@@ -96,7 +96,7 @@ The `datastet` service is available at the default host/port `localhost:8060`, b
 > docker run --rm --gpus all -it --init --ulimit core=0 -p 8080:8060 grobid/datastet:0.8.1
 ```
 
-By default, BidLSTM-CFR with ELMo model if used for the dataset mention recognition (it performs better than SciBERT with 3 points F1-score). Every classification models are fine-tuned SciBERT models. To modify the configuration without rebuilding the image - for instance rather use the SciBERT model, it is possible to mount a modified config file at launch as follow: 
+By default, a fine-tuned LinkBERT base model if used for the dataset mention recognition (it performs better than SciBERT). Dataset type classification models are realized with fine-tuned SciBERT models. Dataset mention context characterization is based on fine-tuned LinkBERT base models. To modify the configuration without rebuilding the image - for instance rather use the SciBERT model, it is possible to mount a modified config file at launch as follow: 
 
 ```bash
 > docker run --rm --gpus all -it --init --ulimit core=0 -p 8060:8060 -v /home/lopez/grobid/datastet/resources/config/config.yml:/opt/grobid/datastet/resources/config/config.yml:ro  grobid/datastet:0.8.1
