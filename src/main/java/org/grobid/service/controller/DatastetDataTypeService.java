@@ -77,30 +77,43 @@ public class DatastetDataTypeService {
         processBuilder.command("python3", "script/converter.py", "resources/dataset/dataseer/csv/all-1.csv");
         // ensure we are using the right path to the script
         processBuilder.directory(new File(this.defaultPath));
+        // Merge stderr into stdout so a single drained pipe keeps the child
+        // process from stalling on a full error buffer.
+        processBuilder.redirectErrorStream(true);
         LOGGER.info("calling script:" + processBuilder.command());
+
+        Process process = null;
         try {
             long start = System.currentTimeMillis();
-            Process process = processBuilder.start();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            process = processBuilder.start();
 
             StringBuilder builder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-                builder.append(System.getProperty("line.separator"));
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                    builder.append(System.getProperty("line.separator"));
+                }
             }
 
             int exitCode = process.waitFor();
             long end = System.currentTimeMillis();
             LOGGER.info("Exit code : " + exitCode);
-            LOGGER.info("Sync with online DataSeer wiki made in " + ((end - start)/1000) + " seconds");
+            LOGGER.info("Sync with online DataSeer wiki made in " + ((end - start) / 1000) + " seconds");
 
-            if (builder.length()>0)
+            if (builder.length() > 0)
                 jsonDataTypeResource = builder.toString();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            LOGGER.warn("Interrupted while waiting for converter.py", e);
         } catch (Exception e) {
-            e.printStackTrace();
-        } 
+            LOGGER.error("Failure running converter.py for resyncJsonDataTypes", e);
+        } finally {
+            if (process != null && process.isAlive()) {
+                process.destroyForcibly();
+            }
+        }
 
         return Response.status(Status.OK).entity(jsonDataTypeResource).type(MediaType.APPLICATION_JSON).build();
     }
