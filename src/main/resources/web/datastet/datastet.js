@@ -11,13 +11,13 @@ var grobid = (function ($) {
     var entities = null;
 
     // for complete Wikidata concept information, resulting of additional calls to the knowledge base service
-    var conceptMap = new Object();
+    var conceptMap = {};
 
     // store the current entities extracted by the service
-    var entityMap = new Object();
+    var entityMap = {};
 
     // store the references attached to the entities and extracted by the service
-    var referenceMap = new Object();
+    var referenceMap = {};
 
     function defineBaseURL(ext) {
         var baseUrl = null;
@@ -40,12 +40,50 @@ var grobid = (function ($) {
         $('#gbdForm').attr('action', baseUrl);
     }
 
+    /**
+     * Polls /service/health and reflects the result on the #healthIndicator
+     * span in the header. Datastet returns HTTP 503 while models warm up,
+     * so a red circle during startup is expected — it goes green once
+     * every classifier reports "loaded".
+     */
+    function startHealthCheck(intervalMs) {
+        intervalMs = intervalMs || 30000;
+        var url = defineBaseURL('health');
+        function probe() {
+            var $indicator = $('#healthIndicator');
+            if ($indicator.length === 0) return;
+            $indicator.removeClass('health-unknown health-healthy health-unhealthy')
+                      .addClass('health-checking');
+            $.ajax({
+                url: url,
+                method: 'GET',
+                cache: false,
+                timeout: 4000
+            }).done(function (_data, _status, jqXHR) {
+                var ok = jqXHR.status === 200;
+                $indicator.removeClass('health-checking')
+                          .addClass(ok ? 'health-healthy' : 'health-unhealthy')
+                          .attr('title', 'Service status: ' + (ok ? 'healthy' : 'HTTP ' + jqXHR.status) +
+                                         ' (checked ' + new Date().toLocaleTimeString() + ')');
+            }).fail(function (jqXHR) {
+                $indicator.removeClass('health-checking').addClass('health-unhealthy')
+                          .attr('title', 'Service status: ' +
+                                         (jqXHR.status ? 'HTTP ' + jqXHR.status : 'unreachable') +
+                                         ' (checked ' + new Date().toLocaleTimeString() + ')');
+            });
+        }
+        probe();
+        setInterval(probe, intervalMs);
+    }
+
     $(document).ready(function () {
 
         $("#subTitle").html("About");
         $("#divAbout").show();
         $("#divRestI").hide();
         $("#divDoc").hide();
+
+        startHealthCheck();
 
         createInputTextArea();
 
@@ -109,20 +147,19 @@ var grobid = (function ($) {
 
     function ShowRequest(formData, jqForm, options) {
         var queryString = $.param(formData);
-        $('#infoResult').html('<font color="red">Requesting server...</font>');
+        $('#infoResult').html('<span style="color:grey;"><i class="fa fa-spinner fa-spin"></i> Requesting server\u2026</span>');
         return true;
     }
 
     function AjaxError(jqXHR, textStatus, errorThrown) {
-        $('#infoResult').html("<font color='red'>Error encountered while requesting the server.<br/>" + jqXHR.responseText + "</font>");
+        var responseText = (jqXHR && jqXHR.responseText) ? htmll(String(jqXHR.responseText)) : "";
+        $('#infoResult').html("<span style='color:red;'>Error encountered while requesting the server.<br/>" + responseText + "</span>");
         entities = null;
     }
 
     function AjaxError3(message) {
-        if (!message)
-            message = "";
-        message += " - The PDF document cannot be annotated. Please check the server logs.";
-        $('#infoResult').html("<font color='red'>Error encountered while requesting the server.<br/>"+message+"</font>");
+        var safeMessage = htmll(String(message || ""));
+        $('#infoResult').html("<span style='color:red;'>Error encountered while requesting the server.<br/>" + safeMessage + " - The PDF document cannot be annotated. Please check the server logs.</span>");
         entities = null;
         return true;
     }
@@ -132,13 +169,13 @@ var grobid = (function ($) {
     }
 
     function submitQuery() {
-        $('#infoResult').html('<font color="grey">Requesting server...</font>');
+        $('#infoResult').html('<span style="color:grey;"><i class="fa fa-spinner fa-spin"></i> Requesting server\u2026</span>');
         $('#requestResult').html('');
 
         // re-init the entity map
-        entityMap = new Object();
-        conceptMap = new Object();
-        referenceMap = new Object();
+        entityMap = {};
+        conceptMap = {};
+        referenceMap = {};
 
         var selected = $('#selectedService option:selected').attr('value');
         var urlLocal = $('#gbdForm').attr('action');
@@ -763,7 +800,7 @@ var grobid = (function ($) {
                         type_map[datasetNameRaw] = entity['type']
 
                     if (!local_map.has(datasetNameRaw)) 
-                        local_map.set(datasetNameRaw, new Array());
+                        local_map.set(datasetNameRaw, []);
                     
                     var localArray = local_map.get(datasetNameRaw)
                     localArray.push(the_id)
@@ -776,7 +813,7 @@ var grobid = (function ($) {
                 }
             });
 
-            var span_ids = new Array();
+            var span_ids = [];
 
             var allTableContentNamed = "";
             var allTableContentImplicit = "";
