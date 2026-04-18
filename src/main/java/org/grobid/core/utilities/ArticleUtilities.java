@@ -3,10 +3,10 @@ package org.grobid.core.utilities;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.grobid.service.configuration.DatastetServiceConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +23,11 @@ import java.util.regex.Matcher;
 public class ArticleUtilities {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleUtilities.class);
+
+    // Shared Jackson mapper: ObjectMapper is thread-safe after configuration
+    // and retains compiled bean descriptors, so creating one per request is
+    // wasteful under load. See https://github.com/FasterXML/jackson-docs/wiki/Presentation:-Jackson-Performance
+    private static final ObjectMapper JSON = new ObjectMapper();
 
     private DatastetServiceConfiguration configuration;
 
@@ -143,42 +148,18 @@ public class ArticleUtilities {
         doi = doi.replace(" ", "");
 
         String queryUrl = "https://api.unpaywall.org/v2/" + doi + "?email=patrice.lopez@science-miner.com";
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(queryUrl);
+        logger.debug("GET {}", queryUrl);
+        String json = httpGetAsString(queryUrl);
 
-        // add request header
-        //request.addHeader("User-Agent", USER_AGENT);
-
-        HttpResponse response = client.execute(request);
-
-        System.out.println("\nSending 'GET' request to URL : " + queryUrl);
-        System.out.println("Response Code : " +
-                response.getStatusLine().getStatusCode());
-
-        BufferedReader rd = new BufferedReader(
-                new InputStreamReader(response.getEntity().getContent()));
-
-        StringBuffer result = new StringBuffer();
-        String line = "";
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
-        }
-        String json = result.toString();
-        //System.out.println(result.toString());
-
-        // get the best oa url if it exists
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(json);
-        // json path is best_oa_location / url_for_pdf
+        JsonNode jsonNode = JSON.readTree(json);
         JsonNode bestOALocation = jsonNode.path("best_oa_location");
-        String urlForPdf = null;
         if (!bestOALocation.isMissingNode()) {
             JsonNode urlForPdfNode = bestOALocation.path("url_for_pdf");
             if (!urlForPdfNode.isMissingNode()) {
-                urlForPdf = urlForPdfNode.asText();
+                return urlForPdfNode.asText();
             }
         }
-        return urlForPdf;
+        return null;
     }
 
     private String getGluttonOAUrl(String doi) throws Exception {
@@ -188,35 +169,36 @@ public class ArticleUtilities {
         if (port != null)
             queryUrl += ":" + port;
         queryUrl += "/service/oa?doi=" + doi;
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(queryUrl);
+        logger.debug("GET {}", queryUrl);
+        String json = httpGetAsString(queryUrl);
 
-        HttpResponse response = client.execute(request);
-
-        System.out.println("\nSending 'GET' request to URL : " + queryUrl);
-        System.out.println("Response Code : " +
-                response.getStatusLine().getStatusCode());
-
-        BufferedReader rd = new BufferedReader(
-                new InputStreamReader(response.getEntity().getContent()));
-
-        StringBuffer result = new StringBuffer();
-        String line = "";
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
-        }
-        String json = result.toString();
-
-        // get the best oa url if it exists
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(json);
-        // json path is best_oa_location / url_for_pdf
+        JsonNode jsonNode = JSON.readTree(json);
         JsonNode urlForPdfNode = jsonNode.path("oaLink");
-        String urlForPdf = null;
         if (!urlForPdfNode.isMissingNode()) {
-            urlForPdf = urlForPdfNode.asText();
+            return urlForPdfNode.asText();
         }
-        return urlForPdf;
+        return null;
+    }
+
+    /**
+     * Shared single-use HTTP-GET helper. Every resource (client, response,
+     * reader) is closed in a try-with-resources chain so a thrown exception
+     * cannot leak the connection pool or the response entity stream.
+     */
+    private static String httpGetAsString(String url) throws IOException {
+        HttpGet request = new HttpGet(url);
+        try (CloseableHttpClient client = HttpClients.createDefault();
+             CloseableHttpResponse response = client.execute(request);
+             BufferedReader rd = new BufferedReader(
+                     new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8))) {
+            logger.debug("Response Code : {}", response.getStatusLine().getStatusCode());
+            StringBuilder result = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+            return result.toString();
+        }
     }
 
     private static File uploadFile(String urll, String path, String name) throws Exception {
@@ -268,33 +250,39 @@ public class ArticleUtilities {
         String xsl = "-xsl:" + dirToPub2TEI.getAbsolutePath() + "/Stylesheets/Publishers.xsl";
         String o = "-o:" + outputFilePath;
         processBuilder.command("java", "-jar", dirToPub2TEI.getAbsolutePath() + "/Samples/saxon9he.jar", s, xsl, o, "-dtd:off", "-a:off", "-expand:off", "-t");
-        //processBuilder.directory(new File(pathToPub2TEI)); 
-        //System.out.println(processBuilder.command().toString());
-        try {
-            Process process = processBuilder.start();
-            StringBuilder output = new StringBuilder();
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
+        // Merge stderr into stdout so we consume a single pipe — otherwise a
+        // chatty Saxon can fill the OS stderr buffer and deadlock the child.
+        processBuilder.redirectErrorStream(true);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
+        Process process = null;
+        try {
+            process = processBuilder.start();
+            StringBuilder output = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.append(line).append("\n");
+                }
             }
 
             int exitVal = process.waitFor();
             if (exitVal == 0) {
-                System.out.println("XML transformation done");
+                logger.info("XML transformation done");
             } else {
-                // abnormal...
-                System.out.println("XML transformation failed");
+                logger.warn("XML transformation failed (exit code {}): {}", exitVal, output);
                 outputFilePath = null;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException e) {
+            logger.error("Failure running Pub2TEI transformation", e);
+            if (e instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
             outputFilePath = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            outputFilePath = null;
+        } finally {
+            if (process != null && process.isAlive()) {
+                process.destroyForcibly();
+            }
         }
         return outputFilePath;
     }
