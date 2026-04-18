@@ -30,6 +30,29 @@ apply plugin: 'java-library'
 apply plugin: 'base'
 apply plugin: 'com.github.kt3k.coveralls'
 
+def getGitRevision() {
+    def gitRevision = "unknown"
+    try {
+        def result = providers.exec {
+            workingDir = rootProject.rootDir
+            commandLine 'git', 'describe', '--tags', '--always', '--first-parent'
+        }
+        gitRevision = result.standardOutput.asText.get().trim()
+    } catch (Exception e) {
+        println "Could not get Git revision: ${e}"
+    }
+    return gitRevision
+}
+
+project.ext.gitRevision = getGitRevision()
+
+tasks.register('collectGitRevision') {
+    project.ext.gitRevision = getGitRevision()
+    doLast {
+        println "Git revision: ${project.ext.gitRevision}"
+    }
+}
+
 group = "org.grobid.datastet"
 version = '0.9.0'
 
@@ -279,6 +302,15 @@ shadowDistTar.enabled = false
 artifacts {
     archives jar
     archives shadowJar
+}
+
+processResources {
+    filesMatching(["version.txt", "revision.txt"]) {
+        expand(
+            project_version: project.property('version') ?: "unknown",
+            project_revision: rootProject.ext.gitRevision
+        )
+    }
 }
 
 task copyModels(type: Copy) {

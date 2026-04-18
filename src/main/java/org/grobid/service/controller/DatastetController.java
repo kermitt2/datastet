@@ -6,8 +6,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.grobid.core.utilities.Versioner;
 import org.grobid.service.configuration.DatastetConfiguration;
 import org.grobid.service.configuration.DatastetServiceConfiguration;
+import org.grobid.service.data.ServiceInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +55,13 @@ public class DatastetController implements DatastetPaths {
     @Produces(MediaType.TEXT_PLAIN)
     public Response isAlive() {
         return DatastetRestProcessGeneric.isAlive();
+    }
+
+    @GET
+    @Path(PATH_VERSION)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ServiceInfo getVersion() {
+        return new ServiceInfo(Versioner.getVersion(), Versioner.getRevision());
     }
 
     @Path(PATH_DATASET_SENTENCE)

@@ -40,4 +40,9 @@ public interface DatastetPaths {
      */
     public static final String PATH_RESYNC_DATATYPE_JSON = "resyncJsonDataTypes";
 
+    /**
+     * path extension returning the running version + git revision of the service.
+     */
+    public static final String PATH_VERSION = "version";
+
 }

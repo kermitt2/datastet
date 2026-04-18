@@ -84,6 +84,15 @@ ENV DATASTET_OPTS="-Djava.library.path=/opt/grobid/grobid-home/lib/lin-64:/usr/l
 
 CMD ["./datastet/bin/datastet", "server", "datastet/resources/config/config.yml"]
 
+# Container-level health probe backed by the model-aware /service/health
+# endpoint, which returns HTTP 503 until every classifier reports "loaded".
+# The 180s start-period covers the worst case with modelPreload=true, where
+# SciBERT + four context classifiers + DataType classifier all load before
+# the first probe. Using python3 (required by JEP/DeLFT so guaranteed
+# present) to avoid a dependency on curl/wget from the base image.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=180s --retries=3 \
+    CMD python3 -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8060/service/health', timeout=4).status == 200 else 1)" || exit 1
+
 LABEL \
     authors="The contributors" \
     org.label-schema.name="datastet" \
